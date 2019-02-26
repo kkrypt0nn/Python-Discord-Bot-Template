@@ -3,10 +3,10 @@ This repository is a template that everyone can use for the start of their disco
 
 ## Servers who has a bot using this template
 
-[minecraft.py](https://discord.gg/yX6J7Cf)
-[Krypton's Lair](https://discord.gg/dRMnYXR)
-[Kryptonite Discord Bot](https://discord.gg/KJC4j2d)
-[ErzimeX Community](https://discord.gg/3MYmaDm)
+* [minecraft.py](https://discord.gg/yX6J7Cf)
+* [Krypton's Lair](https://discord.gg/dRMnYXR)
+* [Kryptonite Discord Bot](https://discord.gg/KJC4j2d)
+* [ErzimeX Community](https://discord.gg/3MYmaDm)
 
 ## How to use it
 
