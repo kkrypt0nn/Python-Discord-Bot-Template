@@ -1,12 +1,10 @@
 # Python-Discord-Bot-Template
 This repository is a template that everyone can use for the start of their discord bot.
 
-## Servers who has a bot using this template
+## Bots who used this template
 
 * [minecraft.py](https://discord.gg/yX6J7Cf)
-* [Krypton's Lair](https://discord.gg/dRMnYXR)
 * [Kryptonite Discord Bot](https://discord.gg/KJC4j2d)
-* [ErzimeX Community](https://discord.gg/3MYmaDm)
 
 ## How to use it
 
