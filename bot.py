@@ -12,7 +12,7 @@ from platform import python_version
 
 BOT_PREFIX = ('YOUR_BOT_PREFIX_HERE')
 TOKEN = 'YOUR_BOT_TOKEN_HERE'
-OWNER = 'YOUR_DISCORD_USER_ID_HERE'
+OWNERS = ['YOUR_DISCORD_USER_ID_HERE', 'ANOTHER_DISCORD_USER_ID_HERE']
 BLACKLIST = []
 client = Bot(command_prefix=BOT_PREFIX)
 
@@ -176,7 +176,7 @@ async def shutdown(context):
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
 		await client.say(embed=embed)
 	else:
-		if context.message.author.id == OWNER:
+		if context.message.author.id in OWNERS:
 			embed = discord.Embed(title='Shutdown!', description='Shutting down. Bye! :wave:', color=0x00FF00)
 			await client.send_message(context.message.channel, embed=embed)
 			await client.logout()
@@ -193,7 +193,7 @@ async def echo(context, *, content):
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
 		await client.say(embed=embed)
 	else:
-		if context.message.author.id == OWNER:
+		if context.message.author.id in OWNERS:
 			await client.delete_message(context.message)
 			await client.say(content)
 		else:
@@ -206,7 +206,7 @@ async def embed(context, *args):
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
 		await client.say(embed=embed)
 	else:
-		if context.message.author.id == OWNER:
+		if context.message.author.id in OWNERS:
 			mesg = ' '.join(args)
 			embed = discord.Embed(description=mesg, color=0x00FF00)
 			await client.say(embed=embed)
@@ -225,7 +225,7 @@ async def kick(context, member: discord.Member, *args):
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
 		await client.say(embed=embed)
 	else:
-		if context.message.author.server_permissions.kick_members or context.message.author.id == OWNER:
+		if context.message.author.server_permissions.kick_members or context.message.author.id in OWNERS:
 			if member.server_permissions.administrator:
 				embed = discord.Embed(title='Error!', description='User has Admin permissions.', color=0x00FF00)
 				await client.send_message(context.message.channel, embed=embed)
@@ -252,7 +252,7 @@ async def nick(context, member: discord.Member, *, name : str):
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
 		await client.say(embed=embed)
 	else:
-		if context.message.author.server_permissions.administrator or context.message.author.id == OWNER:
+		if context.message.author.server_permissions.administrator or context.message.author.id in OWNERS:
 			if name.lower() == "!reset":
 				name = None
 			embed = discord.Embed(title='Changed Nickname!', description='**{0}** new nickname is **{1}**!'.format(member, name), color=0x00FF00)
@@ -271,7 +271,7 @@ async def ban(context, member: discord.Member, *args):
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
 		await client.say(embed=embed)
 	else:
-		if context.message.author.server_permissions.administrator or context.message.author.id == OWNER:
+		if context.message.author.server_permissions.administrator or context.message.author.id in OWNERS:
 			if member.server_permissions.administrator:
 				embed = discord.Embed(title='Error!', description='User has Admin permissions.', color=0x00FF00)
 				await client.send_message(context.message.channel, embed=embed)
@@ -300,7 +300,7 @@ async def unban(context, user: discord.User):
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
 		await client.say(embed=embed)
 	else:
-		if context.message.author.server_permissions.administrator or context.message.author.id == OWNER:
+		if context.message.author.server_permissions.administrator or context.message.author.id in OWNERS:
 			embed = discord.Embed(title='User Unbanned!',
 								  description='**{0}** was unbanned by **{1}**!'.format(user, context.message.author),
 								  color=0x00FF00)
@@ -323,7 +323,7 @@ async def warn(context, member: discord.Member, *args):
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
 		await client.say(embed=embed)
 	else:
-		if context.message.author.server_permissions.administrator or context.message.author.id == OWNER:
+		if context.message.author.server_permissions.administrator or context.message.author.id in OWNERS:
 			mesg = ' '.join(args)
 			embed = discord.Embed(title='User Warned!',
 								  description='**{0}** was warned by **{1}**!'.format(member, context.message.author),
@@ -347,7 +347,7 @@ async def purge(context, number):
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
 		await client.say(embed=embed)
 	else:
-		if context.message.author.server_permissions.administrator or context.message.author.id == OWNER:
+		if context.message.author.server_permissions.administrator or context.message.author.id in OWNERS:
 			await client.delete_message(context.message)
 			number = int(number)
 			counter = 0
