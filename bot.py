@@ -22,7 +22,7 @@ async def status_task():
 		await asyncio.sleep(10)
 		await client.change_presence(game=Game(name='with Krypton'))
 		await asyncio.sleep(10)
-		await client.change_presence(game=Game(name='k>help'))
+		await client.change_presence(game=Game(name='YOUR_PREFIX_HERE help'))
 		await asyncio.sleep(10)
 		await client.change_presence(game=Game(name='with Humans'))
 		await asyncio.sleep(10)
@@ -55,7 +55,7 @@ async def info(context):
 		e.set_author(name="Bot Informations")
 		e.add_field(name="Owner:", value="Krypton#1337", inline=True)
 		e.add_field(name="Python Version:", value="{0}".format(python_version()), inline=True)
-		e.add_field(name="Prefix:", value="k>", inline=False)
+		e.add_field(name="Prefix:", value="YOUR_PREFIX_HERE ", inline=False)
 		e.set_footer(text="Requested by {0}".format(context.message.author))
 		await client.say(embed=e)
 	await client.send_message(context.message.channel, embed=embed)
@@ -378,36 +378,22 @@ async def help(context):
 		await client.say(embed=embed)
 	else:
 		embed = discord.Embed(title='Bot', description='List of commands are:', color=0x00FF00)
-		embed.add_field(name='Invite - Invite the bot', value='Usage: k>invite', inline=False)
-		embed.add_field(name='Server - Join my own server', value='Usage: k>server', inline=False)
-		embed.add_field(name='Poll - Create a poll for your users', value='Usage: k>poll <idea>', inline=False)
-		embed.add_field(name='8Ball - Answers to your questions', value='Usage: k>8ball <question>', inline=False)
-		embed.add_field(name='Bitcoin - Shows the currency of the bitcoin', value='Usage: k>bitcoin', inline=False)
-		embed.add_field(name='Info - Gives infos about the bot', value='Usage: k>info', inline=False)
-		embed.add_field(name='Shutdown - Shutdowns the bot [OWNER]', value='Usage: k>shutdown', inline=False)
-		embed.add_field(name='Say - I send a message of your choice [OWNER]', value='Usage: k>say <message>', inline=False)
-		embed.add_field(name='Embed - I send a embed message of your choice [OWNER]', value='Usage: k>embed <message>', inline=False)
-		embed.add_field(name='Kick - Kick a user', value='Usage: k>kick <user> <reason>', inline=False)
-		embed.add_field(name='Ban - Ban a user', value='Usage: k>ban <user> <reason>', inline=False)
-		embed.add_field(name='Warn - Warn a user in private messages', value='Usage: k>warn <user> <reason>', inline=False)
-		embed.add_field(name='Unban - Unban a user', value='Usage: k>unban <user>', inline=False)
-		embed.add_field(name='Purge - Remove an amount of messages', value='Usage: k>purge <number>', inline=False)
-		embed.add_field(name='Help - Gives this menu', value='Usage: k>help', inline=False)
+		embed.add_field(name='Invite - Invite the bot', value='Usage: YOUR_PREFIX_HERE invite', inline=False)
+		embed.add_field(name='Server - Join my own server', value='Usage: YOUR_PREFIX_HERE server', inline=False)
+		embed.add_field(name='Poll - Create a poll for your users', value='Usage: YOUR_PREFIX_HERE poll <idea>', inline=False)
+		embed.add_field(name='8Ball - Answers to your questions', value='Usage: YOUR_PREFIX_HERE 8ball <question>', inline=False)
+		embed.add_field(name='Bitcoin - Shows the currency of the bitcoin', value='Usage: YOUR_PREFIX_HERE bitcoin', inline=False)
+		embed.add_field(name='Info - Gives infos about the bot', value='Usage: YOUR_PREFIX_HERE info', inline=False)
+		embed.add_field(name='Shutdown - Shutdowns the bot [OWNER]', value='Usage: YOUR_PREFIX_HERE shutdown', inline=False)
+		embed.add_field(name='Say - I send a message of your choice [OWNER]', value='Usage: YOUR_PREFIX_HERE say <message>', inline=False)
+		embed.add_field(name='Embed - I send a embed message of your choice [OWNER]', value='Usage: YOUR_PREFIX_HERE embed <message>', inline=False)
+		embed.add_field(name='Kick - Kick a user', value='Usage: YOUR_PREFIX_HERE kick <user> <reason>', inline=False)
+		embed.add_field(name='Ban - Ban a user', value='Usage: YOUR_PREFIX_HERE ban <user> <reason>', inline=False)
+		embed.add_field(name='Warn - Warn a user in private messages', value='Usage: YOUR_PREFIX_HERE warn <user> <reason>', inline=False)
+		embed.add_field(name='Unban - Unban a user', value='Usage: YOUR_PREFIX_HERE unban <user>', inline=False)
+		embed.add_field(name='Purge - Remove an amount of messages', value='Usage: YOUR_PREFIX_HERE purge <number>', inline=False)
+		embed.add_field(name='Help - Gives this menu', value='Usage: YOUR_PREFIX_HERE help', inline=False)
 		await client.send_message(context.message.channel, embed=embed)
-
-@client.event
-async def on_message(message):
-	contents = message.content.split(' ')
-	for word in contents:
-		if word.lower() in BLOCKED_WORDS:
-			if not message.author.id in UNBLOCKED_USERS:
-				await client.delete_message(message)
-				embed = discord.Embed(title='Error!', description='You don\'t have the permission to send this word.', color=0x00FF00)
-				message = await client.send_message(message.channel, embed=embed)
-				await asyncio.sleep(3)
-				await client.delete_message(message)
-
-	await client.process_commands(message)
 
 @client.event
 async def on_command_error(error, context):
@@ -421,67 +407,67 @@ async def on_command_error(error, context):
 
 @softban.error
 async def softban_error(error, context):
-	embed = discord.Embed(title='**Command:** k>softban', description='**Description:** Softbans a member \n **Cooldown:** 5 second(s) \n **Usage:** k>softban [user] [reason] \n **Example:** k>softban @RandomUser Get out!', color=0x00FF00)
+	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE softban', description='**Description:** Softbans a member \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE softban [user] [reason] \n **Example:** YOUR_PREFIX_HERE softban @RandomUser Get out!', color=0x00FF00)
 	await client.send_message(context.message.channel, embed=embed)
 
 @ban.error
 async def ban_error(error, context):
-	embed = discord.Embed(title='**Command:** k>ban', description='**Description:** Bans a member \n **Cooldown:** 5 second(s) \n **Usage:** k>ban [user] [reason] \n **Example:** k>ban @RandomUser Get out!', color=0x00FF00)
+	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE ban', description='**Description:** Bans a member \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE ban [user] [reason] \n **Example:** YOUR_PREFIX_HERE ban @RandomUser Get out!', color=0x00FF00)
 	await client.send_message(context.message.channel, embed=embed)
 
 @poll.error
 async def poll_error(error, context):
-	embed = discord.Embed(title='**Command:** k>poll', description='**Description:** Create a pool to vote \n **Cooldown:** 5 second(s) \n **Usage:** k>poll [idea] \n **Example:** k>poll Add new emojis!', color=0x00FF00)
+	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE poll', description='**Description:** Create a pool to vote \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE poll [idea] \n **Example:** YOUR_PREFIX_HERE poll Add new emojis!', color=0x00FF00)
 	await client.send_message(context.message.channel, embed=embed)
 
 @eight_ball.error
 async def eight_ball_error(error, context):
-	embed = discord.Embed(title='**Command:** k>8ball', description='**Description:** Get an answer to all of your questions \n **Cooldown:** 5 second(s) \n **Usage:** k>8ball [question] \n **Example:** k>8ball Is this bot cool?', color=0x00FF00)
+	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE 8ball', description='**Description:** Get an answer to all of your questions \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE 8ball [question] \n **Example:** YOUR_PREFIX_HERE 8ball Is this bot cool?', color=0x00FF00)
 	await client.send_message(context.message.channel, embed=embed)
 
 @echo.error
 async def say_error(error, context):
-	embed = discord.Embed(title='**Command:** k>say',
-						  description='**Description:** I say what you say \n **Cooldown:** 0 second(s) \n **Usage:** k>say [message] \n **Example:** k>say Hello!!',
+	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE say',
+						  description='**Description:** I say what you say \n **Cooldown:** 0 second(s) \n **Usage:** YOUR_PREFIX_HERE say [message] \n **Example:** YOUR_PREFIX_HERE say Hello!!',
 						  color=0x00FF00)
 	await client.send_message(context.message.channel, embed=embed)
 
 
 @embed.error
 async def embed_error(error, context):
-	embed = discord.Embed(title='**Command:** k>embed',
-						  description='**Description:** I say what you say as embed message \n **Cooldown:** 0 second(s) \n **Usage:** k>embed [message] \n **Example:** k>embed Hello!!',
+	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE embed',
+						  description='**Description:** I say what you say as embed message \n **Cooldown:** 0 second(s) \n **Usage:** YOUR_PREFIX_HERE embed [message] \n **Example:** YOUR_PREFIX_HERE embed Hello!!',
 						  color=0x00FF00)
 	await client.send_message(context.message.channel, embed=embed)
 
 
 @kick.error
 async def kick_error(error, context):
-	embed = discord.Embed(title='**Command:** k>kick',
-						  description='**Description:** Kicks a member \n **Cooldown:** 5 second(s) \n **Usage:** k>kick [user] [reason] \n **Example:** k>kick @RandomUser Rejoin when you\'ll be smarter, like me!',
+	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE kick',
+						  description='**Description:** Kicks a member \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE kick [user] [reason] \n **Example:** YOUR_PREFIX_HERE kick @RandomUser Rejoin when you\'ll be smarter, like me!',
 						  color=0x00FF00)
 	await client.send_message(context.message.channel, embed=embed)
 
 
 @unban.error
 async def unban_error(error, context):
-	embed = discord.Embed(title='**Command:** k>unban',
-						  description='**Description:** Unbans a member \n **Cooldown:** 3 second(s) \n **Usage:** k>unban [user] \n **Example:** k>unban @RandomUser',
+	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE unban',
+						  description='**Description:** Unbans a member \n **Cooldown:** 3 second(s) \n **Usage:** YOUR_PREFIX_HERE unban [user] \n **Example:** YOUR_PREFIX_HERE unban @RandomUser',
 						  color=0x00FF00)
 	await client.send_message(context.message.channel, embed=embed)
 
 @warn.error
 async def warn_error(error, context):
-	embed = discord.Embed(title='**Command:** k>warn',
-						  description='**Description:** Warns a member \n **Cooldown:** 5 second(s) \n **Usage:** k>warn [user] [reason] \n **Example:** k>warn @RandomUser Stop the caps, thanks!',
+	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE warn',
+						  description='**Description:** Warns a member \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE warn [user] [reason] \n **Example:** YOUR_PREFIX_HERE warn @RandomUser Stop the caps, thanks!',
 						  color=0x00FF00)
 	await client.send_message(context.message.channel, embed=embed)
 
 
 @purge.error
 async def purge_error(error, context):
-	embed = discord.Embed(title='**Command:** k>purge',
-						  description='**Description:** Delete a certain amount of messages \n **Cooldown:** 5 second(s) \n **Usage:** k>purge [numer of messages] \n **Example:** k>purge 20',
+	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE purge',
+						  description='**Description:** Delete a certain amount of messages \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE purge [numer of messages] \n **Example:** YOUR_PREFIX_HERE purge 20',
 						  color=0x00FF00)
 	await client.send_message(context.message.channel, embed=embed)
 
