@@ -405,11 +405,6 @@ async def on_command_error(error, context):
 		await client.delete_message(message)
 	raise error
 
-@softban.error
-async def softban_error(error, context):
-	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE softban', description='**Description:** Softbans a member \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE softban [user] [reason] \n **Example:** YOUR_PREFIX_HERE softban @RandomUser Get out!', color=0x00FF00)
-	await client.send_message(context.message.channel, embed=embed)
-
 @ban.error
 async def ban_error(error, context):
 	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE ban', description='**Description:** Bans a member \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE ban [user] [reason] \n **Example:** YOUR_PREFIX_HERE ban @RandomUser Get out!', color=0x00FF00)
