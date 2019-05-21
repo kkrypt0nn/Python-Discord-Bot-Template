@@ -1,3 +1,9 @@
+""""
+Copyright © Krypton 2019 - https://github.com/kkrypt0nn
+Description:
+This is a template to create your own discord bot in python.
+"""
+
 import discord
 import asyncio
 import aiohttp
