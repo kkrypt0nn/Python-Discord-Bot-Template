@@ -8,54 +8,46 @@ import discord
 import asyncio
 import aiohttp
 import json
-from discord import Game
 from discord.ext.commands import Bot
 from random import randint
 from discord.ext.commands.cooldowns import BucketType
 from discord.ext import commands
-from datetime import datetime
 from platform import python_version
+import os
+import platform
 
-BOT_PREFIX = ('YOUR_BOT_PREFIX_HERE')
-TOKEN = 'YOUR_BOT_TOKEN_HERE'
-OWNERS = ['YOUR_DISCORD_USER_ID_HERE', 'ANOTHER_DISCORD_USER_ID_HERE']
+BOT_PREFIX = ('BOT_PREFIX')
+TOKEN = 'YOUR_BOT_TOKEN'
+OWNERS = [123456789, 123456789]
 BLACKLIST = []
 client = Bot(command_prefix=BOT_PREFIX)
 
 async def status_task():
 	while True:
-		await client.change_presence(game=Game(name='with You'))
+		await client.change_presence(activity=discord.Game("with you!"))
 		await asyncio.sleep(10)
-		await client.change_presence(game=Game(name='with Krypton'))
+		await client.change_presence(activity=discord.Game("with Krypton!"))
 		await asyncio.sleep(10)
-		await client.change_presence(game=Game(name='YOUR_PREFIX_HERE help'))
+		await client.change_presence(activity=discord.Game("YOUR_BOT_PREFIX_HERE help"))
 		await asyncio.sleep(10)
-		await client.change_presence(game=Game(name='with Humans'))
+		await client.change_presence(activity=discord.Game("with humans!"))
 		await asyncio.sleep(10)
-		await client.change_presence(game=Game(name='with fellow peeps'))
-		await asyncio.sleep(10)
-
 
 @client.event
 async def on_ready():
 	client.loop.create_task(status_task())
 	print('Logged in as ' + client.user.name)
+	print("Discord.py API version:", discord.__version__)
+	print("Python version:", platform.python_version())
+	print("Running on:", platform.system(), platform.release(), "(" + os.name + ")")
 	print('-------------------')
-
-async def list_servers():
-	await client.wait_until_ready()
-	while not client.is_closed:
-		print('Current servers:')
-		for server in client.servers:
-			print(server.name)
-		await asyncio.sleep(600)
 
 @client.command(name='info', pass_context=True)
 @commands.cooldown(1, 5, BucketType.user)
 async def info(context):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
 		e = discord.Embed(description='Used Krypons template', color=0x00FF00)
 		e.set_author(name="Bot Informations")
@@ -63,36 +55,35 @@ async def info(context):
 		e.add_field(name="Python Version:", value="{0}".format(python_version()), inline=True)
 		e.add_field(name="Prefix:", value="YOUR_PREFIX_HERE ", inline=False)
 		e.set_footer(text="Requested by {0}".format(context.message.author))
-		await client.say(embed=e)
-	await client.send_message(context.message.channel, embed=embed)
+		await context.message.channel.send(embed=e)
 
 @client.command(name='serverinfo', pass_context=True)
 @commands.cooldown(1, 10, BucketType.user)
 async def serverinfo(context):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
-		server = context.message.server
-		roles = [x.name for x in server.role_hierarchy]
+		server = context.message.guild
+		roles = [x.name for x in server.roles]
 		role_length = len(roles)
 		if role_length > 50:
 			roles = roles[:50]
 			roles.append('>>>> Displaying[50/%s] Roles' % len(roles))
-		roles = ', '.join(roles);
-		channelz = len(server.channels);
-		time = str(server.created_at);
-		time = time.split(' ');
-		time = time[0];
-		join = discord.Embed(description='%s ' % (str(server)), title='**Server Name:**', color=0x00FF00);
-		join.set_thumbnail(url=server.icon_url);
-		join.add_field(name='__Owner__', value=str(server.owner) + '\n' + server.owner.id);
-		join.add_field(name='__Server ID__', value=str(server.id))
-		join.add_field(name='__Member Count__', value=str(server.member_count));
-		join.add_field(name='__Text/Voice Channels__', value=str(channelz));
-		join.add_field(name='__Roles (%s)__' % str(role_length), value=roles);
-		join.set_footer(text='Created at: %s' % time);
-		await client.send_message(context.message.channel, embed=join)
+		roles = ', '.join(roles)
+		channelz = len(server.channels)
+		time = str(server.created_at)
+		time = time.split(' ')
+		time = time[0]
+		embed = discord.Embed(description='%s ' % (str(server)), title='**Server Name:**', color=0x00FF00)
+		embed.set_thumbnail(url=server.icon_url)
+		embed.add_field(name='__Owner__', value=str(server.owner) + '\n' + str(server.owner.id))
+		embed.add_field(name='__Server ID__', value=str(server.id))
+		embed.add_field(name='__Member Count__', value=str(server.member_count))
+		embed.add_field(name='__Text/Voice Channels__', value=str(channelz))
+		embed.add_field(name='__Roles (%s)__' % str(role_length), value=roles)
+		embed.set_footer(text='Created at: %s' % time)
+		await context.message.channel.send(embed=embed)
 
 
 @client.command(name='ping', pass_context=True)
@@ -100,22 +91,22 @@ async def serverinfo(context):
 async def ping(context):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
 		embed = discord.Embed(color=0x00FF00)
 		embed.set_footer(text='Pong request by {0}'.format(context.message.author))
 		embed.add_field(name='Pong!', value=':ping_pong:', inline=True)
-		await client.send_message(context.message.channel, embed=embed)
+		await context.message.channel.send(embed=embed)
 
 @client.command(name='invite', pass_context=True)
 @commands.cooldown(1, 5, BucketType.user)
 async def invite(context):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
-		await client.say('I sent you a private message!')
-		await client.send_message(context.message.author, 'Invite me by clicking here: https://discordapp.com/oauth2/authorize?&client_id=YOUR_APPLICATION_ID_HERE&scope=bot&permissions=8')
+		await context.message.channel.send('I sent you a private message!')
+		await context.message.channel.send('Invite me by clicking here: https://discordapp.com/oauth2/authorize?&client_id=YOUR_APPLICATION_ID_HERE&scope=bot&permissions=8')
 
 
 @client.command(name='server', pass_context=True)
@@ -123,10 +114,10 @@ async def invite(context):
 async def server(context):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
-		await client.say('I sent you a private message!')
-		await client.send_message(context.message.author, 'Join my discord server by clicking here: https://discord.gg/yX6J7Cf')
+		await context.message.channel.send('I sent you a private message!')
+		await context.message.channel.send('Join my discord server by clicking here: https://discord.gg/Vddcy76')
 
 @client.command(name='poll', pass_context=True)
 @commands.cooldown(1, 5, BucketType.user)
@@ -134,15 +125,15 @@ async def poll(context, *args):
 	mesg = ' '.join(args)
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
-		await client.delete_message(context.message)
+		await context.message.delete()
 		embed = discord.Embed(title='We have a poll !', description='{0}'.format(mesg), color=0x00FF00)
 		embed.set_footer(text='Poll created by: {0} • React to vote!'.format(context.message.author))
-		embed_message = await client.say(embed=embed)
-		await client.add_reaction(embed_message, '👍')
-		await client.add_reaction(embed_message, '👎')
-		await client.add_reaction(embed_message, '🤷')
+		embed_message = await context.message.channel.send(embed=embed)
+		await embed_message.add_reaction( '👍')
+		await embed_message.add_reaction('👎')
+		await embed_message.add_reaction('🤷')
 
 @client.command(name='8ball', pass_context=True)
 @commands.cooldown(1, 5, BucketType.user)
@@ -150,7 +141,7 @@ async def eight_ball(context, *args):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!',
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
 		answers = ['It is certain.', 'It is decidedly so.', 'You may rely on it.', 'Without a doubt.',
 				   'Yes - definitely.', 'As I see, yes.', 'Most likely.', 'Outlook good.', 'Yes.',
@@ -159,11 +150,11 @@ async def eight_ball(context, *args):
 				   'My sources say no.', 'Outlook not so good.', 'Very doubtful.']
 		embed = discord.Embed(title='**My Answer:** ', description='{0}'.format(answers[randint(0, len(answers))]), color=0x00FF00)
 		embed.set_footer(text='Question asked by: {0} • Ask your own now!'.format(context.message.author))
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 
-@client.command()
+@client.command(pass_context=True)
 @commands.cooldown(1, 5, BucketType.user)
-async def bitcoin():
+async def bitcoin(context):
 	url = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
 	async with aiohttp.ClientSession() as session:  # Async HTTP request
 		raw_response = await session.get(url)
@@ -171,7 +162,7 @@ async def bitcoin():
 		response = json.loads(response)
 		embed = discord.Embed(title=':information_source: Info',
 							  description='Bitcoin price is: $' + response['bpi']['USD']['rate'], color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 
 
 @client.command(name='shutdown', pass_context=True)
@@ -180,47 +171,47 @@ async def shutdown(context):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!',
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
 		if context.message.author.id in OWNERS:
 			embed = discord.Embed(title='Shutdown!', description='Shutting down. Bye! :wave:', color=0x00FF00)
-			await client.send_message(context.message.channel, embed=embed)
+			await context.message.channel.send(embed=embed)
 			await client.logout()
 			await client.close()
 		else:
 			embed = discord.Embed(title='Error!', description='You don\'t have the permission to use this command.',
 								  color=0x00FF00)
-			await client.send_message(context.message.channel, embed=embed)
+			await context.message.channel.send(embed=embed)
 
 
 @client.command(name='say', pass_context=True)
 async def echo(context, *, content):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
 		if context.message.author.id in OWNERS:
-			await client.delete_message(context.message)
-			await client.say(content)
+			await context.message.delete()
+			await context.message.channel.send(content)
 		else:
 			embed = discord.Embed(title='Error!', description='You don\'t have the permission to use this command.', color=0x00FF00)
-			await client.send_message(context.message.channel, embed=embed)
+			await context.message.channel.send(embed=embed)
 
 @client.command(name='embed', pass_context=True)
 async def embed(context, *args):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
 		if context.message.author.id in OWNERS:
 			mesg = ' '.join(args)
 			embed = discord.Embed(description=mesg, color=0x00FF00)
-			await client.say(embed=embed)
-			await client.delete_message(context.message)
+			await context.message.channel.send(embed=embed)
+			await context.message.delete()
 		else:
 			embed = discord.Embed(title='Error!', description='You don\'t have the permission to use this command.',
 								  color=0x00FF00)
-			await client.send_message(context.message.channel, embed=embed)
+			await context.message.channel.send(embed=embed)
 
 
 @client.command(name='kick', pass_context=True)
@@ -229,45 +220,44 @@ async def kick(context, member: discord.Member, *args):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!',
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
-		if context.message.author.server_permissions.kick_members or context.message.author.id in OWNERS:
-			if member.server_permissions.administrator:
+		if context.message.author.guild_permissions.kick_members:
+			if member.guild_permissions.administrator:
 				embed = discord.Embed(title='Error!', description='User has Admin permissions.', color=0x00FF00)
-				await client.send_message(context.message.channel, embed=embed)
+				await context.message.channel.send(embed=embed)
 			else:
 				mesg = ' '.join(args)
 				embed = discord.Embed(title='User Kicked!', description='**{0}** was kicked by **{1}**!'.format(member,
 																												context.message.author),
 									  color=0x00FF00)
 				embed.add_field(name='Reason:', value=mesg)
-				await client.say(embed=embed)
-				await client.delete_message(context.message)
-				await client.send_message(member, 'You where warned by **{0}**!  '.format(
-					context.message.author) + 'Reason: {0}'.format(mesg))
-				await client.kick(member)
+				await context.message.channel.send(embed=embed)
+				await context.message.delete()
+				await member.send('You where warned by **{0}**!  '.format(context.message.author) + 'Reason: {0}'.format(mesg))
+				await member.kick()
 		else:
 			embed = discord.Embed(title='Error!', description='You don\'t have the permission to use this command.',
 								  color=0x00FF00)
-			await client.send_message(context.message.channel, embed=embed)
+			await context.message.channel.send(embed=embed)
 
 @client.command(name='nick', pass_context=True)
 @commands.cooldown(1, 5, BucketType.user)
 async def nick(context, member: discord.Member, *, name : str):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
-		if context.message.author.server_permissions.administrator or context.message.author.id in OWNERS:
+		if context.message.author.guild_permissions.administrator:
 			if name.lower() == "!reset":
 				name = None
 			embed = discord.Embed(title='Changed Nickname!', description='**{0}** new nickname is **{1}**!'.format(member, name), color=0x00FF00)
-			await client.say(embed=embed)
-			await client.delete_message(context.message)
-			await client.change_nickname(member, name)
+			await context.message.channel.send(embed=embed)
+			await context.message.delete()
+			await member.change_nickname(name)
 		else:
 			embed = discord.Embed(title='Error!', description='You don\'t have the permission to use this command.', color=0x00FF00)
-			await client.send_message(context.message.channel, embed=embed)
+			await context.message.channel.send(embed=embed)
 
 @client.command(name='ban', pass_context=True)
 @commands.cooldown(1, 5, BucketType.user)
@@ -275,50 +265,49 @@ async def ban(context, member: discord.Member, *args):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!',
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
-		if context.message.author.server_permissions.administrator or context.message.author.id in OWNERS:
-			if member.server_permissions.administrator:
+		if context.message.author.guild_permissions.administrator:
+			if member.guild_permissions.administrator:
 				embed = discord.Embed(title='Error!', description='User has Admin permissions.', color=0x00FF00)
-				await client.send_message(context.message.channel, embed=embed)
+				await context.message.channel.send(embed=embed)
 			else:
 				mesg = ' '.join(args)
 				embed = discord.Embed(title='User Banned!', description='**{0}** was banned by **{1}**!'.format(member,
 																												context.message.author),
 									  color=0x00FF00)
 				embed.add_field(name='Reason:', value=mesg)
-				await client.say(embed=embed)
-				await client.delete_message(context.message)
-				await client.send_message(member, 'You where banned by **{0}**!'.format(
+				await context.message.channel.send(embed=embed)
+				await context.message.delete()
+				await member.send('You where banned by **{0}**!'.format(
 					context.message.author) + 'Reason: {0}'.format(mesg))
-				await client.ban(member)
+				await member.ban()
 		else:
 			embed = discord.Embed(title='Error!', description='You don\'t have the permission to use this command.',
 								  color=0x00FF00)
-			await client.send_message(context.message.channel, embed=embed)
+			await context.message.channel.send(embed=embed)
 
 
 @client.command(name='unban', pass_context=True)
 @commands.cooldown(1, 3, BucketType.user)
-async def unban(context, user: discord.User):
+async def unban(context, user: discord.Member):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!',
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
-		if context.message.author.server_permissions.administrator or context.message.author.id in OWNERS:
+		if context.message.author.guild_permissions.administrator:
 			embed = discord.Embed(title='User Unbanned!',
 								  description='**{0}** was unbanned by **{1}**!'.format(user, context.message.author),
 								  color=0x00FF00)
-			await client.say(embed=embed)
-			await client.delete_message(context.message)
-			await client.send_message(user, 'You where unbanned by **{0}**!  '.format(
-				context.message.author) + 'Reason: Ban revoked')
-			await client.unban(user)
+			await context.message.channel.send(embed=embed)
+			await context.message.delete()
+			await user.send('You where unbanned by **{0}**!  '.format(context.message.author) + 'Reason: Ban revoked')
+			await user.unban()
 		else:
 			embed = discord.Embed(title='Error!', description='You don\'t have the permission to use this command.',
 								  color=0x00FF00)
-			await client.send_message(context.message.channel, embed=embed)
+			await context.message.channel.send(embed=embed)
 
 
 @client.command(name='warn', pass_context=True)
@@ -327,22 +316,22 @@ async def warn(context, member: discord.Member, *args):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!',
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
-		if context.message.author.server_permissions.administrator or context.message.author.id in OWNERS:
+		if context.message.author.guild_permissions.administrator:
 			mesg = ' '.join(args)
 			embed = discord.Embed(title='User Warned!',
 								  description='**{0}** was warned by **{1}**!'.format(member, context.message.author),
 								  color=0x00FF00)
 			embed.add_field(name='Reason:', value=mesg)
-			await client.say(embed=embed)
-			await client.delete_message(context.message)
-			await client.send_message(member, 'You where warned by **{0}**!  '.format(
+			await context.message.channel.send(embed=embed)
+			await context.message.delete()
+			await member.send('You where warned by **{0}**!  '.format(
 				context.message.author) + 'Reason: {0}'.format(mesg))
 		else:
 			embed = discord.Embed(title='Error!', description='You don\'t have the permission to use this command.',
 								  color=0x00FF00)
-			await client.send_message(context.message.channel, embed=embed)
+			await context.message.channel.send(embed=embed)
 
 
 @client.command(name='purge', pass_context=True)
@@ -351,27 +340,21 @@ async def purge(context, number):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!',
 							  description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
-		if context.message.author.server_permissions.administrator or context.message.author.id in OWNERS:
-			await client.delete_message(context.message)
+		if context.message.author.guild_permissions.administrator:
 			number = int(number)
-			counter = 0
-			async for x in client.logs_from(context.message.channel, limit=number):
-				if counter < number:
-					await client.delete_message(x)
-					counter += 1
-					await asyncio.sleep(0.2)
+			await context.message.channel.purge(limit=number)
 			embed = discord.Embed(title='Chat Cleared!',
 								  description='**{0}** cleared **{1}** messages!'.format(context.message.author,
 																						 number), color=0x00FF00)
-			message = await client.send_message(context.message.channel, embed=embed)
+			message = await context.message.channel.send(embed=embed)
 			await asyncio.sleep(3)
-			await client.delete_message(message)
+			await message.delete()
 		else:
 			embed = discord.Embed(title='Error!', description='You don\'t have the permission to use this command.',
 								  color=0x00FF00)
-			await client.send_message(context.message.channel, embed=embed)
+			await context.message.channel.send(embed=embed)
 
 
 client.remove_command('help')
@@ -381,7 +364,7 @@ client.remove_command('help')
 async def help(context):
 	if context.message.author.id in BLACKLIST:
 		embed = discord.Embed(title='You\'re blacklisted!', description='Ask the owner to remove from the list if it was unfair.', color=0x00FF00)
-		await client.say(embed=embed)
+		await context.message.channel.send(embed=embed)
 	else:
 		embed = discord.Embed(title='Bot', description='List of commands are:', color=0x00FF00)
 		embed.add_field(name='Invite - Invite the bot', value='Usage: YOUR_PREFIX_HERE invite', inline=False)
@@ -399,78 +382,77 @@ async def help(context):
 		embed.add_field(name='Unban - Unban a user', value='Usage: YOUR_PREFIX_HERE unban <user>', inline=False)
 		embed.add_field(name='Purge - Remove an amount of messages', value='Usage: YOUR_PREFIX_HERE purge <number>', inline=False)
 		embed.add_field(name='Help - Gives this menu', value='Usage: YOUR_PREFIX_HERE help', inline=False)
-		await client.send_message(context.message.channel, embed=embed)
+		await context.message.channel.send(embed=embed)
 
 @client.event
-async def on_command_error(error, context):
+async def on_command_error(context, error):
 	if isinstance(error, commands.CommandOnCooldown):
-		await client.delete_message(context.message)
+		await context.message.delete()
 		embed = discord.Embed(title="Error!", description='This command is on a %.2fs cooldown' % error.retry_after, color=0x00FF00)
-		message = await client.send_message(context.message.channel, embed=embed)
+		message = await context.message.channel.send(embed=embed)
 		await asyncio.sleep(5)
-		await client.delete_message(message)
+		await message.delete()
 	raise error
 
 @ban.error
-async def ban_error(error, context):
+async def ban_error(context, error):
 	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE ban', description='**Description:** Bans a member \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE ban [user] [reason] \n **Example:** YOUR_PREFIX_HERE ban @RandomUser Get out!', color=0x00FF00)
-	await client.send_message(context.message.channel, embed=embed)
+	await context.message.channel.send(embed=embed)
 
 @poll.error
-async def poll_error(error, context):
+async def poll_error(context, error):
 	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE poll', description='**Description:** Create a pool to vote \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE poll [idea] \n **Example:** YOUR_PREFIX_HERE poll Add new emojis!', color=0x00FF00)
-	await client.send_message(context.message.channel, embed=embed)
+	await context.message.channel.send(embed=embed)
 
 @eight_ball.error
-async def eight_ball_error(error, context):
+async def eight_ball_error(context, error):
 	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE 8ball', description='**Description:** Get an answer to all of your questions \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE 8ball [question] \n **Example:** YOUR_PREFIX_HERE 8ball Is this bot cool?', color=0x00FF00)
-	await client.send_message(context.message.channel, embed=embed)
+	await context.message.channel.send(embed=embed)
 
 @echo.error
-async def say_error(error, context):
+async def say_error(context, error):
 	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE say',
 						  description='**Description:** I say what you say \n **Cooldown:** 0 second(s) \n **Usage:** YOUR_PREFIX_HERE say [message] \n **Example:** YOUR_PREFIX_HERE say Hello!!',
 						  color=0x00FF00)
-	await client.send_message(context.message.channel, embed=embed)
+	await context.message.channel.send(embed=embed)
 
 
 @embed.error
-async def embed_error(error, context):
+async def embed_error(context, error):
 	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE embed',
 						  description='**Description:** I say what you say as embed message \n **Cooldown:** 0 second(s) \n **Usage:** YOUR_PREFIX_HERE embed [message] \n **Example:** YOUR_PREFIX_HERE embed Hello!!',
 						  color=0x00FF00)
-	await client.send_message(context.message.channel, embed=embed)
+	await context.message.channel.send(embed=embed)
 
 
 @kick.error
-async def kick_error(error, context):
+async def kick_error(context, error):
 	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE kick',
 						  description='**Description:** Kicks a member \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE kick [user] [reason] \n **Example:** YOUR_PREFIX_HERE kick @RandomUser Rejoin when you\'ll be smarter, like me!',
 						  color=0x00FF00)
-	await client.send_message(context.message.channel, embed=embed)
+	await context.message.channel.send(embed=embed)
 
 
 @unban.error
-async def unban_error(error, context):
+async def unban_error(context, error):
 	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE unban',
 						  description='**Description:** Unbans a member \n **Cooldown:** 3 second(s) \n **Usage:** YOUR_PREFIX_HERE unban [user] \n **Example:** YOUR_PREFIX_HERE unban @RandomUser',
 						  color=0x00FF00)
-	await client.send_message(context.message.channel, embed=embed)
+	await context.message.channel.send(embed=embed)
 
 @warn.error
-async def warn_error(error, context):
+async def warn_error(context, error):
 	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE warn',
 						  description='**Description:** Warns a member \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE warn [user] [reason] \n **Example:** YOUR_PREFIX_HERE warn @RandomUser Stop the caps, thanks!',
 						  color=0x00FF00)
-	await client.send_message(context.message.channel, embed=embed)
+	await context.message.channel.send(embed=embed)
 
 
 @purge.error
-async def purge_error(error, context):
+async def purge_error(context, error):
 	embed = discord.Embed(title='**Command:** YOUR_PREFIX_HERE purge',
 						  description='**Description:** Delete a certain amount of messages \n **Cooldown:** 5 second(s) \n **Usage:** YOUR_PREFIX_HERE purge [numer of messages] \n **Example:** YOUR_PREFIX_HERE purge 20',
 						  color=0x00FF00)
-	await client.send_message(context.message.channel, embed=embed)
+	await context.message.channel.send(embed=embed)
 
-client.loop.create_task(list_servers())
 client.run(TOKEN)

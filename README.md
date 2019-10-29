@@ -3,8 +3,7 @@ This repository is a template that everyone can use for the start of their disco
 
 ## Bots who used this template
 
-* [minecraft.py](https://discord.gg/yX6J7Cf)
-* [Kryptonite Discord Bot](https://discord.gg/KJC4j2d)
+*DM Krypton#2188 to get yourself in this list*
 
 ## How to use it
 
@@ -39,7 +38,7 @@ We use [SemVer](http://semver.org) for versioning. For the versions available, s
 
 ## Author(s)
 
-* **[Krypton](https://planet-of-krypton.tk)** - The only and one developer
+* **[Krypton](https://spacelab.wtf)** - The only and one developer
 
 ## License
 
