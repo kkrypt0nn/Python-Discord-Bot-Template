@@ -1,6 +1,8 @@
 # Python-Discord-Bot-Template
 This repository is a template that everyone can use for the start of their discord bot.
 
+The list of update are available [here](UPDATES.md).
+
 ## Bots who used this template
 
 *DM Krypton#2188 to get yourself in this list*
