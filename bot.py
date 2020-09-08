@@ -102,7 +102,7 @@ async def invite(context):
 		await context.message.channel.send(embed=embed)
 	else:
 		await context.message.channel.send('I sent you a private message!')
-		await context.message.channel.send('Invite me by clicking here: https://discordapp.com/oauth2/authorize?&client_id=YOUR_APPLICATION_ID_HERE&scope=bot&permissions=8')
+		await context.author.send('Invite me by clicking here: https://discordapp.com/oauth2/authorize?&client_id=YOUR_APPLICATION_ID_HERE&scope=bot&permissions=8')
 
 
 @client.command(name='server', pass_context=True)
@@ -112,7 +112,7 @@ async def server(context):
 		await context.message.channel.send(embed=embed)
 	else:
 		await context.message.channel.send('I sent you a private message!')
-		await context.message.channel.send('Join my discord server by clicking here: https://discord.gg/Vddcy76')
+		await context.author.send('Join my discord server by clicking here: https://discord.gg/Vddcy76')
 
 @client.command(name='poll', pass_context=True)
 async def poll(context, *args):
