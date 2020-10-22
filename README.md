@@ -10,7 +10,7 @@ When I first started creating my discord bot it took me a while to get everythin
 
 ## Support
 
-If you need some help for something, do not hesitate to join my discord server [here](https://discord.gg/xkWRGBY).
+If you need some help for something, do not hesitate to join my discord server [here](https://discord.gg/HzJ3Gfr).
 
 All the updates of the template are available [here](UPDATES.md).
 
