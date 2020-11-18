@@ -20,11 +20,11 @@ For more information about intents, please go to the following websites:
 https://discordpy.readthedocs.io/en/latest/intents.html
 https://discordpy.readthedocs.io/en/latest/intents.html#privileged-intents
 """
-intents = discord.Intents().default()
+
+"""
+Defualt Intents:
 intents.messages = True
 intents.reactions = True
-intents.presences = True
-intents.members = True
 intents.guilds = True
 intents.emojis = True
 intents.bans = True
@@ -39,6 +39,12 @@ intents.integrations = True
 intents.invites = True
 intents.voice_states = False
 intents.webhooks = False
+
+Privleged Intents (Needs to be enabled on dev page):
+intents.presences = True
+intents.members = True
+"""
+intents = discord.Intents.default()
 	
 bot = Bot(command_prefix=config.BOT_PREFIX, intents=intents)
 
