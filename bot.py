@@ -7,8 +7,8 @@ Version: 2.0
 """
 
 import discord, asyncio, os, platform, sys
-from discord.ext.commands import Bot
-from discord.ext import commands
+from discord.ext import commands, tasks
+from itertools import cycle
 if not os.path.isfile("config.py"):
 	sys.exit("'config.py' not found! Please add it and try again.")
 else:
@@ -45,8 +45,9 @@ intents.presences = True
 intents.members = True
 """
 intents = discord.Intents.default()
-	
-bot = Bot(command_prefix=config.BOT_PREFIX, intents=intents)
+
+# Making the owner acutal owners of the bot
+bot = commands.Bot(command_prefix=config.BOT_PREFIX, intents=intents, owner_ids=config.OWNERS)
 
 # The code in this even is executed when the bot is ready
 @bot.event
@@ -58,18 +59,18 @@ async def on_ready():
 	print(f"Running on: {platform.system()} {platform.release()} ({os.name})")
 	print("-------------------")
 
-# Setup the game status task of the bot
+@tasks.loop(seconds=60)
 async def status_task():
-	while True:
-		await bot.change_presence(activity=discord.Game("with you!"))
-		await asyncio.sleep(60)
-		await bot.change_presence(activity=discord.Game("with Krypton!"))
-		await asyncio.sleep(60)
-		await bot.change_presence(activity=discord.Game(f"{config.BOT_PREFIX} help"))
-		await asyncio.sleep(60)
-		await bot.change_presence(activity=discord.Game("with humans!"))
-		await asyncio.sleep(60)
+	aciticty = ["with you!", "with Krypton!", f"{config.BOT_PREFIX} help", "with humans!"]
+	actv_list = cycle(acitictys)
+	
+	async def next_actv():
+		return next(actv_list)
+	
+	aciticty = next_actv()
+	await bot.change_presence(activity=discord.Game(aciticty))
 
+		
 # Removes the default help command of discord.py to be able to create our custom help command.
 bot.remove_command("help")
 
