@@ -61,14 +61,9 @@ async def on_ready():
 
 @tasks.loop(seconds=60)
 async def status_task():
-	aciticty = ["with you!", "with Krypton!", f"{config.BOT_PREFIX} help", "with humans!"]
-	actv_list = cycle(acitictys)
-	
-	async def next_actv():
-		return next(actv_list)
-	
-	aciticty = next_actv()
-	await bot.change_presence(activity=discord.Game(aciticty))
+	acitictys = ["with you!", "with Krypton!", f"{config.BOT_PREFIX} help", "with humans!"]
+	aciticty = cycle(acitictys)
+	await bot.change_presence(activity=discord.Game(next(aciticty)))
 
 		
 # Removes the default help command of discord.py to be able to create our custom help command.
