@@ -5,6 +5,10 @@ This repository is a template that everyone can use for the start of their disco
 
 When I first started creating my discord bot it took me a while to get everything setup and working with cogs and more. I would've been happy if there were any template existing. But there wasn't any existing template. That's why I decided to create my own template to let <b>you</b> guys create your discord bot in an easy way.
 
+Please note that this template is not supposed to be the best template, but a good template to start learning how discord.py works and to make your own bot in a simple way. You're
+
+If you play to use this template to makw your own template or bot, please give me credits, it would be greatly appreciated.
+
 ## Authors
 * **[Krypton (@kkrypt0nn)](https://github.com/kkrypt0nn)** - The only and one developer
 
