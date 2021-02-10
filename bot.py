@@ -3,7 +3,7 @@ Copyright © Krypton 2020 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 2.0
+Version: 2.1
 """
 
 import discord, asyncio, os, platform, sys
@@ -19,12 +19,11 @@ Setup bot intents (events restrictions)
 For more information about intents, please go to the following websites:
 https://discordpy.readthedocs.io/en/latest/intents.html
 https://discordpy.readthedocs.io/en/latest/intents.html#privileged-intents
-"""
-intents = discord.Intents().default()
+
+
+Default Intents:
 intents.messages = True
 intents.reactions = True
-intents.presences = True
-intents.members = True
 intents.guilds = True
 intents.emojis = True
 intents.bans = True
@@ -39,7 +38,14 @@ intents.integrations = True
 intents.invites = True
 intents.voice_states = False
 intents.webhooks = False
-	
+
+Privileged Intents (Needs to be enabled on dev page):
+intents.presences = True
+intents.members = True
+"""
+
+intents = discord.Intents.default()
+
 bot = Bot(command_prefix=config.BOT_PREFIX, intents=intents)
 
 # The code in this even is executed when the bot is ready

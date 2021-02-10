@@ -11,6 +11,9 @@ class moderation(commands.Cog, name="moderation"):
 
     @commands.command(name='kick', pass_context=True)
     async def kick(self, context, member: discord.Member, *args):
+        """
+        Kick a user out of the server.
+        """
         if context.message.author.guild_permissions.kick_members:
             if member.guild_permissions.administrator:
                 embed = discord.Embed(
@@ -55,6 +58,9 @@ class moderation(commands.Cog, name="moderation"):
 
     @commands.command(name="nick")
     async def nick(self, context, member: discord.Member, *, name: str):
+        """
+        Change the nickname of a user on a server.
+        """
         if context.message.author.guild_permissions.administrator:
             try:
                 if name.lower() == "!reset":
@@ -83,6 +89,9 @@ class moderation(commands.Cog, name="moderation"):
 
     @commands.command(name="ban")
     async def ban(self, context, member: discord.Member, *args):
+        """
+        Bans a user from the server.
+        """
         if context.message.author.guild_permissions.administrator:
             try:
                 if member.guild_permissions.administrator:
@@ -123,6 +132,9 @@ class moderation(commands.Cog, name="moderation"):
 
     @commands.command(name="warn")
     async def warn(self, context, member: discord.Member, *args):
+        """
+        Warns a user in his private messages.
+        """
         if context.message.author.guild_permissions.administrator:
             reason = " ".join(args)
             embed = discord.Embed(
@@ -149,6 +161,9 @@ class moderation(commands.Cog, name="moderation"):
 
     @commands.command(name="purge")
     async def purge(self, context, number):
+        """
+        Delete a number of messages.
+        """
         if context.message.author.guild_permissions.administrator:
             purged_messages = await context.message.channel.purge(limit=number)
             embed = discord.Embed(

@@ -11,6 +11,9 @@ class general(commands.Cog, name="general"):
 
     @commands.command(name="info", aliases=["botinfo"])
     async def info(self, context):
+        """
+        Get some useful (or not) information about the bot.
+        """
         embed = discord.Embed(
             description="Used Krypton's template",
             color=0x00FF00
@@ -40,6 +43,9 @@ class general(commands.Cog, name="general"):
 
     @commands.command(name="serverinfo")
     async def serverinfo(self, context):
+        """
+        Get some useful (or not) information about the server.
+        """
         server = context.message.guild
         roles = [x.name for x in server.roles]
         role_length = len(roles)
@@ -87,6 +93,9 @@ class general(commands.Cog, name="general"):
 
     @commands.command(name="ping")
     async def ping(self, context):
+        """
+        Check if the bot is alive.
+        """
         embed = discord.Embed(
             color=0x00FF00
         )
@@ -102,16 +111,25 @@ class general(commands.Cog, name="general"):
 
     @commands.command(name="invite")
     async def invite(self, context):
+        """
+        Get the invite link of the bot to be able to invite it.
+        """
         await context.send("I sent you a private message!")
         await context.author.send(f"Invite me by clicking here: https://discordapp.com/oauth2/authorize?&client_id={config.APPLICATION_ID}&scope=bot&permissions=8")
 
     @commands.command(name="server")
     async def server(self, context):
+        """
+        Get the invite link of the discord server of the bot for some support.
+        """
         await context.send("I sent you a private message!")
-        await context.author.send("Join my discord server by clicking here: https://discord.gg/Vddcy76")
+        await context.author.send("Join my discord server by clicking here: https://discord.gg/HzJ3Gfr")
 
     @commands.command(name="poll")
     async def poll(self, context, *args):
+        """
+        Create a poll where members can vote.
+        """
         poll_title = " ".join(args)
         embed = discord.Embed(
             title="A new poll has been created!",
@@ -128,6 +146,9 @@ class general(commands.Cog, name="general"):
 
     @commands.command(name="8ball")
     async def eight_ball(self, context, *args):
+        """
+        Ask any question to the bot.
+        """
         answers = ['It is certain.', 'It is decidedly so.', 'You may rely on it.', 'Without a doubt.',
                    'Yes - definitely.', 'As I see, yes.', 'Most likely.', 'Outlook good.', 'Yes.',
                    'Signs point to yes.', 'Reply hazy, try again.', 'Ask again later.', 'Better not tell you now.',
@@ -145,6 +166,9 @@ class general(commands.Cog, name="general"):
 
     @commands.command(name="bitcoin")
     async def bitcoin(self, context):
+        """
+        Get the current price of bitcoin.
+        """
         url = "https://api.coindesk.com/v1/bpi/currentprice/BTC.json"
         # Async HTTP request
         async with aiohttp.ClientSession() as session:

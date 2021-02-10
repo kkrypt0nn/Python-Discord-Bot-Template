@@ -11,66 +11,20 @@ class Help(commands.Cog, name="help"):
 
     @commands.command(name="help")
     async def help(self, context):
-        # Note that commands made only for the owner of the bot are not listed here.
-        embed = discord.Embed(
-            title="Bot",
-            description="List of commands are:",
-            color=0x00FF00
-        )
-        embed.add_field(
-            name="Invite",
-            value=f"Usage: {config.BOT_PREFIX}invite",
-            inline=False
-        )
-        embed.add_field(
-            name="Server",
-            value=f"Usage: {config.BOT_PREFIX}server",
-            inline=False
-        )
-        embed.add_field(
-            name="Poll",
-            value=f"Usage: {config.BOT_PREFIX}poll <Idea>",
-            inline=False
-        )
-        embed.add_field(
-            name="8ball",
-            value=f"Usage: {config.BOT_PREFIX}8ball <Question>",
-            inline=False)
-        embed.add_field(
-            name="Bitcoin",
-            value=f"Usage: {config.BOT_PREFIX}bitcoin",
-            inline=False
-        )
-        embed.add_field(
-            name="Info",
-            value=f"Usage: {config.BOT_PREFIX}info",
-            inline=False
-        )
-        embed.add_field(
-            name="Kick",
-            value=f"Usage: {config.BOT_PREFIX}kick <User> <Reason>",
-            inline=False
-        )
-        embed.add_field(
-            name="Ban",
-            value=f"Usage: {config.BOT_PREFIX}ban <User> <Reason>",
-            inline=False
-        )
-        embed.add_field(
-            name="Warn",
-            value=f"Usage: {config.BOT_PREFIX}warn <User> <Reason>",
-            inline=False
-        )
-        embed.add_field(
-            name="Purge",
-            value=f"Usage: {config.BOT_PREFIX}purge <Number>",
-            inline=False
-        )
-        embed.add_field(
-            name="Help",
-            value=f"Usage: {config.BOT_PREFIX}help",
-            inline=False
-        )
+        """
+        List all commands from every Cog the bot has loaded.
+        """
+        prefix = config.BOT_PREFIX
+        if not isinstance(prefix, str):
+            prefix = prefix[0]
+        embed = discord.Embed(title="Help", description="List of available commands:", color=0x00FF00)
+        for i in self.bot.cogs:
+            cog = self.bot.get_cog(i.lower())
+            commands = cog.get_commands()
+            command_list = [command.name for command in commands]
+            command_description = [command.help for command in commands]
+            help_text = '\n'.join(f'{prefix}{n} - {h}' for n, h in zip(command_list, command_description))
+            embed.add_field(name=i.capitalize(), value=f'```{help_text}```', inline=False)
         await context.send(embed=embed)
 
 def setup(bot):

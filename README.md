@@ -73,7 +73,7 @@ python bot.py
 
 If you have any issues or questions of how to code a specific command, you can:
 
-* Join my discord server [here](https://discord.gg/xkWRGBY)
+* Join my discord server [here](https://discord.gg/HzJ3Gfr)
 * Post them [here](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/issues)
 
 Me or other people will take their time to answer and help you.
@@ -84,7 +84,7 @@ We use [SemVer](http://semver.org) for versioning. For the versions available, s
 
 ## Bots who used this template
 
-*DM Krypton#2188 to get yourself in this list*
+*DM Krypton#7331 to get yourself in this list*
 
 ## License
 
