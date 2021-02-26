@@ -19,7 +19,7 @@ class moderation(commands.Cog, name="moderation"):
                 embed = discord.Embed(
                     title="Error!",
                     description="User has Admin permissions.",
-                    color=0x00FF00
+                    color=0xFF0000
                 )
                 await context.send(embed=embed)
             else:
@@ -52,7 +52,7 @@ class moderation(commands.Cog, name="moderation"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0x00FF00
+                color=0xFF0000
             )
             await context.send(embed=embed)
 
@@ -83,7 +83,7 @@ class moderation(commands.Cog, name="moderation"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0x00FF00
+                color=0xFF0000
             )
             await context.send(embed=embed)
 
@@ -126,7 +126,7 @@ class moderation(commands.Cog, name="moderation"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0x00FF00
+                color=0xFF0000
             )
             await context.send(embed=embed)
 
@@ -155,7 +155,7 @@ class moderation(commands.Cog, name="moderation"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0x00FF00
+                color=0xFF0000
             )
             await context.send(embed=embed)
 
@@ -165,6 +165,24 @@ class moderation(commands.Cog, name="moderation"):
         Delete a number of messages.
         """
         if context.message.author.guild_permissions.administrator:
+            try:
+                number = int(number)
+            except:
+                embed = discord.Embed(
+                    title="Error!",
+                    description=f"`{number}` is not a valid number.",
+                    color=0xFF0000
+                )
+                await context.send(embed=embed)
+                return
+            if number < 1:
+                embed = discord.Embed(
+                    title="Error!",
+                    description=f"`{number}` is not a valid number.",
+                    color=0xFF0000
+                )
+                await context.send(embed=embed)
+                return
             purged_messages = await context.message.channel.purge(limit=number)
             embed = discord.Embed(
                 title="Chat Cleared!",
@@ -176,7 +194,7 @@ class moderation(commands.Cog, name="moderation"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0x00FF00
+                color=0xFF0000
             )
             await context.send(embed=embed)
 

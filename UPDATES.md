@@ -1,6 +1,10 @@
 # Updates List
 Here is the list of all the updates that I made on this template.
 
+### Version 2.2
+* Fixed the purge command
+* Made the error embeds actually red...
+
 ### Version 2.1
 * Made the help command dynamic
 * Added a small description to all commands

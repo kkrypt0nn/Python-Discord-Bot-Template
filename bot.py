@@ -3,7 +3,7 @@ Copyright © Krypton 2020 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 2.1
+Version: 2.2
 """
 
 import discord, asyncio, os, platform, sys
@@ -100,7 +100,7 @@ async def on_message(message):
 			embed = discord.Embed(
 				title="You're blacklisted!",
 				description="Ask the owner to remove you from the list if you think it's not normal.",
-				color=0x00FF00
+				color=0xFF0000
 			)
 			await context.send(embed=embed)
 
@@ -119,7 +119,7 @@ async def on_command_error(context, error):
 		embed = discord.Embed(
 			title="Error!",
 			description="This command is on a %.2fs cooldown" % error.retry_after,
-			color=0x00FF00
+			color=0xFF0000
 		)
 		await context.send(embed=embed)
 	raise error

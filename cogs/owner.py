@@ -26,7 +26,7 @@ class owner(commands.Cog, name="owner"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0x00FF00
+                color=0xFF0000
             )
             await context.send(embed=embed)
 
@@ -41,7 +41,7 @@ class owner(commands.Cog, name="owner"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0x00FF00
+                color=0xFF0000
             )
             await context.send(embed=embed)
 
@@ -60,7 +60,7 @@ class owner(commands.Cog, name="owner"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0x00FF00
+                color=0xFF0000
             )
             await context.send(embed=embed)
 
@@ -106,7 +106,7 @@ class owner(commands.Cog, name="owner"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0x00FF00
+                color=0xFF0000
             )
             await context.send(embed=embed)
 
@@ -139,7 +139,7 @@ class owner(commands.Cog, name="owner"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0x00FF00
+                color=0xFF0000
             )
             await context.send(embed=embed)
 
