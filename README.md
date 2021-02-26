@@ -50,6 +50,11 @@ Here is an explanation of what everything is:
 
 To start the bot you simply need to launch, either your terminal (Linux, Mac & Windows) or your Command Prompt (Windows).
 
+Before running the bot you will need to install all the requirements with this command:
+```
+pip install -r requirements.txt
+```
+
 If you have multiple versions of python installed (2.x and 3.x) then you will need to use the following command:
 ```
 python3 bot.py
