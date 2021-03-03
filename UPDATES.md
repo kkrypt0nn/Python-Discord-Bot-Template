@@ -1,6 +1,10 @@
 # Updates List
 Here is the list of all the updates that I made on this template.
 
+### Version 2.3
+* Made the kick command actually kick
+* Added a template cog to create cogs easily
+
 ### Version 2.2
 * Fixed the purge command
 * Made the error embeds actually red...

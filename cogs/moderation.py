@@ -1,9 +1,5 @@
 import os, sys, discord
 from discord.ext import commands
-if not os.path.isfile("config.py"):
-    sys.exit("'config.py' not found! Please add it and try again.")
-else:
-    import config
 
 class moderation(commands.Cog, name="moderation"):
     def __init__(self, bot):
@@ -25,6 +21,7 @@ class moderation(commands.Cog, name="moderation"):
             else:
                 try:
                     reason = " ".join(args)
+                    await member.kick(reason=reason)
                     embed = discord.Embed(
                         title="User Kicked!",
                         description=f"**{member}** was kicked by **{context.message.author}**!",
@@ -65,13 +62,13 @@ class moderation(commands.Cog, name="moderation"):
             try:
                 if name.lower() == "!reset":
                     name = None
+                await member.change_nickname(name)
                 embed = discord.Embed(
                     title="Changed Nickname!",
                     description=f"**{member}'s** new nickname is **{name}**!",
                     color=0x00FF00
                 )
                 await context.send(embed=embed)
-                await member.change_nickname(name)
             except:
                 embed = discord.Embed(
                     title="Error!",
@@ -103,6 +100,7 @@ class moderation(commands.Cog, name="moderation"):
                     await context.send(embed=embed)
                 else:
                     reason = " ".join(args)
+                    await member.ban(reason=reason)
                     embed = discord.Embed(
                         title="User Banned!",
                         description=f"**{member}** was banned by **{context.message.author}**!",
@@ -114,7 +112,6 @@ class moderation(commands.Cog, name="moderation"):
                     )
                     await context.send(embed=embed)
                     await member.send(f"You were banned by **{context.message.author}**!\nReason: {reason}")
-                    await member.ban(reason=reason)
             except:
                 embed = discord.Embed(
                     title="Error!",
