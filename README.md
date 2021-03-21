@@ -45,14 +45,13 @@ To setup the bot I made it as simple as possible. I now created a [config.py](co
 
 Here is an explanation of what everything is:
 
-| Variable          | What it is                                                            |
-| ------------------| ----------------------------------------------------------------------|
-| BOT_PREFIX        | The prefix(es) of your bot                                            |
-| TOKEN             | The token of your bot                                                 |
-| APPLICATION_ID    | The application ID of your bot                                        |
-| OWNERS            | The user ID of all the bot owners                                     |
-| BLACKLIST         | The user ID of all the users who can't use the bot                    |
-| STARTUP_COGS      | The cogs that should be automatically loaded when you start the bot   |
+| Variable              | What it is                                                            |
+| ----------------------| ----------------------------------------------------------------------|
+| YOUR_BOT_PREFIX_HERE  | The prefix(es) of your bot                                            |
+| YOUR_BOT_TOKEN_HERE   | The token of your bot                                                 |
+| APPLICATION_ID        | The application ID of your bot                                        |
+| OWNERS                | The user ID of all the bot owners                                     |
+| BLACKLIST             | The user ID of all the users who can't use the bot                    |
 
 ## How to start
 

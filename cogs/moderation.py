@@ -15,7 +15,7 @@ class moderation(commands.Cog, name="moderation"):
                 embed = discord.Embed(
                     title="Error!",
                     description="User has Admin permissions.",
-                    color=0xFF0000
+                    color=config.error
                 )
                 await context.send(embed=embed)
             else:
@@ -25,7 +25,7 @@ class moderation(commands.Cog, name="moderation"):
                     embed = discord.Embed(
                         title="User Kicked!",
                         description=f"**{member}** was kicked by **{context.message.author}**!",
-                        color=0x00FF00
+                        color=config.success
                     )
                     embed.add_field(
                         name="Reason:",
@@ -42,14 +42,14 @@ class moderation(commands.Cog, name="moderation"):
                     embed = discord.Embed(
                         title="Error!",
                         description="An error occurred while trying to kick the user.",
-                        color=0x00FF00
+                        color=config.success
                     )
                     await context.message.channel.send(embed=embed)
         else:
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0xFF0000
+                color=config.error
             )
             await context.send(embed=embed)
 
@@ -66,21 +66,21 @@ class moderation(commands.Cog, name="moderation"):
                 embed = discord.Embed(
                     title="Changed Nickname!",
                     description=f"**{member}'s** new nickname is **{name}**!",
-                    color=0x00FF00
+                    color=config.success
                 )
                 await context.send(embed=embed)
             except:
                 embed = discord.Embed(
                     title="Error!",
                     description="An error occurred while trying to change the nickname of the user.",
-                    color=0x00FF00
+                    color=config.success
                 )
                 await context.message.channel.send(embed=embed)
         else:
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0xFF0000
+                color=config.error
             )
             await context.send(embed=embed)
 
@@ -95,7 +95,7 @@ class moderation(commands.Cog, name="moderation"):
                     embed = discord.Embed(
                         title="Error!",
                         description="User has Admin permissions.",
-                        color=0x00FF00
+                        color=config.success
                     )
                     await context.send(embed=embed)
                 else:
@@ -104,7 +104,7 @@ class moderation(commands.Cog, name="moderation"):
                     embed = discord.Embed(
                         title="User Banned!",
                         description=f"**{member}** was banned by **{context.message.author}**!",
-                        color=0x00FF00
+                        color=config.success
                     )
                     embed.add_field(
                         name="Reason:",
@@ -116,14 +116,14 @@ class moderation(commands.Cog, name="moderation"):
                 embed = discord.Embed(
                     title="Error!",
                     description="An error occurred while trying to ban the user.",
-                    color=0x00FF00
+                    color=config.success
                 )
                 await context.send(embed=embed)
         else:
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0xFF0000
+                color=config.error
             )
             await context.send(embed=embed)
 
@@ -137,7 +137,7 @@ class moderation(commands.Cog, name="moderation"):
             embed = discord.Embed(
                 title="User Warned!",
                 description=f"**{member}** was warned by **{context.message.author}**!",
-                color=0x00FF00
+                color=config.success
             )
             embed.add_field(
                 name="Reason:",
@@ -152,7 +152,7 @@ class moderation(commands.Cog, name="moderation"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0xFF0000
+                color=config.error
             )
             await context.send(embed=embed)
 
@@ -168,7 +168,7 @@ class moderation(commands.Cog, name="moderation"):
                 embed = discord.Embed(
                     title="Error!",
                     description=f"`{number}` is not a valid number.",
-                    color=0xFF0000
+                    color=config.error
                 )
                 await context.send(embed=embed)
                 return
@@ -176,7 +176,7 @@ class moderation(commands.Cog, name="moderation"):
                 embed = discord.Embed(
                     title="Error!",
                     description=f"`{number}` is not a valid number.",
-                    color=0xFF0000
+                    color=config.error
                 )
                 await context.send(embed=embed)
                 return
@@ -184,14 +184,14 @@ class moderation(commands.Cog, name="moderation"):
             embed = discord.Embed(
                 title="Chat Cleared!",
                 description=f"**{context.message.author}** cleared **{len(purged_messages)}** messages!",
-                color=0x00FF00
+                color=config.success
             )
             await context.send(embed=embed)
         else:
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0xFF0000
+                color=config.error
             )
             await context.send(embed=embed)
 

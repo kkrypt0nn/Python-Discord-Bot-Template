@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 2.3
+Version: 2.4
 """
 
 import discord, asyncio, os, platform, sys
@@ -74,15 +74,15 @@ async def status_task():
 bot.remove_command("help")
 
 if __name__ == "__main__":
-	for extension in config.STARTUP_COGS:
-		try:
-			bot.load_extension(extension)
-			extension = extension.replace("cogs.", "")
-			print(f"Loaded extension '{extension}'")
-		except Exception as e:
-			exception = f"{type(e).__name__}: {e}"
-			extension = extension.replace("cogs.", "")
-			print(f"Failed to load extension {extension}\n{exception}")
+	for file in os.listdir("./cogs"):
+		if file.endswith(".py"):
+			extension = file[:-3]
+			try:
+				bot.load_extension(f"cogs.{extension}")
+				print(f"Loaded extension '{extension}'")
+			except Exception as e:
+				exception = f"{type(e).__name__}: {e}"
+				print(f"Failed to load extension {extension}\n{exception}")
 
 # The code in this event is executed every time someone sends a message, with or without the prefix
 @bot.event
@@ -100,7 +100,7 @@ async def on_message(message):
 			embed = discord.Embed(
 				title="You're blacklisted!",
 				description="Ask the owner to remove you from the list if you think it's not normal.",
-				color=0xFF0000
+				color=config.error
 			)
 			await context.send(embed=embed)
 
@@ -110,7 +110,7 @@ async def on_command_completion(ctx):
 	fullCommandName = ctx.command.qualified_name
 	split = fullCommandName.split(" ")
 	executedCommand = str(split[0])
-	print(f"Executed {executedCommand} command in {ctx.guild.name} by {ctx.message.author} (ID: {ctx.message.author.id})")
+	print(f"Executed {executedCommand} command in {ctx.guild.name} (ID: {ctx.message.guild.id}) by {ctx.message.author} (ID: {ctx.message.author.id})")
 
 # The code in this event is executed every time a valid commands catches an error
 @bot.event
@@ -118,8 +118,8 @@ async def on_command_error(context, error):
 	if isinstance(error, commands.CommandOnCooldown):
 		embed = discord.Embed(
 			title="Error!",
-			description="This command is on a %.2fs cooldown" % error.retry_after,
-			color=0xFF0000
+			description="This command is on a %.2fs cool down" % error.retry_after,
+			color=config.error
 		)
 		await context.send(embed=embed)
 	raise error

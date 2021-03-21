@@ -1,6 +1,12 @@
 # Updates List
 Here is the list of all the updates that I made on this template.
 
+### Version 2.4
+* Added some fun commands
+* Colors are saved in the [config file](config.py) for easier usage
+* Cogs are now being loaded automatically
+* Fixed some typos
+
 ### Version 2.3
 * Made the kick command actually kick
 * Added a template cog to create cogs easily
@@ -21,4 +27,4 @@ Here is the list of all the updates that I made on this template.
 
 ### Version 1.2
 * Added blacklist command
-* Removed commands cooldown
+* Removed commands cool down

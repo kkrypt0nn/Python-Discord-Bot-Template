@@ -16,7 +16,7 @@ class general(commands.Cog, name="general"):
         """
         embed = discord.Embed(
             description="Used Krypton's template",
-            color=0x00FF00
+            color=config.success
         )
         embed.set_author(
             name="Bot Information"
@@ -61,7 +61,7 @@ class general(commands.Cog, name="general"):
         embed = discord.Embed(
             title="**Server Name:**",
             description=f"{server}",
-            color=0x00FF00
+            color=config.success
         )
         embed.set_thumbnail(
             url=server.icon_url
@@ -97,7 +97,7 @@ class general(commands.Cog, name="general"):
         Check if the bot is alive.
         """
         embed = discord.Embed(
-            color=0x00FF00
+            color=config.success
         )
         embed.add_field(
             name="Pong!",
@@ -134,7 +134,7 @@ class general(commands.Cog, name="general"):
         embed = discord.Embed(
             title="A new poll has been created!",
             description=f"{poll_title}",
-            color=0x00FF00
+            color=config.success
         )
         embed.set_footer(
             text=f"Poll created by: {context.message.author} • React to vote!"
@@ -157,7 +157,7 @@ class general(commands.Cog, name="general"):
         embed = discord.Embed(
             title="**My Answer:**",
             description=f"{answers[random.randint(0, len(answers))]}",
-            color=0x00FF00
+            color=config.success
         )
         embed.set_footer(
             text=f"Question asked by: {context.message.author}"
@@ -178,7 +178,7 @@ class general(commands.Cog, name="general"):
             embed = discord.Embed(
                 title=":information_source: Info",
                 description=f"Bitcoin price is: ${response['bpi']['USD']['rate']}",
-                color=0x00FF00
+                color=config.success
             )
             await context.send(embed=embed)
 

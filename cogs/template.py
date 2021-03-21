@@ -15,6 +15,9 @@ class Template(commands.Cog, name="template"):
     # Here you can just add your own commands, you'll always need to provide "self" as first parameter.
     @commands.command(name="testcommand")
     async def testcommand(self, context):
+        """
+        This is a testing command that does nothing.
+        """
         # Do your stuff here
 
         # Don't forget to remove "pass", that's just because there's no content in the method.

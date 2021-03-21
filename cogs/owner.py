@@ -17,7 +17,7 @@ class owner(commands.Cog, name="owner"):
         if context.message.author.id in config.OWNERS:
             embed = discord.Embed(
                 description="Shutting down. Bye! :wave:",
-                color=0x00FF00
+                color=config.success
             )
             await context.send(embed=embed)
             await self.bot.logout()
@@ -26,7 +26,7 @@ class owner(commands.Cog, name="owner"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0xFF0000
+                color=config.error
             )
             await context.send(embed=embed)
 
@@ -41,7 +41,7 @@ class owner(commands.Cog, name="owner"):
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0xFF0000
+                color=config.error
             )
             await context.send(embed=embed)
 
@@ -53,14 +53,14 @@ class owner(commands.Cog, name="owner"):
         if context.message.author.id in config.OWNERS:
             embed = discord.Embed(
                 description=args,
-                color=0x00FF00
+                color=config.success
             )
             await context.send(embed=embed)
         else:
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0xFF0000
+                color=config.error
             )
             await context.send(embed=embed)
 
@@ -89,7 +89,7 @@ class owner(commands.Cog, name="owner"):
                 embed = discord.Embed(
                     title="User Blacklisted",
                     description=f"**{member.name}** has been successfully added to the blacklist",
-                    color=0x00FF00
+                    color=config.success
                 )
                 embed.set_footer(
                     text=f"There are now {len(config.BLACKLIST)} users in the blacklist"
@@ -99,14 +99,14 @@ class owner(commands.Cog, name="owner"):
                 embed = discord.Embed(
                     title="Error!",
                     description=f"An unknown error occurred when trying to add **{member.name}** to the blacklist.",
-                    color=0xFF0000
+                    color=config.error
                 )
                 await context.send(embed=embed)
         else:
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0xFF0000
+                color=config.error
             )
             await context.send(embed=embed)
 
@@ -122,7 +122,7 @@ class owner(commands.Cog, name="owner"):
                 embed = discord.Embed(
                     title="User Unblacklisted",
                     description=f"**{member.name}** has been successfully removed from the blacklist",
-                    color=0x00FF00
+                    color=config.success
                 )
                 embed.set_footer(
                     text=f"There are now {len(config.BLACKLIST)} users in the blacklist"
@@ -132,14 +132,14 @@ class owner(commands.Cog, name="owner"):
                 embed = discord.Embed(
                     title="Error!",
                     description=f"An unknown error occurred when trying to remove **{member.name}** from the blacklist.",
-                    color=0xFF0000
+                    color=config.error
                 )
                 await context.send(embed=embed)
         else:
             embed = discord.Embed(
                 title="Error!",
                 description="You don't have the permission to use this command.",
-                color=0xFF0000
+                color=config.error
             )
             await context.send(embed=embed)
 
