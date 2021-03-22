@@ -1,6 +1,9 @@
 # Updates List
 Here is the list of all the updates that I made on this template.
 
+### Version 2.4.2
+* Blacklisted users are being ignored when executing a command
+
 ### Version 2.4.1
 * Added config import to moderation cog
 

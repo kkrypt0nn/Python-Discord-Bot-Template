@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 2.4.1
+Version: 2.4.2
 """
 
 import discord, asyncio, os, platform, sys
@@ -91,19 +91,10 @@ async def on_message(message):
 	# Ignores if a command is being executed by a bot or by the bot itself
 	if message.author == bot.user or message.author.bot:
 		return
-	else:
-		if message.author.id not in config.BLACKLIST:
-			# Process the command if the user is not blacklisted
-			await bot.process_commands(message)
-		else:
-			# Send a message to let the user know he's blacklisted
-			context = await bot.get_context(message)
-			embed = discord.Embed(
-				title="You're blacklisted!",
-				description="Ask the owner to remove you from the list if you think it's not normal.",
-				color=config.error
-			)
-			await context.send(embed=embed)
+	# Ignores if a command is being executed by a blacklisted user
+	if message.author.id in config.BLACKLIST:
+		return
+	await bot.process_commands(message)
 
 # The code in this event is executed every time a command has been *successfully* executed
 @bot.event
