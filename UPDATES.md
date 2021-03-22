@@ -1,6 +1,9 @@
 # Updates List
 Here is the list of all the updates that I made on this template.
 
+### Version 2.4.1
+* Added config import to moderation cog
+
 ### Version 2.4
 * Added some fun commands
 * Colors are saved in the [config file](config.py) for easier usage

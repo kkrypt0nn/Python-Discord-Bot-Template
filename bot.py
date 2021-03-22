@@ -3,12 +3,13 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 2.4
+Version: 2.4.1
 """
 
 import discord, asyncio, os, platform, sys
 from discord.ext.commands import Bot
 from discord.ext import commands
+
 if not os.path.isfile("config.py"):
 	sys.exit("'config.py' not found! Please add it and try again.")
 else:
