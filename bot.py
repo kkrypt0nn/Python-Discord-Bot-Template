@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 2.4.2
+Version: 2.4.3
 """
 
 import discord, asyncio, os, platform, sys
@@ -45,7 +45,7 @@ intents.presences = True
 intents.members = True
 """
 
-intents = discord.Intents.default()
+intents = discord.Intents.all()
 
 bot = Bot(command_prefix=config.BOT_PREFIX, intents=intents)
 
