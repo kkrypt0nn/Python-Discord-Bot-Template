@@ -15,12 +15,14 @@ When I first started creating my discord bot it took me a while to get everythin
 
 Please note that this template is not supposed to be the best template, but a good template to start learning how discord.py works and to make your own bot in a simple way. You're
 
-If you play to use this template to make your own template or bot, please give me credits, it would be greatly appreciated.
+If you plan to use this template to make your own template or bot, you **have to** give me credits somewhere and keep the copyright notice on the files. See [the license file](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/blob/master/LICENSE.md) for more information.
 
 ## Authors
-* **[Krypton (@kkrypt0nn)](https://github.com/kkrypt0nn)** - The only and one developer
+* **[Krypton (@kkrypt0nn)](https://github.com/kkrypt0nn)**
 
 ## Support
+
+Before requesting support you should know that this template requires you to have a **basic knowledge** of Python. Do not use this template if you don't know the basics. [Here's](https://pythondiscord.com/pages/resources) a link for resources to learn python.
 
 If you need some help for something, do not hesitate to join my discord server [here](https://discord.gg/HzJ3Gfr).
 
