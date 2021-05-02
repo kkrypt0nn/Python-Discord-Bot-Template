@@ -1,11 +1,16 @@
-import os, sys, discord
+import os
+import sys
+
+import yaml
 from discord.ext import commands
 
-# Only if you want to use variables that are in the config.py file.
-if not os.path.isfile("config.py"):
-    sys.exit("'config.py' not found! Please add it and try again.")
+# Only if you want to use variables that are in the config.yaml file.
+if not os.path.isfile("config.yaml"):
+    sys.exit("'config.yaml' not found! Please add it and try again.")
 else:
-    import config
+    with open("config.yaml") as file:
+        config = yaml.load(file, Loader=yaml.FullLoader)
+
 
 # Here we name the cog and create a new class for the cog.
 class Template(commands.Cog, name="template"):
@@ -22,6 +27,7 @@ class Template(commands.Cog, name="template"):
 
         # Don't forget to remove "pass", that's just because there's no content in the method.
         pass
+
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 def setup(bot):

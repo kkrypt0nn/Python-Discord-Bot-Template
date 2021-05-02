@@ -1,0 +1,14 @@
+bot_prefix: "YOUR_BOT_PREFIX_HERE"
+token: "YOUR_BOT_TOKEN_HERE"
+application_id: "YOUR_APPLICATION_ID"
+owners:
+  - 123456789
+  - 987654321
+blacklist:
+  - 123456789
+  - 987654321
+main_color: 0xD75BF4
+error: 0xE02B2B
+success: 0x42F56C
+warning: 0xF59E42
+info: 0x4299F5

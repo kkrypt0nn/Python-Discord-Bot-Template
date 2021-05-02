@@ -1,3 +1,4 @@
 aiohttp
 asyncio
 discord.py
+pyyaml

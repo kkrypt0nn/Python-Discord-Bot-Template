@@ -1,10 +1,20 @@
-import os, sys, discord, platform, random, aiohttp, json
+import json
+import os
+import platform
+import random
+import sys
+
+import aiohttp
+import discord
+import yaml
 from discord.ext import commands
 
-if not os.path.isfile("config.py"):
-    sys.exit("'config.py' not found! Please add it and try again.")
+if not os.path.isfile("config.yaml"):
+    sys.exit("'config.yaml' not found! Please add it and try again.")
 else:
-    import config
+    with open("config.yaml") as file:
+        config = yaml.load(file, Loader=yaml.FullLoader)
+
 
 class general(commands.Cog, name="general"):
     def __init__(self, bot):
@@ -17,7 +27,7 @@ class general(commands.Cog, name="general"):
         """
         embed = discord.Embed(
             description="Used Krypton's template",
-            color=config.success
+            color=config["success"]
         )
         embed.set_author(
             name="Bot Information"
@@ -34,7 +44,7 @@ class general(commands.Cog, name="general"):
         )
         embed.add_field(
             name="Prefix:",
-            value=f"{config.BOT_PREFIX}",
+            value=f"{config['bot_prefix']}",
             inline=False
         )
         embed.set_footer(
@@ -62,7 +72,7 @@ class general(commands.Cog, name="general"):
         embed = discord.Embed(
             title="**Server Name:**",
             description=f"{server}",
-            color=config.success
+            color=config["success"]
         )
         embed.set_thumbnail(
             url=server.icon_url
@@ -98,7 +108,7 @@ class general(commands.Cog, name="general"):
         Check if the bot is alive.
         """
         embed = discord.Embed(
-            color=config.success
+            color=config["success"]
         )
         embed.add_field(
             name="Pong!",
@@ -116,7 +126,8 @@ class general(commands.Cog, name="general"):
         Get the invite link of the bot to be able to invite it.
         """
         await context.send("I sent you a private message!")
-        await context.author.send(f"Invite me by clicking here: https://discordapp.com/oauth2/authorize?&client_id={config.APPLICATION_ID}&scope=bot&permissions=8")
+        await context.author.send(
+            f"Invite me by clicking here: https://discordapp.com/oauth2/authorize?&client_id={config.APPLICATION_ID}&scope=bot&permissions=8")
 
     @commands.command(name="server")
     async def server(self, context):
@@ -135,7 +146,7 @@ class general(commands.Cog, name="general"):
         embed = discord.Embed(
             title="A new poll has been created!",
             description=f"{poll_title}",
-            color=config.success
+            color=config["success"]
         )
         embed.set_footer(
             text=f"Poll created by: {context.message.author} • React to vote!"
@@ -158,7 +169,7 @@ class general(commands.Cog, name="general"):
         embed = discord.Embed(
             title="**My Answer:**",
             description=f"{answers[random.randint(0, len(answers))]}",
-            color=config.success
+            color=config["success"]
         )
         embed.set_footer(
             text=f"Question asked by: {context.message.author}"
@@ -179,11 +190,9 @@ class general(commands.Cog, name="general"):
             embed = discord.Embed(
                 title=":information_source: Info",
                 description=f"Bitcoin price is: ${response['bpi']['USD']['rate']}",
-                color=config.success
+                color=config["success"]
             )
             await context.send(embed=embed)
-
-
 
 
 def setup(bot):
