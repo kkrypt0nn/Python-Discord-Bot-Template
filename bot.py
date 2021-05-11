@@ -113,26 +113,5 @@ async def on_command_completion(ctx):
         f"Executed {executedCommand} command in {ctx.guild.name} (ID: {ctx.message.guild.id}) by {ctx.message.author} (ID: {ctx.message.author.id})")
 
 
-# The code in this event is executed every time a valid commands catches an error
-@bot.event
-async def on_command_error(context, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        embed = discord.Embed(
-            title="Error!",
-            description="This command is on a %.2fs cool down" % error.retry_after,
-            color=config["error"]
-        )
-        await context.send(embed=embed)
-    elif isinstance(error, commands.MissingPermissions):
-        embed = discord.Embed(
-            title="Error!",
-            description="You are missing the permission `" + ", ".join(
-                error.missing_perms) + "` to execute this command!",
-            color=config["error"]
-        )
-        await context.send(embed=embed)
-    raise error
-
-
 # Run the bot with the token
 bot.run(config["token"])
