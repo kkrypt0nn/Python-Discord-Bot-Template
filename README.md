@@ -17,7 +17,7 @@ I would've been happy if there were any template existing. But there wasn't any 
 to create my own template to let <b>you</b> guys create your discord bot in an easy way.
 
 Please note that this template is not supposed to be the best template, but a good template to start learning how
-discord.py works and to make your own bot in a simple way. You're
+discord.py works and to make your own bot in a simple way.
 
 If you plan to use this template to make your own template or bot, you **have to** give me credits somewhere and keep
 the copyright notice on the files.
