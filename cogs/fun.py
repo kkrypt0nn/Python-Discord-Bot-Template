@@ -3,9 +3,11 @@ import os
 import random
 import sys
 
+import aiohttp
 import discord
 import yaml
 from discord.ext import commands
+from discord.ext.commands import BucketType
 
 if not os.path.isfile("config.yaml"):
     sys.exit("'config.yaml' not found! Please add it and try again.")
@@ -17,6 +19,41 @@ else:
 class Fun(commands.Cog, name="fun"):
     def __init__(self, bot):
         self.bot = bot
+
+    """
+    Why 1 and 86400?
+    -> Because the user should be able to use the command *once* every *86400* seconds
+    
+    Why BucketType.user?
+    -> Because the cool down only affects the current user, if you want other types of cool downs, here are they:
+    - BucketType.default for a global basis.
+    - BucketType.user for a per-user basis.
+    - BucketType.server for a per-server basis.
+    - BucketType.channel for a per-channel basis.
+    """
+
+    @commands.command(name="dailyfact")
+    @commands.cooldown(1, 86400, BucketType.user)
+    async def dailyfact(self, context):
+        """
+        Get a daily fact, command can only be ran once every day per user.
+        """
+        # This will prevent your bot from stopping everything when doing a web request - see: https://discordpy.readthedocs.io/en/stable/faq.html#how-do-i-make-a-web-request
+        async with aiohttp.ClientSession() as session:
+            async with session.get("https://uselessfacts.jsph.pl/random.json?language=en") as request:
+                if request.status == 200:
+                    data = await request.json()
+                    embed = discord.Embed(description=data["text"], color=config["main_color"])
+                    await context.send(embed=embed)
+                else:
+                    embed = discord.Embed(
+                        title="Error!",
+                        description="There is something wrong with the API, please try again later",
+                        color=config["error"]
+                    )
+                    await context.send(embed=embed)
+                    # We need to reset the cool down since the user didn't got his daily fact.
+                    self.dailyfact.reset_cooldown(context)
 
     @commands.command(name="dick")
     async def dick(self, context, member: discord.Member = None):

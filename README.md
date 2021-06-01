@@ -13,11 +13,11 @@
 This repository is a template that everyone can use for the start of their discord bot.
 
 When I first started creating my discord bot it took me a while to get everything setup and working with cogs and more.
-I would've been happy if there were any template existing. But there wasn't any existing template. That's why I decided
-to create my own template to let <b>you</b> guys create your discord bot in an easy way.
+I would've been happy if there were any template existing. However, there wasn't any existing template. That's why I
+decided to create my own template to let <b>you</b> guys create your discord bot easily.
 
 Please note that this template is not supposed to be the best template, but a good template to start learning how
-discord.py works and to make your own bot in a simple way. You're
+discord.py works and to make your own bot in a simple way.
 
 If you plan to use this template to make your own template or bot, you **have to** give me credits somewhere and keep
 the copyright notice on the files.
@@ -30,9 +30,9 @@ information.
 
 ## Support
 
-Before requesting support you should know that this template requires you to have a **basic knowledge** of Python. Do
-not use this template if you don't know the basics. [Here's](https://pythondiscord.com/pages/resources) a link for
-resources to learn python.
+Before requesting support, you should know that this template requires you to have at least a **basic knowledge** of
+Python and the library is made for advanced users. Do not use this template if you don't know the
+basics. [Here's](https://pythondiscord.com/pages/resources) a link for resources to learn python.
 
 If you need some help for something, do not hesitate to join my discord server [here](https://discord.gg/HzJ3Gfr).
 
@@ -40,7 +40,7 @@ All the updates of the template are available [here](UPDATES.md).
 
 ## How to download it
 
-This repository is now a template, on the top left you can simple click on "**Use this template**" to create a GitHub
+This repository is now a template, on the top left you can simply click on "**Use this template**" to create a GitHub
 repository based on this template.
 
 Alternatively you can do the following:
@@ -54,7 +54,7 @@ Alternatively you can do the following:
   https://discordapp.com/oauth2/authorize?&client_id=YOUR_APPLICATION_ID_HERE&scope=bot&permissions=8 (
   Replace `YOUR_APPLICATION_ID_HERE` with the application ID)
 
-## How to setup
+## How to set up
 
 To set up the bot I made it as simple as possible. I now created a [config.yaml](config.yaml) file where you can put the
 needed things to edit.
@@ -71,7 +71,8 @@ Here is an explanation of what everything is:
 
 ## How to start
 
-To start the bot you simply need to launch, either your terminal (Linux, Mac & Windows) or your Command Prompt (Windows)
+To start the bot you simply need to launch, either your terminal (Linux, Mac & Windows), or your Command Prompt (
+Windows)
 .
 
 Before running the bot you will need to install all the requirements with this command:

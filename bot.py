@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 2.5
+Version: 2.6
 """
 
 import os
@@ -117,9 +117,12 @@ async def on_command_completion(ctx):
 @bot.event
 async def on_command_error(context, error):
     if isinstance(error, commands.CommandOnCooldown):
+        minutes, seconds = divmod(error.retry_after, 60)
+        hours, minutes = divmod(minutes, 60)
+        hours = hours % 24
         embed = discord.Embed(
-            title="Error!",
-            description="This command is on a %.2fs cool down" % error.retry_after,
+            title="Hey, please slow down!",
+            description=f"You can use this command again in {f'{round(hours)} hours' if round(hours) > 0 else ''} {f'{round(minutes)} minutes' if round(minutes) > 0 else ''} {f'{round(seconds)} seconds' if round(seconds) > 0 else ''}.",
             color=config["error"]
         )
         await context.send(embed=embed)

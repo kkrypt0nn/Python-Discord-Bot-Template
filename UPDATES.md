@@ -2,6 +2,12 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 2.6
+
+* Added new `dailyfact` command that gives a random fact every day, using cool down
+* Fixed some typos in [README.md](README.md)
+* Remade the `on_command_error` event for `CommandOnCooldown`
+
 ### Version 2.5
 
 * Code reformat
