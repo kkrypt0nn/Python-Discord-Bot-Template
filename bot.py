@@ -54,7 +54,7 @@ intents.members = True
 
 intents = discord.Intents.default()
 
-bot = Bot(command_prefix=config["bot_prefix"], intents=intents)
+bot = Bot(command_prefix="+", intents=intents)
 
 
 # The code in this even is executed when the bot is ready
@@ -138,4 +138,5 @@ async def on_command_error(context, error):
 
 
 # Run the bot with the token
-bot.run(config["token"])
+token = print("token here")
+bot.run(token)
