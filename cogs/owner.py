@@ -27,7 +27,6 @@ class owner(commands.Cog, name="owner"):
                 color=config["success"]
             )
             await context.send(embed=embed)
-            await self.bot.logout()
             await self.bot.close()
         else:
             embed = discord.Embed(
