@@ -142,6 +142,9 @@ class general(commands.Cog, name="general"):
         """
         Create a poll where members can vote.
         """
+        if not args:
+            await context.send("No poll title was given. Try again.")
+            return
         poll_title = " ".join(args)
         embed = discord.Embed(
             title="A new poll has been created!",
