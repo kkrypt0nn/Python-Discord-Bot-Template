@@ -109,11 +109,15 @@ class general(commands.Cog, name="general"):
         """
         embed = discord.Embed(
             color=config["success"]
+            color=config["success"],
+            title="Pong! :ping_pong:",
         )
         embed.add_field(
             name="Pong!",
             value=":ping_pong:",
             inline=True
+            name="Latency",
+            value=f"`{round(self.bot.latency * 1000)}ms`",
         )
         embed.set_footer(
             text=f"Pong request by {context.message.author}"
