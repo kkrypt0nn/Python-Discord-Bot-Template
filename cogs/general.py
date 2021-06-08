@@ -109,7 +109,6 @@ class general(commands.Cog, name="general"):
         """
         embed = discord.Embed(
             color=config["success"]
-            color=config["success"],
             title="Pong! :ping_pong:",
         )
         embed.add_field(
