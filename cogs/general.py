@@ -108,15 +108,9 @@ class general(commands.Cog, name="general"):
         Check if the bot is alive.
         """
         embed = discord.Embed(
-            color=config["success"]
+            color=config["success"],
             title="Pong! :ping_pong:",
-        )
-        embed.add_field(
-            name="Pong!",
-            value=":ping_pong:",
-            inline=True
-            name="Latency",
-            value=f"`{round(self.bot.latency * 1000)}ms`",
+            description=f"`{round(self.bot.latency * 1000)}ms`",
         )
         embed.set_footer(
             text=f"Pong request by {context.message.author}"
@@ -146,7 +140,11 @@ class general(commands.Cog, name="general"):
         Create a poll where members can vote.
         """
         if not args:
-            await context.send("No poll title was given. Try again.")
+            embed = discord.Embed(
+                desription="No poll title was given. Try again.",
+                color=config["error"],
+            )
+            await context.send(embed=embed)
             return
         poll_title = " ".join(args)
         embed = discord.Embed(
