@@ -38,6 +38,14 @@ If you need some help for something, do not hesitate to join my discord server [
 
 All the updates of the template are available [here](UPDATES.md).
 
+## Disclaimer
+
+**Nothing** is being saved during runtime in the configuration file, please take a look at the [TODO file](TODO.md) to
+know if this has been implemented.
+
+Please do not open issues or pull requests about things that are written in the [TODO file](TODO.md), they are **
+already** under work for the version 3.0 of the template.
+
 ## How to download it
 
 This repository is now a template, on the top left you can simply click on "**Use this template**" to create a GitHub
@@ -101,10 +109,6 @@ If you have just installed python today, then you just need to use the following
 python bot.py
 ```
 
-## Built With
-
-* [Python 3.8](https://www.python.org/)
-
 ## Issues or Questions
 
 If you have any issues or questions of how to code a specific command, you can:
@@ -119,9 +123,9 @@ Me or other people will take their time to answer and help you.
 We use [SemVer](http://semver.org) for versioning. For the versions available, see
 the [tags on this repository](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/tags).
 
-## Bots who used this template
+## Built With
 
-*DM Krypton#7331 to get yourself in this list*
+* [Python 3.8](https://www.python.org/)
 
 ## License
 

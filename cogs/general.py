@@ -1,3 +1,11 @@
+""""
+Copyright © Krypton 2021 - https://github.com/kkrypt0nn
+Description:
+This is a template to create your own discord bot in python.
+
+Version: 2.7
+"""
+
 import json
 import os
 import platform
@@ -108,15 +116,9 @@ class general(commands.Cog, name="general"):
         Check if the bot is alive.
         """
         embed = discord.Embed(
+            title="🏓 Pong!",
+            description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
             color=config["success"]
-        )
-        embed.add_field(
-            name="Pong!",
-            value=":ping_pong:",
-            inline=True
-        )
-        embed.set_footer(
-            text=f"Pong request by {context.message.author}"
         )
         await context.send(embed=embed)
 
@@ -125,27 +127,40 @@ class general(commands.Cog, name="general"):
         """
         Get the invite link of the bot to be able to invite it.
         """
-        await context.send("I sent you a private message!")
-        await context.author.send(
-            f"Invite me by clicking here: https://discordapp.com/oauth2/authorize?&client_id={config.APPLICATION_ID}&scope=bot&permissions=8")
+        embed = discord.Embed(
+            description=f"Invite me by clicking [here](https://discordapp.com/oauth2/authorize?&client_id={config['application_id']}&scope=bot&permissions=470150263).",
+            color=config['main_color']
+        )
+        try:
+            # To know what permissions to give to your bot, please see here: https://discordapi.com/permissions.html and remember to not give Administrator permissions.
+            await context.author.send(embed=embed)
+            await context.send("I sent you a private message!")
+        except discord.Forbidden:
+            await context.send(embed=embed)
 
-    @commands.command(name="server")
+    @commands.command(name="server", aliases=["support", "supportserver"])
     async def server(self, context):
         """
         Get the invite link of the discord server of the bot for some support.
         """
-        await context.send("I sent you a private message!")
-        await context.author.send("Join my discord server by clicking here: https://discord.gg/HzJ3Gfr")
+        embed = discord.Embed(
+            description=f"Join the support server for the bot by clicking [here](https://discord.gg/HzJ3Gfr).",
+            color=config['main_color']
+        )
+        try:
+            await context.author.send(embed=embed)
+            await context.send("I sent you a private message!")
+        except discord.Forbidden:
+            await context.send(embed=embed)
 
     @commands.command(name="poll")
-    async def poll(self, context, *args):
+    async def poll(self, context, *, title):
         """
         Create a poll where members can vote.
         """
-        poll_title = " ".join(args)
         embed = discord.Embed(
             title="A new poll has been created!",
-            description=f"{poll_title}",
+            description=f"{title}",
             color=config["success"]
         )
         embed.set_footer(
@@ -157,7 +172,7 @@ class general(commands.Cog, name="general"):
         await embed_message.add_reaction("🤷")
 
     @commands.command(name="8ball")
-    async def eight_ball(self, context, *args):
+    async def eight_ball(self, context, *, question):
         """
         Ask any question to the bot.
         """
@@ -172,7 +187,7 @@ class general(commands.Cog, name="general"):
             color=config["success"]
         )
         embed.set_footer(
-            text=f"Question asked by: {context.message.author}"
+            text=f"The question was: {question}"
         )
         await context.send(embed=embed)
 

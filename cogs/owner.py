@@ -1,3 +1,11 @@
+""""
+Copyright © Krypton 2021 - https://github.com/kkrypt0nn
+Description:
+This is a template to create your own discord bot in python.
+
+Version: 2.7
+"""
+
 import os
 import sys
 
@@ -27,7 +35,6 @@ class owner(commands.Cog, name="owner"):
                 color=config["success"]
             )
             await context.send(embed=embed)
-            await self.bot.logout()
             await self.bot.close()
         else:
             embed = discord.Embed(
@@ -85,7 +92,7 @@ class owner(commands.Cog, name="owner"):
             await context.send(embed=embed)
 
     @blacklist.command(name="add")
-    async def blacklist_add(self, context, member: discord.Member):
+    async def blacklist_add(self, context, member: discord.Member = None):
         """
         Lets you add a user from not being able to use the bot.
         """
@@ -118,7 +125,7 @@ class owner(commands.Cog, name="owner"):
             await context.send(embed=embed)
 
     @blacklist.command(name="remove")
-    async def blacklist_remove(self, context, member: discord.Member):
+    async def blacklist_remove(self, context, member: discord.Member = None):
         """
         Lets you remove a user from not being able to use the bot.
         """
@@ -127,7 +134,7 @@ class owner(commands.Cog, name="owner"):
             try:
                 config["blacklist"].remove(userID)
                 embed = discord.Embed(
-                    title="User Unblacklisted",
+                    title="User removed from blacklist",
                     description=f"**{member.name}** has been successfully removed from the blacklist",
                     color=config["success"]
                 )

@@ -1,3 +1,11 @@
+""""
+Copyright © Krypton 2021 - https://github.com/kkrypt0nn
+Description:
+This is a template to create your own discord bot in python.
+
+Version: 2.7
+"""
+
 import asyncio
 import os
 import random
@@ -54,18 +62,6 @@ class Fun(commands.Cog, name="fun"):
                     await context.send(embed=embed)
                     # We need to reset the cool down since the user didn't got his daily fact.
                     self.dailyfact.reset_cooldown(context)
-
-    @commands.command(name="dick")
-    async def dick(self, context, member: discord.Member = None):
-        """
-        Get the dick's length of a user or yourself.
-        """
-        if not member:
-            member = context.author
-        length = random.randrange(15)
-        embed = discord.Embed(description=f"8{'=' * length}D", color=config["main_color"])
-        embed.set_author(name=f"{member.display_name}'s Dick", icon_url=member.avatar_url)
-        await context.send(embed=embed)
 
     @commands.command(name="rps")
     async def rock_paper_scissors(self, context):

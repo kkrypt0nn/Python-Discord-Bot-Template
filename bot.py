@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 2.6
+Version: 2.7
 """
 
 import os
@@ -131,6 +131,14 @@ async def on_command_error(context, error):
             title="Error!",
             description="You are missing the permission `" + ", ".join(
                 error.missing_perms) + "` to execute this command!",
+            color=config["error"]
+        )
+        await context.send(embed=embed)
+    elif isinstance(error, commands.MissingRequiredArgument):
+        embed = discord.Embed(
+            title="Error!",
+            description=str(error).capitalize(),
+            # We need to capitalize because the command arguments have no capital letter in the code.
             color=config["error"]
         )
         await context.send(embed=embed)

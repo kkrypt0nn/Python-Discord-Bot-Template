@@ -2,6 +2,19 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 2.7
+
+* Added a check for `commands.MissingRequiredArgument` in the error handler
+* Added a disclaimer section in the [README](README.md) file
+* Added the latency of the bot in the `ping` command
+* Created the [TODO list](TODO.md) file
+* Fixed some error embeds having success (green) colors
+* Removed an unnecessary `self.bot.logout()` statement
+* Removed the `dick` command, as I want to keep this template safe for work
+* Renamed the names of the arguments in some commands
+* The bot now **tries** to send an embed in the private message of the command author for the `invite` and `server` commands, if this was not successful it will be sent in the channel
+
+
 ### Version 2.6
 
 * Added new `dailyfact` command that gives a random fact every day, using cool down
