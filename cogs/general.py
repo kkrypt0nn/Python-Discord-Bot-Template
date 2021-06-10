@@ -11,11 +11,13 @@ import os
 import platform
 import random
 import sys
+import time
 
 import aiohttp
 import discord
 import yaml
 from discord.ext import commands
+import utils.helper as helper
 
 if not os.path.isfile("config.yaml"):
     sys.exit("'config.yaml' not found! Please add it and try again.")
@@ -115,11 +117,14 @@ class general(commands.Cog, name="general"):
         """
         Check if the bot is alive.
         """
+        uptime = time.time() - self.bot.startTime
+        pretty_uptime = helper.pretty_time_delta(uptime)
         embed = discord.Embed(
             title="🏓 Pong!",
-            description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
             color=config["success"]
         )
+        embed.add_field(name="Uptime", value=f"`{pretty_uptime}`")
+        embed.add_field(name="Latency", value=f"`{round(self.bot.latency * 1000)}ms`")
         await context.send(embed=embed)
 
     @commands.command(name="invite")

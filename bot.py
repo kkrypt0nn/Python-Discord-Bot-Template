@@ -10,6 +10,7 @@ import os
 import platform
 import random
 import sys
+import time
 
 import discord
 import yaml
@@ -56,6 +57,8 @@ intents = discord.Intents.default()
 
 bot = Bot(command_prefix=config["bot_prefix"], intents=intents)
 
+# just to get bot uptime
+bot.startTime = time.time()
 
 # The code in this even is executed when the bot is ready
 @bot.event
