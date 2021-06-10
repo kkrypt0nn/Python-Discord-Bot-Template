@@ -137,6 +137,7 @@ class moderation(commands.Cog, name="moderation"):
                 title=f"Hack-Ban | {user}",
                 color=config["success"]
             )
+            embed.set_thumbnail(url=user.avatar_url)
             embed.add_field(
                 name="User",
                 value=user.mention,
