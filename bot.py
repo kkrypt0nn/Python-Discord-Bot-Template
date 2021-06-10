@@ -23,7 +23,7 @@ else:
     with open("config.yaml") as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
 
-"""	
+"""
 Setup bot intents (events restrictions)
 For more information about intents, please go to the following websites:
 https://discordpy.readthedocs.io/en/latest/intents.html
@@ -58,7 +58,7 @@ intents = discord.Intents.default()
 bot = Bot(command_prefix=config["bot_prefix"], intents=intents)
 
 # just to get bot uptime
-bot.startTime = time.time()
+bot.start_time = time.time()
 
 # The code in this even is executed when the bot is ready
 @bot.event

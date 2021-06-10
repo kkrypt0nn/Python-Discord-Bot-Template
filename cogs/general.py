@@ -6,6 +6,7 @@ This is a template to create your own discord bot in python.
 Version: 2.7
 """
 
+import datetime
 import json
 import os
 import platform
@@ -17,7 +18,6 @@ import aiohttp
 import discord
 import yaml
 from discord.ext import commands
-import utils.helper as helper
 
 if not os.path.isfile("config.yaml"):
     sys.exit("'config.yaml' not found! Please add it and try again.")
@@ -115,10 +115,10 @@ class general(commands.Cog, name="general"):
     @commands.command(name="ping")
     async def ping(self, context):
         """
-        Check if the bot is alive.
+        Get the uptime and latency of the bot
         """
-        uptime = time.time() - self.bot.startTime
-        pretty_uptime = helper.pretty_time_delta(uptime)
+        uptime = time.time() - self.bot.start_time
+        pretty_uptime = str(datetime.timedelta(seconds=round(uptime)))
         embed = discord.Embed(
             title="🏓 Pong!",
             color=config["success"]
