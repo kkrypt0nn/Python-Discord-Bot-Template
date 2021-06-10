@@ -57,7 +57,7 @@ intents = discord.Intents.default()
 
 bot = Bot(command_prefix=config["bot_prefix"], intents=intents)
 
-# just to get bot uptime
+# Get the start time of the bot
 bot.start_time = time.time()
 
 # The code in this even is executed when the bot is ready
