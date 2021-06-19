@@ -6,18 +6,18 @@ This is a template to create your own discord bot in python.
 Version: 2.7
 """
 
+import json
 import os
 import sys
 
 import discord
-import yaml
 from discord.ext import commands
 
-if not os.path.isfile("config.yaml"):
-    sys.exit("'config.yaml' not found! Please add it and try again.")
+if not os.path.isfile("config.json"):
+    sys.exit("'config.json' not found! Please add it and try again.")
 else:
-    with open("config.yaml") as file:
-        config = yaml.load(file, Loader=yaml.FullLoader)
+    with open("config.json") as file:
+        config = json.load(file)
 
 
 class Help(commands.Cog, name="help"):
@@ -32,7 +32,7 @@ class Help(commands.Cog, name="help"):
         prefix = config["bot_prefix"]
         if not isinstance(prefix, str):
             prefix = prefix[0]
-        embed = discord.Embed(title="Help", description="List of available commands:", color=config["success"])
+        embed = discord.Embed(title="Help", description="List of available commands:", color=0x42F56C)
         for i in self.bot.cogs:
             cog = self.bot.get_cog(i.lower())
             commands = cog.get_commands()

@@ -3,24 +3,24 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 2.7
+Version: 2.8
 """
 
+import json
 import os
 import platform
 import random
 import sys
 
 import discord
-import yaml
 from discord.ext import commands, tasks
 from discord.ext.commands import Bot
 
-if not os.path.isfile("config.yaml"):
-    sys.exit("'config.yaml' not found! Please add it and try again.")
+if not os.path.isfile("config.json"):
+    sys.exit("'config.json' not found! Please add it and try again.")
 else:
-    with open("config.yaml") as file:
-        config = yaml.load(file, Loader=yaml.FullLoader)
+    with open("config.json") as file:
+        config = json.load(file)
 
 """	
 Setup bot intents (events restrictions)
@@ -97,8 +97,9 @@ async def on_message(message):
     if message.author == bot.user or message.author.bot:
         return
     # Ignores if a command is being executed by a blacklisted user
-
-    if message.author.id in config["blacklist"]:
+    with open("blacklist.json") as file:
+        blacklist = json.load(file)
+    if message.author.id in blacklist["ids"]:
         return
     await bot.process_commands(message)
 
@@ -123,7 +124,7 @@ async def on_command_error(context, error):
         embed = discord.Embed(
             title="Hey, please slow down!",
             description=f"You can use this command again in {f'{round(hours)} hours' if round(hours) > 0 else ''} {f'{round(minutes)} minutes' if round(minutes) > 0 else ''} {f'{round(seconds)} seconds' if round(seconds) > 0 else ''}.",
-            color=config["error"]
+            color=0xE02B2B
         )
         await context.send(embed=embed)
     elif isinstance(error, commands.MissingPermissions):
@@ -131,7 +132,7 @@ async def on_command_error(context, error):
             title="Error!",
             description="You are missing the permission `" + ", ".join(
                 error.missing_perms) + "` to execute this command!",
-            color=config["error"]
+            color=0xE02B2B
         )
         await context.send(embed=embed)
     elif isinstance(error, commands.MissingRequiredArgument):
@@ -139,7 +140,7 @@ async def on_command_error(context, error):
             title="Error!",
             description=str(error).capitalize(),
             # We need to capitalize because the command arguments have no capital letter in the code.
-            color=config["error"]
+            color=0xE02B2B
         )
         await context.send(embed=embed)
     raise error

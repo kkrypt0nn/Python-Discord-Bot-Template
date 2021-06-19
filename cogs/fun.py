@@ -7,21 +7,21 @@ Version: 2.7
 """
 
 import asyncio
+import json
 import os
 import random
 import sys
 
 import aiohttp
 import discord
-import yaml
 from discord.ext import commands
 from discord.ext.commands import BucketType
 
-if not os.path.isfile("config.yaml"):
-    sys.exit("'config.yaml' not found! Please add it and try again.")
+if not os.path.isfile("config.json"):
+    sys.exit("'config.json' not found! Please add it and try again.")
 else:
-    with open("config.yaml") as file:
-        config = yaml.load(file, Loader=yaml.FullLoader)
+    with open("config.json") as file:
+        config = json.load(file)
 
 
 class Fun(commands.Cog, name="fun"):
@@ -51,13 +51,13 @@ class Fun(commands.Cog, name="fun"):
             async with session.get("https://uselessfacts.jsph.pl/random.json?language=en") as request:
                 if request.status == 200:
                     data = await request.json()
-                    embed = discord.Embed(description=data["text"], color=config["main_color"])
+                    embed = discord.Embed(description=data["text"], color=0xD75BF4)
                     await context.send(embed=embed)
                 else:
                     embed = discord.Embed(
                         title="Error!",
                         description="There is something wrong with the API, please try again later",
-                        color=config["error"]
+                        color=0xE02B2B
                     )
                     await context.send(embed=embed)
                     # We need to reset the cool down since the user didn't got his daily fact.
@@ -75,7 +75,7 @@ class Fun(commands.Cog, name="fun"):
             "🧻": 1,
             "✂": 2
         }
-        embed = discord.Embed(title="Please choose", color=config["warning"])
+        embed = discord.Embed(title="Please choose", color=0xF59E42)
         embed.set_author(name=context.author.display_name, icon_url=context.author.avatar_url)
         choose_message = await context.send(embed=embed)
         for emoji in reactions:
@@ -93,30 +93,30 @@ class Fun(commands.Cog, name="fun"):
             bot_choice_emote = random.choice(list(reactions.keys()))
             bot_choice_index = reactions[bot_choice_emote]
 
-            result_embed = discord.Embed(color=config["success"])
+            result_embed = discord.Embed(color=0x42F56C)
             result_embed.set_author(name=context.author.display_name, icon_url=context.author.avatar_url)
             await choose_message.clear_reactions()
 
             if user_choice_index == bot_choice_index:
                 result_embed.description = f"**That's a draw!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
-                result_embed.colour = config["warning"]
+                result_embed.colour = 0xF59E42
             elif user_choice_index == 0 and bot_choice_index == 2:
                 result_embed.description = f"**You won!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
-                result_embed.colour = config["success"]
+                result_embed.colour = 0x42F56C
             elif user_choice_index == 1 and bot_choice_index == 0:
                 result_embed.description = f"**You won!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
-                result_embed.colour = config["success"]
+                result_embed.colour = 0x42F56C
             elif user_choice_index == 2 and bot_choice_index == 1:
                 result_embed.description = f"**You won!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
-                result_embed.colour = config["success"]
+                result_embed.colour = 0x42F56C
             else:
                 result_embed.description = f"**I won!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
-                result_embed.colour = config["error"]
+                result_embed.colour = 0xE02B2B
                 await choose_message.add_reaction("🇱")
             await choose_message.edit(embed=result_embed)
         except asyncio.exceptions.TimeoutError:
             await choose_message.clear_reactions()
-            timeout_embed = discord.Embed(title="Too late", color=config["error"])
+            timeout_embed = discord.Embed(title="Too late", color=0xE02B2B)
             timeout_embed.set_author(name=context.author.display_name, icon_url=context.author.avatar_url)
             await choose_message.edit(embed=timeout_embed)
 

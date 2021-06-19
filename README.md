@@ -17,16 +17,15 @@ I would've been happy if there were any template existing. However, there wasn't
 decided to create my own template to let <b>you</b> guys create your discord bot easily.
 
 Please note that this template is not supposed to be the best template, but a good template to start learning how
-discord.py works and to make your own bot in a simple way.
+discord.py works and to make your own bot easily.
 
-If you plan to use this template to make your own template or bot, you **have to** give me credits somewhere and keep
-the copyright notice on the files.
+If you plan to use this template to make your own template or bot, you **have to**:
+
+- Keep the credits, and a link to this repository in all the files that contains my code
+- Keep the same license
+
 See [the license file](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/blob/master/LICENSE.md) for more
-information.
-
-## Authors
-
-* **[Krypton (@kkrypt0nn)](https://github.com/kkrypt0nn)**
+information, I reserve the right to take down any repository that does not meet these requirements.
 
 ## Support
 
@@ -40,8 +39,8 @@ All the updates of the template are available [here](UPDATES.md).
 
 ## Disclaimer
 
-**Nothing** is being saved during runtime in the configuration file, please take a look at the [TODO file](TODO.md) to
-know if this has been implemented.
+When using the template you confirm that you have read the [license](LICENSE.md) and comprehend that I can take down
+your repository if you do not meet these requirements.
 
 Please do not open issues or pull requests about things that are written in the [TODO file](TODO.md), they are **
 already** under work for the version 3.0 of the template.
@@ -64,18 +63,19 @@ Alternatively you can do the following:
 
 ## How to set up
 
-To set up the bot I made it as simple as possible. I now created a [config.yaml](config.yaml) file where you can put the
+To set up the bot I made it as simple as possible. I now created a [config.json](config.json) file where you can put the
 needed things to edit.
 
 Here is an explanation of what everything is:
 
-| Variable              | What it is                                                            |
-| ----------------------| ----------------------------------------------------------------------|
-| YOUR_BOT_PREFIX_HERE  | The prefix(es) of your bot                                            |
-| YOUR_BOT_TOKEN_HERE   | The token of your bot                                                 |
-| APPLICATION_ID        | The application ID of your bot                                        |
-| OWNERS                | The user ID of all the bot owners                                     |
-| BLACKLIST             | The user ID of all the users who can't use the bot                    |
+| Variable                  | What it is                                                            |
+| ------------------------- | ----------------------------------------------------------------------|
+| YOUR_BOT_PREFIX_HERE      | The prefix(es) of your bot                                            |
+| YOUR_BOT_TOKEN_HERE       | The token of your bot                                                 |
+| YOUR_APPLICATION_ID_HERE  | The application ID of your bot                                        |
+| OWNERS                    | The user ID of all the bot owners                                     |
+
+In the [blacklist](blacklist.json) file you now can add IDs (as integers) in the `ids` list.
 
 ## How to start
 

@@ -14,14 +14,13 @@ import sys
 
 import aiohttp
 import discord
-import yaml
 from discord.ext import commands
 
-if not os.path.isfile("config.yaml"):
-    sys.exit("'config.yaml' not found! Please add it and try again.")
+if not os.path.isfile("config.json"):
+    sys.exit("'config.json' not found! Please add it and try again.")
 else:
-    with open("config.yaml") as file:
-        config = yaml.load(file, Loader=yaml.FullLoader)
+    with open("config.json") as file:
+        config = json.load(file)
 
 
 class general(commands.Cog, name="general"):
@@ -35,7 +34,7 @@ class general(commands.Cog, name="general"):
         """
         embed = discord.Embed(
             description="Used Krypton's template",
-            color=config["success"]
+            color=0x42F56C
         )
         embed.set_author(
             name="Bot Information"
@@ -80,7 +79,7 @@ class general(commands.Cog, name="general"):
         embed = discord.Embed(
             title="**Server Name:**",
             description=f"{server}",
-            color=config["success"]
+            color=0x42F56C
         )
         embed.set_thumbnail(
             url=server.icon_url
@@ -118,7 +117,7 @@ class general(commands.Cog, name="general"):
         embed = discord.Embed(
             title="🏓 Pong!",
             description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
-            color=config["success"]
+            color=0x42F56C
         )
         await context.send(embed=embed)
 
@@ -129,7 +128,7 @@ class general(commands.Cog, name="general"):
         """
         embed = discord.Embed(
             description=f"Invite me by clicking [here](https://discordapp.com/oauth2/authorize?&client_id={config['application_id']}&scope=bot&permissions=470150263).",
-            color=config['main_color']
+            color=0xD75BF4
         )
         try:
             # To know what permissions to give to your bot, please see here: https://discordapi.com/permissions.html and remember to not give Administrator permissions.
@@ -145,7 +144,7 @@ class general(commands.Cog, name="general"):
         """
         embed = discord.Embed(
             description=f"Join the support server for the bot by clicking [here](https://discord.gg/HzJ3Gfr).",
-            color=config['main_color']
+            color=0xD75BF4
         )
         try:
             await context.author.send(embed=embed)
@@ -161,7 +160,7 @@ class general(commands.Cog, name="general"):
         embed = discord.Embed(
             title="A new poll has been created!",
             description=f"{title}",
-            color=config["success"]
+            color=0x42F56C
         )
         embed.set_footer(
             text=f"Poll created by: {context.message.author} • React to vote!"
@@ -184,7 +183,7 @@ class general(commands.Cog, name="general"):
         embed = discord.Embed(
             title="**My Answer:**",
             description=f"{answers[random.randint(0, len(answers))]}",
-            color=config["success"]
+            color=0x42F56C
         )
         embed.set_footer(
             text=f"The question was: {question}"
@@ -205,7 +204,7 @@ class general(commands.Cog, name="general"):
             embed = discord.Embed(
                 title=":information_source: Info",
                 description=f"Bitcoin price is: ${response['bpi']['USD']['rate']}",
-                color=config["success"]
+                color=0x42F56C
             )
             await context.send(embed=embed)
 

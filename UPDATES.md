@@ -2,6 +2,13 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 2.8
+
+* Blacklisted users are now **saved** in the file
+* Moved config file to JSON
+* Moved the blacklist in a separate file (`blacklist.json`)
+* The colors are no longer saved in the config file
+
 ### Version 2.7
 
 * Added a check for `commands.MissingRequiredArgument` in the error handler
@@ -12,8 +19,8 @@ Here is the list of all the updates that I made on this template.
 * Removed an unnecessary `self.bot.logout()` statement
 * Removed the `dick` command, as I want to keep this template safe for work
 * Renamed the names of the arguments in some commands
-* The bot now **tries** to send an embed in the private message of the command author for the `invite` and `server` commands, if this was not successful it will be sent in the channel
-
+* The bot now **tries** to send an embed in the private message of the command author for the `invite` and `server`
+  commands, if this was not successful it will be sent in the channel
 
 ### Version 2.6
 
