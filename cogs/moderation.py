@@ -120,7 +120,31 @@ class moderation(commands.Cog, name="moderation"):
                 color=0xE02B2B
             )
             await context.send(embed=embed)
-
+    @commands.command(name="hackban",)
+    @commands.has_permissions(ban_members=True)
+    async def hackban(self, context, user_id: int, *, reason="Not specified"):
+        """
+        Bans the user by ID when he is not on the server.
+        """
+        try:
+            await context.guild.ban(discord.Object(id=user_id), reason=reason)
+        except:
+            embed = discord.Embed(
+                title="Error!",
+                description="An error occurred while trying to ban the user. Make sure my role is above the role of the user you want to ban.",
+                color=0xE02B2B
+            )
+            return await context.send(embed=embed)
+        embed = discord.Embed(
+              title="User Banned!",
+              description=f"**{self.bot.get_user(user_id)}** was banned by the **{context.message.author}**!",
+              color=0x42F56C
+        )
+        embed.add_field(
+            name="Reason:",
+            value=reason
+        )
+        await context.send(embed=embed)
     @commands.command(name="warn")
     @commands.has_permissions(manage_messages=True)
     async def warn(self, context, member: discord.Member, *, reason="Not specified"):
