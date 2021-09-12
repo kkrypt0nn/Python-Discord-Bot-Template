@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 2.8
+Version: 3.0
 """
 
 import json
@@ -13,8 +13,9 @@ import random
 import sys
 
 import discord
-from discord.ext import commands, tasks
+from discord.ext import tasks
 from discord.ext.commands import Bot
+from discord_slash import SlashCommand, SlashContext
 
 if not os.path.isfile("config.json"):
     sys.exit("'config.json' not found! Please add it and try again.")
@@ -55,6 +56,7 @@ intents.members = True
 intents = discord.Intents.default()
 
 bot = Bot(command_prefix=config["bot_prefix"], intents=intents)
+slash = SlashCommand(bot, sync_commands=True)
 
 
 # The code in this even is executed when the bot is ready
@@ -96,53 +98,22 @@ async def on_message(message):
     # Ignores if a command is being executed by a bot or by the bot itself
     if message.author == bot.user or message.author.bot:
         return
-    # Ignores if a command is being executed by a blacklisted user
-    with open("blacklist.json") as file:
-        blacklist = json.load(file)
-    if message.author.id in blacklist["ids"]:
-        return
     await bot.process_commands(message)
 
 
 # The code in this event is executed every time a command has been *successfully* executed
 @bot.event
-async def on_command_completion(ctx):
-    fullCommandName = ctx.command.qualified_name
+async def on_slash_command(ctx: SlashContext):
+    fullCommandName = ctx.name
     split = fullCommandName.split(" ")
     executedCommand = str(split[0])
     print(
-        f"Executed {executedCommand} command in {ctx.guild.name} (ID: {ctx.message.guild.id}) by {ctx.message.author} (ID: {ctx.message.author.id})")
+        f"Executed {executedCommand} command in {ctx.guild.name} (ID: {ctx.guild.id}) by {ctx.author} (ID: {ctx.author.id})")
 
 
 # The code in this event is executed every time a valid commands catches an error
 @bot.event
 async def on_command_error(context, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        minutes, seconds = divmod(error.retry_after, 60)
-        hours, minutes = divmod(minutes, 60)
-        hours = hours % 24
-        embed = discord.Embed(
-            title="Hey, please slow down!",
-            description=f"You can use this command again in {f'{round(hours)} hours' if round(hours) > 0 else ''} {f'{round(minutes)} minutes' if round(minutes) > 0 else ''} {f'{round(seconds)} seconds' if round(seconds) > 0 else ''}.",
-            color=0xE02B2B
-        )
-        await context.send(embed=embed)
-    elif isinstance(error, commands.MissingPermissions):
-        embed = discord.Embed(
-            title="Error!",
-            description="You are missing the permission `" + ", ".join(
-                error.missing_perms) + "` to execute this command!",
-            color=0xE02B2B
-        )
-        await context.send(embed=embed)
-    elif isinstance(error, commands.MissingRequiredArgument):
-        embed = discord.Embed(
-            title="Error!",
-            description=str(error).capitalize(),
-            # We need to capitalize because the command arguments have no capital letter in the code.
-            color=0xE02B2B
-        )
-        await context.send(embed=embed)
     raise error
 
 

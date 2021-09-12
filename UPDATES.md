@@ -2,6 +2,10 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 3.0
+
+**Now using slash commands**
+
 ### Version 2.8
 
 * Blacklisted users are now **saved** in the file

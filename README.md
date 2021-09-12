@@ -39,6 +39,17 @@ All the updates of the template are available [here](UPDATES.md).
 
 ## Disclaimer
 
+Slash commands can take **some hours** to get registered on guilds, so if you want to test a command you should use
+the `guild_ids` parameter in the command decorator so that it gets registered instantly. Example:
+
+```py
+@cog_ext.cog_slash(
+    name="command",
+    description="Command description",
+    guild_ids=[GUILD_ID1, GUILD_ID2] # These should be testing guild(s) ID, as always: an integer.
+)
+```
+
 When using the template you confirm that you have read the [license](LICENSE.md) and comprehend that I can take down
 your repository if you do not meet these requirements.
 
