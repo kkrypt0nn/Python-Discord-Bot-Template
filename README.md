@@ -33,7 +33,7 @@ Before requesting support, you should know that this template requires you to ha
 Python and the library is made for advanced users. Do not use this template if you don't know the
 basics. [Here's](https://pythondiscord.com/pages/resources) a link for resources to learn python.
 
-If you need some help for something, do not hesitate to join my discord server [here](https://discord.gg/HzJ3Gfr).
+If you need some help for something, do not hesitate to join my discord server [here](https://discord.gg/mTBrXyWxAF).
 
 All the updates of the template are available [here](UPDATES.md).
 
@@ -124,7 +124,7 @@ python bot.py
 
 If you have any issues or questions of how to code a specific command, you can:
 
-* Join my discord server [here](https://discord.gg/HzJ3Gfr)
+* Join my discord server [here](https://discord.gg/mTBrXyWxAF)
 * Post them [here](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/issues)
 
 Me or other people will take their time to answer and help you.
