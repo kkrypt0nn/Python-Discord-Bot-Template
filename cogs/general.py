@@ -191,7 +191,7 @@ class general(commands.Cog, name="general"):
             return
 
         embed = discord.Embed(
-            description=f"Join the support server for the bot by clicking [here](https://discord.gg/HzJ3Gfr).",
+            description=f"Join the support server for the bot by clicking [here](https://discord.gg/mTBrXyWxAF).",
             color=0xD75BF4
         )
         try:
