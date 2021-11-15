@@ -2,6 +2,13 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 3.1
+
+* Added a `@checks.is_owner` check which raises a `UserNotOwner` exception
+* Added a `@checks.not_blacklisted` check which raises a `UserBlacklisted` exception
+* Using checks instead of same code for every command
+* Various code cleanup
+
 ### Version 3.0
 
 **Now using slash commands**

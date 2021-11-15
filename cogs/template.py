@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 3.0
+Version: 3.1
 """
 
 import json
@@ -12,6 +12,8 @@ import sys
 
 from discord.ext import commands
 from discord_slash import cog_ext, SlashContext
+
+from helpers import checks
 
 # Only if you want to use variables that are in the config.json file.
 if not os.path.isfile("config.json"):
@@ -31,6 +33,10 @@ class Template(commands.Cog, name="template"):
         name="testcommand",
         description="This is a testing command that does nothing.",
     )
+    # This will only allow non-blacklisted members to execute the command
+    @checks.not_blacklisted()
+    # This will only allow owners of the bot to execute the command -> config.json
+    @checks.is_owner()
     async def testcommand(self, context: SlashContext):
         """
         This is a testing command that does nothing.

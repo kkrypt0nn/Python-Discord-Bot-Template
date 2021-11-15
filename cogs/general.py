@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 3.0
+Version: 3.1
 """
 
 import json
@@ -18,6 +18,8 @@ from discord.ext import commands
 from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option
 
+from helpers import checks
+
 if not os.path.isfile("config.json"):
     sys.exit("'config.json' not found! Please add it and try again.")
 else:
@@ -25,7 +27,7 @@ else:
         config = json.load(file)
 
 
-class general(commands.Cog, name="general"):
+class General(commands.Cog, name="general"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -33,19 +35,13 @@ class general(commands.Cog, name="general"):
         name="botinfo",
         description="Get some useful (or not) information about the bot.",
     )
+    @checks.not_blacklisted()
     async def botinfo(self, context: SlashContext):
         """
         Get some useful (or not) information about the bot.
         """
-
-        # This is, for now, only temporary
-        with open("blacklist.json") as file:
-            blacklist = json.load(file)
-        if context.author.id in blacklist["ids"]:
-            return
-
         embed = discord.Embed(
-            description="Used Krypton's template",
+            description="Used [Krypton's](https://krypt0n.co.uk) template",
             color=0x42F56C
         )
         embed.set_author(
@@ -63,7 +59,7 @@ class general(commands.Cog, name="general"):
         )
         embed.add_field(
             name="Prefix:",
-            value=f"{config['bot_prefix']}",
+            value=f"/ (Slash Commands)",
             inline=False
         )
         embed.set_footer(
@@ -75,17 +71,11 @@ class general(commands.Cog, name="general"):
         name="serverinfo",
         description="Get some useful (or not) information about the server.",
     )
+    @checks.not_blacklisted()
     async def serverinfo(self, context: SlashContext):
         """
         Get some useful (or not) information about the server.
         """
-
-        # This is, for now, only temporary
-        with open("blacklist.json") as file:
-            blacklist = json.load(file)
-        if context.author.id in blacklist["ids"]:
-            return
-
         server = context.guild
         roles = [x.name for x in server.roles]
         role_length = len(roles)
@@ -130,18 +120,13 @@ class general(commands.Cog, name="general"):
     @cog_ext.cog_slash(
         name="ping",
         description="Check if the bot is alive.",
+        guild_ids=[909709618681364531]
     )
+    @checks.not_blacklisted()
     async def ping(self, context: SlashContext):
         """
         Check if the bot is alive.
         """
-
-        # This is, for now, only temporary
-        with open("blacklist.json") as file:
-            blacklist = json.load(file)
-        if context.author.id in blacklist["ids"]:
-            return
-
         embed = discord.Embed(
             title="🏓 Pong!",
             description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
@@ -153,17 +138,11 @@ class general(commands.Cog, name="general"):
         name="invite",
         description="Get the invite link of the bot to be able to invite it.",
     )
+    @checks.not_blacklisted()
     async def invite(self, context: SlashContext):
         """
         Get the invite link of the bot to be able to invite it.
         """
-
-        # This is, for now, only temporary
-        with open("blacklist.json") as file:
-            blacklist = json.load(file)
-        if context.author.id in blacklist["ids"]:
-            return
-
         embed = discord.Embed(
             description=f"Invite me by clicking [here](https://discordapp.com/oauth2/authorize?&client_id={config['application_id']}&scope=bot&permissions=470150263).",
             color=0xD75BF4
@@ -179,17 +158,11 @@ class general(commands.Cog, name="general"):
         name="server",
         description="Get the invite link of the discord server of the bot for some support.",
     )
+    @checks.not_blacklisted()
     async def server(self, context: SlashContext):
         """
         Get the invite link of the discord server of the bot for some support.
         """
-
-        # This is, for now, only temporary
-        with open("blacklist.json") as file:
-            blacklist = json.load(file)
-        if context.author.id in blacklist["ids"]:
-            return
-
         embed = discord.Embed(
             description=f"Join the support server for the bot by clicking [here](https://discord.gg/mTBrXyWxAF).",
             color=0xD75BF4
@@ -212,17 +185,11 @@ class general(commands.Cog, name="general"):
             )
         ],
     )
+    @checks.not_blacklisted()
     async def poll(self, context: SlashContext, title: str):
         """
         Create a poll where members can vote.
         """
-
-        # This is, for now, only temporary
-        with open("blacklist.json") as file:
-            blacklist = json.load(file)
-        if context.author.id in blacklist["ids"]:
-            return
-
         embed = discord.Embed(
             title="A new poll has been created!",
             description=f"{title}",
@@ -248,17 +215,11 @@ class general(commands.Cog, name="general"):
             )
         ],
     )
+    @checks.not_blacklisted()
     async def eight_ball(self, context: SlashContext, question: str):
         """
         Ask any question to the bot.
         """
-
-        # This is, for now, only temporary
-        with open("blacklist.json") as file:
-            blacklist = json.load(file)
-        if context.author.id in blacklist["ids"]:
-            return
-
         answers = ['It is certain.', 'It is decidedly so.', 'You may rely on it.', 'Without a doubt.',
                    'Yes - definitely.', 'As I see, yes.', 'Most likely.', 'Outlook good.', 'Yes.',
                    'Signs point to yes.', 'Reply hazy, try again.', 'Ask again later.', 'Better not tell you now.',
@@ -278,17 +239,11 @@ class general(commands.Cog, name="general"):
         name="bitcoin",
         description="Get the current price of bitcoin.",
     )
+    @checks.not_blacklisted()
     async def bitcoin(self, context):
         """
         Get the current price of bitcoin.
         """
-
-        # This is, for now, only temporary
-        with open("blacklist.json") as file:
-            blacklist = json.load(file)
-        if context.author.id in blacklist["ids"]:
-            return
-
         url = "https://api.coindesk.com/v1/bpi/currentprice/BTC.json"
         # Async HTTP request
         async with aiohttp.ClientSession() as session:
@@ -304,4 +259,4 @@ class general(commands.Cog, name="general"):
 
 
 def setup(bot):
-    bot.add_cog(general(bot))
+    bot.add_cog(General(bot))

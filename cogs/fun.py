@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 3.0
+Version: 3.1
 """
 
 import json
@@ -14,6 +14,8 @@ import aiohttp
 import discord
 from discord.ext import commands
 from discord_slash import cog_ext, SlashContext
+
+from helpers import checks
 
 if not os.path.isfile("config.json"):
     sys.exit("'config.json' not found! Please add it and try again.")
@@ -30,6 +32,7 @@ class Fun(commands.Cog, name="fun"):
         name="randomfact",
         description="Get a random fact."
     )
+    @checks.not_blacklisted()
     async def randomfact(self, context: SlashContext):
         """
         Get a random fact.

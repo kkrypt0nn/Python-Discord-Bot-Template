@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 3.0
+Version: 3.1
 """
 
 import json
@@ -15,6 +15,8 @@ from discord.ext import commands
 from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option
 
+from helpers import checks
+
 if not os.path.isfile("config.json"):
     sys.exit("'config.json' not found! Please add it and try again.")
 else:
@@ -22,7 +24,7 @@ else:
         config = json.load(file)
 
 
-class moderation(commands.Cog, name="moderation"):
+class Moderation(commands.Cog, name="moderation"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -44,11 +46,12 @@ class moderation(commands.Cog, name="moderation"):
             )
         ],
     )
+    @checks.not_blacklisted()
     async def kick(self, context: SlashContext, user: discord.User, reason: str = "Not specified"):
         """
         Kick a user out of the server.
         """
-        author = await context.guild.fetch_member(context.author_id)
+        author = context.guild.get_member(context.author_id) or await context.guild.fetch_member(context.author_id)
         if not author.guild_permissions.kick_members:
             embed = discord.Embed(
                 title="Error!",
@@ -56,7 +59,7 @@ class moderation(commands.Cog, name="moderation"):
                 color=0xE02B2B
             )
             return await context.send(embed=embed)
-        member = await context.guild.fetch_member(user.id)
+        member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
         if member.guild_permissions.administrator:
             embed = discord.Embed(
                 title="Error!",
@@ -109,11 +112,12 @@ class moderation(commands.Cog, name="moderation"):
             )
         ],
     )
+    @checks.not_blacklisted()
     async def nick(self, context: SlashContext, user: discord.User, nickname: str = None):
         """
         Change the nickname of a user on a server.
         """
-        author = await context.guild.fetch_member(context.author_id)
+        author = context.guild.get_member(context.author_id) or await context.guild.fetch_member(context.author_id)
         if not author.guild_permissions.manage_nicknames:
             embed = discord.Embed(
                 title="Error!",
@@ -121,7 +125,7 @@ class moderation(commands.Cog, name="moderation"):
                 color=0xE02B2B
             )
             return await context.send(embed=embed)
-        member = await context.guild.fetch_member(user.id)
+        member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
         try:
             await member.edit(nick=nickname)
             embed = discord.Embed(
@@ -156,11 +160,12 @@ class moderation(commands.Cog, name="moderation"):
             )
         ],
     )
+    @checks.not_blacklisted()
     async def ban(self, context, user: discord.User, reason: str = "Not specified"):
         """
         Bans a user from the server.
         """
-        author = await context.guild.fetch_member(context.author_id)
+        author = context.guild.get_member(context.author_id) or await context.guild.fetch_member(context.author_id)
         if not author.guild_permissions.ban_members:
             embed = discord.Embed(
                 title="Error!",
@@ -168,7 +173,7 @@ class moderation(commands.Cog, name="moderation"):
                 color=0xE02B2B
             )
             return await context.send(embed=embed)
-        member = await context.guild.fetch_member(user.id)
+        member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
         try:
             if member.guild_permissions.administrator:
                 embed = discord.Embed(
@@ -216,11 +221,12 @@ class moderation(commands.Cog, name="moderation"):
             )
         ],
     )
+    @checks.not_blacklisted()
     async def warn(self, context, user: discord.User, reason: str = "Not specified"):
         """
         Warns a user in his private messages.
         """
-        author = await context.guild.fetch_member(context.author_id)
+        author = context.guild.get_member(context.author_id) or await context.guild.fetch_member(context.author_id)
         if not author.guild_permissions.manage_messages:
             embed = discord.Embed(
                 title="Error!",
@@ -228,7 +234,7 @@ class moderation(commands.Cog, name="moderation"):
                 color=0xE02B2B
             )
             return await context.send(embed=embed)
-        member = await context.guild.fetch_member(user.id)
+        member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
         embed = discord.Embed(
             title="User Warned!",
             description=f"**{member}** was warned by **{context.author}**!",
@@ -256,12 +262,12 @@ class moderation(commands.Cog, name="moderation"):
             )
         ],
     )
-    @commands.has_permissions(manage_messages=True, manage_channels=True)
+    @checks.not_blacklisted()
     async def purge(self, context, amount: int):
         """
         Delete a number of messages.
         """
-        author = await context.guild.fetch_member(context.author_id)
+        author = context.guild.get_member(context.author_id) or await context.guild.fetch_member(context.author_id)
         if not author.guild_permissions.manage_messages or not author.guild_permissions.manage_channels:
             embed = discord.Embed(
                 title="Error!",
@@ -297,4 +303,4 @@ class moderation(commands.Cog, name="moderation"):
 
 
 def setup(bot):
-    bot.add_cog(moderation(bot))
+    bot.add_cog(Moderation(bot))

@@ -46,7 +46,7 @@ the `guild_ids` parameter in the command decorator so that it gets registered in
 @cog_ext.cog_slash(
     name="command",
     description="Command description",
-    guild_ids=[GUILD_ID1, GUILD_ID2] # These should be testing guild(s) ID, as always: an integer.
+    guild_ids=[GUILD_ID1, GUILD_ID2]  # These should be testing guild(s) ID, as always: an integer.
 )
 ```
 
@@ -54,7 +54,7 @@ When using the template you confirm that you have read the [license](LICENSE.md)
 your repository if you do not meet these requirements.
 
 Please do not open issues or pull requests about things that are written in the [TODO file](TODO.md), they are **
-already** under work for the version 3.0 of the template.
+already** under work for a future version of the template.
 
 ## How to download it
 
@@ -70,7 +70,9 @@ Alternatively you can do the following:
 * Get your bot token
 * Invite your bot on servers using the following invite:
   https://discord.com/oauth2/authorize?&client_id=YOUR_APPLICATION_ID_HERE&scope=bot+applications.commands&permissions=PERMISSIONS (
-  Replace `YOUR_APPLICATION_ID_HERE` with the application ID and replace `PERMISSIONS` with the required permissions your bot needs that it can be get at the bottom of a this page https://discord.com/developers/applications/YOUR_APPLICATION_ID_HERE/bot)
+  Replace `YOUR_APPLICATION_ID_HERE` with the application ID and replace `PERMISSIONS` with the required permissions
+  your bot needs that it can be get at the bottom of a this
+  page https://discord.com/developers/applications/YOUR_APPLICATION_ID_HERE/bot)
 
 ## How to set up
 
@@ -81,7 +83,6 @@ Here is an explanation of what everything is:
 
 | Variable                  | What it is                                                            |
 | ------------------------- | ----------------------------------------------------------------------|
-| YOUR_BOT_PREFIX_HERE      | The prefix(es) of your bot                                            |
 | YOUR_BOT_TOKEN_HERE       | The token of your bot                                                 |
 | YOUR_APPLICATION_ID_HERE  | The application ID of your bot                                        |
 | OWNERS                    | The user ID of all the bot owners                                     |
@@ -136,7 +137,7 @@ the [tags on this repository](https://github.com/kkrypt0nn/Python-Discord-Bot-Te
 
 ## Built With
 
-* [Python 3.8](https://www.python.org/)
+* [Python 3.9](https://www.python.org/)
 
 ## License
 
