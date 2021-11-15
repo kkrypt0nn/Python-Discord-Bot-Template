@@ -120,7 +120,6 @@ class General(commands.Cog, name="general"):
     @cog_ext.cog_slash(
         name="ping",
         description="Check if the bot is alive.",
-        guild_ids=[909709618681364531]
     )
     @checks.not_blacklisted()
     async def ping(self, context: SlashContext):
