@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 3.1
+Version: 3.1.1
 """
 
 import json
@@ -57,7 +57,7 @@ intents.members = True
 
 intents = discord.Intents.default()
 
-bot = Bot(command_prefix=None, intents=intents)  # The command prefix is a required argument, but will never be used
+bot = Bot(command_prefix="", intents=intents)  # The command prefix is a required argument, but will never be used
 slash = SlashCommand(bot, sync_commands=True)
 
 

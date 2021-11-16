@@ -2,6 +2,10 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version  3.1.1
+
+* Fixed `TypeError: 'NoneType' object is not iterable` for prefix -> Python 3.10
+
 ### Version 3.1
 
 * Added a `@checks.is_owner` check which raises a `UserNotOwner` exception
