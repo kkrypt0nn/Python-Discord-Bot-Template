@@ -1,3 +1,2 @@
 aiohttp
-discord-py-interactions
-discord.py
+disnake

@@ -2,6 +2,15 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 4.0
+
+* Now using [`disnake`](https://docs.disnake.dev)
+* Added a command that uses buttons *(coinflip)*
+* Added a command that uses selection dropdown *(rps)*
+* **Every** command is now in slash command **and** normal command (old way with prefix)
+    * Make sure to **enable the message intents** for normal commands as it's now a privileged intent.
+    * The **slash command** is **above**, the **normal command** is **below**
+
 ### Version  3.1.1
 
 * Fixed `TypeError: 'NoneType' object is not iterable` for prefix -> Python 3.10
@@ -65,7 +74,7 @@ Here is the list of all the updates that I made on this template.
 ### Version 2.4
 
 * Added some fun commands
-* Colors are saved in the [config file](config.py) for easier usage
+* Colors are saved in the [config file](config.json) for easier usage
 * Cogs are now being loaded automatically
 * Fixed some typos
 
@@ -89,7 +98,7 @@ Here is the list of all the updates that I made on this template.
 
 * Added cogs
 * Added f-strings and removed `.format()`
-* Created [config file](config.py) for easier setup
+* Created [config file](config.json) for easier setup
 
 ### Version 1.2
 

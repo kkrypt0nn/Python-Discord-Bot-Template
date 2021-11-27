@@ -3,15 +3,16 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 3.1.1
+Version: 4.0
 """
 
 import json
 import os
 import sys
 
-from discord.ext import commands
-from discord_slash import cog_ext, SlashContext
+from disnake import ApplicationCommandInteraction
+from disnake.ext import commands
+from disnake.ext.commands import Context
 
 from helpers import checks
 
@@ -29,7 +30,7 @@ class Template(commands.Cog, name="template"):
         self.bot = bot
 
     # Here you can just add your own commands, you'll always need to provide "self" as first parameter.
-    @cog_ext.cog_slash(
+    @commands.slash_command(
         name="testcommand",
         description="This is a testing command that does nothing.",
     )
@@ -37,13 +38,27 @@ class Template(commands.Cog, name="template"):
     @checks.not_blacklisted()
     # This will only allow owners of the bot to execute the command -> config.json
     @checks.is_owner()
-    async def testcommand(self, context: SlashContext):
+    async def testcommand(self, interaction: ApplicationCommandInteraction):
         """
         This is a testing command that does nothing.
+        Note: This is a SLASH command
         """
         # Do your stuff here
 
         # Don't forget to remove "pass", that's just because there's no content in the method.
+        pass
+
+    @commands.command(
+        name="testcommand",
+        description="This is a testing command that does nothing.",
+    )
+    @checks.not_blacklisted()
+    @checks.is_owner()
+    async def testcommand(self, context: Context):
+        """
+        This is a testing command that does nothing.
+        Note: This is a SLASH command
+        """
         pass
 
 

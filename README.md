@@ -83,7 +83,9 @@ Here is an explanation of what everything is:
 
 | Variable                  | What it is                                                            |
 | ------------------------- | ----------------------------------------------------------------------|
+| YOUR_BOT_PREFIX_HERE      | The prefix you want to use for normal commands                        |
 | YOUR_BOT_TOKEN_HERE       | The token of your bot                                                 |
+| YOUR_BOT_PERMISSIONS_HERE | The permissions integer your bot needs when it gets invited           |
 | YOUR_APPLICATION_ID_HERE  | The application ID of your bot                                        |
 | OWNERS                    | The user ID of all the bot owners                                     |
 
@@ -137,7 +139,7 @@ the [tags on this repository](https://github.com/kkrypt0nn/Python-Discord-Bot-Te
 
 ## Built With
 
-* [Python 3.9](https://www.python.org/)
+* [Python 3.9.9](https://www.python.org/)
 
 ## License
 
