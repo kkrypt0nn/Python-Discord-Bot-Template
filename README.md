@@ -17,12 +17,12 @@ I would've been happy if there were any template existing. However, there wasn't
 decided to create my own template to let <b>you</b> guys create your discord bot easily.
 
 Please note that this template is not supposed to be the best template, but a good template to start learning how
-discord.py works and to make your own bot easily.
+discord.py works and to make your own bot easily. After the version 4.0 the template is using disnake, as discord.py has stoppped development.
 
 If you plan to use this template to make your own template or bot, you **have to**:
 
 - Keep the credits, and a link to this repository in all the files that contains my code
-- Keep the same license
+- Keep the same license for unchanged code
 
 See [the license file](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/blob/master/LICENSE.md) for more
 information, I reserve the right to take down any repository that does not meet these requirements.
