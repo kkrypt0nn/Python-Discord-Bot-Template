@@ -43,7 +43,7 @@ Slash commands can take **some hours** to get registered on guilds, so if you wa
 the `guild_ids` parameter in the command decorator so that it gets registered instantly. Example:
 
 ```py
-@cog_ext.cog_slash(
+@commands.slash_command(
     name="command",
     description="Command description",
     guild_ids=[GUILD_ID1, GUILD_ID2]  # These should be testing guild(s) ID, as always: an integer.
