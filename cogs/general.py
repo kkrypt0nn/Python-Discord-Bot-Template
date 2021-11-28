@@ -1,9 +1,9 @@
 """"
-Copyright © Krypton 2021 - https://github.com/kkrypt0nn
+Copyright © Krypton 2021 - https://github.com/kkrypt0nn (https://krypt0n.co.uk)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 4.0
+Version: 4.0.1
 """
 
 import json
@@ -325,7 +325,7 @@ class General(commands.Cog, name="general"):
                    'My sources say no.', 'Outlook not so good.', 'Very doubtful.']
         embed = disnake.Embed(
             title="**My Answer:**",
-            description=f"{answers[random.randint(0, len(answers) - 1)]}",
+            description=f"{random.choice(answers)}",
             color=0x9C84EF
         )
         embed.set_footer(
@@ -349,7 +349,7 @@ class General(commands.Cog, name="general"):
                    'My sources say no.', 'Outlook not so good.', 'Very doubtful.']
         embed = disnake.Embed(
             title="**My Answer:**",
-            description=f"{answers[random.randint(0, len(answers) - 1)]}",
+            description=f"{random.choice(answers)}",
             color=0x9C84EF
         )
         embed.set_footer(

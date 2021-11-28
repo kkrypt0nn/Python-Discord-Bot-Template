@@ -2,6 +2,10 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 4.0.1
+
+* Fixed some *weird* code
+
 ### Version 4.0
 
 * Now using [`disnake`](https://docs.disnake.dev)

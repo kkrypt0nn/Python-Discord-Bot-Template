@@ -1,9 +1,9 @@
 """"
-Copyright © Krypton 2021 - https://github.com/kkrypt0nn
+Copyright © Krypton 2021 - https://github.com/kkrypt0nn (https://krypt0n.co.uk)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 4.0
+Version: 4.0.1
 """
 
 import json
@@ -118,13 +118,6 @@ class Fun(commands.Cog, name="fun"):
         """
         Get a random fact.
         """
-
-        # This is, for now, only temporary
-        with open("blacklist.json") as file:
-            blacklist = json.load(file)
-        if interaction.author.id in blacklist["ids"]:
-            return
-
         # This will prevent your bot from stopping everything when doing a web request - see: https://discordpy.readthedocs.io/en/stable/faq.html#how-do-i-make-a-web-request
         async with aiohttp.ClientSession() as session:
             async with session.get("https://uselessfacts.jsph.pl/random.json?language=en") as request:
@@ -151,13 +144,6 @@ class Fun(commands.Cog, name="fun"):
         """
         Get a random fact.
         """
-
-        # This is, for now, only temporary
-        with open("blacklist.json") as file:
-            blacklist = json.load(file)
-        if context.author.id in blacklist["ids"]:
-            return
-
         # This will prevent your bot from stopping everything when doing a web request - see: https://discordpy.readthedocs.io/en/stable/faq.html#how-do-i-make-a-web-request
         async with aiohttp.ClientSession() as session:
             async with session.get("https://uselessfacts.jsph.pl/random.json?language=en") as request:
