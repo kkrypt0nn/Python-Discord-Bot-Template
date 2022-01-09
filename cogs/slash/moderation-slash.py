@@ -289,8 +289,7 @@ class Moderation(commands.Cog, name="moderation-slash"):
                 type=OptionType.string,
                 required=False
             )
-        ],
-        guild_ids=[911613911315382332]
+        ]
     )
     @commands.has_permissions(ban_members=True)
     @checks.not_blacklisted()
