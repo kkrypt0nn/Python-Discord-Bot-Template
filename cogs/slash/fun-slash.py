@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn (https://krypt0n.co.uk)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 4.0.1
+Version: 4.1
 """
 
 import json
@@ -15,7 +15,6 @@ import aiohttp
 import disnake
 from disnake import ApplicationCommandInteraction
 from disnake.ext import commands
-from disnake.ext.commands import Context
 
 from helpers import checks
 
@@ -105,7 +104,7 @@ class RockPaperScissorsView(disnake.ui.View):
         self.add_item(RockPaperScissors())
 
 
-class Fun(commands.Cog, name="fun"):
+class Fun(commands.Cog, name="fun-slash"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -114,9 +113,10 @@ class Fun(commands.Cog, name="fun"):
         description="Get a random fact."
     )
     @checks.not_blacklisted()
-    async def randomfact(self, interaction: ApplicationCommandInteraction):
+    async def randomfact(self, interaction: ApplicationCommandInteraction) -> None:
         """
         Get a random fact.
+        :param interaction: The application command interaction.
         """
         # This will prevent your bot from stopping everything when doing a web request - see: https://discordpy.readthedocs.io/en/stable/faq.html#how-do-i-make-a-web-request
         async with aiohttp.ClientSession() as session:
@@ -135,38 +135,16 @@ class Fun(commands.Cog, name="fun"):
                     )
                 await interaction.send(embed=embed)
 
-    @commands.command(
-        name="randomfact",
-        description="Get a random fact."
-    )
-    @checks.not_blacklisted()
-    async def randomfact(self, context: Context):
-        """
-        Get a random fact.
-        """
-        # This will prevent your bot from stopping everything when doing a web request - see: https://discordpy.readthedocs.io/en/stable/faq.html#how-do-i-make-a-web-request
-        async with aiohttp.ClientSession() as session:
-            async with session.get("https://uselessfacts.jsph.pl/random.json?language=en") as request:
-                if request.status == 200:
-                    data = await request.json()
-                    embed = disnake.Embed(
-                        description=data["text"],
-                        color=0xD75BF4
-                    )
-                else:
-                    embed = disnake.Embed(
-                        title="Error!",
-                        description="There is something wrong with the API, please try again later",
-                        color=0xE02B2B
-                    )
-                await context.send(embed=embed)
-
     @commands.slash_command(
         name="coinflip",
         description="Make a coin flip, but give your bet before."
     )
     @checks.not_blacklisted()
-    async def coinflip(self, interaction: ApplicationCommandInteraction):
+    async def coinflip(self, interaction: ApplicationCommandInteraction) -> None:
+        """
+        Make a coin flip, but give your bet before.
+        :param interaction: The application command interaction.
+        """
         buttons = Choice()
         embed = disnake.Embed(
             description="What is your bet?",
@@ -188,50 +166,18 @@ class Fun(commands.Cog, name="fun"):
             )
         await interaction.edit_original_message(embed=embed, view=None)
 
-    @commands.command(
-        name="coinflip",
-        description="Make a coin flip, but give your bet before."
-    )
-    @checks.not_blacklisted()
-    async def coinflip(self, context: Context):
-        buttons = Choice()
-        embed = disnake.Embed(
-            description="What is your bet?",
-            color=0x9C84EF
-        )
-        message = await context.send(embed=embed, view=buttons)
-        await buttons.wait()  # We wait for the user to click a button.
-        result = random.choice(["heads", "tails"])
-        if buttons.choice == result:
-            # User guessed correctly
-            embed = disnake.Embed(
-                description=f"Correct! You guessed `{buttons.choice}` and I flipped the coin to `{result}`.",
-                color=0x9C84EF
-            )
-        else:
-            embed = disnake.Embed(
-                description=f"Woops! You guessed `{buttons.choice}` and I flipped the coin to `{result}`, better luck next time!",
-                color=0xE02B2B
-            )
-        await message.edit(embed=embed, view=None)
-
     @commands.slash_command(
         name="rps",
-        description="Play the rock paper scissors against the bot."
+        description="Play the rock paper scissors game against the bot."
     )
     @checks.not_blacklisted()
-    async def rock_paper_scissors(self, interaction: ApplicationCommandInteraction):
+    async def rock_paper_scissors(self, interaction: ApplicationCommandInteraction) -> None:
+        """
+        Play the rock paper scissors game against the bot.
+        :param interaction: The application command interaction.
+        """
         view = RockPaperScissorsView()
         await interaction.send("Please make your choice", view=view)
-
-    @commands.command(
-        name="rps",
-        description="Play the rock paper scissors against the bot."
-    )
-    @checks.not_blacklisted()
-    async def rock_paper_scissors(self, context: Context):
-        view = RockPaperScissorsView()
-        await context.send("Please make your choice", view=view)
 
 
 def setup(bot):

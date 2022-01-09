@@ -17,7 +17,8 @@ I would've been happy if there were any template existing. However, there wasn't
 decided to create my own template to let <b>you</b> guys create your discord bot easily.
 
 Please note that this template is not supposed to be the best template, but a good template to start learning how
-discord.py works and to make your own bot easily. After the version 4.0 the template is using disnake, as discord.py has stoppped development.
+discord.py works and to make your own bot easily. After the version 4.0 the template is using disnake, as discord.py has
+stoppped development.
 
 If you plan to use this template to make your own template or bot, you **have to**:
 

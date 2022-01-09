@@ -3,7 +3,7 @@ Copyright © Krypton 2021 - https://github.com/kkrypt0nn (https://krypt0n.co.uk)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 4.0.1
+Version: 4.1
 """
 
 import json
@@ -16,6 +16,7 @@ import disnake
 from disnake import ApplicationCommandInteraction
 from disnake.ext import tasks, commands
 from disnake.ext.commands import Bot
+from disnake.ext.commands import Context
 
 import exceptions
 
@@ -60,9 +61,11 @@ intents = disnake.Intents.default()
 bot = Bot(command_prefix=config["prefix"], intents=intents)
 
 
-# The code in this even is executed when the bot is ready
 @bot.event
-async def on_ready():
+async def on_ready() -> None:
+    """
+    The code in this even is executed when the bot is ready
+    """
     print(f"Logged in as {bot.user.name}")
     print(f"disnake API version: {disnake.__version__}")
     print(f"Python version: {platform.python_version()}")
@@ -71,9 +74,11 @@ async def on_ready():
     status_task.start()
 
 
-# Setup the game status task of the bot
 @tasks.loop(minutes=1.0)
-async def status_task():
+async def status_task() -> None:
+    """
+    Setup the game status task of the bot
+    """
     statuses = ["with you!", "with Krypton!", "with humans!"]
     await bot.change_presence(activity=disnake.Game(random.choice(statuses)))
 
@@ -81,37 +86,57 @@ async def status_task():
 # Removes the default help command of discord.py to be able to create our custom help command.
 bot.remove_command("help")
 
-if __name__ == "__main__":
-    for file in os.listdir("./cogs"):
+
+def load_commands(command_type: str) -> None:
+    for file in os.listdir(f"./cogs/{command_type}"):
         if file.endswith(".py"):
             extension = file[:-3]
             try:
-                bot.load_extension(f"cogs.{extension}")
+                bot.load_extension(f"cogs.{command_type}.{extension}")
                 print(f"Loaded extension '{extension}'")
             except Exception as e:
                 exception = f"{type(e).__name__}: {e}"
                 print(f"Failed to load extension {extension}\n{exception}")
 
 
-# The code in this event is executed every time someone sends a message, with or without the prefix
+if __name__ == "__main__":
+    """
+    This will automatically load slash commands and normal commands located in their respective folder.
+    
+    If you want to remove slash commands, which is not recommended due to the Message Intent being a privileged intent, you can remove the loading of slash commands below.
+    """
+    load_commands("slash")
+    load_commands("normal")
+
+
 @bot.event
-async def on_message(message: disnake.Message):
-    # Ignores if a command is being executed by a bot or by the bot itself
+async def on_message(message: disnake.Message) -> None:
+    """
+    The code in this event is executed every time someone sends a message, with or without the prefix
+    :param message: The message that was sent.
+    """
     if message.author == bot.user or message.author.bot:
         return
     await bot.process_commands(message)
 
 
-# The code in this event is executed every time a slash command has been *successfully* executed
 @bot.event
-async def on_slash_command(interaction: ApplicationCommandInteraction):
+async def on_slash_command(interaction: ApplicationCommandInteraction) -> None:
+    """
+    The code in this event is executed every time a slash command has been *successfully* executed
+    :param interaction: The slash command that has been executed.
+    """
     print(
         f"Executed {interaction.data.name} command in {interaction.guild.name} (ID: {interaction.guild.id}) by {interaction.author} (ID: {interaction.author.id})")
 
 
-# The code in this event is executed every time a valid slash command catches an error
 @bot.event
-async def on_slash_command_error(interaction: ApplicationCommandInteraction, error: Exception):
+async def on_slash_command_error(interaction: ApplicationCommandInteraction, error: Exception) -> None:
+    """
+    The code in this event is executed every time a valid slash command catches an error
+    :param interaction: The slash command that failed executing.
+    :param error: The error that has been faced.
+    """
     if isinstance(error, exceptions.UserBlacklisted):
         """
         The code here will only execute if the error is an instance of 'UserBlacklisted', which can occur when using
@@ -138,19 +163,26 @@ async def on_slash_command_error(interaction: ApplicationCommandInteraction, err
     raise error
 
 
-# The code in this event is executed every time a normal command has been *successfully* executed
 @bot.event
-async def on_command_completion(ctx):
-    fullCommandName = ctx.command.qualified_name
-    split = fullCommandName.split(" ")
-    executedCommand = str(split[0])
+async def on_command_completion(context: Context) -> None:
+    """
+    The code in this event is executed every time a normal command has been *successfully* executed
+    :param context: The context of the command that has been executed.
+    """
+    full_command_name = context.command.qualified_name
+    split = full_command_name.split(" ")
+    executed_command = str(split[0])
     print(
-        f"Executed {executedCommand} command in {ctx.guild.name} (ID: {ctx.message.guild.id}) by {ctx.message.author} (ID: {ctx.message.author.id})")
+        f"Executed {executed_command} command in {context.guild.name} (ID: {context.message.guild.id}) by {context.message.author} (ID: {context.message.author.id})")
 
 
-# The code in this event is executed every time a normal valid command catches an error
 @bot.event
-async def on_command_error(context, error):
+async def on_command_error(context: Context, error) -> None:
+    """
+    The code in this event is executed every time a normal valid command catches an error
+    :param context: The normal command that failed executing.
+    :param error: The error that has been faced.
+    """
     if isinstance(error, commands.CommandOnCooldown):
         minutes, seconds = divmod(error.retry_after, 60)
         hours, minutes = divmod(minutes, 60)
