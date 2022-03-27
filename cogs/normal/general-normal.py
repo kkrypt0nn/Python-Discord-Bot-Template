@@ -1,5 +1,5 @@
 """"
-Copyright © Krypton 2021 - https://github.com/kkrypt0nn (https://krypt0n.co.uk)
+Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
@@ -41,7 +41,7 @@ class General(commands.Cog, name="general-normal"):
         :param context: The context in which the command has been executed.
         """
         embed = disnake.Embed(
-            description="Used [Krypton's](https://krypt0n.co.uk) template",
+            description="Used [Krypton's](https://krypton.ninja) template",
             color=0x9C84EF
         )
         embed.set_author(
