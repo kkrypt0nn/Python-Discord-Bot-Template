@@ -1,10 +1,10 @@
 # TODO List
 
-## Version 4.2 (Goal: Middle January 2022)
+## Version 4.2
 
 * [ ] Add a timeout command.
 
-## Version 4.3 (Goal: End February 2022)
+## Version 4.3
 
 * [ ] Add a lock command that will let administrators temporary lock a channel, useful in case of a raid
 * [ ] Add an archive command that lets administrators archive a text channel in a text file
