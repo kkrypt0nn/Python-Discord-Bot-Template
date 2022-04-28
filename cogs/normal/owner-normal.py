@@ -7,20 +7,12 @@ Version: 4.1
 """
 
 import json
-import os
-import sys
 
 import disnake
 from disnake.ext import commands
 from disnake.ext.commands import Context
 
 from helpers import json_manager, checks
-
-if not os.path.isfile("config.json"):
-    sys.exit("'config.json' not found! Please add it and try again.")
-else:
-    with open("config.json") as file:
-        config = json.load(file)
 
 
 class Owner(commands.Cog, name="owner-normal"):

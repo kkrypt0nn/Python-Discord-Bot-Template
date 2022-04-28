@@ -113,8 +113,9 @@ python3 bot.py
 or eventually
 
 ```
-python3.8 bot.py
+python3.x bot.py
 ```
+Replace `x` with the version of Python you have installed.
 
 <br>
 
@@ -140,7 +141,7 @@ the [tags on this repository](https://github.com/kkrypt0nn/Python-Discord-Bot-Te
 
 ## Built With
 
-* [Python 3.9.9](https://www.python.org/)
+* [Python 3.9.12](https://www.python.org/)
 
 ## License
 

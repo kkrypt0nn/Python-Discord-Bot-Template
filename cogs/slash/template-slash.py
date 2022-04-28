@@ -6,21 +6,10 @@ This is a template to create your own discord bot in python.
 Version: 4.1
 """
 
-import json
-import os
-import sys
-
 from disnake import ApplicationCommandInteraction
 from disnake.ext import commands
 
 from helpers import checks
-
-# Only if you want to use variables that are in the config.json file.
-if not os.path.isfile("config.json"):
-    sys.exit("'config.json' not found! Please add it and try again.")
-else:
-    with open("config.json") as file:
-        config = json.load(file)
 
 
 # Here we name the cog and create a new class for the cog.

@@ -2,7 +2,7 @@
 
 ## Version 4.2
 
-* [ ] Add a timeout command.
+* [ ] Add a timeout command
 
 ## Version 4.3
 

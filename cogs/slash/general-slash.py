@@ -6,11 +6,8 @@ This is a template to create your own discord bot in python.
 Version: 4.1
 """
 
-import json
-import os
 import platform
 import random
-import sys
 
 import aiohttp
 import disnake
@@ -18,12 +15,6 @@ from disnake import ApplicationCommandInteraction, Option, OptionType
 from disnake.ext import commands
 
 from helpers import checks
-
-if not os.path.isfile("config.json"):
-    sys.exit("'config.json' not found! Please add it and try again.")
-else:
-    with open("config.json") as file:
-        config = json.load(file)
 
 
 class General(commands.Cog, name="general-slash"):
@@ -59,7 +50,7 @@ class General(commands.Cog, name="general-slash"):
         )
         embed.add_field(
             name="Prefix:",
-            value=f"/ (Slash Commands) or {config['prefix']} for normal commands",
+            value=f"/ (Slash Commands) or {self.bot.config['prefix']} for normal commands",
             inline=False
         )
         embed.set_footer(
@@ -140,7 +131,7 @@ class General(commands.Cog, name="general-slash"):
         :param interaction: The application command interaction.
         """
         embed = disnake.Embed(
-            description=f"Invite me by clicking [here](https://discordapp.com/oauth2/authorize?&client_id={config['application_id']}&scope=bot+applications.commands&permissions={config['permissions']}).",
+            description=f"Invite me by clicking [here](https://discordapp.com/oauth2/authorize?&client_id={self.bot.config['application_id']}&scope=bot+applications.commands&permissions={self.bot.config['permissions']}).",
             color=0xD75BF4
         )
         try:
