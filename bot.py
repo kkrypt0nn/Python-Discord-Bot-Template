@@ -62,12 +62,12 @@ intents.presences = True
 intents = disnake.Intents.default()
 
 """
-Remove this if you don't want to use prefix (normal) commands.
+Uncomment this if you don't want to use prefix (normal) commands.
 It is recommended to use slash commands and therefore not use prefix commands.
 
-If you want to use prefix commands, enable the intent below in the Discord developer portal.
+If you want to use prefix commands, make sure to also enable the intent below in the Discord developer portal.
 """
-intents.message_content = True
+# intents.message_content = True
 
 bot = Bot(command_prefix=commands.when_mentioned_or(config["prefix"]), intents=intents, help_command=None)
 
