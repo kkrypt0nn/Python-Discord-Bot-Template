@@ -105,14 +105,15 @@ async def status_task() -> None:
 
 def load_commands(command_type: str) -> None:
     for file in os.listdir(f"./cogs/{command_type}"):
-        if file.endswith(".py"):
-            extension = file[:-3]
-            try:
-                bot.load_extension(f"cogs.{command_type}.{extension}")
-                print(f"Loaded extension '{extension}'")
-            except Exception as e:
-                exception = f"{type(e).__name__}: {e}"
-                print(f"Failed to load extension {extension}\n{exception}")
+        if not file.endswith(".py"): continue
+        if file.startswith("-"): continue
+        extension = file[:-3]
+        try:
+            bot.load_extension(f"cogs.{command_type}.{extension}")
+            print(f"Loaded extension '{extension}'")
+        except Exception as e:
+            exception = f"{type(e).__name__}: {e}"
+            print(f"Failed to load extension {extension}\n{exception}")
 
 
 if __name__ == "__main__":
