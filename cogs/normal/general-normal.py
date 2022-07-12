@@ -79,9 +79,10 @@ class General(commands.Cog, name="general-normal"):
             description=f"{context.guild}",
             color=0x9C84EF
         )
-        embed.set_thumbnail(
-            url=context.guild.icon.url
-        )
+        if context.guild.icon is not None:
+            embed.set_thumbnail(
+                url=context.guild.icon.url
+            )
         embed.add_field(
             name="Server ID",
             value=context.guild.id
