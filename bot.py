@@ -3,7 +3,7 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 4.1
+Version: 4.1.1
 """
 
 import json
@@ -150,32 +150,59 @@ async def on_slash_command(interaction: ApplicationCommandInteraction) -> None:
 async def on_slash_command_error(interaction: ApplicationCommandInteraction, error: Exception) -> None:
     """
     The code in this event is executed every time a valid slash command catches an error
+
+    'ephemeral=True' will make so that only the user who execute the command can see the message
+
     :param interaction: The slash command that failed executing.
     :param error: The error that has been faced.
     """
-    if isinstance(error, exceptions.UserBlacklisted):
+    if isinstance(error, commands.CommandOnCooldown):
+        minutes, seconds = divmod(error.retry_after, 60)
+        hours, minutes = divmod(minutes, 60)
+        hours = hours % 24
+        embed = disnake.Embed(
+            title="Hey, please slow down!",
+            description=f"You can use this command again in {f'{round(hours)} hours' if round(hours) > 0 else ''} {f'{round(minutes)} minutes' if round(minutes) > 0 else ''} {f'{round(seconds)} seconds' if round(seconds) > 0 else ''}.",
+            color=0xE02B2B
+        )
+        return await interaction.send(embed=embed, ephemeral=True)
+    elif isinstance(error, exceptions.UserBlacklisted):
         """
         The code here will only execute if the error is an instance of 'UserBlacklisted', which can occur when using
-        the @checks.is_owner() check in your command, or you can raise the error by yourself.
-        
-        'hidden=True' will make so that only the user who execute the command can see the message
+        the @checks.not_blacklisted() check in your command, or you can raise the error by yourself.
         """
         embed = disnake.Embed(
             title="Error!",
             description="You are blacklisted from using the bot.",
             color=0xE02B2B
         )
-        print("A blacklisted user tried to execute a command.")
         return await interaction.send(embed=embed, ephemeral=True)
-    elif isinstance(error, commands.errors.MissingPermissions):
+    elif isinstance(error, exceptions.UserNotOwner):
+        """
+        Same as above, just for the @checks.is_owner() check.
+        """
+        embed = disnake.Embed(
+            title="Error!",
+            description="You are not the owner of the bot!",
+            color=0xE02B2B
+        )
+        return await interaction.send(embed=embed, ephemeral=True)
+    elif isinstance(error, commands.MissingPermissions):
         embed = disnake.Embed(
             title="Error!",
             description="You are missing the permission(s) `" + ", ".join(
                 error.missing_permissions) + "` to execute this command!",
             color=0xE02B2B
         )
-        print("A blacklisted user tried to execute a command.")
         return await interaction.send(embed=embed, ephemeral=True)
+    elif isinstance(error, commands.MissingRequiredArgument):
+        embed = disnake.Embed(
+            title="Error!",
+            # We need to capitalize because the command arguments have no capital letter in the code.
+            description=str(error).capitalize(),
+            color=0xE02B2B
+        )
+        await interaction.send(embed=embed, ephemeral=True)
     raise error
 
 
@@ -196,7 +223,7 @@ async def on_command_completion(context: Context) -> None:
 async def on_command_error(context: Context, error) -> None:
     """
     The code in this event is executed every time a normal valid command catches an error
-    :param context: The normal command that failed executing.
+    :param context: The context of the normal command that failed executing.
     :param error: The error that has been faced.
     """
     if isinstance(error, commands.CommandOnCooldown):
@@ -206,6 +233,27 @@ async def on_command_error(context: Context, error) -> None:
         embed = disnake.Embed(
             title="Hey, please slow down!",
             description=f"You can use this command again in {f'{round(hours)} hours' if round(hours) > 0 else ''} {f'{round(minutes)} minutes' if round(minutes) > 0 else ''} {f'{round(seconds)} seconds' if round(seconds) > 0 else ''}.",
+            color=0xE02B2B
+        )
+        await context.send(embed=embed)
+    elif isinstance(error, exceptions.UserBlacklisted):
+        """
+        The code here will only execute if the error is an instance of 'UserBlacklisted', which can occur when using
+        the @checks.not_blacklisted() check in your command, or you can raise the error by yourself.
+        """
+        embed = disnake.Embed(
+            title="Error!",
+            description="You are blacklisted from using the bot.",
+            color=0xE02B2B
+        )
+        await context.send(embed=embed)
+    elif isinstance(error, exceptions.UserNotOwner):
+        """
+        Same as above, just for the @checks.is_owner() check.
+        """
+        embed = disnake.Embed(
+            title="Error!",
+            description="You are not the owner of the bot!",
             color=0xE02B2B
         )
         await context.send(embed=embed)

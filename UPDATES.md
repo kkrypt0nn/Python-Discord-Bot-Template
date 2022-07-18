@@ -2,6 +2,10 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 4.1.1 (18 July 2022)
+
+* Fixed the custom checks not being sent in the channels correctly.
+
 ### Version 4.1 (09 January 2022)
 
 * Added the `hackban` command
