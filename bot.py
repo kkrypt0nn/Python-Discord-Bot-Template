@@ -6,6 +6,7 @@ This is a template to create your own discord bot in python.
 Version: 4.1.1
 """
 
+import aiosqlite
 import json
 import os
 import platform
@@ -79,6 +80,7 @@ The config is available using the following code:
 - self.bot.config # In cogs
 """
 bot.config = config
+bot.db = None
 
 
 @bot.event
@@ -92,6 +94,8 @@ async def on_ready() -> None:
     print(f"Running on: {platform.system()} {platform.release()} ({os.name})")
     print("-------------------")
     status_task.start()
+
+    bot.db = await aiosqlite.connect("./db/database.db")
 
 
 @tasks.loop(minutes=1.0)
