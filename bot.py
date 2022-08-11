@@ -142,8 +142,12 @@ async def on_slash_command(interaction: ApplicationCommandInteraction) -> None:
     The code in this event is executed every time a slash command has been *successfully* executed
     :param interaction: The slash command that has been executed.
     """
-    print(
-        f"Executed {interaction.data.name} command in {interaction.guild.name} (ID: {interaction.guild.id}) by {interaction.author} (ID: {interaction.author.id})")
+
+    if interaction.guild is not None:
+        print(
+        f"Executed {interaction.data.name} slash command in {interaction.guild.name} (ID: {interaction.guild.id}) by {interaction.author} (ID: {interaction.author.id})")
+    else:
+        print(f"Executed {interaction.data.name} slash command by {interaction.author} (ID: {interaction.author.id}) in DMs")
 
 
 @bot.event
@@ -215,8 +219,11 @@ async def on_command_completion(context: Context) -> None:
     full_command_name = context.command.qualified_name
     split = full_command_name.split(" ")
     executed_command = str(split[0])
-    print(
-        f"Executed {executed_command} command in {context.guild.name} (ID: {context.message.guild.id}) by {context.message.author} (ID: {context.message.author.id})")
+    if context.guild is not None:
+        print(
+            f"Executed {executed_command} command in {context.guild.name} (ID: {context.guild.id}) by {context.author} (ID: {context.author.id})")
+    else:
+        print(f"Executed {executed_command} command by {context.author} (ID: {context.author.id}) in DMs")
 
 
 @bot.event
