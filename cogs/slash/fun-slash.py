@@ -37,13 +37,13 @@ class RockPaperScissors(disnake.ui.Select):
 
         options = [
             disnake.SelectOption(
-                label="Scissors", description="You choose scissors.", emoji="🪨"
+                label="Scissors", description="You choose scissors.", emoji="✂"
             ),
             disnake.SelectOption(
-                label="Rock", description="You choose rock.", emoji="🧻"
+                label="Rock", description="You choose rock.", emoji="🪨"
             ),
             disnake.SelectOption(
-                label="paper", description="You choose paper.", emoji="✂"
+                label="paper", description="You choose paper.", emoji="🧻"
             ),
         ]
 
