@@ -2,9 +2,18 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 5.0 (20 August 2022)
+
+> ⚠️ **Moved to discord.py 2.0 as it is now officially released**
+
+* Added `warnings` command that will show you all the warnings a user has
+* Moved the blacklist to `sqlite3` database
+* Now using **Hybrid Commands**, both prefix and slash commands will get created
+* When using the `warn` command, the warning will also be added in a new `sqlite3` database
+
 ### Version 4.1.1 (18 July 2022)
 
-* Fixed the custom checks not being sent in the channels correctly.
+* Fixed the custom checks not being sent in the channels correctly
 
 ### Version 4.1 (09 January 2022)
 

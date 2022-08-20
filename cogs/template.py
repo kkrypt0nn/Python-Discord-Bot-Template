@@ -3,22 +3,23 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 4.1.1
+Version: 5.0
 """
 
-from disnake import ApplicationCommandInteraction
-from disnake.ext import commands
+from discord.ext import commands
+from discord.ext.commands import Context
 
 from helpers import checks
 
 
 # Here we name the cog and create a new class for the cog.
-class Template(commands.Cog, name="template-slash"):
+class Template(commands.Cog, name="template"):
     def __init__(self, bot):
         self.bot = bot
 
+
     # Here you can just add your own commands, you'll always need to provide "self" as first parameter.
-    @commands.slash_command(
+    @commands.hybrid_command(
         name="testcommand",
         description="This is a testing command that does nothing.",
     )
@@ -26,18 +27,18 @@ class Template(commands.Cog, name="template-slash"):
     @checks.not_blacklisted()
     # This will only allow owners of the bot to execute the command -> config.json
     @checks.is_owner()
-    async def testcommand(self, interaction: ApplicationCommandInteraction):
+    async def testcommand(self, context: Context):
         """
         This is a testing command that does nothing.
-        Note: This is a SLASH command
-        :param interaction: The application command interaction.
+
+        :param context: The application command context.
         """
         # Do your stuff here
 
-        # Don't forget to remove "pass", that's just because there's no content in the method.
+        # Don't forget to remove "pass", I added this just because there's no content in the method.
         pass
 
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
-def setup(bot):
-    bot.add_cog(Template(bot))
+async def setup(bot):
+    await bot.add_cog(Template(bot))

@@ -3,10 +3,10 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 4.1.1
+Version: 5.0
 """
 
-from disnake.ext import commands
+from discord.ext import commands
 
 
 class UserBlacklisted(commands.CheckFailure):

@@ -3,15 +3,17 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 4.1.1
+Version: 5.0
 """
 
 import json
 from typing import TypeVar, Callable
 
-from disnake.ext import commands
+from discord.ext import commands
 
 from exceptions import *
+
+from helpers import db_manager
 
 T = TypeVar("T")
 
@@ -37,9 +39,7 @@ def not_blacklisted() -> Callable[[T], T]:
     """
 
     async def predicate(context: commands.Context) -> bool:
-        with open("blacklist.json") as file:
-            data = json.load(file)
-        if context.author.id in data["ids"]:
+        if db_manager.is_blacklisted(context.author.id):
             raise UserBlacklisted
         return True
 
