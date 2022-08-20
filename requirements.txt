@@ -1,2 +1,4 @@
 aiohttp
-disnake
+asyncio
+discord.py
+sqlite3

@@ -17,8 +17,7 @@ I would've been happy if there were any template existing. However, there wasn't
 decided to create my own template to let <b>you</b> guys create your discord bot easily.
 
 Please note that this template is not supposed to be the best template, but a good template to start learning how
-discord.py works and to make your own bot easily. After the version 4.0 the template is using disnake, as discord.py has
-stoppped development.
+discord.py works and to make your own bot easily.
 
 If you plan to use this template to make your own template or bot, you **have to**:
 
@@ -40,22 +39,21 @@ All the updates of the template are available [here](UPDATES.md).
 
 ## Disclaimer
 
-Slash commands can take **some hours** to get registered on guilds, so if you want to test a command you should use
-the `guild_ids` parameter in the command decorator so that it gets registered instantly. Example:
+Slash commands can take some time to get registered globally, so if you want to test a command you should use
+the `@app_commands.guilds()` decorator so that it gets registered instantly. Example:
 
 ```py
-@commands.slash_command(
-    name="command",
-    description="Command description",
-    guild_ids=[GUILD_ID1, GUILD_ID2]  # These should be testing guild(s) ID, as always: an integer.
+@commands.hybrid_command(
+  name="command",
+  description="Command description",
 )
+@app_commands.guilds(GUILD_ID) # Place your guild ID here
 ```
 
 When using the template you confirm that you have read the [license](LICENSE.md) and comprehend that I can take down
 your repository if you do not meet these requirements.
 
-Please do not open issues or pull requests about things that are written in the [TODO file](TODO.md), they are **
-already** under work for a future version of the template.
+Please do not open issues or pull requests about things that are written in the [TODO file](TODO.md), they are **already** under work for a future version of the template.
 
 ## How to download it
 
@@ -90,7 +88,6 @@ Here is an explanation of what everything is:
 | YOUR_APPLICATION_ID_HERE  | The application ID of your bot                                        |
 | OWNERS                    | The user ID of all the bot owners                                     |
 
-In the [blacklist](blacklist.json) file you now can add IDs (as integers) in the `ids` list.
 
 ## How to start
 
