@@ -2,3 +2,4 @@ aiohttp
 asyncio
 discord.py
 sqlite3
+mysql-connector-python

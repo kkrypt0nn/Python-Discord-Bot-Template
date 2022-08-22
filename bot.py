@@ -12,6 +12,7 @@ import os
 import platform
 import random
 import sqlite3
+import mysql.connector
 import sys
 
 from contextlib import closing
@@ -79,12 +80,25 @@ bot = Bot(command_prefix=commands.when_mentioned_or(config["prefix"]), intents=i
 def init_db():
     with closing(connect_db()) as db:
         with open("database/schema.sql", "r") as f:
-            db.cursor().executescript(f.read())
-        db.commit()
+            if config["DATABASE"] == "sqlite3":
+                db.cursor().executescript(f.read())
+                db.commit()
+            elif config["DATABASE"] == "mysql":
+                query = " ".join(f.readlines())
+                db.cursor().execute(query)
 
 
 def connect_db():
-    return sqlite3.connect("database/database.db")
+    if config['DATABASE'] == "sqlite3":
+        return sqlite3.connect("database/database.db")
+    elif config["DATABASE"] == 'mysql':
+        return mysql.connector.connect(
+            user = config["DB_USER"], 
+            host = config["DB_HOST"], 
+            password = config["DB_PASSWORD"], 
+            port = config["DB_PORT"], 
+            database = config["DB_NAME"]
+        )
 
 
 """
@@ -106,6 +120,7 @@ async def on_ready() -> None:
     print(f"discord.py API version: {discord.__version__}")
     print(f"Python version: {platform.python_version()}")
     print(f"Running on: {platform.system()} {platform.release()} ({os.name})")
+    print(f"Database: {config['DATABASE']} {'(' + config['DB_HOST'] + ')' if config['DATABASE'] == 'mysql' else ''}")
     print("-------------------")
     status_task.start()
     await bot.tree.sync()

@@ -87,6 +87,8 @@ Here is an explanation of what everything is:
 | YOUR_BOT_PERMISSIONS_HERE | The permissions integer your bot needs when it gets invited           |
 | YOUR_APPLICATION_ID_HERE  | The application ID of your bot                                        |
 | OWNERS                    | The user ID of all the bot owners                                     |
+| DATABASE                  | The database you want to use (sqlite3 or mysql)                       |
+| DB_*                      | Database connection info (only needed for mysql)                      |
 
 
 ## How to start
