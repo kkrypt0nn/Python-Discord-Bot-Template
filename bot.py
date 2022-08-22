@@ -71,7 +71,7 @@ It is recommended to use slash commands and therefore not use prefix commands.
 
 If you want to use prefix commands, make sure to also enable the intent below in the Discord developer portal.
 """
-# intents.message_content = True
+intents.message_content = True
 
 bot = Bot(command_prefix=commands.when_mentioned_or(config["prefix"]), intents=intents, help_command=None)
 
@@ -130,21 +130,6 @@ async def on_message(message: discord.Message) -> None:
     if message.author == bot.user or message.author.bot:
         return
     await bot.process_commands(message)
-
-
-@bot.event
-async def on_app_command_completion(interaction: Interaction) -> None:
-    """
-    The code in this event is executed every time an app command has been **successfully** executed
-
-    :param interaction: The app command that has been executed.
-    """
-
-    if interaction.guild is not None:
-        print(
-        f"Executed {interaction.data.name} app command in {interaction.guild.name} (ID: {interaction.guild.id}) by {interaction.author} (ID: {interaction.author.id})")
-    else:
-        print(f"Executed {interaction.data.name} app command by {interaction.author} (ID: {interaction.author.id}) in DMs")
 
 
 @bot.event
@@ -220,7 +205,7 @@ async def on_command_error(context: Context, error) -> None:
     raise error
 
 
-async def main() -> None:
+async def load_cogs() -> None:
     """
     The code in this function is executed whenever the bot will start.
     """
@@ -233,9 +218,8 @@ async def main() -> None:
             except Exception as e:
                 exception = f"{type(e).__name__}: {e}"
                 print(f"Failed to load extension {extension}\n{exception}")
-    await bot.start(config["token"])
 
 
-if __name__ == "__main__":
-    init_db()
-    asyncio.run(main())
+init_db()
+asyncio.run(load_cogs())
+bot.run(config["token"])
