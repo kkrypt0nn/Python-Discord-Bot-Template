@@ -2,6 +2,14 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 5.1 (12 September 2022)
+
+* Added the `help` command once again
+* Created a group for the `warning` command, has following sub-commands:
+  * `add` - Adds a warning to the user
+  * `remove` - Removes a warning from the user
+  * `list` - Lists all the warnings of the user
+
 ### Version 5.0 (20 August 2022)
 
 > ⚠️ **Moved to discord.py 2.0 as it is now officially released**

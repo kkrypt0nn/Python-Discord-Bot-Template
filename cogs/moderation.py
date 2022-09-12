@@ -3,10 +3,9 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 5.0
+Version: 5.1
 """
 
-from doctest import debug_script
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -152,14 +151,23 @@ class Moderation(commands.Cog, name="moderation"):
             )
             await context.send(embed=embed)
 
-    @commands.hybrid_command(
-        name="warn",
-        description="Warns a user in the server.",
+    @commands.hybrid_group(
+        name="warning",
+        description="Manage warnings of a user on a server.",
     )
     @commands.has_permissions(manage_messages=True)
     @checks.not_blacklisted()
+    async def warning(self, context: Context) -> None:
+        pass
+
+    @warning.command(
+        name="add",
+        description="Adds a warning to a user in the server.",
+    )
+    @checks.not_blacklisted()
+    @commands.has_permissions(manage_messages=True)
     @app_commands.describe(user="The user that should be warned.", reason="The reason why the user should be warned.")
-    async def warn(self, context: Context, user: discord.User, reason: str = "Not specified") -> None:
+    async def warning_add(self, context: Context, user: discord.User, reason: str = "Not specified") -> None:
         """
         Warns a user in his private messages.
 
@@ -185,14 +193,38 @@ class Moderation(commands.Cog, name="moderation"):
             # Couldn't send a message in the private messages of the user
             await context.send(f"{member.mention}, you were warned by **{context.author}**!\nReason: {reason}")
 
-    @commands.hybrid_command(
-        name="warnings",
+    @warning.command(
+        name="remove",
+        description="Removes a warning from a user in the server.",
+    )
+    @checks.not_blacklisted()
+    @commands.has_permissions(manage_messages=True)
+    @app_commands.describe(user="The user that should get their warning removed.", warn_id="The ID of the warning that should be removed.")
+    async def warning_add(self, context: Context, user: discord.User, warn_id: int) -> None:
+        """
+        Warns a user in his private messages.
+
+        :param context: The hybrid command context.
+        :param user: The user that should get their warning removed.
+        :param warn_id: The ID of the warning that should be removed.
+        """
+        member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
+        total = db_manager.remove_warn(warn_id, user.id, context.guild.id)
+        embed = discord.Embed(
+            title="User Warn Removed!",
+            description=f"I've removed the warning **#{warn_id}** from **{member}**!\nTotal warns for this user: {total}",
+            color=0x9C84EF
+        )
+        await context.send(embed=embed)
+
+    @warning.command(
+        name="list",
         description="Shows the warnings of a user in the server.",
     )
     @commands.has_guild_permissions(manage_messages=True)
     @checks.not_blacklisted()
     @app_commands.describe(user="The user you want to get the warnings of.")
-    async def warnings(self, context: Context, user: discord.User):
+    async def warning_list(self, context: Context, user: discord.User):
         """
         Shows the warnings of a user in the server.
         
@@ -209,7 +241,7 @@ class Moderation(commands.Cog, name="moderation"):
             description = "This user has no warnings."
         else:
             for warning in warnings_list:
-                description += f"• Warned by <@{warning[2]}>: **{warning[3]}** (<t:{warning[4]}>)\n"
+                description += f"• Warned by <@{warning[2]}>: **{warning[3]}** (<t:{warning[4]}>) - Warn ID #{warning[5]}\n"
         embed.description = description
         await context.send(embed=embed)
 
