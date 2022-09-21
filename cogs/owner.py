@@ -35,7 +35,7 @@ class Owner(commands.Cog, name="owner"):
             description="Shutting down. Bye! :wave:",
             color=0x9C84EF
         )
-        await context.send(embed=embed)
+        await context.send(embed=embed,ephemeral=True)
         await self.bot.close()
 
     @commands.hybrid_command(
@@ -103,7 +103,7 @@ class Owner(commands.Cog, name="owner"):
                 description=f"**{user.name}** is not in the blacklist.",
                 color=0xE02B2B
             )
-            return await context.send(embed=embed)
+            return await context.send(embed=embed,ephemeral=True)
         total = db_manager.add_user_to_blacklist(user_id)
         embed = discord.Embed(
             title="User Blacklisted",
@@ -113,7 +113,7 @@ class Owner(commands.Cog, name="owner"):
         embed.set_footer(
             text=f"There are now {total} {'user' if total == 1 else 'users'} in the blacklist"
         )
-        await context.send(embed=embed)
+        await context.send(embed=embed,ephemeral=True)
 
     @blacklist.command(
         base="blacklist",
@@ -145,7 +145,7 @@ class Owner(commands.Cog, name="owner"):
         embed.set_footer(
             text=f"There are now {total} {'user' if total == 1 else 'users'} in the blacklist"
         )
-        await context.send(embed=embed)
+        await context.send(embed=embed,ephemeral=True)
 
 
 async def setup(bot):
