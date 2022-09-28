@@ -36,7 +36,7 @@ class Owner(commands.Cog, name="owner"):
             await self.bot.load_extension(f"cogs.{cog}")
         except Exception as e:
             embed=discord.Embed(title="Error!", description=f"Could not load the `{cog}` cog.")
-            await context.send(embed=embed) return
+            await context.send(embed=embed)
         embed=discord.Embed(title="Load", description=f"Successfully loaded the `{cog}` cog.")
         await context.send(embed=embed)
 
@@ -57,7 +57,7 @@ class Owner(commands.Cog, name="owner"):
             await self.bot.unload_extension(f"cogs.{cog}")
         except Exception as e:
             embed=discord.Embed(title="Error!", description=f"Could not unload the `{cog}` cog.")
-            await context.send(embed=embed) return
+            await context.send(embed=embed)
         embed=discord.Embed(title="Unload", description=f"Successfully loaded the `{cog}` cog.")
         await context.send(embed=embed)
 
@@ -77,7 +77,7 @@ class Owner(commands.Cog, name="owner"):
             await self.bot.reload_extension(f"cogs.{cog}")
         except Exception as e:
             embed=discord.Embed(title="Error!", description=f"Could not reload the `{cog}` cog.")
-            await context.send(embed=embed) return
+            await context.send(embed=embed)
         embed=discord.Embed(title="Reload", description=f"Successfully reloaded the `{cog}` cog.")
         await context.send(embed=embed)    
 
