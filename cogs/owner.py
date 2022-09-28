@@ -25,10 +25,9 @@ class Owner(commands.Cog, name="owner"):
         description="Load a cog",
     )
     @checks.is_owner()
-    async def load(self, context: Context, cog: str):
+    async def load(self, context: Context, cog: str) -> None:
         """
         The bot will load the given cog.
-
         :param context: The hybrid command context.
         :param cog: The cog to be loaded.
         """
@@ -36,7 +35,7 @@ class Owner(commands.Cog, name="owner"):
             await self.bot.load_extension(f"cogs.{cog}")
         except Exception as e:
             embed=discord.Embed(title="Error!", description=f"Could not load the `{cog}` cog.")
-            await context.send(embed=embed)
+            await context.send(embed=embed); return
         embed=discord.Embed(title="Load", description=f"Successfully loaded the `{cog}` cog.")
         await context.send(embed=embed)
 
@@ -46,10 +45,9 @@ class Owner(commands.Cog, name="owner"):
         description="Unloads a cog.",
     )
     @checks.is_owner()
-    async def unload(self, context: Context, cog: str):
+    async def unload(self, context: Context, cog: str) -> None:
         """
         The bot will unload the given cog.
-
         :param context: The hybrid command context.
         :param cog: The cog to be unloaded.
         """
@@ -57,7 +55,7 @@ class Owner(commands.Cog, name="owner"):
             await self.bot.unload_extension(f"cogs.{cog}")
         except Exception as e:
             embed=discord.Embed(title="Error!", description=f"Could not unload the `{cog}` cog.")
-            await context.send(embed=embed)
+            await context.send(embed=embed); return
         embed=discord.Embed(title="Unload", description=f"Successfully loaded the `{cog}` cog.")
         await context.send(embed=embed)
 
@@ -66,10 +64,9 @@ class Owner(commands.Cog, name="owner"):
         description="Reloads a cog.",
     )
     @checks.is_owner()
-    async def reload(self, context: Context, cog: str):
+    async def reload(self, context: Context, cog: str) -> None:
         """
         The bot will reload the given cog.
-
         :param context: The hybrid command context.
         :param cog: The cog to be reloaded.
         """
@@ -77,7 +74,7 @@ class Owner(commands.Cog, name="owner"):
             await self.bot.reload_extension(f"cogs.{cog}")
         except Exception as e:
             embed=discord.Embed(title="Error!", description=f"Could not reload the `{cog}` cog.")
-            await context.send(embed=embed)
+            await context.send(embed=embed); return
         embed=discord.Embed(title="Reload", description=f"Successfully reloaded the `{cog}` cog.")
         await context.send(embed=embed)    
 
