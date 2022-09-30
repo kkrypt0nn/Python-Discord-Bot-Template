@@ -49,6 +49,7 @@ class Owner(commands.Cog, name="owner"):
                 color=0x9C84EF
             )
             await context.send(embed=embed)
+            return
         elif scope == "guild":
             context.bot.tree.copy_global_to(guild=context.guild)
             await context.bot.tree.sync(guild=context.guild)
@@ -58,13 +59,13 @@ class Owner(commands.Cog, name="owner"):
                 color=0x9C84EF
             )
             await context.send(embed=embed)
-        else:
-            embed = discord.Embed(
-                title="Invalid Scope",
-                description="The scope must be `global` or `guild`.",
-                color=0xE02B2B
-            )
-            await context.send(embed=embed)
+            return
+        embed = discord.Embed(
+            title="Invalid Scope",
+            description="The scope must be `global` or `guild`.",
+            color=0xE02B2B
+        )
+        await context.send(embed=embed)
 
     @commands.command(
         name="unsync",
@@ -89,6 +90,7 @@ class Owner(commands.Cog, name="owner"):
                 color=0x9C84EF
             )
             await context.send(embed=embed)
+            return
         elif scope == "guild":
             context.bot.tree.clear_commands(guild=context.guild)
             await context.bot.tree.sync(guild=context.guild)
@@ -98,13 +100,13 @@ class Owner(commands.Cog, name="owner"):
                 color=0x9C84EF
             )
             await context.send(embed=embed)
-        else:
-            embed = discord.Embed(
-                title="Invalid Scope",
-                description="The scope must be `global` or `guild`.",
-                color=0xE02B2B
-            )
-            await context.send(embed=embed)
+            return
+        embed = discord.Embed(
+            title="Invalid Scope",
+            description="The scope must be `global` or `guild`.",
+            color=0xE02B2B
+        )
+        await context.send(embed=embed)
 
     @commands.hybrid_command(
         name="load",
@@ -121,16 +123,18 @@ class Owner(commands.Cog, name="owner"):
         """
         try:
             await self.bot.load_extension(f"cogs.{cog}")
-        except Exception as e:
+        except Exception:
             embed = discord.Embed(
                 title="Error!",
-                description=f"Could not load the `{cog}` cog."
+                description=f"Could not load the `{cog}` cog.",
+                color=0xE02B2B
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
             title="Load",
-            description=f"Successfully loaded the `{cog}` cog."
+            description=f"Successfully loaded the `{cog}` cog.",
+            color=0x9C84EF
         )
         await context.send(embed=embed)
 
@@ -149,16 +153,18 @@ class Owner(commands.Cog, name="owner"):
         """
         try:
             await self.bot.unload_extension(f"cogs.{cog}")
-        except Exception as e:
+        except Exception:
             embed = discord.Embed(
                 title="Error!",
-                description=f"Could not unload the `{cog}` cog."
+                description=f"Could not unload the `{cog}` cog.",
+                color=0xE02B2B
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
             title="Unload",
-            description=f"Successfully loaded the `{cog}` cog."
+            description=f"Successfully unloaded the `{cog}` cog.",
+            color=0x9C84EF
         )
         await context.send(embed=embed)
 
@@ -177,16 +183,18 @@ class Owner(commands.Cog, name="owner"):
         """
         try:
             await self.bot.reload_extension(f"cogs.{cog}")
-        except Exception as e:
+        except Exception:
             embed = discord.Embed(
                 title="Error!",
-                description=f"Could not reload the `{cog}` cog."
+                description=f"Could not reload the `{cog}` cog.",
+                color=0xE02B2B
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
             title="Reload",
-            description=f"Successfully reloaded the `{cog}` cog."
+            description=f"Successfully reloaded the `{cog}` cog.",
+            color=0x9C84EF
         )
         await context.send(embed=embed)
 
