@@ -7,10 +7,9 @@ Version: 5.1
 """
 
 import json
-from typing import TypeVar, Callable
+from typing import Callable, TypeVar
 
 from discord.ext import commands
-
 from exceptions import *
 
 from helpers import db_manager

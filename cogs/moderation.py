@@ -10,9 +10,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
-
-from helpers import checks
-from helpers import db_manager
+from helpers import checks, db_manager
 
 
 class Moderation(commands.Cog, name="moderation"):
@@ -112,7 +110,7 @@ class Moderation(commands.Cog, name="moderation"):
     async def ban(self, context: Context, user: discord.User, reason: str = "Not specified") -> None:
         """
         Bans a user from the server.
-        
+
         :param context: The hybrid command context.
         :param user: The user that should be banned from the server.
         :param reason: The reason for the ban. Default is "Not specified".
@@ -176,7 +174,8 @@ class Moderation(commands.Cog, name="moderation"):
         :param reason: The reason for the warn. Default is "Not specified".
         """
         member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
-        total = db_manager.add_warn(user.id, context.guild.id, context.author.id, reason)
+        total = db_manager.add_warn(
+            user.id, context.guild.id, context.author.id, reason)
         embed = discord.Embed(
             title="User Warned!",
             description=f"**{member}** was warned by **{context.author}**!\nTotal warns for this user: {total}",
@@ -227,13 +226,13 @@ class Moderation(commands.Cog, name="moderation"):
     async def warning_list(self, context: Context, user: discord.User):
         """
         Shows the warnings of a user in the server.
-        
+
         :param context: The hybrid command context.
         :param user: The user you want to get the warnings of.
         """
         warnings_list = db_manager.get_warnings(user.id, context.guild.id)
         embed = discord.Embed(
-            title = f"Warnings of {user}",
+            title=f"Warnings of {user}",
             color=0x9C84EF
         )
         description = ""

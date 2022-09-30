@@ -13,14 +13,12 @@ import platform
 import random
 import sqlite3
 import sys
-
 from contextlib import closing
 
 import discord
 from discord import Interaction
-from discord.ext import tasks, commands
-from discord.ext.commands import Bot
-from discord.ext.commands import Context
+from discord.ext import commands, tasks
+from discord.ext.commands import Bot, Context
 
 import exceptions
 
@@ -71,9 +69,10 @@ It is recommended to use slash commands and therefore not use prefix commands.
 
 If you want to use prefix commands, make sure to also enable the intent below in the Discord developer portal.
 """
-intents.message_content = True
+# intents.message_content = True
 
-bot = Bot(command_prefix=commands.when_mentioned_or(config["prefix"]), intents=intents, help_command=None)
+bot = Bot(command_prefix=commands.when_mentioned_or(
+    config["prefix"]), intents=intents, help_command=None)
 
 
 def init_db():
@@ -97,6 +96,7 @@ The config is available using the following code:
 bot.config = config
 bot.db = connect_db()
 
+
 @bot.event
 async def on_ready() -> None:
     """
@@ -108,7 +108,6 @@ async def on_ready() -> None:
     print(f"Running on: {platform.system()} {platform.release()} ({os.name})")
     print("-------------------")
     status_task.start()
-    await bot.tree.sync(guild=bot.get_guild(bot.config["dev_guild_id"])) # This will load only the 'sync' and 'unsync' commands for the dev guild
 
 
 @tasks.loop(minutes=1.0)
@@ -145,7 +144,8 @@ async def on_command_completion(context: Context) -> None:
         print(
             f"Executed {executed_command} command in {context.guild.name} (ID: {context.guild.id}) by {context.author} (ID: {context.author.id})")
     else:
-        print(f"Executed {executed_command} command by {context.author} (ID: {context.author.id}) in DMs")
+        print(
+            f"Executed {executed_command} command by {context.author} (ID: {context.author.id}) in DMs")
 
 
 @bot.event
