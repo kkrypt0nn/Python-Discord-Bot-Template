@@ -66,7 +66,9 @@ class RockPaperScissors(discord.ui.Select):
 
         result_embed = discord.Embed(color=0x9C84EF)
         result_embed.set_author(
-            name=interaction.user.name, icon_url=interaction.user.avatar.url)
+            name=interaction.user.name,
+            icon_url=interaction.user.avatar.url
+        )
 
         if user_choice_index == bot_choice_index:
             result_embed.description = f"**That's a draw!**\nYou've chosen {user_choice} and I've chosen {bot_choice}."

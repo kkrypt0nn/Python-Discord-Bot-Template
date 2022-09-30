@@ -16,12 +16,6 @@ from discord.ext import commands
 from discord.ext.commands import Context
 from helpers import checks, db_manager
 
-if not os.path.isfile("config.json"):
-    sys.exit("'config.json' not found! Please add it and try again.")
-else:
-    with open("config.json") as file:
-        config = json.load(file)
-
 
 class Owner(commands.Cog, name="owner"):
     def __init__(self, bot):
