@@ -2,6 +2,12 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Vesion 5.2 (30 September 2022)
+
+* Added `load`, `reload` and `unload` commands.
+* Added `sync` and `unsync` commands.
+* Code refactoring and cleanup.
+
 ### Version 5.1 (12 September 2022)
 
 * Added the `help` command once again

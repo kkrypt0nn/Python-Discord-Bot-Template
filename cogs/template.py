@@ -3,12 +3,11 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 5.1
+Version: 5.2
 """
 
 from discord.ext import commands
 from discord.ext.commands import Context
-
 from helpers import checks
 
 
@@ -17,8 +16,8 @@ class Template(commands.Cog, name="template"):
     def __init__(self, bot):
         self.bot = bot
 
-
     # Here you can just add your own commands, you'll always need to provide "self" as first parameter.
+
     @commands.hybrid_command(
         name="testcommand",
         description="This is a testing command that does nothing.",

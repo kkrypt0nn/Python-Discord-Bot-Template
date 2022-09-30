@@ -3,7 +3,7 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 5.1
+Version: 5.2
 """
 
 import random
@@ -13,7 +13,6 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
-
 from helpers import checks
 
 
@@ -66,7 +65,10 @@ class RockPaperScissors(discord.ui.Select):
         bot_choice_index = choices[bot_choice]
 
         result_embed = discord.Embed(color=0x9C84EF)
-        result_embed.set_author(name=interaction.user.name, icon_url=interaction.user.avatar.url)
+        result_embed.set_author(
+            name=interaction.user.name,
+            icon_url=interaction.user.avatar.url
+        )
 
         if user_choice_index == bot_choice_index:
             result_embed.description = f"**That's a draw!**\nYou've chosen {user_choice} and I've chosen {bot_choice}."
@@ -104,7 +106,7 @@ class Fun(commands.Cog, name="fun"):
     async def randomfact(self, context: Context) -> None:
         """
         Get a random fact.
-        
+
         :param context: The hybrid command context.
         """
         # This will prevent your bot from stopping everything when doing a web request - see: https://discordpy.readthedocs.io/en/stable/faq.html#how-do-i-make-a-web-request
@@ -132,7 +134,7 @@ class Fun(commands.Cog, name="fun"):
     async def coinflip(self, context: Context) -> None:
         """
         Make a coin flip, but give your bet before.
-        
+
         :param context: The hybrid command context.
         """
         buttons = Choice()
@@ -143,7 +145,6 @@ class Fun(commands.Cog, name="fun"):
         message = await context.send(embed=embed, view=buttons)
         await buttons.wait()  # We wait for the user to click a button.
         result = random.choice(["heads", "tails"])
-        print(buttons.value)
         if buttons.value == result:
             embed = discord.Embed(
                 description=f"Correct! You guessed `{buttons.value}` and I flipped the coin to `{result}`.",
@@ -164,7 +165,7 @@ class Fun(commands.Cog, name="fun"):
     async def rock_paper_scissors(self, context: Context) -> None:
         """
         Play the rock paper scissors game against the bot.
-        
+
         :param context: The hybrid command context.
         """
         view = RockPaperScissorsView()
