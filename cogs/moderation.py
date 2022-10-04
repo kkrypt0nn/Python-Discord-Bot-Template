@@ -3,7 +3,7 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 5.2
+Version: 5.2.1
 """
 
 import discord
@@ -24,7 +24,7 @@ class Moderation(commands.Cog, name="moderation"):
     @commands.has_permissions(kick_members=True)
     @checks.not_blacklisted()
     @app_commands.describe(user="The user that should be kicked.", reason="The reason why the user should be kicked.")
-    async def kick(self, context: Context, user: discord.User, reason: str = "Not specified") -> None:
+    async def kick(self, context: Context, user: discord.User, *, reason: str = "Not specified") -> None:
         """
         Kick a user out of the server.
 
@@ -75,7 +75,7 @@ class Moderation(commands.Cog, name="moderation"):
     @commands.has_permissions(manage_nicknames=True)
     @checks.not_blacklisted()
     @app_commands.describe(user="The user that should have a new nickname.", nickname="The new nickname that should be set.")
-    async def nick(self, context: Context, user: discord.User, nickname: str = None) -> None:
+    async def nick(self, context: Context, user: discord.User, *, nickname: str = None) -> None:
         """
         Change the nickname of a user on a server.
 
@@ -107,7 +107,7 @@ class Moderation(commands.Cog, name="moderation"):
     @commands.has_permissions(ban_members=True)
     @checks.not_blacklisted()
     @app_commands.describe(user="The user that should be banned.", reason="The reason why the user should be banned.")
-    async def ban(self, context: Context, user: discord.User, reason: str = "Not specified") -> None:
+    async def ban(self, context: Context, user: discord.User, *, reason: str = "Not specified") -> None:
         """
         Bans a user from the server.
 
@@ -156,7 +156,18 @@ class Moderation(commands.Cog, name="moderation"):
     @commands.has_permissions(manage_messages=True)
     @checks.not_blacklisted()
     async def warning(self, context: Context) -> None:
-        pass
+        """
+        Manage warnings of a user on a server.
+
+        :param context: The hybrid command context.
+        """
+        if context.invoked_subcommand is None:
+            embed = discord.Embed(
+                title="Error!",
+                description="Please specify a subcommand.\n\n**Subcommands:**\n`add` - Add a warning to a user.\n`remove` - Remove a warning from a user.\n`list` - List all warnings of a user.",
+                color=0xE02B2B
+            )
+            await context.send(embed=embed)
 
     @warning.command(
         name="add",
@@ -165,7 +176,7 @@ class Moderation(commands.Cog, name="moderation"):
     @checks.not_blacklisted()
     @commands.has_permissions(manage_messages=True)
     @app_commands.describe(user="The user that should be warned.", reason="The reason why the user should be warned.")
-    async def warning_add(self, context: Context, user: discord.User, reason: str = "Not specified") -> None:
+    async def warning_add(self, context: Context, user: discord.User, *, reason: str = "Not specified") -> None:
         """
         Warns a user in his private messages.
 
@@ -199,7 +210,7 @@ class Moderation(commands.Cog, name="moderation"):
     @checks.not_blacklisted()
     @commands.has_permissions(manage_messages=True)
     @app_commands.describe(user="The user that should get their warning removed.", warn_id="The ID of the warning that should be removed.")
-    async def warning_add(self, context: Context, user: discord.User, warn_id: int) -> None:
+    async def warning_remove(self, context: Context, user: discord.User, warn_id: int) -> None:
         """
         Warns a user in his private messages.
 
@@ -273,7 +284,7 @@ class Moderation(commands.Cog, name="moderation"):
     @commands.has_permissions(ban_members=True)
     @checks.not_blacklisted()
     @app_commands.describe(user_id="The user ID that should be banned.", reason="The reason why the user should be banned.")
-    async def hackban(self, context: Context, user_id: str, reason: str = "Not specified") -> None:
+    async def hackban(self, context: Context, user_id: str, *, reason: str = "Not specified") -> None:
         """
         Bans a user without the user having to be in the server.
 

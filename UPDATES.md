@@ -2,6 +2,12 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 5.2.1 (04 October 2022)
+
+* Added error message when subcommands are not given
+* Fixed `warning remove` command
+* Now using keyword arguments (`async def command(self, context, *, message):`) for kick/ban reason, message to sent, etc.
+
 ### Vesion 5.2 (30 September 2022)
 
 * Added `load`, `reload` and `unload` commands.

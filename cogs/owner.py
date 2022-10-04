@@ -3,7 +3,7 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 5.2
+Version: 5.2.1
 """
 
 import json
@@ -216,7 +216,7 @@ class Owner(commands.Cog, name="owner"):
     )
     @app_commands.describe(message="The message that should be repeated by the bot")
     @checks.is_owner()
-    async def say(self, context: Context, message: str) -> None:
+    async def say(self, context: Context, *, message: str) -> None:
         """
         The bot will say anything you want.
 
@@ -231,7 +231,7 @@ class Owner(commands.Cog, name="owner"):
     )
     @app_commands.describe(message="The message that should be repeated by the bot")
     @checks.is_owner()
-    async def embed(self, context: Context, message: str) -> None:
+    async def embed(self, context: Context, *, message: str) -> None:
         """
         The bot will say anything you want, but using embeds.
 
@@ -255,7 +255,13 @@ class Owner(commands.Cog, name="owner"):
 
         :param context: The hybrid command context.
         """
-        pass
+        if context.invoked_subcommand is None:
+            embed = discord.Embed(
+                title="Blacklist",
+                description="You need to specify a subcommand.\n\n**Subcommands:**\n`add` - Add a user to the blacklist.\n`remove` - Remove a user from the blacklist.",
+                color=0xE02B2B
+            )
+            await context.send(embed=embed)
 
     @blacklist.command(
         base="blacklist",
