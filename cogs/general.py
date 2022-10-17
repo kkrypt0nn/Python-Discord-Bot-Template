@@ -3,7 +3,7 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 5.2.1
+Version: 5.3
 """
 
 import platform
@@ -26,9 +26,11 @@ class General(commands.Cog, name="general"):
         name="help",
         description="List all commands the bot has loaded."
     )
+    @checks.not_blacklisted()
     async def help(self, context: Context) -> None:
         prefix = self.bot.config["prefix"]
-        embed = discord.Embed(title="Help", description="List of available commands:", color=0x9C84EF)
+        embed = discord.Embed(
+            title="Help", description="List of available commands:", color=0x9C84EF)
         for i in self.bot.cogs:
             cog = self.bot.get_cog(i.lower())
             commands = cog.get_commands()
@@ -37,7 +39,8 @@ class General(commands.Cog, name="general"):
                 description = command.description.partition('\n')[0]
                 data.append(f"{prefix}{command.name} - {description}")
             help_text = "\n".join(data)
-            embed.add_field(name=i.capitalize(), value=f'```{help_text}```', inline=False)
+            embed.add_field(name=i.capitalize(),
+                            value=f'```{help_text}```', inline=False)
         await context.send(embed=embed)
 
     @commands.hybrid_command(
@@ -48,7 +51,7 @@ class General(commands.Cog, name="general"):
     async def botinfo(self, context: Context) -> None:
         """
         Get some useful (or not) information about the bot.
-        
+
         :param context: The hybrid command context.
         """
         embed = discord.Embed(
@@ -86,7 +89,7 @@ class General(commands.Cog, name="general"):
     async def serverinfo(self, context: Context) -> None:
         """
         Get some useful (or not) information about the server.
-        
+
         :param context: The hybrid command context.
         """
         roles = [role.name for role in context.guild.roles]
@@ -100,7 +103,7 @@ class General(commands.Cog, name="general"):
             description=f"{context.guild}",
             color=0x9C84EF
         )
-        if context.guild.icon is not None:            
+        if context.guild.icon is not None:
             embed.set_thumbnail(
                 url=context.guild.icon.url
             )
@@ -133,7 +136,7 @@ class General(commands.Cog, name="general"):
     async def ping(self, context: Context) -> None:
         """
         Check if the bot is alive.
-        
+
         :param context: The hybrid command context.
         """
         embed = discord.Embed(
@@ -151,7 +154,7 @@ class General(commands.Cog, name="general"):
     async def invite(self, context: Context) -> None:
         """
         Get the invite link of the bot to be able to invite it.
-        
+
         :param context: The hybrid command context.
         """
         embed = discord.Embed(
@@ -173,7 +176,7 @@ class General(commands.Cog, name="general"):
     async def server(self, context: Context) -> None:
         """
         Get the invite link of the discord server of the bot for some support.
-        
+
         :param context: The hybrid command context.
         """
         embed = discord.Embed(
@@ -195,7 +198,7 @@ class General(commands.Cog, name="general"):
     async def eight_ball(self, context: Context, *, question: str) -> None:
         """
         Ask any question to the bot.
-        
+
         :param context: The hybrid command context.
         :param question: The question that should be asked by the user.
         """
@@ -222,7 +225,7 @@ class General(commands.Cog, name="general"):
     async def bitcoin(self, context: Context) -> None:
         """
         Get the current price of bitcoin.
-        
+
         :param context: The hybrid command context.
         """
         # This will prevent your bot from stopping everything when doing a web request - see: https://discordpy.readthedocs.io/en/stable/faq.html#how-do-i-make-a-web-request

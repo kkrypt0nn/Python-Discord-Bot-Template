@@ -3,80 +3,73 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 5.2.1
+Version: 5.3
 """
 
-import sqlite3
+import aiosqlite
 
 
-def is_blacklisted(user_id: int) -> bool:
+async def is_blacklisted(user_id: int) -> bool:
     """
     This function will check if a user is blacklisted.
 
     :param user_id: The ID of the user that should be checked.
     :return: True if the user is blacklisted, False if not.
     """
-    connection = sqlite3.connect("database/database.db")
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM blacklist WHERE user_id=?", (user_id,))
-    result = cursor.fetchone()
-    connection.close()
-    return result is not None
+    async with aiosqlite.connect("database/database.db") as db:
+        async with db.execute("SELECT * FROM blacklist WHERE user_id=?", (user_id,)) as cursor:
+            result = await cursor.fetchone()
+            return result is not None
 
 
-def add_user_to_blacklist(user_id: int) -> int:
+async def add_user_to_blacklist(user_id: int) -> int:
     """
     This function will add a user based on its ID in the blacklist.
 
     :param user_id: The ID of the user that should be added into the blacklist.
     """
-    connection = sqlite3.connect("database/database.db")
-    cursor = connection.cursor()
-    cursor.execute("INSERT INTO blacklist(user_id) VALUES (?)", (user_id,))
-    connection.commit()
-    rows = cursor.execute("SELECT COUNT(*) FROM blacklist").fetchone()[0]
-    connection.close()
-    return rows
+    async with aiosqlite.connect("database/database.db") as db:
+        await db.execute("INSERT INTO blacklist(user_id) VALUES (?)", (user_id,))
+        await db.commit()
+        rows = await db.execute("SELECT COUNT(*) FROM blacklist")
+        async with rows as cursor:
+            result = await cursor.fetchone()
+            return result[0] if result is not None else 0
 
 
-def remove_user_from_blacklist(user_id: int) -> int:
+async def remove_user_from_blacklist(user_id: int) -> int:
     """
     This function will remove a user based on its ID from the blacklist.
 
     :param user_id: The ID of the user that should be removed from the blacklist.
     """
-    connection = sqlite3.connect("database/database.db")
-    cursor = connection.cursor()
-    cursor.execute("DELETE FROM blacklist WHERE user_id=?", (user_id,))
-    connection.commit()
-    rows = cursor.execute("SELECT COUNT(*) FROM blacklist").fetchone()[0]
-    connection.close()
-    return rows
+    async with aiosqlite.connect("database/database.db") as db:
+        await db.execute("DELETE FROM blacklist WHERE user_id=?", (user_id,))
+        await db.commit()
+        rows = await db.execute("SELECT COUNT(*) FROM blacklist")
+        async with rows as cursor:
+            result = await cursor.fetchone()
+            return result[0] if result is not None else 0
 
 
-def add_warn(user_id: int, server_id: int, moderator_id: int, reason: str) -> int:
+async def add_warn(user_id: int, server_id: int, moderator_id: int, reason: str) -> int:
     """
     This function will add a warn to the database.
 
     :param user_id: The ID of the user that should be warned.
     :param reason: The reason why the user should be warned.
     """
-    connection = sqlite3.connect("database/database.db")
-    cursor = connection.cursor()
-    # Get the last `id`
-    rows = cursor.execute(
-        "SELECT id FROM warns WHERE user_id=? AND server_id=? ORDER BY id DESC LIMIT 1", (user_id, server_id,)).fetchone()
-    warn_id = rows[0]+1 if rows is not None else 1
-    cursor.execute("INSERT INTO warns(id, user_id, server_id, moderator_id, reason) VALUES (?, ?, ?, ?, ?)",
-                   (warn_id, user_id, server_id, moderator_id, reason,))
-    connection.commit()
-    rows = cursor.execute(
-        "SELECT COUNT(*) FROM warns WHERE user_id=? AND server_id=?", (user_id, server_id,)).fetchone()[0]
-    connection.close()
-    return rows
+    async with aiosqlite.connect("database/database.db") as db:
+        rows = await db.execute("SELECT id FROM warns WHERE user_id=? AND server_id=? ORDER BY id DESC LIMIT 1", (user_id, server_id,))
+        async with rows as cursor:
+            result = await cursor.fetchone()
+            warn_id = result[0] + 1 if result is not None else 1
+            await db.execute("INSERT INTO warns(id, user_id, server_id, moderator_id, reason) VALUES (?, ?, ?, ?, ?)", (warn_id, user_id, server_id, moderator_id, reason,))
+            await db.commit()
+            return warn_id
 
 
-def remove_warn(warn_id: int, user_id: int, server_id: int) -> int:
+async def remove_warn(warn_id: int, user_id: int, server_id: int) -> int:
     """
     This function will remove a warn from the database.
 
@@ -84,18 +77,16 @@ def remove_warn(warn_id: int, user_id: int, server_id: int) -> int:
     :param user_id: The ID of the user that was warned.
     :param server_id: The ID of the server where the user has been warned
     """
-    connection = sqlite3.connect("database/database.db")
-    cursor = connection.cursor()
-    cursor.execute("DELETE FROM warns WHERE id=? AND user_id=? AND server_id=?",
-                   (warn_id, user_id, server_id,))
-    connection.commit()
-    rows = cursor.execute(
-        "SELECT COUNT(*) FROM warns WHERE user_id=? AND server_id=?", (user_id, server_id,)).fetchone()[0]
-    connection.close()
-    return rows
+    async with aiosqlite.connect("database/database.db") as db:
+        await db.execute("DELETE FROM warns WHERE id=? AND user_id=? AND server_id=?", (warn_id, user_id, server_id,))
+        await db.commit()
+        rows = await db.execute("SELECT COUNT(*) FROM warns WHERE user_id=? AND server_id=?", (user_id, server_id,))
+        async with rows as cursor:
+            result = await cursor.fetchone()
+            return result[0] if result is not None else 0
 
 
-def get_warnings(user_id: int, server_id: int) -> list:
+async def get_warnings(user_id: int, server_id: int) -> list:
     """
     This function will get all the warnings of a user.
 
@@ -103,9 +94,11 @@ def get_warnings(user_id: int, server_id: int) -> list:
     :param server_id: The ID of the server that should be checked.
     :return: A list of all the warnings of the user.
     """
-    connection = sqlite3.connect("database/database.db")
-    cursor = connection.cursor()
-    cursor.execute("SELECT user_id, server_id, moderator_id, reason, strftime('%s', created_at), id FROM warns WHERE user_id=? AND server_id=?", (user_id, server_id,))
-    result = cursor.fetchall()
-    connection.close()
-    return result
+    async with aiosqlite.connect("database/database.db") as db:
+        rows = await db.execute("SELECT user_id, server_id, moderator_id, reason, strftime('%s', created_at), id FROM warns WHERE user_id=? AND server_id=?", (user_id, server_id,))
+        async with rows as cursor:
+            result = await cursor.fetchall()
+            result_list = []
+            for row in result:
+                result_list.append(row)
+            return result_list

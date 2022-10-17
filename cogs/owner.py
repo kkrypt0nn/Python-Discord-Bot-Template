@@ -3,7 +3,7 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 5.2.1
+Version: 5.3
 """
 
 import json
@@ -14,6 +14,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
+
 from helpers import checks, db_manager
 
 
@@ -278,7 +279,7 @@ class Owner(commands.Cog, name="owner"):
         :param user: The user that should be added to the blacklist.
         """
         user_id = user.id
-        if db_manager.is_blacklisted(user_id):
+        if await db_manager.is_blacklisted(user_id):
             embed = discord.Embed(
                 title="Error!",
                 description=f"**{user.name}** is not in the blacklist.",
@@ -286,7 +287,7 @@ class Owner(commands.Cog, name="owner"):
             )
             await context.send(embed=embed)
             return
-        total = db_manager.add_user_to_blacklist(user_id)
+        total = await db_manager.add_user_to_blacklist(user_id)
         embed = discord.Embed(
             title="User Blacklisted",
             description=f"**{user.name}** has been successfully added to the blacklist",
@@ -312,7 +313,7 @@ class Owner(commands.Cog, name="owner"):
         :param user: The user that should be removed from the blacklist.
         """
         user_id = user.id
-        if not db_manager.is_blacklisted(user_id):
+        if not await db_manager.is_blacklisted(user_id):
             embed = discord.Embed(
                 title="Error!",
                 description=f"**{user.name}** is already in the blacklist.",
@@ -320,7 +321,7 @@ class Owner(commands.Cog, name="owner"):
             )
             await context.send(embed=embed)
             return
-        total = db_manager.remove_user_from_blacklist(user_id)
+        total = await db_manager.remove_user_from_blacklist(user_id)
         embed = discord.Embed(
             title="User removed from blacklist",
             description=f"**{user.name}** has been successfully removed from the blacklist",

@@ -2,6 +2,10 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 5.3 (17 October 2022)
+
+* Using `aiosqlite` instead of `sqlite3` for asynchronous database operations.
+
 ### Version 5.2.1 (04 October 2022)
 
 * Added error message when subcommands are not given

@@ -1,10 +1,10 @@
 # TODO List
 
-## Version 4.2
+## Version 5.5
 
 * [ ] Add a timeout command
 
-## Version 4.3
+## Version 5.6
 
 * [ ] Add a lock command that will let administrators temporary lock a channel, useful in case of a raid
 * [ ] Add an archive command that lets administrators archive a text channel in a text file

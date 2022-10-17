@@ -3,13 +3,14 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 5.2.1
+Version: 5.3
 """
 
 import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
+
 from helpers import checks, db_manager
 
 
@@ -185,7 +186,7 @@ class Moderation(commands.Cog, name="moderation"):
         :param reason: The reason for the warn. Default is "Not specified".
         """
         member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
-        total = db_manager.add_warn(
+        total = await db_manager.add_warn(
             user.id, context.guild.id, context.author.id, reason)
         embed = discord.Embed(
             title="User Warned!",
@@ -219,7 +220,7 @@ class Moderation(commands.Cog, name="moderation"):
         :param warn_id: The ID of the warning that should be removed.
         """
         member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
-        total = db_manager.remove_warn(warn_id, user.id, context.guild.id)
+        total = await db_manager.remove_warn(warn_id, user.id, context.guild.id)
         embed = discord.Embed(
             title="User Warn Removed!",
             description=f"I've removed the warning **#{warn_id}** from **{member}**!\nTotal warns for this user: {total}",
@@ -241,7 +242,7 @@ class Moderation(commands.Cog, name="moderation"):
         :param context: The hybrid command context.
         :param user: The user you want to get the warnings of.
         """
-        warnings_list = db_manager.get_warnings(user.id, context.guild.id)
+        warnings_list = await db_manager.get_warnings(user.id, context.guild.id)
         embed = discord.Embed(
             title=f"Warnings of {user}",
             color=0x9C84EF

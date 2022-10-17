@@ -3,7 +3,7 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 5.2.1
+Version: 5.3
 """
 
 import asyncio
@@ -11,12 +11,10 @@ import json
 import os
 import platform
 import random
-import sqlite3
 import sys
-from contextlib import closing
 
+import aiosqlite
 import discord
-from discord import Interaction
 from discord.ext import commands, tasks
 from discord.ext.commands import Bot, Context
 
@@ -75,15 +73,11 @@ bot = Bot(command_prefix=commands.when_mentioned_or(
     config["prefix"]), intents=intents, help_command=None)
 
 
-def init_db():
-    with closing(connect_db()) as db:
-        with open("database/schema.sql", "r") as f:
-            db.cursor().executescript(f.read())
-        db.commit()
-
-
-def connect_db():
-    return sqlite3.connect("database/database.db")
+async def init_db():
+    async with aiosqlite.connect("database/database.db") as db:
+        with open("database/schema.sql") as file:
+            await db.executescript(file.read())
+        await db.commit()
 
 
 """
@@ -94,7 +88,6 @@ The config is available using the following code:
 - self.bot.config # In cogs
 """
 bot.config = config
-bot.db = connect_db()
 
 
 @bot.event
@@ -220,6 +213,6 @@ async def load_cogs() -> None:
                 print(f"Failed to load extension {extension}\n{exception}")
 
 
-init_db()
+asyncio.run(init_db())
 asyncio.run(load_cogs())
 bot.run(config["token"])
