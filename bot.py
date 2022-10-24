@@ -101,6 +101,9 @@ async def on_ready() -> None:
     print(f"Running on: {platform.system()} {platform.release()} ({os.name})")
     print("-------------------")
     status_task.start()
+    if config["sync_commands_globally"]:
+        print("Syncing commands globally...")
+        await bot.tree.sync()
 
 
 @tasks.loop(minutes=1.0)
