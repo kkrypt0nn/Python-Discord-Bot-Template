@@ -1,4 +1,3 @@
 aiohttp
 aiosqlite
-asyncio
 discord.py
