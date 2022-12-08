@@ -3,12 +3,8 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 5.3
+Version: 5.4
 """
-
-import json
-import os
-import sys
 
 import discord
 from discord import app_commands

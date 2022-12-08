@@ -3,7 +3,7 @@ Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 This is a template to create your own discord bot in python.
 
-Version: 5.3
+Version: 5.4
 """
 
 import discord
@@ -23,6 +23,7 @@ class Moderation(commands.Cog, name="moderation"):
         description="Kick a user out of the server.",
     )
     @commands.has_permissions(kick_members=True)
+    @commands.bot_has_permissions(kick_members=True)
     @checks.not_blacklisted()
     @app_commands.describe(user="The user that should be kicked.", reason="The reason why the user should be kicked.")
     async def kick(self, context: Context, user: discord.User, *, reason: str = "Not specified") -> None:
@@ -74,6 +75,7 @@ class Moderation(commands.Cog, name="moderation"):
         description="Change the nickname of a user on a server.",
     )
     @commands.has_permissions(manage_nicknames=True)
+    @commands.bot_has_permissions(manage_nicknames=True)
     @checks.not_blacklisted()
     @app_commands.describe(user="The user that should have a new nickname.", nickname="The new nickname that should be set.")
     async def nick(self, context: Context, user: discord.User, *, nickname: str = None) -> None:
@@ -106,6 +108,7 @@ class Moderation(commands.Cog, name="moderation"):
         description="Bans a user from the server.",
     )
     @commands.has_permissions(ban_members=True)
+    @commands.bot_has_permissions(ban_members=True)
     @checks.not_blacklisted()
     @app_commands.describe(user="The user that should be banned.", reason="The reason why the user should be banned.")
     async def ban(self, context: Context, user: discord.User, *, reason: str = "Not specified") -> None:
@@ -261,6 +264,7 @@ class Moderation(commands.Cog, name="moderation"):
         description="Delete a number of messages.",
     )
     @commands.has_guild_permissions(manage_messages=True)
+    @commands.bot_has_permissions(manage_messages=True)
     @checks.not_blacklisted()
     @app_commands.describe(amount="The amount of messages that should be deleted.")
     async def purge(self, context: Context, amount: int) -> None:
@@ -270,11 +274,11 @@ class Moderation(commands.Cog, name="moderation"):
         :param context: The hybrid command context.
         :param amount: The number of messages that should be deleted.
         """
-        await context.send("Deleting messages...") # Bit of a hacky way to make sure the bot responds to the interaction and doens't get a "Unknown Interaction" response
+        await context.send("Deleting messages...")  # Bit of a hacky way to make sure the bot responds to the interaction and doens't get a "Unknown Interaction" response
         purged_messages = await context.channel.purge(limit=amount+1)
         embed = discord.Embed(
             title="Chat Cleared!",
-            description=f"**{context.author}** cleared **{len(purged_messages-1)}** messages!",
+            description=f"**{context.author}** cleared **{len(purged_messages)-1}** messages!",
             color=0x9C84EF
         )
         await context.channel.send(embed=embed)
@@ -284,6 +288,7 @@ class Moderation(commands.Cog, name="moderation"):
         description="Bans a user without the user having to be in the server.",
     )
     @commands.has_permissions(ban_members=True)
+    @commands.bot_has_permissions(ban_members=True)
     @checks.not_blacklisted()
     @app_commands.describe(user_id="The user ID that should be banned.", reason="The reason why the user should be banned.")
     async def hackban(self, context: Context, user_id: str, *, reason: str = "Not specified") -> None:

@@ -2,6 +2,12 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 5.4 (8 December 2022)
+
+* Added `@commands.bot_has_permissions()` checks and handle the exception for it
+* Fixed `purge` command
+* Removed `asyncio` from the requirements file
+
 ### Version 5.3 (17 October 2022)
 
 * Using `aiosqlite` instead of `sqlite3` for asynchronous database operations.
