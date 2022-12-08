@@ -276,7 +276,7 @@ class Moderation(commands.Cog, name="moderation"):
             description=f"**{context.author}** cleared **{len(purged_messages)}** messages!",
             color=0x9C84EF
         )
-        await context.channel.send(embed=embed)
+        await context.send(embed=embed)
 
     @commands.hybrid_command(
         name="hackban",
