@@ -270,10 +270,11 @@ class Moderation(commands.Cog, name="moderation"):
         :param context: The hybrid command context.
         :param amount: The number of messages that should be deleted.
         """
-        purged_messages = await context.channel.purge(limit=amount)
+        await context.send("Deleting messages...") # Bit of a hacky way to make sure the bot responds to the interaction and doens't get a "Unknown Interaction" response
+        purged_messages = await context.channel.purge(limit=amount+1)
         embed = discord.Embed(
             title="Chat Cleared!",
-            description=f"**{context.author}** cleared **{len(purged_messages)}** messages!",
+            description=f"**{context.author}** cleared **{len(purged_messages-1)}** messages!",
             color=0x9C84EF
         )
         await context.channel.send(embed=embed)
