@@ -2,6 +2,10 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 5.4.1 (22 December 2022)
+
+* Loading files relatively to where the `bot.py` file is located, so that you can start the bot from anywhere in your system
+
 ### Version 5.4 (8 December 2022)
 
 * Added `@commands.bot_has_permissions()` checks and handle the exception for it

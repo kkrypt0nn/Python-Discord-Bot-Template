@@ -1,9 +1,9 @@
 """
-Copyright © Krypton 2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
+Copyright © Krypton 2019-2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
-This is a template to create your own discord bot in python.
+🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
 
-Version: 5.4
+Version: 5.4.1
 """
 
 import asyncio
@@ -20,10 +20,10 @@ from discord.ext.commands import Bot, Context
 
 import exceptions
 
-if not os.path.isfile("config.json"):
+if not os.path.isfile(f"{os.path.realpath(os.path.dirname(__file__))}/config.json"):
     sys.exit("'config.json' not found! Please add it and try again.")
 else:
-    with open("config.json") as file:
+    with open(f"{os.path.realpath(os.path.dirname(__file__))}/config.json") as file:
         config = json.load(file)
 
 """	
@@ -74,8 +74,8 @@ bot = Bot(command_prefix=commands.when_mentioned_or(
 
 
 async def init_db():
-    async with aiosqlite.connect("database/database.db") as db:
-        with open("database/schema.sql") as file:
+    async with aiosqlite.connect(f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db") as db:
+        with open(f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql") as file:
             await db.executescript(file.read())
         await db.commit()
 
@@ -213,7 +213,7 @@ async def load_cogs() -> None:
     """
     The code in this function is executed whenever the bot will start.
     """
-    for file in os.listdir(f"./cogs"):
+    for file in os.listdir(f"{os.path.realpath(os.path.dirname(__file__))}/cogs"):
         if file.endswith(".py"):
             extension = file[:-3]
             try:
