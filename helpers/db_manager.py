@@ -10,7 +10,7 @@ import os
 
 import aiosqlite
 
-DATABASE_PATH = f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
+DATABASE_PATH = f"{os.path.realpath(os.path.dirname(__file__))}/../database/database.db"
 
 
 async def is_blacklisted(user_id: int) -> bool:
