@@ -47,7 +47,7 @@ the `@app_commands.guilds()` decorator so that it gets registered instantly. Exa
   name="command",
   description="Command description",
 )
-@app_commands.guilds(GUILD_ID) # Place your guild ID here
+@app_commands.guilds(discord.Object(id=GUILD_ID)) # Place your guild ID here
 ```
 
 When using the template you confirm that you have read the [license](LICENSE.md) and comprehend that I can take down
@@ -98,21 +98,16 @@ Windows)
 Before running the bot you will need to install all the requirements with this command:
 
 ```
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
-If you have multiple versions of python installed (2.x and 3.x) then you will need to use the following command:
+After that you can start it with
 
 ```
-python3 bot.py
+python bot.py
 ```
 
-or eventually
-
-```
-python3.x bot.py
-```
-Replace `x` with the version of Python you have installed.
+> Note: You may need to replace `python` with `py`, `python3`, `python3.11`, etc. depending on what Python versions you have installed on the machine.
 
 <br>
 
