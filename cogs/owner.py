@@ -3,7 +3,7 @@ Copyright © Krypton 2019-2022 - https://github.com/kkrypt0nn (https://krypton.n
 Description:
 🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
 
-Version: 5.4.1
+Version: 5.4.2
 """
 
 import discord
@@ -262,6 +262,39 @@ class Owner(commands.Cog, name="owner"):
 
     @blacklist.command(
         base="blacklist",
+        name="show",
+        description="Shows the list of all blacklisted users.",
+    )
+    @checks.is_owner()
+    async def blacklist_show(self, context: Context) -> None:
+        """
+        Shows the list of all blacklisted users.
+
+        :param context: The hybrid command context.
+        """
+        blacklisted_users = await db_manager.get_blacklisted_users()
+        if len(blacklisted_users) == 0:
+            embed = discord.Embed(
+                description="There are currently no blacklisted users.",
+                color=0xE02B2B
+            )
+            await context.send(embed=embed)
+            return
+
+        embed = discord.Embed(
+            title="Blacklisted users",
+            color=0x9C84EF
+        )
+        users = []
+        for bluser in blacklisted_users:
+            user = self.bot.get_user(int(bluser[0])) or await self.bot.fetch_user(int(bluser[0]))
+            users.append(
+                f"• {user.mention} ({user}) - Blacklisted <t:{bluser[1]}>")
+        embed.description = "\n".join(users)
+        await context.send(embed=embed)
+
+    @blacklist.command(
+        base="blacklist",
         name="add",
         description="Lets you add a user from not being able to use the bot.",
     )
@@ -278,7 +311,7 @@ class Owner(commands.Cog, name="owner"):
         if await db_manager.is_blacklisted(user_id):
             embed = discord.Embed(
                 title="Error!",
-                description=f"**{user.name}** is not in the blacklist.",
+                description=f"**{user.name}** is already in the blacklist.",
                 color=0xE02B2B
             )
             await context.send(embed=embed)
@@ -290,7 +323,7 @@ class Owner(commands.Cog, name="owner"):
             color=0x9C84EF
         )
         embed.set_footer(
-            text=f"There are now {total} {'user' if total == 1 else 'users'} in the blacklist"
+            text=f"There {'is' if total == 1 else 'are'} now {total} {'user' if total == 1 else 'users'} in the blacklist"
         )
         await context.send(embed=embed)
 
@@ -312,7 +345,7 @@ class Owner(commands.Cog, name="owner"):
         if not await db_manager.is_blacklisted(user_id):
             embed = discord.Embed(
                 title="Error!",
-                description=f"**{user.name}** is already in the blacklist.",
+                description=f"**{user.name}** is not in the blacklist.",
                 color=0xE02B2B
             )
             await context.send(embed=embed)
@@ -324,7 +357,7 @@ class Owner(commands.Cog, name="owner"):
             color=0x9C84EF
         )
         embed.set_footer(
-            text=f"There are now {total} {'user' if total == 1 else 'users'} in the blacklist"
+            text=f"There {'is' if total == 1 else 'are'} now {total} {'user' if total == 1 else 'users'} in the blacklist"
         )
         await context.send(embed=embed)
 

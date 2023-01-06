@@ -2,6 +2,11 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 5.4.2 (06 January 2023)
+
+* Added `blacklist show` command to see the list of blacklisted users
+* `blacklist remove` and `blacklist add` commands now send proper error messages
+
 ### Version 5.4.1 (22 December 2022)
 
 * Loading files relatively to where the `bot.py` file is located, so that you can start the bot from anywhere in your system

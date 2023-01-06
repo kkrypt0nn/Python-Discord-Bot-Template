@@ -3,7 +3,7 @@ Copyright © Krypton 2019-2022 - https://github.com/kkrypt0nn (https://krypton.n
 Description:
 🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
 
-Version: 5.4.1
+Version: 5.4.2
 """
 
 import os
@@ -11,6 +11,19 @@ import os
 import aiosqlite
 
 DATABASE_PATH = f"{os.path.realpath(os.path.dirname(__file__))}/../database/database.db"
+
+
+async def get_blacklisted_users() -> list:
+    """
+    This function will return the list of all blacklisted users.
+
+    :param user_id: The ID of the user that should be checked.
+    :return: True if the user is blacklisted, False if not.
+    """
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        async with db.execute("SELECT user_id, strftime('%s', created_at) FROM blacklist") as cursor:
+            result = await cursor.fetchall()
+            return result
 
 
 async def is_blacklisted(user_id: int) -> bool:
