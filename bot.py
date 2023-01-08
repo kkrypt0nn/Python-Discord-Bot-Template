@@ -93,7 +93,7 @@ bot.config = config
 @bot.event
 async def on_ready() -> None:
     """
-    The code in this even is executed when the bot is ready
+    The code in this event is executed when the bot is ready
     """
     print(f"Logged in as {bot.user.name}")
     print(f"discord.py API version: {discord.__version__}")
