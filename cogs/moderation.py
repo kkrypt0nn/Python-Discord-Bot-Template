@@ -1,9 +1,9 @@
 """"
-Copyright © Krypton 2019-2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
+Copyright © Krypton 2019-2023 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
 
-Version: 5.4.2
+Version: 5.5.0
 """
 
 import discord
@@ -37,15 +37,13 @@ class Moderation(commands.Cog, name="moderation"):
         member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
         if member.guild_permissions.administrator:
             embed = discord.Embed(
-                title="Error!",
-                description="User has Admin permissions.",
+                description="User has administrator permissions.",
                 color=0xE02B2B
             )
             await context.send(embed=embed)
         else:
             try:
                 embed = discord.Embed(
-                    title="User Kicked!",
                     description=f"**{member}** was kicked by **{context.author}**!",
                     color=0x9C84EF
                 )
@@ -56,7 +54,7 @@ class Moderation(commands.Cog, name="moderation"):
                 await context.send(embed=embed)
                 try:
                     await member.send(
-                        f"You were kicked by **{context.author}**!\nReason: {reason}"
+                        f"You were kicked by **{context.author}** from **{context.guild.name}**!\nReason: {reason}"
                     )
                 except:
                     # Couldn't send a message in the private messages of the user
@@ -64,7 +62,6 @@ class Moderation(commands.Cog, name="moderation"):
                 await member.kick(reason=reason)
             except:
                 embed = discord.Embed(
-                    title="Error!",
                     description="An error occurred while trying to kick the user. Make sure my role is above the role of the user you want to kick.",
                     color=0xE02B2B
                 )
@@ -90,14 +87,12 @@ class Moderation(commands.Cog, name="moderation"):
         try:
             await member.edit(nick=nickname)
             embed = discord.Embed(
-                title="Changed Nickname!",
                 description=f"**{member}'s** new nickname is **{nickname}**!",
                 color=0x9C84EF
             )
             await context.send(embed=embed)
         except:
             embed = discord.Embed(
-                title="Error!",
                 description="An error occurred while trying to change the nickname of the user. Make sure my role is above the role of the user you want to change the nickname.",
                 color=0xE02B2B
             )
@@ -123,14 +118,12 @@ class Moderation(commands.Cog, name="moderation"):
         try:
             if member.guild_permissions.administrator:
                 embed = discord.Embed(
-                    title="Error!",
-                    description="User has Admin permissions.",
+                    description="User has administrator permissions.",
                     color=0xE02B2B
                 )
                 await context.send(embed=embed)
             else:
                 embed = discord.Embed(
-                    title="User Banned!",
                     description=f"**{member}** was banned by **{context.author}**!",
                     color=0x9C84EF
                 )
@@ -140,7 +133,7 @@ class Moderation(commands.Cog, name="moderation"):
                 )
                 await context.send(embed=embed)
                 try:
-                    await member.send(f"You were banned by **{context.author}**!\nReason: {reason}")
+                    await member.send(f"You were banned by **{context.author}** from **{context.guild.name}**!\nReason: {reason}")
                 except:
                     # Couldn't send a message in the private messages of the user
                     pass
@@ -167,7 +160,6 @@ class Moderation(commands.Cog, name="moderation"):
         """
         if context.invoked_subcommand is None:
             embed = discord.Embed(
-                title="Error!",
                 description="Please specify a subcommand.\n\n**Subcommands:**\n`add` - Add a warning to a user.\n`remove` - Remove a warning from a user.\n`list` - List all warnings of a user.",
                 color=0xE02B2B
             )
@@ -192,7 +184,6 @@ class Moderation(commands.Cog, name="moderation"):
         total = await db_manager.add_warn(
             user.id, context.guild.id, context.author.id, reason)
         embed = discord.Embed(
-            title="User Warned!",
             description=f"**{member}** was warned by **{context.author}**!\nTotal warns for this user: {total}",
             color=0x9C84EF
         )
@@ -202,7 +193,7 @@ class Moderation(commands.Cog, name="moderation"):
         )
         await context.send(embed=embed)
         try:
-            await member.send(f"You were warned by **{context.author}**!\nReason: {reason}")
+            await member.send(f"You were warned by **{context.author}** in **{context.guild.name}**!\nReason: {reason}")
         except:
             # Couldn't send a message in the private messages of the user
             await context.send(f"{member.mention}, you were warned by **{context.author}**!\nReason: {reason}")
@@ -225,7 +216,6 @@ class Moderation(commands.Cog, name="moderation"):
         member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
         total = await db_manager.remove_warn(warn_id, user.id, context.guild.id)
         embed = discord.Embed(
-            title="User Warn Removed!",
             description=f"I've removed the warning **#{warn_id}** from **{member}**!\nTotal warns for this user: {total}",
             color=0x9C84EF
         )
@@ -277,7 +267,6 @@ class Moderation(commands.Cog, name="moderation"):
         await context.send("Deleting messages...")  # Bit of a hacky way to make sure the bot responds to the interaction and doens't get a "Unknown Interaction" response
         purged_messages = await context.channel.purge(limit=amount+1)
         embed = discord.Embed(
-            title="Chat Cleared!",
             description=f"**{context.author}** cleared **{len(purged_messages)-1}** messages!",
             color=0x9C84EF
         )
@@ -303,8 +292,7 @@ class Moderation(commands.Cog, name="moderation"):
             await self.bot.http.ban(user_id, context.guild.id, reason=reason)
             user = self.bot.get_user(int(user_id)) or await self.bot.fetch_user(int(user_id))
             embed = discord.Embed(
-                title="User Banned!",
-                description=f"**{user} (ID: {user_id}) ** was banned by **{context.author}**!",
+                description=f"**{user}** (ID: {user_id}) was banned by **{context.author}**!",
                 color=0x9C84EF
             )
             embed.add_field(
@@ -314,7 +302,6 @@ class Moderation(commands.Cog, name="moderation"):
             await context.send(embed=embed)
         except Exception as e:
             embed = discord.Embed(
-                title="Error!",
                 description="An error occurred while trying to ban the user. Make sure ID is an existing ID that belongs to a user.",
                 color=0xE02B2B
             )

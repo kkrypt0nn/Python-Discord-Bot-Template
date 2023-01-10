@@ -142,3 +142,6 @@ cython_debug/
 
 # SQLITE database
 *.db
+
+# Log file
+discord.log

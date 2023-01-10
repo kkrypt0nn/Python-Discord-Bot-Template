@@ -1,9 +1,9 @@
 """"
-Copyright © Krypton 2019-2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
+Copyright © Krypton 2019-2023 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
 
-Version: 5.4.2
+Version: 5.5.0
 """
 
 import discord
@@ -35,7 +35,6 @@ class Owner(commands.Cog, name="owner"):
         if scope == "global":
             await context.bot.tree.sync()
             embed = discord.Embed(
-                title="Slash Commands Sync",
                 description="Slash commands have been globally synchronized.",
                 color=0x9C84EF
             )
@@ -45,14 +44,12 @@ class Owner(commands.Cog, name="owner"):
             context.bot.tree.copy_global_to(guild=context.guild)
             await context.bot.tree.sync(guild=context.guild)
             embed = discord.Embed(
-                title="Slash Commands Sync",
                 description="Slash commands have been synchronized in this guild.",
                 color=0x9C84EF
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            title="Invalid Scope",
             description="The scope must be `global` or `guild`.",
             color=0xE02B2B
         )
@@ -76,7 +73,6 @@ class Owner(commands.Cog, name="owner"):
             context.bot.tree.clear_commands(guild=None)
             await context.bot.tree.sync()
             embed = discord.Embed(
-                title="Slash Commands Unsync",
                 description="Slash commands have been globally unsynchronized.",
                 color=0x9C84EF
             )
@@ -86,14 +82,12 @@ class Owner(commands.Cog, name="owner"):
             context.bot.tree.clear_commands(guild=context.guild)
             await context.bot.tree.sync(guild=context.guild)
             embed = discord.Embed(
-                title="Slash Commands Unsync",
                 description="Slash commands have been unsynchronized in this guild.",
                 color=0x9C84EF
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            title="Invalid Scope",
             description="The scope must be `global` or `guild`.",
             color=0xE02B2B
         )
@@ -116,14 +110,12 @@ class Owner(commands.Cog, name="owner"):
             await self.bot.load_extension(f"cogs.{cog}")
         except Exception:
             embed = discord.Embed(
-                title="Error!",
                 description=f"Could not load the `{cog}` cog.",
                 color=0xE02B2B
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            title="Load",
             description=f"Successfully loaded the `{cog}` cog.",
             color=0x9C84EF
         )
@@ -146,14 +138,12 @@ class Owner(commands.Cog, name="owner"):
             await self.bot.unload_extension(f"cogs.{cog}")
         except Exception:
             embed = discord.Embed(
-                title="Error!",
                 description=f"Could not unload the `{cog}` cog.",
                 color=0xE02B2B
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            title="Unload",
             description=f"Successfully unloaded the `{cog}` cog.",
             color=0x9C84EF
         )
@@ -176,14 +166,12 @@ class Owner(commands.Cog, name="owner"):
             await self.bot.reload_extension(f"cogs.{cog}")
         except Exception:
             embed = discord.Embed(
-                title="Error!",
                 description=f"Could not reload the `{cog}` cog.",
                 color=0xE02B2B
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            title="Reload",
             description=f"Successfully reloaded the `{cog}` cog.",
             color=0x9C84EF
         )
@@ -254,7 +242,6 @@ class Owner(commands.Cog, name="owner"):
         """
         if context.invoked_subcommand is None:
             embed = discord.Embed(
-                title="Blacklist",
                 description="You need to specify a subcommand.\n\n**Subcommands:**\n`add` - Add a user to the blacklist.\n`remove` - Remove a user from the blacklist.",
                 color=0xE02B2B
             )
@@ -282,7 +269,7 @@ class Owner(commands.Cog, name="owner"):
             return
 
         embed = discord.Embed(
-            title="Blacklisted users",
+            title="Blacklisted Users",
             color=0x9C84EF
         )
         users = []
@@ -310,7 +297,6 @@ class Owner(commands.Cog, name="owner"):
         user_id = user.id
         if await db_manager.is_blacklisted(user_id):
             embed = discord.Embed(
-                title="Error!",
                 description=f"**{user.name}** is already in the blacklist.",
                 color=0xE02B2B
             )
@@ -318,7 +304,6 @@ class Owner(commands.Cog, name="owner"):
             return
         total = await db_manager.add_user_to_blacklist(user_id)
         embed = discord.Embed(
-            title="User Blacklisted",
             description=f"**{user.name}** has been successfully added to the blacklist",
             color=0x9C84EF
         )
@@ -344,7 +329,6 @@ class Owner(commands.Cog, name="owner"):
         user_id = user.id
         if not await db_manager.is_blacklisted(user_id):
             embed = discord.Embed(
-                title="Error!",
                 description=f"**{user.name}** is not in the blacklist.",
                 color=0xE02B2B
             )
@@ -352,7 +336,6 @@ class Owner(commands.Cog, name="owner"):
             return
         total = await db_manager.remove_user_from_blacklist(user_id)
         embed = discord.Embed(
-            title="User removed from blacklist",
             description=f"**{user.name}** has been successfully removed from the blacklist",
             color=0x9C84EF
         )

@@ -1,13 +1,14 @@
 """
-Copyright © Krypton 2019-2022 - https://github.com/kkrypt0nn (https://krypton.ninja)
+Copyright © Krypton 2019-2023 - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
 🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
 
-Version: 5.4.2
+Version: 5.5.0
 """
 
 import asyncio
 import json
+import logging
 import os
 import platform
 import random
@@ -72,6 +73,56 @@ If you want to use prefix commands, make sure to also enable the intent below in
 bot = Bot(command_prefix=commands.when_mentioned_or(
     config["prefix"]), intents=intents, help_command=None)
 
+# Setup both of the loggers
+class LoggingFormatter(logging.Formatter):
+    # Colors
+    black = "\x1b[30m"
+    red = "\x1b[31m"
+    green = "\x1b[32m"
+    yellow = "\x1b[33m"
+    blue = "\x1b[34m"
+    gray = "\x1b[38m"
+    # Styles
+    reset = "\x1b[0m"
+    bold = "\x1b[1m"
+
+    COLORS = {
+        logging.DEBUG: gray + bold,
+        logging.INFO: blue + bold,
+        logging.WARNING: yellow + bold,
+        logging.ERROR: red,
+        logging.CRITICAL: red + bold
+    }
+
+    def format(self, record):
+        log_color = self.COLORS[record.levelno]
+        format = "(black){asctime}(reset) (levelcolor){levelname:<8}(reset) (green){name}(reset) {message}"
+        format = format.replace("(black)", self.black + self.bold)
+        format = format.replace("(reset)", self.reset)
+        format = format.replace("(levelcolor)", log_color)
+        format = format.replace("(green)", self.green + self.bold)
+        formatter = logging.Formatter(format, "%Y-%m-%d %H:%M:%S", style="{")
+        return formatter.format(record)
+
+
+logger = logging.getLogger("discord_bot")
+logger.setLevel(logging.INFO)
+
+# Console handler
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(LoggingFormatter())
+# File handler
+file_handler = logging.FileHandler(
+    filename="discord.log", encoding="utf-8", mode="w")
+file_handler_formatter = logging.Formatter(
+    "[{asctime}] [{levelname:<8}] {name}: {message}", "%Y-%m-%d %H:%M:%S", style="{")
+file_handler.setFormatter(file_handler_formatter)
+
+# Add the handlers
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
+bot.logger = logger
+
 
 async def init_db():
     async with aiosqlite.connect(f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db") as db:
@@ -93,23 +144,24 @@ bot.config = config
 @bot.event
 async def on_ready() -> None:
     """
-    The code in this even is executed when the bot is ready
+    The code in this event is executed when the bot is ready.
     """
-    print(f"Logged in as {bot.user.name}")
-    print(f"discord.py API version: {discord.__version__}")
-    print(f"Python version: {platform.python_version()}")
-    print(f"Running on: {platform.system()} {platform.release()} ({os.name})")
-    print("-------------------")
+    bot.logger.info(f"Logged in as {bot.user.name}")
+    bot.logger.info(f"discord.py API version: {discord.__version__}")
+    bot.logger.info(f"Python version: {platform.python_version()}")
+    bot.logger.info(
+        f"Running on: {platform.system()} {platform.release()} ({os.name})")
+    bot.logger.info("-------------------")
     status_task.start()
     if config["sync_commands_globally"]:
-        print("Syncing commands globally...")
+        bot.logger.info("Syncing commands globally...")
         await bot.tree.sync()
 
 
 @tasks.loop(minutes=1.0)
 async def status_task() -> None:
     """
-    Setup the game status task of the bot
+    Setup the game status task of the bot.
     """
     statuses = ["with you!", "with Krypton!", "with humans!"]
     await bot.change_presence(activity=discord.Game(random.choice(statuses)))
@@ -130,24 +182,26 @@ async def on_message(message: discord.Message) -> None:
 @bot.event
 async def on_command_completion(context: Context) -> None:
     """
-    The code in this event is executed every time a normal command has been *successfully* executed
+    The code in this event is executed every time a normal command has been *successfully* executed.
+
     :param context: The context of the command that has been executed.
     """
     full_command_name = context.command.qualified_name
     split = full_command_name.split(" ")
     executed_command = str(split[0])
     if context.guild is not None:
-        print(
+        bot.logger.info(
             f"Executed {executed_command} command in {context.guild.name} (ID: {context.guild.id}) by {context.author} (ID: {context.author.id})")
     else:
-        print(
+        bot.logger.info(
             f"Executed {executed_command} command by {context.author} (ID: {context.author.id}) in DMs")
 
 
 @bot.event
 async def on_command_error(context: Context, error) -> None:
     """
-    The code in this event is executed every time a normal valid command catches an error
+    The code in this event is executed every time a normal valid command catches an error.
+
     :param context: The context of the normal command that failed executing.
     :param error: The error that has been faced.
     """
@@ -156,8 +210,7 @@ async def on_command_error(context: Context, error) -> None:
         hours, minutes = divmod(minutes, 60)
         hours = hours % 24
         embed = discord.Embed(
-            title="Hey, please slow down!",
-            description=f"You can use this command again in {f'{round(hours)} hours' if round(hours) > 0 else ''} {f'{round(minutes)} minutes' if round(minutes) > 0 else ''} {f'{round(seconds)} seconds' if round(seconds) > 0 else ''}.",
+            description=f"**Please slow down** - You can use this command again in {f'{round(hours)} hours' if round(hours) > 0 else ''} {f'{round(minutes)} minutes' if round(minutes) > 0 else ''} {f'{round(seconds)} seconds' if round(seconds) > 0 else ''}.",
             color=0xE02B2B
         )
         await context.send(embed=embed)
@@ -167,24 +220,25 @@ async def on_command_error(context: Context, error) -> None:
         the @checks.not_blacklisted() check in your command, or you can raise the error by yourself.
         """
         embed = discord.Embed(
-            title="Error!",
-            description="You are blacklisted from using the bot.",
+            description="You are blacklisted from using the bot!",
             color=0xE02B2B
         )
         await context.send(embed=embed)
+        bot.logger.warning(
+            f"{context.author} (ID: {context.author.id}) tried to execute a command in the guild {context.guild.name} (ID: {context.guild.id}), but the user is blacklisted from using the bot.")
     elif isinstance(error, exceptions.UserNotOwner):
         """
         Same as above, just for the @checks.is_owner() check.
         """
         embed = discord.Embed(
-            title="Error!",
             description="You are not the owner of the bot!",
             color=0xE02B2B
         )
         await context.send(embed=embed)
+        bot.logger.warning(
+            f"{context.author} (ID: {context.author.id}) tried to execute an owner only command in the guild {context.guild.name} (ID: {context.guild.id}), but the user is not an owner of the bot.")
     elif isinstance(error, commands.MissingPermissions):
         embed = discord.Embed(
-            title="Error!",
             description="You are missing the permission(s) `" + ", ".join(
                 error.missing_permissions) + "` to execute this command!",
             color=0xE02B2B
@@ -192,7 +246,6 @@ async def on_command_error(context: Context, error) -> None:
         await context.send(embed=embed)
     elif isinstance(error, commands.BotMissingPermissions):
         embed = discord.Embed(
-            title="Error!",
             description="I am missing the permission(s) `" + ", ".join(
                 error.missing_permissions) + "` to fully perform this command!",
             color=0xE02B2B
@@ -206,7 +259,8 @@ async def on_command_error(context: Context, error) -> None:
             color=0xE02B2B
         )
         await context.send(embed=embed)
-    raise error
+    else:
+        raise error
 
 
 async def load_cogs() -> None:
@@ -218,10 +272,11 @@ async def load_cogs() -> None:
             extension = file[:-3]
             try:
                 await bot.load_extension(f"cogs.{extension}")
-                print(f"Loaded extension '{extension}'")
+                bot.logger.info(f"Loaded extension '{extension}'")
             except Exception as e:
                 exception = f"{type(e).__name__}: {e}"
-                print(f"Failed to load extension {extension}\n{exception}")
+                bot.logger.error(
+                    f"Failed to load extension {extension}\n{exception}")
 
 
 asyncio.run(init_db())

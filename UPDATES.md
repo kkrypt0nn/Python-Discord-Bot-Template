@@ -2,6 +2,13 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 5.5.0 (10 January 2023)
+
+* Added `bot.logger` to have proper logging
+* Added [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) files
+* Overall embeds refactoring
+* Issues and features templates
+
 ### Version 5.4.2 (06 January 2023)
 
 * Added `blacklist show` command to see the list of blacklisted users
