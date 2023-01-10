@@ -29,7 +29,7 @@ Pull requests are the best way to propose changes to the codebase. We actively w
 This project uses [`Conventional Commits 1.0.0`](https://conventionalcommits.org/en/v1.0.0/) hence your commit messages **must** follow the same convention or your contributions will be ignored, refused or assigned to another user or maintainer.
 
 ## Create a GitHub [Issue](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/issues) and **then** a pull request
-Start contributing by first [opening a new issue](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/issues/new). Once that is done, you can create a pull request for the issue.
+Start contributing by first [opening a new issue](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/issues/new/choose). Once that is done, you can create a pull request for the issue.
 
 ## License
 Your submissions are understood to be under the same [Apache License 2.0](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/blob/main/LICENSE.md) that covers the project.
