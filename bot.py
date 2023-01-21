@@ -235,8 +235,12 @@ async def on_command_error(context: Context, error) -> None:
             color=0xE02B2B
         )
         await context.send(embed=embed)
-        bot.logger.warning(
-            f"{context.author} (ID: {context.author.id}) tried to execute an owner only command in the guild {context.guild.name} (ID: {context.guild.id}), but the user is not an owner of the bot.")
+        if context.guild:
+            bot.logger.warning(
+                f"{context.author} (ID: {context.author.id}) tried to execute an owner only command in the guild {context.guild.name} (ID: {context.guild.id}), but the user is not an owner of the bot.")
+        else:
+            bot.logger.warning(
+                f"{context.author} (ID: {context.author.id}) tried to execute an owner only command in a direct message, but the user is not an owner of the bot.")
     elif isinstance(error, commands.MissingPermissions):
         embed = discord.Embed(
             description="You are missing the permission(s) `" + ", ".join(
