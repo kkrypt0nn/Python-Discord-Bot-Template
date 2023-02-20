@@ -70,10 +70,15 @@ If you want to use prefix commands, make sure to also enable the intent below in
 """
 # intents.message_content = True
 
-bot = Bot(command_prefix=commands.when_mentioned_or(
-    config["prefix"]), intents=intents, help_command=None)
+bot = Bot(
+    command_prefix=commands.when_mentioned_or(config["prefix"]),
+    intents=intents,
+    help_command=None,
+)
 
 # Setup both of the loggers
+
+
 class LoggingFormatter(logging.Formatter):
     # Colors
     black = "\x1b[30m"
@@ -91,7 +96,7 @@ class LoggingFormatter(logging.Formatter):
         logging.INFO: blue + bold,
         logging.WARNING: yellow + bold,
         logging.ERROR: red,
-        logging.CRITICAL: red + bold
+        logging.CRITICAL: red + bold,
     }
 
     def format(self, record):
@@ -112,10 +117,10 @@ logger.setLevel(logging.INFO)
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(LoggingFormatter())
 # File handler
-file_handler = logging.FileHandler(
-    filename="discord.log", encoding="utf-8", mode="w")
+file_handler = logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w")
 file_handler_formatter = logging.Formatter(
-    "[{asctime}] [{levelname:<8}] {name}: {message}", "%Y-%m-%d %H:%M:%S", style="{")
+    "[{asctime}] [{levelname:<8}] {name}: {message}", "%Y-%m-%d %H:%M:%S", style="{"
+)
 file_handler.setFormatter(file_handler_formatter)
 
 # Add the handlers
@@ -125,8 +130,12 @@ bot.logger = logger
 
 
 async def init_db():
-    async with aiosqlite.connect(f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db") as db:
-        with open(f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql") as file:
+    async with aiosqlite.connect(
+        f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
+    ) as db:
+        with open(
+            f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql"
+        ) as file:
             await db.executescript(file.read())
         await db.commit()
 
@@ -149,8 +158,7 @@ async def on_ready() -> None:
     bot.logger.info(f"Logged in as {bot.user.name}")
     bot.logger.info(f"discord.py API version: {discord.__version__}")
     bot.logger.info(f"Python version: {platform.python_version()}")
-    bot.logger.info(
-        f"Running on: {platform.system()} {platform.release()} ({os.name})")
+    bot.logger.info(f"Running on: {platform.system()} {platform.release()} ({os.name})")
     bot.logger.info("-------------------")
     status_task.start()
     if config["sync_commands_globally"]:
@@ -191,10 +199,12 @@ async def on_command_completion(context: Context) -> None:
     executed_command = str(split[0])
     if context.guild is not None:
         bot.logger.info(
-            f"Executed {executed_command} command in {context.guild.name} (ID: {context.guild.id}) by {context.author} (ID: {context.author.id})")
+            f"Executed {executed_command} command in {context.guild.name} (ID: {context.guild.id}) by {context.author} (ID: {context.author.id})"
+        )
     else:
         bot.logger.info(
-            f"Executed {executed_command} command by {context.author} (ID: {context.author.id}) in DMs")
+            f"Executed {executed_command} command by {context.author} (ID: {context.author.id}) in DMs"
+        )
 
 
 @bot.event
@@ -211,7 +221,7 @@ async def on_command_error(context: Context, error) -> None:
         hours = hours % 24
         embed = discord.Embed(
             description=f"**Please slow down** - You can use this command again in {f'{round(hours)} hours' if round(hours) > 0 else ''} {f'{round(minutes)} minutes' if round(minutes) > 0 else ''} {f'{round(seconds)} seconds' if round(seconds) > 0 else ''}.",
-            color=0xE02B2B
+            color=0xE02B2B,
         )
         await context.send(embed=embed)
     elif isinstance(error, exceptions.UserBlacklisted):
@@ -220,41 +230,47 @@ async def on_command_error(context: Context, error) -> None:
         the @checks.not_blacklisted() check in your command, or you can raise the error by yourself.
         """
         embed = discord.Embed(
-            description="You are blacklisted from using the bot!",
-            color=0xE02B2B
+            description="You are blacklisted from using the bot!", color=0xE02B2B
         )
         await context.send(embed=embed)
         if context.guild:
-            bot.logger.warning(f"{context.author} (ID: {context.author.id}) tried to execute a command in the guild {context.guild.name} (ID: {context.guild.id}), but the user is blacklisted from using the bot.")
+            bot.logger.warning(
+                f"{context.author} (ID: {context.author.id}) tried to execute a command in the guild {context.guild.name} (ID: {context.guild.id}), but the user is blacklisted from using the bot."
+            )
         else:
-            bot.logger.warning(f"{context.author} (ID: {context.author.id}) tried to execute a command in the bot's DMs, but the user is blacklisted from using the bot.")
+            bot.logger.warning(
+                f"{context.author} (ID: {context.author.id}) tried to execute a command in the bot's DMs, but the user is blacklisted from using the bot."
+            )
     elif isinstance(error, exceptions.UserNotOwner):
         """
         Same as above, just for the @checks.is_owner() check.
         """
         embed = discord.Embed(
-            description="You are not the owner of the bot!",
-            color=0xE02B2B
+            description="You are not the owner of the bot!", color=0xE02B2B
         )
         await context.send(embed=embed)
         if context.guild:
             bot.logger.warning(
-            f"{context.author} (ID: {context.author.id}) tried to execute an owner only command in the guild {context.guild.name} (ID: {context.guild.id}), but the user is not an owner of the bot.")
+                f"{context.author} (ID: {context.author.id}) tried to execute an owner only command in the guild {context.guild.name} (ID: {context.guild.id}), but the user is not an owner of the bot."
+            )
         else:
             bot.logger.warning(
-            f"{context.author} (ID: {context.author.id}) tried to execute an owner only command in the bot's DMs, but the user is not an owner of the bot.")
+                f"{context.author} (ID: {context.author.id}) tried to execute an owner only command in the bot's DMs, but the user is not an owner of the bot."
+            )
     elif isinstance(error, commands.MissingPermissions):
         embed = discord.Embed(
-            description="You are missing the permission(s) `" + ", ".join(
-                error.missing_permissions) + "` to execute this command!",
-            color=0xE02B2B
+            description="You are missing the permission(s) `"
+            + ", ".join(error.missing_permissions)
+            + "` to execute this command!",
+            color=0xE02B2B,
         )
         await context.send(embed=embed)
     elif isinstance(error, commands.BotMissingPermissions):
         embed = discord.Embed(
-            description="I am missing the permission(s) `" + ", ".join(
-                error.missing_permissions) + "` to fully perform this command!",
-            color=0xE02B2B
+            description="I am missing the permission(s) `"
+            + ", ".join(error.missing_permissions)
+            + "` to fully perform this command!",
+            color=0xE02B2B,
         )
         await context.send(embed=embed)
     elif isinstance(error, commands.MissingRequiredArgument):
@@ -262,7 +278,7 @@ async def on_command_error(context: Context, error) -> None:
             title="Error!",
             # We need to capitalize because the command arguments have no capital letter in the code.
             description=str(error).capitalize(),
-            color=0xE02B2B
+            color=0xE02B2B,
         )
         await context.send(embed=embed)
     else:
@@ -281,8 +297,7 @@ async def load_cogs() -> None:
                 bot.logger.info(f"Loaded extension '{extension}'")
             except Exception as e:
                 exception = f"{type(e).__name__}: {e}"
-                bot.logger.error(
-                    f"Failed to load extension {extension}\n{exception}")
+                bot.logger.error(f"Failed to load extension {extension}\n{exception}")
 
 
 asyncio.run(init_db())

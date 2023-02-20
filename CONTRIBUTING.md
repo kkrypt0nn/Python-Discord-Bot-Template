@@ -22,7 +22,7 @@ Pull requests are the best way to propose changes to the codebase. We actively w
 
 1. Fork the repo and create your branch from `main`.
 2. Keep consistency with the current state of the codebase, this includes but is not limited to naming convention, Discord embeds, etc.
-3. Format the code of the files you've edited with the **autopep8** formatter.
+3. Format the code of the files you've edited with the **black** formatter.
 4. Issue that pull request!
 
 ## Commit messages guidelines
