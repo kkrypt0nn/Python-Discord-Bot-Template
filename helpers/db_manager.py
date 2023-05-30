@@ -17,12 +17,12 @@ async def get_blacklisted_users() -> list:
     :param user_id: The ID of the user that should be checked.
     :return: True if the user is blacklisted, False if not.
     """
-    async with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
-        async with (con.cursor().execute(
+        with (con.cursor().execute(
             "SELECT user_id, strftime('%s', created_at) FROM blacklist"
         )) as cursor:
-            return await cursor.fetchall()
+            return cursor.fetchall()
     
 
 
@@ -34,12 +34,12 @@ async def is_blacklisted(user_id: int) -> bool:
     :return: True if the user is blacklisted, False if not.
     """
         
-    async with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
-        async with (con.cursor().execute(
+        with (con.cursor().execute(
             "SELECT * FROM blacklist WHERE user_id=?", (user_id,)
         )) as cursor:
-            result = await cursor.fetchall()
+            result = cursor.fetchall()
             return result is not None
         
 
@@ -59,12 +59,12 @@ async def add_user_to_blacklist(user_id: int) -> int:
     #         return result[0] if result is not None else 0
         
 
-    async with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
-        async with (con.cursor()) as cursor:
-            await cursor.execute("INSERT INTO blacklist(user_id) VALUES (?)", (user_id,))
-            await cursor.commit()
-            result = await cursor.fetchone()
+         with (con.cursor()) as cursor:
+            cursor.execute("INSERT INTO blacklist(user_id) VALUES (?)", (user_id,))
+            cursor.commit()
+            result = cursor.fetchone()
             return result[0] if result is not None else 0
 
 
@@ -82,10 +82,10 @@ async def remove_user_from_blacklist(user_id: int) -> int:
     #         result = await cursor.fetchone()
     #         return result[0] if result is not None else 0
         
-    async with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
-        async with (con.cursor()) as cursor:
-            await cursor.execute("DELETE FROM blacklist WHERE user_id=?", (user_id,))
-            await cursor.commit()
-            result = await cursor.fetchone()
+        with (con.cursor()) as cursor:
+            cursor.execute("DELETE FROM blacklist WHERE user_id=?", (user_id,))
+            cursor.commit()
+            result = cursor.fetchone()
             return result[0] if result is not None else 0

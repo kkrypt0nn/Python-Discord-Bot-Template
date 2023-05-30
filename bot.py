@@ -85,17 +85,17 @@ bot.logger = logger
 
 
 async def init_db():
-    async with psycopg2.connect(
+    with psycopg2.connect(
         psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require')
         
     ) as con:
         
-        async with con.cursor() as cursor:
+        with con.cursor() as cursor:
 
             with open(
                 f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql"
             ) as file:
-                await cursor.executes(file.read())
+                cursor.executes(file.read())
 
 
 @bot.event
