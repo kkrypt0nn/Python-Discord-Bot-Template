@@ -86,8 +86,7 @@ bot.logger = logger
 
 def init_db():
     with psycopg2.connect(
-        psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require')
-        
+        os.environ.get("DATABASE_URL"), sslmode='require'
     ) as con:
         
         with con.cursor() as cursor:
