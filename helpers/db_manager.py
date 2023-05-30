@@ -9,7 +9,7 @@ Description:
 Version: 5.5.0
 """
 
-
+# TODO try catch toevoegen
 async def get_blacklisted_users() -> list:
     """
     This function will return the list of all blacklisted users.
@@ -53,20 +53,13 @@ async def add_user_to_blacklist(user_id: int) -> int:
 
     :param user_id: The ID of the user that should be added into the blacklist.
     """
-    # async with aiosqlite.connect(DATABASE_PATH) as db:
-    #     await db.execute("INSERT INTO blacklist(user_id) VALUES (?)", (user_id,))
-    #     await db.commit()
-    #     rows = await db.execute("SELECT COUNT(*) FROM blacklist")
-    #     async with rows as cursor:
-    #         result = await cursor.fetchone()
-    #         return result[0] if result is not None else 0
-        
+
 
     with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
          with con.cursor() as cursor:
             cursor.execute("INSERT INTO blacklist(user_id) VALUES (%s)", (str(user_id),))
-            cursor.commit()
+            con.commit()
             result = cursor.fetchone()
             return result[0] if result is not None else 0
 
@@ -89,6 +82,6 @@ async def remove_user_from_blacklist(user_id: int) -> int:
         
         with con.cursor() as cursor:
             cursor.execute("DELETE FROM blacklist WHERE user_id=%s", (str(user_id),))
-            cursor.commit()
+            con.commit()
             result = cursor.fetchone()
             return result[0] if result is not None else 0
