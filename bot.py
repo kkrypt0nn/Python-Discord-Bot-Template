@@ -94,7 +94,7 @@ def init_db():
             with open(
                 f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql"
             ) as file:
-                cursor.executes(file.read())
+                cursor.execute(file.read())
 
 
 @bot.event
