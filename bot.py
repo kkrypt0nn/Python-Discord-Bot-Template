@@ -84,7 +84,7 @@ logger.addHandler(file_handler)
 bot.logger = logger
 
 
-async def init_db():
+def init_db():
     with psycopg2.connect(
         psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require')
         
@@ -247,6 +247,6 @@ async def load_cogs() -> None:
                 exception = f"{type(e).__name__}: {e}"
                 bot.logger.error(f"Failed to load extension {extension}\n{exception}")
 
-
+init_db()
 asyncio.run(load_cogs())
 bot.run(os.environ.get("token"))
