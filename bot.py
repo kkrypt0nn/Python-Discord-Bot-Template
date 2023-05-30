@@ -107,8 +107,8 @@ async def on_ready() -> None:
     bot.logger.info("-------------------")
     status_task.start()
     if os.environ.get("sync_commands_globally"):
-        bot.logger.info("Syncing commands globally...")
         await bot.tree.sync()
+        bot.logger.info("commands synced globally...")
 
 
 @tasks.loop(minutes=1.0)
