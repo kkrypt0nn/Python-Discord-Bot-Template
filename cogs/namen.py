@@ -11,8 +11,6 @@ class Names(commands.Cog, name="namen"):
     def __init__(self, bot):
         self.bot = bot
 
-    # Here you can just add your own commands, you'll always need to provide "self" as first parameter.
-
     @commands.hybrid_command(
         name="gible",
         description="gibby aka. smikkel aka capybara_Lover123",
@@ -21,6 +19,22 @@ class Names(commands.Cog, name="namen"):
     @checks.not_blacklisted()
     async def gible(self, context: Context):
         messages = ["daar gaat je base gible", "wapz tnt over gible z'n base", "KAAANKEERRRBEK GIBLE"]
+        
+        embed = discord.Embed(
+            title=random.choice(messages),
+            color=0x9C84EF,
+        )
+        await context.send(embed=embed)
+
+
+    @commands.hybrid_command(
+        name="nootje",
+        description="nootje aka lil_kid_lover69",
+    )
+    # This will only allow non-blacklisted members to execute the command
+    @checks.not_blacklisted()
+    async def nootje(self, context: Context):
+        messages = ["meest intelligente nootje opmerking:", "stop met je fk reels"]
         
         embed = discord.Embed(
             title=random.choice(messages),
