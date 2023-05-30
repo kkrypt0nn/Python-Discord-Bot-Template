@@ -13,7 +13,7 @@ class Context(commands.Cog, name="context"):
     # Here you can just add your own commands, you'll always need to provide "self" as first parameter.
 
     @commands.hybrid_command(
-        name="addContext",
+        name="addcontext",
         description="Voeg een bericht toe aan het out of context spel.",
     )
     # This will only allow non-blacklisted members to execute the command

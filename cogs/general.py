@@ -58,6 +58,7 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title="🏓 Pong!",
             description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
+            # TODO pas kleur aan afhangent aan latency
             color=0x39AC39,
         )
         await context.send(embed=embed)

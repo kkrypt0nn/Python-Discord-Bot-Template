@@ -20,15 +20,14 @@ class Owner(commands.Cog, name="owner"):
 
     @commands.hybrid_command(
         name="sync",
-        description="Synchonizes the slash commands.",
+        description="Synchronizes the slash commands",
     )
     @checks.is_owner()
     async def sync(self, context: Context) -> None:
         """
-        Synchonizes the slash commands.
+        Synchronizes the slash commands.
 
         :param context: The command context.
-        :param scope: The scope of the sync. Can be `global` or `guild`.
         """
 
         await context.bot.tree.sync()
