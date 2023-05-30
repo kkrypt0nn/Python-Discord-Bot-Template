@@ -18,8 +18,8 @@ class Context(commands.Cog, name="context"):
     )
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
-    @app_commands.describe(message_ID="ID van bericht dat je wilt toevoegen")
-    async def addContext(self, context: Context, message_ID: str, about: str):
+    @app_commands.describe(message_id="ID van bericht dat je wilt toevoegen")
+    async def addcontext(self, context: Context, message_id: str, about: str):
         """
         Add a message to the out of context game
 
