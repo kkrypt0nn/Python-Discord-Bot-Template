@@ -26,6 +26,7 @@ import exceptions
 intents = discord.Intents.default()
 
 bot = Bot(
+    prefix='',
     intents=intents,
     help_command=None,
 )
