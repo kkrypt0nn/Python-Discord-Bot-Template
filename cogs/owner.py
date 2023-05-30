@@ -18,6 +18,30 @@ class Owner(commands.Cog, name="owner"):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(
+        name="sync",
+        description="Synchonizes the slash commands.",
+    )
+    @checks.is_owner()
+    async def sync(self, context: Context) -> None:
+        """
+        Synchonizes the slash commands.
+
+        :param context: The command context.
+        :param scope: The scope of the sync. Can be `global` or `guild`.
+        """
+
+        await context.bot.tree.sync()
+        embed = discord.Embed(
+            description="Slash commands have been globally synchronized.",
+            color=0x9C84EF,
+        )
+        await context.send(embed=embed)
+        
+        embed = discord.Embed(
+            description="The scope must be `global` or `guild`.", color=0xE02B2B
+        )
+        await context.send(embed=embed)
 
     @commands.hybrid_command(
         name="load",
@@ -97,20 +121,23 @@ class Owner(commands.Cog, name="owner"):
         )
         await context.send(embed=embed)
 
+
     @commands.hybrid_command(
-        name="shutdown",
-        description="Make the bot shutdown",
+        name="restart",
+        description="Make the bot restart",
     )
     @checks.is_owner()
-    async def shutdown(self, context: Context) -> None:
+    async def restart(self, context: Context) -> None:
         """
         Shuts down the bot.
 
         :param context: The hybrid command context.
         """
-        embed = discord.Embed(description="Shutting down. Bye! :wave:", color=0xF4900D)
+        embed = discord.Embed(description="Restarting. brb :wave:", color=0xF4900D)
         await context.send(embed=embed)
+        # We shut down the bot, but heroku will automatically restart it.
         await self.bot.close()
+
 
 
     @commands.hybrid_group(

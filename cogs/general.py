@@ -68,7 +68,7 @@ class General(commands.Cog, name="general"):
         description="The bot will say anything you want",
     )
     @app_commands.describe(message="The message that should be repeated by the bot")
-    @checks.is_owner()
+    @checks.not_blacklisted()
     async def say(self, context: Context, *, message: str) -> None:
         """
         The bot will say anything you want.
@@ -84,7 +84,7 @@ class General(commands.Cog, name="general"):
         description="The bot will say anything you want, but within embeds",
     )
     @app_commands.describe(message="The message that should be repeated by the bot")
-    @checks.is_owner()
+    @checks.not_blacklisted()
     async def embed(self, context: Context, *, message: str) -> None:
         """
         The bot will say anything you want, but using embeds.

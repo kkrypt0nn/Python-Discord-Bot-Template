@@ -1,6 +1,7 @@
 from discord.ext import commands
 from discord.ext.commands import Context
 import discord
+from discord import app_commands
 from helpers import checks
 
 
@@ -17,6 +18,7 @@ class Context(commands.Cog, name="Out of Context"):
     )
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
+    @app_commands.describe(message_ID="ID van bericht dat je wilt toevoegen")
     async def addContext(self, context: Context, message_ID: str, about: str):
         """
         Add a message to the out of context game
