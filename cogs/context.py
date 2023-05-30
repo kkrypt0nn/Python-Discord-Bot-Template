@@ -6,7 +6,7 @@ from helpers import checks
 
 
 # Here we name the cog and create a new class for the cog.
-class Context(commands.Cog, name="Out of Context"):
+class Context(commands.Cog, name="context"):
     def __init__(self, bot):
         self.bot = bot
 

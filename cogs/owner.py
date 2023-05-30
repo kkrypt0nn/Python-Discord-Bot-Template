@@ -18,7 +18,7 @@ class Owner(commands.Cog, name="owner"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(
+    @commands.hybrid_command(
         name="sync",
         description="Synchonizes the slash commands.",
     )
@@ -37,11 +37,7 @@ class Owner(commands.Cog, name="owner"):
             color=0x9C84EF,
         )
         await context.send(embed=embed)
-        
-        embed = discord.Embed(
-            description="The scope must be `global` or `guild`.", color=0xE02B2B
-        )
-        await context.send(embed=embed)
+
 
     @commands.hybrid_command(
         name="load",
