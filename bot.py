@@ -86,11 +86,7 @@ bot.logger = logger
 
 async def init_db():
     async with psycopg2.connect(
-        database=os.environ.get("Database"),
-        user=os.environ.get("User"),
-        password=os.environ.get("Password"),
-        host=os.environ.get("Host"),
-        port= os.environ.get("Port")
+        psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require')
         
     ) as con:
         
