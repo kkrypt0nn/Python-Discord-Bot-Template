@@ -13,8 +13,8 @@ import os
 import platform
 import random
 import sys
+import psycopg2
 
-import aiosqlite
 import discord
 from discord.ext import commands, tasks
 from discord.ext.commands import Bot, Context
@@ -85,14 +85,21 @@ bot.logger = logger
 
 
 async def init_db():
-    async with aiosqlite.connect(
-        f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
-    ) as db:
-        with open(
-            f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql"
-        ) as file:
-            await db.executescript(file.read())
-        await db.commit()
+    async with psycopg2.connect(
+        database=os.environ.get("Database"),
+        user=os.environ.get("User"),
+        password=os.environ.get("Password"),
+        host=os.environ.get("Host"),
+        port= os.environ.get("Port")
+        
+    ) as con:
+        
+        async with con.cursor() as cursor:
+
+            with open(
+                f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql"
+            ) as file:
+                await cursor.executes(file.read())
 
 
 @bot.event
