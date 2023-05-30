@@ -25,7 +25,7 @@ class Owner(commands.Cog, name="owner"):
     )
     @app_commands.describe(cog="The name of the cog to load")
     @checks.is_owner()
-    async def load(self, context: Context, cog: str) -> None:
+    async def load_cog(self, context: Context, cog: str) -> None:
         """
         The bot will load the given cog.
 
@@ -51,7 +51,7 @@ class Owner(commands.Cog, name="owner"):
     )
     @app_commands.describe(cog="The name of the cog to unload")
     @checks.is_owner()
-    async def unload(self, context: Context, cog: str) -> None:
+    async def unload_cog(self, context: Context, cog: str) -> None:
         """
         The bot will unload the given cog.
 
@@ -77,7 +77,7 @@ class Owner(commands.Cog, name="owner"):
     )
     @app_commands.describe(cog="The name of the cog to reload")
     @checks.is_owner()
-    async def reload(self, context: Context, cog: str) -> None:
+    async def reload_cog(self, context: Context, cog: str) -> None:
         """
         The bot will reload the given cog.
 
@@ -112,36 +112,6 @@ class Owner(commands.Cog, name="owner"):
         await context.send(embed=embed)
         await self.bot.close()
 
-    @commands.hybrid_command(
-        name="say",
-        description="The bot will say anything you want",
-    )
-    @app_commands.describe(message="The message that should be repeated by the bot")
-    @checks.is_owner()
-    async def say(self, context: Context, *, message: str) -> None:
-        """
-        The bot will say anything you want.
-
-        :param context: The hybrid command context.
-        :param message: The message that should be repeated by the bot.
-        """
-        await context.send(message)
-
-    @commands.hybrid_command(
-        name="embed",
-        description="The bot will say anything you want, but within embeds",
-    )
-    @app_commands.describe(message="The message that should be repeated by the bot")
-    @checks.is_owner()
-    async def embed(self, context: Context, *, message: str) -> None:
-        """
-        The bot will say anything you want, but using embeds.
-
-        :param context: The hybrid command context.
-        :param message: The message that should be repeated by the bot.
-        """
-        embed = discord.Embed(description=message, color=0xF4900D)
-        await context.send(embed=embed)
 
     @commands.hybrid_group(
         name="blacklist",

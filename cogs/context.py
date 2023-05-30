@@ -19,14 +19,15 @@ class Context(commands.Cog, name="Out of Context"):
     @checks.not_blacklisted()
     async def addContext(self, context: Context, message_ID: str, about: str):
         """
-        This is a testing command that does nothing.
+        Add a message to the out of context game
 
         :param context: The application command context.
         """
-        ## TODO voeg het bericht toe aan een databank met out of context berichten
-
-        ## TODO verwijder pass
-        pass
+        embed = discord.Embed(
+            title="Not yet implemented",
+            color=0xF4900D,
+        )
+        await context.send(embed=embed)
 
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.

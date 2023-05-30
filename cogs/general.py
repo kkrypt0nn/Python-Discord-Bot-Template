@@ -78,6 +78,7 @@ class General(commands.Cog, name="general"):
         """
         await context.send(message)
 
+
     @commands.hybrid_command(
         name="embed",
         description="The bot will say anything you want, but within embeds",
