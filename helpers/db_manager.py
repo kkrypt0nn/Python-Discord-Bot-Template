@@ -60,7 +60,9 @@ async def add_user_to_blacklist(user_id: int) -> int:
          with con.cursor() as cursor:
             cursor.execute("INSERT INTO blacklist(user_id) VALUES (%s)", (str(user_id),))
             con.commit()
+            cursor.execute("SELECT COUNT(*) FROM blacklist")
             result = cursor.fetchone()
+            print(result)
             return result[0] if result is not None else 0
 
 # TODO test
