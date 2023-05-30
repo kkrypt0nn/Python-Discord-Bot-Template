@@ -43,8 +43,7 @@ async def is_blacklisted(user_id: int) -> bool:
                 "SELECT * FROM blacklist WHERE user_id=%s", (str(user_id),)
             )
             result = cursor.fetchall()
-            print(result)
-            return result is not None
+            return len(result) > 0
         
 
 
