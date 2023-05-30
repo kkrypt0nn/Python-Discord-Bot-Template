@@ -22,7 +22,7 @@ class Names(commands.Cog, name="namen"):
         
         embed = discord.Embed(
             title=random.choice(messages),
-            color=0x9C84EF,
+            color=0xF4900D,
         )
         await context.send(embed=embed)
 
@@ -38,7 +38,7 @@ class Names(commands.Cog, name="namen"):
         
         embed = discord.Embed(
             title=random.choice(messages),
-            color=0x9C84EF,
+            color=0xF4900D,
         )
         await context.send(embed=embed)
 

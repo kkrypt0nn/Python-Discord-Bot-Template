@@ -23,12 +23,12 @@ class General(commands.Cog, name="general"):
         self.bot = bot
 
     @commands.hybrid_command(
-        name="help", description="List all commands the bot has loaded."
+        name="help", description="List all commands the bot has loaded"
     )
     @checks.not_blacklisted()
     async def help(self, context: Context) -> None:
         embed = discord.Embed(
-            title="Help", description="List of available commands:", color=0x9C84EF
+            title="Help", description="List of available commands:", color=0xF4900D
         )
         for i in self.bot.cogs:
             cog = self.bot.get_cog(i.lower())
@@ -46,7 +46,7 @@ class General(commands.Cog, name="general"):
     
     @commands.hybrid_command(
         name="ping",
-        description="Check if the bot is alive.",
+        description="Check if the bot is alive",
     )
     @checks.not_blacklisted()
     async def ping(self, context: Context) -> None:
@@ -58,7 +58,7 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title="🏓 Pong!",
             description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
-            color=0x9C84EF,
+            color=0xF4900D,
         )
         await context.send(embed=embed)
 
