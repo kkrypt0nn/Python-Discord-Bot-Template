@@ -17,7 +17,7 @@ class Context(commands.Cog, name="Out of Context"):
     )
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
-    async def testcommand(self, context: Context, message_ID: str):
+    async def addContext(self, context: Context, message_ID: str, about: str):
         """
         This is a testing command that does nothing.
 
