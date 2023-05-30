@@ -19,10 +19,12 @@ async def get_blacklisted_users() -> list:
     """
     with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
-        with (con.cursor().execute(
-            "SELECT user_id, strftime('%s', created_at) FROM blacklist"
-        )) as cursor:
+        with con.cursor() as cursor:
+            cursor.execute(
+                "SELECT user_id, strftime('%s', created_at) FROM blacklist"
+            )
             return cursor.fetchall()
+        
     
 
 
@@ -36,9 +38,10 @@ async def is_blacklisted(user_id: int) -> bool:
         
     with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
-        with (con.cursor().execute(
-            "SELECT * FROM blacklist WHERE user_id=?", (user_id,)
-        )) as cursor:
+        with con.cursor() as cursor:
+            cursor.execute(
+                "SELECT * FROM blacklist WHERE user_id=?", (user_id,)
+            )
             result = cursor.fetchall()
             return result is not None
         
@@ -61,7 +64,7 @@ async def add_user_to_blacklist(user_id: int) -> int:
 
     with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
-         with (con.cursor()) as cursor:
+         with con.cursor() as cursor:
             cursor.execute("INSERT INTO blacklist(user_id) VALUES (?)", (user_id,))
             cursor.commit()
             result = cursor.fetchone()
@@ -84,7 +87,7 @@ async def remove_user_from_blacklist(user_id: int) -> int:
         
     with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
-        with (con.cursor()) as cursor:
+        with con.cursor() as cursor:
             cursor.execute("DELETE FROM blacklist WHERE user_id=?", (user_id,))
             cursor.commit()
             result = cursor.fetchone()
