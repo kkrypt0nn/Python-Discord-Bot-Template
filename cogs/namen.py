@@ -43,6 +43,53 @@ class Names(commands.Cog, name="namen"):
         await context.send(embed=embed)
 
 
+    @commands.hybrid_command(
+        name="pingy",
+        description="pingy aka pingy1 aka pongy",
+    )
+    # This will only allow non-blacklisted members to execute the command
+    @checks.not_blacklisted()
+    async def pingy(self, context: Context):
+        messages = ["Lol", "Njom", "dolfein"]
+        
+        embed = discord.Embed(
+            title=random.choice(messages),
+            color=0xF4900D,
+        )
+        await context.send(embed=embed)
+
+
+    @commands.hybrid_command(
+        name="ba",
+        description="ba duy aka ba aka duy aka badwie",
+    )
+    # This will only allow non-blacklisted members to execute the command
+    @checks.not_blacklisted()
+    async def ba(self, context: Context):
+        messages = ["ba"]
+        
+        embed = discord.Embed(
+            title=random.choice(messages),
+            color=0xF4900D,
+        )
+        await context.send(embed=embed)
+
+    @commands.hybrid_command(
+        name="meng",
+        description="meng aka mongwong aka da GOAT"
+    )
+    # This will only allow non-blacklisted members to execute the command
+    @checks.not_blacklisted()
+    async def meng(self, context: Context):
+        messages = ["meng"]
+        
+        embed = discord.Embed(
+            title=random.choice(messages),
+            color=0xF4900D,
+        )
+        await context.send(embed=embed)
+
+
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot):
     await bot.add_cog(Names(bot))
