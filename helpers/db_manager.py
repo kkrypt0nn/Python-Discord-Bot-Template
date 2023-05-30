@@ -8,8 +8,7 @@ Description:
 
 Version: 5.5.0
 """
-
-# TODO try catch toevoegen
+# TODO voeg try catch toe
 async def get_blacklisted_users() -> list:
     """
     This function will return the list of all blacklisted users.
@@ -24,8 +23,6 @@ async def get_blacklisted_users() -> list:
                 "SELECT user_id, created_at FROM blacklist"
             )
             return cursor.fetchall()
-        
-    
 
 
 async def is_blacklisted(user_id: int) -> bool:
@@ -46,7 +43,6 @@ async def is_blacklisted(user_id: int) -> bool:
             return len(result) > 0
         
 
-# TODO test
 async def add_user_to_blacklist(user_id: int) -> int:
     """
     This function will add a user based on its ID in the blacklist.
@@ -64,7 +60,7 @@ async def add_user_to_blacklist(user_id: int) -> int:
             result = cursor.fetchone()
             return result[0] if result is not None else 0
 
-# TODO test
+
 async def remove_user_from_blacklist(user_id: int) -> int:
     """
     This function will remove a user based on its ID from the blacklist.
