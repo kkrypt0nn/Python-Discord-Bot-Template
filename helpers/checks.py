@@ -24,11 +24,7 @@ def is_owner() -> Callable[[T], T]:
     """
 
     async def predicate(context: commands.Context) -> bool:
-        with open(
-            f"{os.path.realpath(os.path.dirname(__file__))}/../config.json"
-        ) as file:
-            data = json.load(file)
-        if context.author.id not in data["owners"]:
+        if context.author.id not in os.environ.get("owners"):
             raise UserNotOwner
         return True
 

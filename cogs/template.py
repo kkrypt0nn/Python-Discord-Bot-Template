@@ -25,7 +25,6 @@ class Template(commands.Cog, name="template"):
     )
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
-    # This will only allow owners of the bot to execute the command -> config.json
     @checks.is_owner()
     async def testcommand(self, context: Context):
         """

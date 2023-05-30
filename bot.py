@@ -21,18 +21,12 @@ from discord.ext.commands import Bot, Context
 
 import exceptions
 
-if not os.path.isfile(f"{os.path.realpath(os.path.dirname(__file__))}/config.json"):
-    sys.exit("'config.json' not found! Please add it and try again.")
-else:
-    with open(f"{os.path.realpath(os.path.dirname(__file__))}/config.json") as file:
-        config = json.load(file)
-
 
 
 intents = discord.Intents.default()
 
 bot = Bot(
-    command_prefix=commands.when_mentioned_or(config["prefix"]),
+    command_prefix=commands.when_mentioned_or(os.environ.get("prefix")),
     intents=intents,
     help_command=None,
 )
@@ -101,16 +95,6 @@ async def init_db():
         await db.commit()
 
 
-"""
-Create a bot variable to access the config file in cogs so that you don't need to import it every time.
-
-The config is available using the following code:
-- bot.config # In this file
-- self.bot.config # In cogs
-"""
-bot.config = config
-
-
 @bot.event
 async def on_ready() -> None:
     """
@@ -122,7 +106,7 @@ async def on_ready() -> None:
     bot.logger.info(f"Running on: {platform.system()} {platform.release()} ({os.name})")
     bot.logger.info("-------------------")
     status_task.start()
-    if config["sync_commands_globally"]:
+    if os.environ.get("sync_commands_globally"):
         bot.logger.info("Syncing commands globally...")
         await bot.tree.sync()
 
@@ -263,4 +247,4 @@ async def load_cogs() -> None:
 
 asyncio.run(init_db())
 asyncio.run(load_cogs())
-bot.run(config["token"])
+bot.run(os.environ.get("token"))

@@ -6,6 +6,7 @@ Description:
 Version: 5.5.0
 """
 
+import os
 import platform
 import random
 
@@ -27,7 +28,7 @@ class General(commands.Cog, name="general"):
     )
     @checks.not_blacklisted()
     async def help(self, context: Context) -> None:
-        prefix = self.bot.config["prefix"]
+        prefix = os.environ.get("prefix")
         embed = discord.Embed(
             title="Help", description="List of available commands:", color=0x9C84EF
         )
@@ -66,7 +67,7 @@ class General(commands.Cog, name="general"):
         )
         embed.add_field(
             name="Prefix:",
-            value=f"/ (Slash Commands) or {self.bot.config['prefix']} for normal commands",
+            value=f"/ (Slash Commands) or {os.environ.get('prefix')} for normal commands",
             inline=False,
         )
         embed.set_footer(text=f"Requested by {context.author}")
@@ -133,7 +134,7 @@ class General(commands.Cog, name="general"):
         :param context: The hybrid command context.
         """
         embed = discord.Embed(
-            description=f"Invite me by clicking [here](https://discordapp.com/oauth2/authorize?&client_id={self.bot.config['application_id']}&scope=bot+applications.commands&permissions={self.bot.config['permissions']}).",
+            description=f"Invite me by clicking [here](https://discordapp.com/oauth2/authorize?&client_id={os.environ.get('application_id')}&scope=bot+applications.commands&permissions={os.environ.get('permissions')}).",
             color=0xD75BF4,
         )
         try:
