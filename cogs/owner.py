@@ -33,7 +33,7 @@ class Owner(commands.Cog, name="owner"):
         await context.bot.tree.sync()
         embed = discord.Embed(
             description="Slash commands have been globally synchronized.",
-            color=0x9C84EF,
+            color=0x39AC39,
         )
         await context.send(embed=embed)
 
@@ -60,8 +60,10 @@ class Owner(commands.Cog, name="owner"):
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            description=f"Successfully loaded the `{cog}` cog.", color=0xF4900D
+            description=f"Successfully loaded the `{cog}` cog.", color=0x39AC39
         )
+
+        await self.sync(context=context)
         await context.send(embed=embed)
 
     @commands.hybrid_command(
@@ -86,8 +88,9 @@ class Owner(commands.Cog, name="owner"):
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            description=f"Successfully unloaded the `{cog}` cog.", color=0xF4900D
+            description=f"Successfully unloaded the `{cog}` cog.", color=0x39AC39
         )
+        await self.sync(context=context)
         await context.send(embed=embed)
 
     @commands.hybrid_command(
@@ -112,8 +115,9 @@ class Owner(commands.Cog, name="owner"):
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            description=f"Successfully reloaded the `{cog}` cog.", color=0xF4900D
+            description=f"Successfully reloaded the `{cog}` cog.", color=0x39AC39
         )
+        await self.sync(context=context)
         await context.send(embed=embed)
 
 
@@ -208,7 +212,7 @@ class Owner(commands.Cog, name="owner"):
         total = await db_manager.add_user_to_blacklist(user_id)
         embed = discord.Embed(
             description=f"**{user.name}** has been successfully added to the blacklist",
-            color=0xF4900D,
+            color=0x39AC39,
         )
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'user' if total == 1 else 'users'} in the blacklist"
@@ -239,7 +243,7 @@ class Owner(commands.Cog, name="owner"):
         total = await db_manager.remove_user_from_blacklist(user_id)
         embed = discord.Embed(
             description=f"**{user.name}** has been successfully removed from the blacklist",
-            color=0xF4900D,
+            color=0x39AC39,
         )
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'user' if total == 1 else 'users'} in the blacklist"
