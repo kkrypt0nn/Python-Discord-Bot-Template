@@ -26,7 +26,6 @@ import exceptions
 intents = discord.Intents.default()
 
 bot = Bot(
-    command_prefix=commands.when_mentioned_or(os.environ.get("prefix")),
     intents=intents,
     help_command=None,
 )
@@ -123,7 +122,7 @@ async def status_task() -> None:
 @bot.event
 async def on_message(message: discord.Message) -> None:
     """
-    The code in this event is executed every time someone sends a message, with or without the prefix
+    The code in this event is executed every time someone sends a message
 
     :param message: The message that was sent.
     """
