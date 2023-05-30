@@ -62,7 +62,6 @@ async def add_user_to_blacklist(user_id: int) -> int:
             con.commit()
             cursor.execute("SELECT COUNT(*) FROM blacklist")
             result = cursor.fetchone()
-            print(result)
             return result[0] if result is not None else 0
 
 # TODO test
@@ -72,18 +71,12 @@ async def remove_user_from_blacklist(user_id: int) -> int:
 
     :param user_id: The ID of the user that should be removed from the blacklist.
     """
-    # async with aiosqlite.connect(DATABASE_PATH) as db:
-    #     await db.execute("DELETE FROM blacklist WHERE user_id=?", (user_id,))
-    #     await db.commit()
-    #     rows = await db.execute("SELECT COUNT(*) FROM blacklist")
-    #     async with rows as cursor:
-    #         result = await cursor.fetchone()
-    #         return result[0] if result is not None else 0
-        
+
     with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
         with con.cursor() as cursor:
             cursor.execute("DELETE FROM blacklist WHERE user_id=%s", (str(user_id),))
             con.commit()
+            cursor.execute("SELECT COUNT(*) FROM blacklist")
             result = cursor.fetchone()
             return result[0] if result is not None else 0
