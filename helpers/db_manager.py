@@ -102,7 +102,7 @@ async def get_ooc_messages(amount: int) -> list:
             
             with con.cursor() as cursor:
                 cursor.execute(
-                    "SELECT user_id, created_at FROM blacklist"
+                    "SELECT (*) FROM context_message"
                 )
                 return cursor.fetchall()
             

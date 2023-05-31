@@ -57,9 +57,9 @@ class Owner(commands.Cog, name="owner"):
             )
             await context.send(embed=embed)
 
-        except discord.HTTPException:
+        except discord.HTTPException as err:
             embed = discord.Embed(
-                description="HTTPException, most likely daily application command limits.\n Try /kill",
+                description="HTTPException, most likely daily application command limits.\n" + err,
                 color=0xE02B2B,
             )
             await context.send(embed=embed)
@@ -164,28 +164,10 @@ class Owner(commands.Cog, name="owner"):
         """
         embed = discord.Embed(description="Restarting. brb :wave:", color=0xF4900D)
         await context.send(embed=embed)
-        # TODO remove
-        await self.kill(context)
+
         # We shut down the bot, but heroku will automatically restart it.
         await self.bot.close()
         
-
-
-    @commands.hybrid_command(
-        name="kill",
-        description="Kills the shell",
-    )
-    @checks.is_owner()
-    async def kill(self, context: Context) -> None:
-        """
-        Kills the shell.
-
-        :param context: The hybrid command context.
-        """
-        embed = discord.Embed(description="RIP :wave:", color=0xF4900D)
-        await context.send(embed=embed)
-        # Kill the shell
-        os.system("kill 1")
 
 
     @commands.hybrid_group(
