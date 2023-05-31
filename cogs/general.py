@@ -30,7 +30,7 @@ class General(commands.Cog, name="general"):
         admin = list(os.environ.get("owners").split(","))
         embed = discord.Embed(
             title="Help", 
-            description=f"Ask <@&{int(admin[0])}> for help. \nList of available commands:", 
+            description=f"Ask <@{int(admin[0])}> for help. \nList of available commands:", 
             color=0xF4900D
         )
         for i in self.bot.cogs:
@@ -39,7 +39,7 @@ class General(commands.Cog, name="general"):
             data = []
             for command in commands:
                 description = command.description.partition("\n")[0]
-                data.append(f"***`{command.name}`*** - {description}")
+                data.append("{command.name} - {description}")
             help_text = "\n".join(data)
             embed.add_field(
                 name=i.capitalize(), value=f"```{help_text}```", inline=False
