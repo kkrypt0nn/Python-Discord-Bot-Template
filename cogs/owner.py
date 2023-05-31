@@ -63,7 +63,6 @@ class Owner(commands.Cog, name="owner"):
             description=f"Successfully loaded the `{cog}` cog.", color=0x39AC39
         )
 
-        await self.sync(context)
         await context.send(embed=embed)
 
     @commands.hybrid_command(
@@ -90,7 +89,7 @@ class Owner(commands.Cog, name="owner"):
         embed = discord.Embed(
             description=f"Successfully unloaded the `{cog}` cog.", color=0x39AC39
         )
-        await self.sync(context)
+
         await context.send(embed=embed)
 
     @commands.hybrid_command(
@@ -117,7 +116,7 @@ class Owner(commands.Cog, name="owner"):
         embed = discord.Embed(
             description=f"Successfully reloaded the `{cog}` cog.", color=0x39AC39
         )
-        await self.sync(context)
+
         await context.send(embed=embed)
 
 
