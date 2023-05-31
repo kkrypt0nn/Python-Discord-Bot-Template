@@ -62,7 +62,9 @@ class Owner(commands.Cog, name="owner"):
                 description="HTTPException, most likely daily application command limits.",
                 color=0xE02B2B,
             )
-            print(err.response.headers)
+            embed.add_field(
+                name="Headers", value=f"```{str(err.response.headers)}```", inline=False
+            )
             await context.send(embed=embed)
             
 
@@ -149,7 +151,7 @@ class Owner(commands.Cog, name="owner"):
         await context.send(embed=embed)
 
         # TODO remove
-        await self.sync(context, "server")
+        await self.sync(context, "global")
 
 
     @commands.hybrid_command(
