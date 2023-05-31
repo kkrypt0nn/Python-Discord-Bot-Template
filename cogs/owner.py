@@ -38,7 +38,7 @@ class Owner(commands.Cog, name="owner"):
         """
         try:
 
-            if scope == "global":
+            if scope.value == "global":
                 await context.bot.tree.sync()
                 embed = discord.Embed(
                     description="Slash commands have been globally synchronized.",
@@ -47,7 +47,7 @@ class Owner(commands.Cog, name="owner"):
                 await context.send(embed=embed)
                 return
             
-            elif scope == "server":
+            elif scope.value == "server":
 
                 # context.bot.tree.copy_global_to(guild=context.guild)
                 await context.bot.tree.sync(guild=context.guild)
@@ -157,7 +157,7 @@ class Owner(commands.Cog, name="owner"):
         )
 
         await context.send(embed=embed)
-        
+
 
     @commands.hybrid_command(
         name="cogs",
