@@ -34,7 +34,7 @@ class Context(commands.Cog, name="context"):
                 description=f"**{message.id}** is already in the game.",
                 color=0xE02B2B,
             )
-            await interaction.response.send_message(embed=embed, delete_after=30)
+            await interaction.response.send_message(embed=embed)
             return
         
         total = await db_manager.add_message_to_ooc(message.id, submitted_id)
@@ -45,7 +45,7 @@ class Context(commands.Cog, name="context"):
                 description=f"Er is iets misgegaan.",
                 color=0xE02B2B,
             )
-            await interaction.response.send_message(embed=embed, delete_after=30)
+            await interaction.response.send_message(embed=embed)
             return
         
         # alles oke
@@ -56,7 +56,7 @@ class Context(commands.Cog, name="context"):
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
         )
-        await interaction.response.send_message(embed=embed, delete_after=30)
+        await interaction.response.send_message(embed=embed)
 
 
 
@@ -73,7 +73,7 @@ class Context(commands.Cog, name="context"):
                 description=f"**{message.id}** is not in the game.",
                 color=0xE02B2B,
             )
-            await interaction.response.send_message(embed=embed, delete_after=30)
+            await interaction.response.send_message(embed=embed)
             return
         
         total = await db_manager.remove_message_from_ooc(message.id)
@@ -84,7 +84,7 @@ class Context(commands.Cog, name="context"):
                 description=f"Er is iets misgegaan.",
                 color=0xE02B2B,
             )
-            await interaction.response.send_message(embed=embed, delete_after=30)
+            await interaction.response.send_message(embed=embed)
             return
         
         # alles oke
@@ -95,7 +95,7 @@ class Context(commands.Cog, name="context"):
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
         )
-        await interaction.response.send_message(embed=embed, delete_after=30)
+        await interaction.response.send_message(embed=embed)
 
 
     @commands.hybrid_command(

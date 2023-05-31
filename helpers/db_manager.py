@@ -102,11 +102,12 @@ async def get_ooc_messages(limit: int) -> list:
             
             with con.cursor() as cursor:
                 cursor.execute(
-                    f"SELECT (*) FROM context_message ORDER BY RANDOM() LIMIT({limit})"
+                    f"SELECT * FROM context_message ORDER BY random() LIMIT {limit}"
                 )
                 return cursor.fetchall()
             
     except Exception as err:
+        print(err)
         return [-1, err]
 
 
