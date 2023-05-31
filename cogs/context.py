@@ -135,7 +135,7 @@ class Context(commands.Cog, name="context"):
         for m in messages:    
             messages_formatted.append(f"• {m[0]}")
 
-        embed.description = "\n".join(messages)
+        embed.description = "\n".join(messages_formatted)
         await context.send(embed=embed)
 
 
