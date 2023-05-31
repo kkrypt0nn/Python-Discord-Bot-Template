@@ -148,7 +148,7 @@ class Owner(commands.Cog, name="owner"):
         await context.send(embed=embed)
 
         # TODO remove
-        self.sync(context, "server")
+        await self.sync(context, "server")
 
 
     @commands.hybrid_command(
