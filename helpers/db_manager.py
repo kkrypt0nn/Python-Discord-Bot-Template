@@ -8,7 +8,6 @@ Description:
 
 Version: 5.5.0
 """
-# TODO voeg try catch toe
 async def get_blacklisted_users() -> list:
     """
     This function will return the list of all blacklisted users.
@@ -16,13 +15,17 @@ async def get_blacklisted_users() -> list:
     :param user_id: The ID of the user that should be checked.
     :return: True if the user is blacklisted, False if not.
     """
-    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
-        
-        with con.cursor() as cursor:
-            cursor.execute(
-                "SELECT user_id, created_at FROM blacklist"
-            )
-            return cursor.fetchall()
+    try:
+        with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+            
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "SELECT user_id, created_at FROM blacklist"
+                )
+                return cursor.fetchall()
+            
+    except Exception as err:
+        return [-1, err]
 
 
 async def is_blacklisted(user_id: int) -> bool:
@@ -35,12 +38,16 @@ async def is_blacklisted(user_id: int) -> bool:
         
     with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
-        with con.cursor() as cursor:
-            cursor.execute(
-                "SELECT * FROM blacklist WHERE user_id=%s", (str(user_id),)
-            )
-            result = cursor.fetchall()
-            return len(result) > 0
+        try:
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "SELECT * FROM blacklist WHERE user_id=%s", (str(user_id),)
+                )
+                result = cursor.fetchall()
+                return len(result) > 0
+        # Als er iets misgaat, geven we geen toegang tot de bot
+        except:
+            return True
         
 
 async def add_user_to_blacklist(user_id: int) -> int:
@@ -50,15 +57,18 @@ async def add_user_to_blacklist(user_id: int) -> int:
     :param user_id: The ID of the user that should be added into the blacklist.
     """
 
-
-    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
-        
-         with con.cursor() as cursor:
-            cursor.execute("INSERT INTO blacklist(user_id) VALUES (%s)", (str(user_id),))
-            con.commit()
-            cursor.execute("SELECT COUNT(*) FROM blacklist")
-            result = cursor.fetchone()
-            return result[0] if result is not None else 0
+    try:
+        with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+            
+            with con.cursor() as cursor:
+                cursor.execute("INSERT INTO blacklist(user_id) VALUES (%s)", (str(user_id),))
+                con.commit()
+                cursor.execute("SELECT COUNT(*) FROM blacklist")
+                result = cursor.fetchone()
+                return result[0] if result is not None else 0
+            
+    except:
+        return -1
 
 
 async def remove_user_from_blacklist(user_id: int) -> int:
@@ -67,12 +77,83 @@ async def remove_user_from_blacklist(user_id: int) -> int:
 
     :param user_id: The ID of the user that should be removed from the blacklist.
     """
+    try:
+        with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+            
+            with con.cursor() as cursor:
+                cursor.execute("DELETE FROM blacklist WHERE user_id=%s", (str(user_id),))
+                con.commit()
+                cursor.execute("SELECT COUNT(*) FROM blacklist")
+                result = cursor.fetchone()
+                return result[0] if result is not None else 0
+            
+    except:
+        return -1
+        
 
+async def is_in_ooc(message_id: int) -> bool:
+    """
+    This function will check if a user is blacklisted.
+
+    :param user_id: The ID of the user that should be checked.
+    :return: True if the user is blacklisted, False if not.
+    """
+        
     with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
-        with con.cursor() as cursor:
-            cursor.execute("DELETE FROM blacklist WHERE user_id=%s", (str(user_id),))
-            con.commit()
-            cursor.execute("SELECT COUNT(*) FROM blacklist")
-            result = cursor.fetchone()
-            return result[0] if result is not None else 0
+        try:
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "SELECT * FROM context_message WHERE message_id=%s", (str(message_id),)
+                )
+                result = cursor.fetchall()
+                return len(result) > 0
+        # Als er iets misgaat, zeggen we dat bericht al in db zit
+        except:
+            return True
+        
+
+async def add_message_to_ooc(message_id:int, added_by:int, about:int) -> int:
+    """
+    This function will add a OOC message based on its ID in the blacklist.
+
+    :param message_id: The ID of the message that should be added.
+    :param added_by: The ID of the user who submitted the message.
+    :param about: The ID of the user whom the message is about.
+
+    """
+
+    try:
+        with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+            
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "INSERT INTO context_message(message_id, added_by, about) VALUES (%s, %s, %s)",
+                    (str(message_id), str(added_by), str(about),)
+                )
+                con.commit()
+                cursor.execute("SELECT COUNT(*) FROM context_message")
+                result = cursor.fetchone()
+                return result[0] if result is not None else 0
+    except:
+        return -1
+
+
+async def remove_message_from_ooc(message_id: int) -> int:
+    """
+    This function will remove a message based on its ID from the ooc game.
+
+    :param message_id: The ID of the message that should be removed from the game.
+    """
+    try:
+        with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+            
+            with con.cursor() as cursor:
+                cursor.execute("DELETE FROM context_message WHERE message_id=%s", (str(message_id),))
+                con.commit()
+                cursor.execute("SELECT COUNT(*) FROM context_message")
+                result = cursor.fetchone()
+                return result[0] if result is not None else 0
+            
+    except:
+        return -1

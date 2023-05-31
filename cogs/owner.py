@@ -170,13 +170,26 @@ class Owner(commands.Cog, name="owner"):
         :param context: The hybrid command context.
         """
         blacklisted_users = await db_manager.get_blacklisted_users()
+        
+        # Geen blacklisted users
         if len(blacklisted_users) == 0:
             embed = discord.Embed(
                 description="There are currently no blacklisted users.", color=0xE02B2B
             )
             await context.send(embed=embed)
             return
+        
+        # error
+        elif blacklisted_users[0] == -1:
+            embed = discord.Embed(
+                title=f"Something went wrong",
+                description=blacklisted_users[1],
+                color=0xE02B2B
+            )
+            await context.send(embed=embed)
+            return
 
+        # alles is ok
         embed = discord.Embed(title="Blacklisted Users", color=0xF4900D)
         users = []
         for bluser in blacklisted_users:
@@ -186,6 +199,8 @@ class Owner(commands.Cog, name="owner"):
             users.append(f"• {user.mention} ({user}) - Blacklisted <t:{bluser[1]}>")
         embed.description = "\n".join(users)
         await context.send(embed=embed)
+
+
 
     @blacklist.command(
         base="blacklist",
@@ -210,6 +225,17 @@ class Owner(commands.Cog, name="owner"):
             await context.send(embed=embed)
             return
         total = await db_manager.add_user_to_blacklist(user_id)
+
+        # error
+        if total == -1:
+            embed = discord.Embed(
+                description=f"Er is iets misgegaan.",
+                color=0xE02B2B,
+            )
+            await context.send(embed=embed)
+            return
+        
+        # alles oke
         embed = discord.Embed(
             description=f"**{user.name}** has been successfully added to the blacklist",
             color=0x39AC39,
@@ -241,6 +267,16 @@ class Owner(commands.Cog, name="owner"):
             await context.send(embed=embed)
             return
         total = await db_manager.remove_user_from_blacklist(user_id)
+
+        #error
+        if total == -1:
+            embed = discord.Embed(
+                description=f"Er is iets misgegaan.", color=0xE02B2B
+            )
+            await context.send(embed=embed)
+            return
+        
+        # alles ok
         embed = discord.Embed(
             description=f"**{user.name}** has been successfully removed from the blacklist",
             color=0x39AC39,
