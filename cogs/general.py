@@ -41,9 +41,10 @@ class General(commands.Cog, name="general"):
                 description = command.description.partition("\n")[0]
                 data.append(f"{command.name} - {description}")
             help_text = "\n".join(data)
-            embed.add_field(
-                name=i.capitalize(), value=f"```{help_text}```", inline=False
-            )
+            if len(help_text) > 0:
+                embed.add_field(
+                    name=i.capitalize(), value=f"```{help_text}```", inline=False
+                )
         
         await context.send(embed=embed)
 

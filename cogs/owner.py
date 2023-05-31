@@ -25,9 +25,12 @@ class Owner(commands.Cog, name="owner"):
         description="Synchronizes the slash commands",
     )
     @app_commands.describe(scope="The scope of the sync. Can be `global` or `server`")
+    @app_commands.choices(choices=[
+        app_commands.Choice(name="Global", value="global"),
+        app_commands.Choice(name="Server", value="server"),
+    ])
     @checks.is_owner()
-    # TODO verander scope naar choice
-    async def sync(self, context: Context, scope: str = "global") -> None:
+    async def sync(self, context: Context, scope: app_commands.Choice[str]) -> None:
         """
         Synchronizes the slash commands.
 
@@ -67,7 +70,7 @@ class Owner(commands.Cog, name="owner"):
             await context.send(embed=embed)
             
 
-
+    # TODO load cog met choices ipv naam van cog
     @commands.hybrid_command(
         name="load",
         description="Load a cog",
