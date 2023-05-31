@@ -57,7 +57,7 @@ class Owner(commands.Cog, name="owner"):
             )
             await context.send(embed=embed)
 
-        except errors.HTTPException:
+        except discord.HTTPException:
             embed = discord.Embed(
                 description="HTTPException, most likely daily application command limits.\n Try /kill",
                 color=0x39AC39,
@@ -146,6 +146,9 @@ class Owner(commands.Cog, name="owner"):
         )
 
         await context.send(embed=embed)
+
+        # TODO remove
+        self.sync(context, "server")
 
 
     @commands.hybrid_command(

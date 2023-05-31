@@ -111,9 +111,6 @@ async def on_ready() -> None:
     bot.logger.info("-------------------")
     status_task.start()
 
-    await bot.tree.sync(guild=discord.Object(id=int(os.environ.get("guild_id"))))
-
-
 @tasks.loop(minutes=1.0)
 async def status_task() -> None:
     """
