@@ -16,22 +16,26 @@ class Reacties(commands.Cog, name="reacties"):
     @commands.hybrid_command(name="giblereact")
     @checks.not_blacklisted()
     async def giblereact(self, context: Context):
-        await context.send(embed=await self.get_embed("giblereact.jpg", context.message.author.id))
+        file, embed = await self.get_embed("giblereact.jpg", context.message.author.id)
+        await context.send(file=file, embed=embed)
 
     @commands.hybrid_command(name="wholesquadlaughing")
     @checks.not_blacklisted()
     async def wholesquadlaughing(self, context: Context):
-        await context.send(embed=await self.get_embed("wholesquadlaughing.jpg", context.message.author.id))
+        file, embed = await self.get_embed("wholesquadlaughing.jpg", context.message.author.id)
+        await context.send(file=file, embed=embed)
 
     @commands.hybrid_command(name="notfunny")
     @checks.not_blacklisted()
     async def notfunny(self, context: Context):
-        await context.send(embed=await self.get_embed("notfunny.jpg", context.message.author.id))
+        file, embed = await self.get_embed("notfunny.jpg", context.message.author.id)
+        await context.send(file=file, embed=embed)
     
     @commands.hybrid_command(name="uthought")
     @checks.not_blacklisted()
     async def uthought(self, context: Context):
-        await context.send(embed=await self.get_embed("uthought.jpg", context.message.author.id))
+        file, embed = await self.get_embed("uthought.jpg", context.message.author.id)
+        await context.send(file=file, embed=embed)
     
 
     async def get_embed(self, name, userid):
@@ -40,8 +44,9 @@ class Reacties(commands.Cog, name="reacties"):
             description=f"Requested by <@{int(userid)}>", 
             color=0xF4900D
         )
-        embed.set_image(url=f"{os.path.realpath(os.path.dirname(__file__))}/../reactions/{name}")
-        return embed
+        file = discord.File(f"{os.path.realpath(os.path.dirname(__file__))}/../reactions/{name}", filename="image.png")
+        embed.set_image(url="attachment://image.png")
+        return file, embed
 
 
 

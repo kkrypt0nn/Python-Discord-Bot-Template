@@ -42,7 +42,7 @@ class Owner(commands.Cog, name="owner"):
                 await context.bot.tree.sync()
                 embed = discord.Embed(
                     description="Slash commands have been globally synchronized.",
-                    color=0x9C84EF,
+                    color=0x39AC39,
                 )
                 await context.send(embed=embed)
                 return
@@ -53,7 +53,7 @@ class Owner(commands.Cog, name="owner"):
                 await context.bot.tree.sync(guild=context.guild)
                 embed = discord.Embed(
                     description="Slash commands have been synchronized in this server.",
-                    color=0x9C84EF,
+                    color=0x39AC39,
                 )
                 await context.send(embed=embed)
                 return
