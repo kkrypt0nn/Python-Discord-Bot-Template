@@ -89,7 +89,26 @@ async def remove_user_from_blacklist(user_id: int) -> int:
             
     except:
         return -1
-        
+
+
+async def get_ooc_messages(amount: int) -> list:
+    """
+    This function will return a list of random ooc messages.
+
+    :param amount: The amount of randomy selected messages
+    """
+    try:
+        with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+            
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "SELECT user_id, created_at FROM blacklist"
+                )
+                return cursor.fetchall()
+            
+    except Exception as err:
+        return [-1, err]
+
 
 async def is_in_ooc(message_id: int) -> bool:
     """
@@ -157,3 +176,4 @@ async def remove_message_from_ooc(message_id: int) -> int:
             
     except:
         return -1
+    
