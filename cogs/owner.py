@@ -164,9 +164,11 @@ class Owner(commands.Cog, name="owner"):
         """
         embed = discord.Embed(description="Restarting. brb :wave:", color=0xF4900D)
         await context.send(embed=embed)
+        # TODO remove
+        await self.kill(context)
         # We shut down the bot, but heroku will automatically restart it.
         await self.bot.close()
-        await self.kill(context)
+        
 
 
     @commands.hybrid_command(
