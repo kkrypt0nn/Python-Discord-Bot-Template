@@ -59,12 +59,11 @@ class Owner(commands.Cog, name="owner"):
             )
             await context.send(embed=embed)
 
-        except discord.HTTPException as err:
+        except discord.HTTPException:
             embed = discord.Embed(
                 description="HTTPException, most likely daily application command limits.",
                 color=0xE02B2B,
             )
-            print(err.response.headers)
             await context.send(embed=embed)
             
 
@@ -84,6 +83,8 @@ class Owner(commands.Cog, name="owner"):
         """
         try:
             await self.bot.load_extension(f"cogs.{cog}")
+            self.bot.loaded.add(cog)
+            self.bot.unloaded.discard(cog)
         except Exception:
             embed = discord.Embed(
                 description=f"Could not load the `{cog}` cog.", color=0xE02B2B
@@ -111,6 +112,8 @@ class Owner(commands.Cog, name="owner"):
         """
         try:
             await self.bot.unload_extension(f"cogs.{cog}")
+            self.bot.loaded.discard(cog)
+            self.bot.unloaded.add(cog)
         except Exception:
             embed = discord.Embed(
                 description=f"Could not unload the `{cog}` cog.", color=0xE02B2B
@@ -148,6 +151,36 @@ class Owner(commands.Cog, name="owner"):
         
         embed = discord.Embed(
             description=f"Successfully reloaded the `{cog}` cog.", color=0x39AC39
+        )
+
+        await context.send(embed=embed)
+
+
+    @commands.hybrid_command(
+        name="cogs",
+        description="See loaded/unloaded cogs",
+    )
+    @checks.is_owner()
+    async def cogs(self, context: Context) -> None:
+        """
+        See which cogs are loaded and which are unloaded 
+
+        :param context: The hybrid command context.
+        """
+        
+        embed = discord.Embed(
+            title="Cog info",
+            color=0xF4900D
+        )
+        
+        loaded_fields = "\n".join(self.bot.loaded)
+        embed.add_field(
+            name="Loaded", value=f'```{loaded_fields}```', inline=False
+        )
+
+        unloaded_fields = "\n".join(self.bot.unloaded)
+        embed.add_field(
+            name="Loaded", value=f"```{unloaded_fields}```", inline=False
         )
 
         await context.send(embed=embed)

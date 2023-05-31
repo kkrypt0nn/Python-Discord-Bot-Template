@@ -31,6 +31,8 @@ bot = Bot(
     help_command=None,
 )
 
+bot.loaded = set()
+bot.unloaded = set()
 # Setup both of the loggers
 
 
@@ -247,9 +249,12 @@ async def load_cogs() -> None:
             try:
                 await bot.load_extension(f"cogs.{extension}")
                 bot.logger.info(f"Loaded extension '{extension}'")
+                bot.loaded.add(extension)
+
             except Exception as e:
                 exception = f"{type(e).__name__}: {e}"
                 bot.logger.error(f"Failed to load extension {extension}\n{exception}")
+                bot.unloaded.add(extension)
 
 init_db()
 asyncio.run(load_cogs())
