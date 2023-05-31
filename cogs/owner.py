@@ -59,9 +59,10 @@ class Owner(commands.Cog, name="owner"):
 
         except discord.HTTPException as err:
             embed = discord.Embed(
-                description="HTTPException, most likely daily application command limits.\n" + err,
+                description="HTTPException, most likely daily application command limits.",
                 color=0xE02B2B,
             )
+            print(err.request.headers)
             await context.send(embed=embed)
             
 
