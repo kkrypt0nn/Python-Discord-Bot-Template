@@ -110,7 +110,6 @@ class Context(commands.Cog, name="context"):
         :param context: The hybrid command context.
         """
         messages = await db_manager.get_ooc_messages(10)
-        print(messages)
 
         # Geen berichten
         if len(messages) == 0:
@@ -133,8 +132,8 @@ class Context(commands.Cog, name="context"):
         # alles is ok
         embed = discord.Embed(title="Out of Context", color=0xF4900D)
         messages_formatted = []
-        for m, n in messages:    
-            messages_formatted.append(f"• {str(m)}")
+        for m in messages:    
+            messages_formatted.append(f"• {m[0]}")
 
         embed.description = "\n".join(messages)
         await context.send(embed=embed)
