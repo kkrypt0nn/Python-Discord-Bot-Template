@@ -147,6 +147,7 @@ class Context(commands.Cog, name="context"):
             
             messages.append(f"• [{m}]({messageObject.jump_url})")
 
+        print(messages)
         embed.description = "\n".join(messages)
         await context.send(embed=embed)
 
