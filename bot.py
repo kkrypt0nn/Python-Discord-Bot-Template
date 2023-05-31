@@ -116,7 +116,7 @@ async def status_task() -> None:
     """
     Setup the game status task of the bot.
     """
-    statuses = ["with gible z'n ma", "with grom z'n ma", "🚨 Scanning for n-words 🚨"]
+    statuses = ["with gible z'n ma", "with grom z'n ma", "🚨 Scanning for n-words 🚨", "github.com/SDeVuyst/WhereContextbot3"]
     await bot.change_presence(activity=discord.Game(random.choice(statuses)))
 
 
@@ -227,7 +227,13 @@ async def on_command_error(context: Context, error) -> None:
         )
         await context.send(embed=embed)
     else:
-        raise error
+        embed = discord.Embed(
+            title="Error!",
+            # We need to capitalize because the command arguments have no capital letter in the code.
+            description=str(error).capitalize(),
+            color=0xE02B2B,
+        )
+        await context.send(embed=embed)
 
 
 async def load_cogs() -> None:

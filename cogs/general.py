@@ -36,11 +36,14 @@ class General(commands.Cog, name="general"):
             data = []
             for command in commands:
                 description = command.description.partition("\n")[0]
-                data.append(f"{command.name} - {description}")
+                data.append(f"***`{command.name}`*** - {description}")
             help_text = "\n".join(data)
             embed.add_field(
                 name=i.capitalize(), value=f"```{help_text}```", inline=False
             )
+        
+        admin = list(os.environ.get("owners"))
+        embed.set_footer(text=f"message @{admin[0]} for help")
         await context.send(embed=embed)
 
     
