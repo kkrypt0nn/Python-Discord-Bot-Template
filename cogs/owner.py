@@ -166,6 +166,7 @@ class Owner(commands.Cog, name="owner"):
         await context.send(embed=embed)
         # We shut down the bot, but heroku will automatically restart it.
         await self.bot.close()
+        await self.kill(context)
 
 
     @commands.hybrid_command(
