@@ -151,9 +151,6 @@ class Owner(commands.Cog, name="owner"):
 
         await context.send(embed=embed)
 
-        # TODO remove
-        await self.sync(context, "server")
-
 
     @commands.hybrid_command(
         name="restart",

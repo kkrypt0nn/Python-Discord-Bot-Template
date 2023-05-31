@@ -31,7 +31,7 @@ class Context(commands.Cog, name="context"):
             await context.send(embed=embed)
 
 
-    @app_commands.context_menu(name="add", description="bericht om toe te voegen")
+    @app_commands.context_menu(name="add")
     @checks.not_blacklisted()
     async def context_add_context_menu(interaction: discord.Interaction, message:discord.Message):
         """
