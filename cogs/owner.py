@@ -25,7 +25,7 @@ class Owner(commands.Cog, name="owner"):
         description="Synchronizes the slash commands",
     )
     @app_commands.describe(scope="The scope of the sync.")
-    @app_commands.choices(choices=[
+    @app_commands.choices(scope=[
         discord.app_commands.Choice(name="Global", value="global"),
         discord.app_commands.Choice(name="Server", value="server"),
     ])
