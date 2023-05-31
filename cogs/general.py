@@ -31,7 +31,7 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title="Help", 
             description=f"Ask <@&{int(admin[0])}> for help. \nList of available commands:", 
-            olor=0xF4900D
+            color=0xF4900D
         )
         for i in self.bot.cogs:
             cog = self.bot.get_cog(i.lower())
