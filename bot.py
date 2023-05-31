@@ -250,4 +250,7 @@ async def load_cogs() -> None:
 
 init_db()
 asyncio.run(load_cogs())
-bot.run(os.environ.get("token"))
+try:
+    bot.run(os.environ.get("token"))
+except:
+    os.system("kill 1")

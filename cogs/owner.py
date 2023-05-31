@@ -7,8 +7,10 @@ Version: 5.5.0
 """
 
 import discord
+import os
 from discord import app_commands
 from discord.ext import commands
+from discord import errors
 from discord.ext.commands import Context
 
 from helpers import checks, db_manager
@@ -29,13 +31,21 @@ class Owner(commands.Cog, name="owner"):
 
         :param context: The command context.
         """
+        try:
+            await context.bot.tree.sync()
+            embed = discord.Embed(
+                description="Slash commands have been globally synchronized.",
+                color=0x39AC39,
+            )
+            await context.send(embed=embed)
 
-        await context.bot.tree.sync()
-        embed = discord.Embed(
-            description="Slash commands have been globally synchronized.",
-            color=0x39AC39,
-        )
-        await context.send(embed=embed)
+        except errors.HTTPException:
+            embed = discord.Embed(
+                description="HTTPException, most likely daily application command limits.\n Try /kill",
+                color=0x39AC39,
+            )
+            await context.send(embed=embed)
+            
 
 
     @commands.hybrid_command(
@@ -137,6 +147,22 @@ class Owner(commands.Cog, name="owner"):
         await self.bot.close()
 
 
+    @commands.hybrid_command(
+        name="kill",
+        description="Kills the shell",
+    )
+    @checks.is_owner()
+    async def kill(self, context: Context) -> None:
+        """
+        Kills the shell.
+
+        :param context: The hybrid command context.
+        """
+        embed = discord.Embed(description="RIP :wave:", color=0xF4900D)
+        await context.send(embed=embed)
+        # Kill the shell
+        os.system("kill 1")
+
 
     @commands.hybrid_group(
         name="blacklist",
@@ -155,6 +181,8 @@ class Owner(commands.Cog, name="owner"):
                 color=0xE02B2B,
             )
             await context.send(embed=embed)
+
+
 
     @blacklist.command(
         base="blacklist",
