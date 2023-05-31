@@ -62,7 +62,7 @@ class Owner(commands.Cog, name="owner"):
                 description="HTTPException, most likely daily application command limits.",
                 color=0xE02B2B,
             )
-            print(err.request.headers)
+            print(err.response.headers)
             await context.send(embed=embed)
             
 
