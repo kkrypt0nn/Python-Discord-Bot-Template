@@ -16,22 +16,22 @@ class Reacties(commands.Cog, name="reacties"):
     @commands.hybrid_command(name="giblereact")
     @checks.not_blacklisted()
     async def giblereact(self, context: Context):
-        await context.send(embed=self.get_embed("giblereact.jpg", context.message.author.id))
+        await context.send(embed=await self.get_embed("giblereact.jpg", context.message.author.id))
 
     @commands.hybrid_command(name="wholesquadlaughing")
     @checks.not_blacklisted()
     async def wholesquadlaughing(self, context: Context):
-        await context.send(embed=self.get_embed("wholesquadlaughing.jpg", context.message.author.id))
+        await context.send(embed=await self.get_embed("wholesquadlaughing.jpg", context.message.author.id))
 
     @commands.hybrid_command(name="notfunny")
     @checks.not_blacklisted()
     async def notfunny(self, context: Context):
-        await context.send(embed=self.get_embed("notfunny.jpg", context.message.author.id))
+        await context.send(embed=await self.get_embed("notfunny.jpg", context.message.author.id))
     
     @commands.hybrid_command(name="uthought")
     @checks.not_blacklisted()
     async def uthought(self, context: Context):
-        await context.send(embed=self.get_embed("uthought.jpg", context.message.author.id))
+        await context.send(embed=await self.get_embed("uthought.jpg", context.message.author.id))
     
 
     async def get_embed(self, name, userid):

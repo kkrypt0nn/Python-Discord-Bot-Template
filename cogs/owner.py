@@ -157,9 +157,7 @@ class Owner(commands.Cog, name="owner"):
         )
 
         await context.send(embed=embed)
-
-        await context.bot.tree.sync()
-
+        
 
     @commands.hybrid_command(
         name="cogs",
