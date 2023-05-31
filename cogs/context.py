@@ -111,7 +111,7 @@ class Context(commands.Cog, name="context"):
         """
         messages = await db_manager.get_ooc_messages(10)
         
-        # Geen blacklisted users
+        # Geen berichten
         if len(messages) == 0:
             embed = discord.Embed(
                 description="There are no messages.", color=0xF4900D
@@ -131,7 +131,7 @@ class Context(commands.Cog, name="context"):
 
         # alles is ok
         embed = discord.Embed(title="Out of Context", color=0xF4900D)
-        messages = []
+        messages_formatted = []
         for m in messages:
             try:
                 messageObject = context.fetch_message(m)
@@ -145,9 +145,8 @@ class Context(commands.Cog, name="context"):
                 await context.send(embed=embed)
                 return
             
-            messages.append(f"• [{m}]({messageObject.jump_url})")
+            messages_formatted.append(f"• [{m}]({messageObject.jump_url})")
 
-        print(messages)
         embed.description = "\n".join(messages)
         await context.send(embed=embed)
 
