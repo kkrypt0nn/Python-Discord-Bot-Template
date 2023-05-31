@@ -26,7 +26,7 @@ class Owner(commands.Cog, name="owner"):
     )
     @app_commands.describe(scope="The scope of the sync. Can be `global` or `server`")
     @checks.is_owner()
-    async def sync(self, context: Context, scope: str) -> None:
+    async def sync(self, context: Context, scope: str = "global") -> None:
         """
         Synchronizes the slash commands.
 
@@ -43,7 +43,7 @@ class Owner(commands.Cog, name="owner"):
                 await context.send(embed=embed)
                 return
             
-            elif scope == "server" or scope is None:
+            elif scope == "server":
 
                 context.bot.tree.copy_global_to(guild=context.guild)
                 await context.bot.tree.sync(guild=context.guild)
@@ -63,9 +63,7 @@ class Owner(commands.Cog, name="owner"):
                 description="HTTPException, most likely daily application command limits.",
                 color=0xE02B2B,
             )
-            embed.add_field(
-                name="Headers", value=f"```{str(err.response.headers)}```", inline=False
-            )
+            print(err.response.headers)
             await context.send(embed=embed)
             
 
