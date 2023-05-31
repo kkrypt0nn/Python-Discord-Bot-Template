@@ -98,6 +98,58 @@ class Context(commands.Cog, name="context"):
         await interaction.response.send_message(embed=embed, delete_after=30)
 
 
+    @commands.hybrid_command(
+        name="play",
+        description="Play the out of context game",
+    )
+    @checks.not_blacklisted()
+    async def play(self, context: Context) -> None:
+        """
+        Play the out of context game
+
+        :param context: The hybrid command context.
+        """
+        messages = await db_manager.get_ooc_messages(10)
+        
+        # Geen blacklisted users
+        if len(messages) == 0:
+            embed = discord.Embed(
+                description="There are no messages.", color=0xF4900D
+            )
+            await context.send(embed=embed)
+            return
+        
+        # error
+        elif messages[0] == -1:
+            embed = discord.Embed(
+                title=f"Something went wrong",
+                description=messages[1],
+                color=0xE02B2B
+            )
+            await context.send(embed=embed)
+            return
+
+        # alles is ok
+        embed = discord.Embed(title="Out of Context", color=0xF4900D)
+        messages = []
+        for m in messages:
+            try:
+                messageObject = context.fetch_message(m)
+
+            except:
+                embed = discord.Embed(
+                    title=f"Message {m} was not found",
+                    description="Maybe you are playing this game in the wrong channel?",
+                    color=0xE02B2B
+                )
+                await context.send(embed=embed)
+                return
+            
+            messages.append(f"• [{m}]({messageObject.jump_url})")
+
+        embed.description = "\n".join(messages)
+        await context.send(embed=embed)
+
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot):
