@@ -132,20 +132,9 @@ class Context(commands.Cog, name="context"):
         # alles is ok
         embed = discord.Embed(title="Out of Context", color=0xF4900D)
         messages_formatted = []
-        for m in messages:
-            try:
-                messageObject = await context.fetch_message(m)
-
-            except:
-                embed = discord.Embed(
-                    title=f"Message {m} was not found",
-                    description="Maybe you are playing this game in the wrong channel?",
-                    color=0xE02B2B
-                )
-                await context.send(embed=embed)
-                return
-            
-            messages_formatted.append(f"• [{m}]({messageObject.jump_url})")
+        for m in messages:    
+            print(type(m))
+            messages_formatted.append(f"• [{m}]({m.jump_url})")
 
         embed.description = "\n".join(messages)
         await context.send(embed=embed)
