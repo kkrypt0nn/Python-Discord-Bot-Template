@@ -133,7 +133,7 @@ class Context(commands.Cog, name="context"):
         embed = discord.Embed(title="Out of Context", color=0xF4900D)
         messages_formatted = []
         for m in messages:    
-            messages_formatted.append(f"• {m}")
+            messages_formatted.append(f"• {str(m)}")
 
         embed.description = "\n".join(messages)
         await context.send(embed=embed)
