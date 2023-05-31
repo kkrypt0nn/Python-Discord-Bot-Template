@@ -43,7 +43,7 @@ class Context(commands.Cog, name="context"):
                 description=f"Er is iets misgegaan.",
                 color=0xE02B2B,
             )
-            await interaction.response.send_message.send(embed=embed, delete_after=30)
+            await interaction.response.send_message(embed=embed, delete_after=30)
             return
         
         # alles oke
@@ -54,7 +54,7 @@ class Context(commands.Cog, name="context"):
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
         )
-        await interaction.response.send_message.send(embed=embed, delete_after=30)
+        await interaction.response.send_message(embed=embed, delete_after=30)
 
 
 

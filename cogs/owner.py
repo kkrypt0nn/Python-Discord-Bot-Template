@@ -70,7 +70,6 @@ class Owner(commands.Cog, name="owner"):
             await context.send(embed=embed)
             
 
-    # TODO load cog met choices ipv naam van cog
     @commands.hybrid_command(
         name="load",
         description="Load a cog",
