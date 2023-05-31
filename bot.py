@@ -110,9 +110,6 @@ async def on_ready() -> None:
     bot.logger.info(f"Running on: {platform.system()} {platform.release()} ({os.name})")
     bot.logger.info("-------------------")
     status_task.start()
-    if os.environ.get("sync_commands_globally"):
-        await bot.tree.sync()
-        bot.logger.info("synced commands globally")
 
 
 @tasks.loop(minutes=1.0)
@@ -250,7 +247,4 @@ async def load_cogs() -> None:
 
 init_db()
 asyncio.run(load_cogs())
-try:
-    bot.run(os.environ.get("token"))
-except:
-    os.system("kill 1")
+bot.run(os.environ.get("token"))
