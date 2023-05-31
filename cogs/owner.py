@@ -244,7 +244,7 @@ class Owner(commands.Cog, name="owner"):
         # Geen blacklisted users
         if len(blacklisted_users) == 0:
             embed = discord.Embed(
-                description="There are currently no blacklisted users.", color=0xE02B2B
+                description="There are currently no blacklisted users.", color=0xF4900D
             )
             await context.send(embed=embed)
             return

@@ -10,13 +10,13 @@ class Context(commands.Cog, name="context"):
     def __init__(self, bot):
         self.bot = bot
         self.ctx_menu_add = app_commands.ContextMenu(
-            name='Add to Out of Context',
+            name='Add Context',
             callback=self.context_add,
         )
         self.bot.tree.add_command(self.ctx_menu_add)
 
         self.ctx_menu_remove = app_commands.ContextMenu(
-            name='Remove from Out of Context',
+            name='Remove Context',
             callback=self.context_remove,
         )
         self.bot.tree.add_command(self.ctx_menu_remove)
@@ -76,7 +76,7 @@ class Context(commands.Cog, name="context"):
             await interaction.response.send_message(embed=embed, delete_after=30)
             return
         
-        total = await db_manager.remove_message_from_ooc(message.id, submitted_id)
+        total = await db_manager.remove_message_from_ooc(message.id)
 
         # error
         if total == -1:
