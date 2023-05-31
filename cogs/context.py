@@ -134,7 +134,7 @@ class Context(commands.Cog, name="context"):
         messages_formatted = []
         for m in messages:
             try:
-                messageObject = context.fetch_message(m)
+                messageObject = await context.fetch_message(m)
 
             except:
                 embed = discord.Embed(
