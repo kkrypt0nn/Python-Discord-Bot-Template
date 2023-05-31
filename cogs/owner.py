@@ -26,6 +26,7 @@ class Owner(commands.Cog, name="owner"):
     )
     @app_commands.describe(scope="The scope of the sync. Can be `global` or `server`")
     @checks.is_owner()
+    # TODO verander scope naar choice
     async def sync(self, context: Context, scope: str = "global") -> None:
         """
         Synchronizes the slash commands.
