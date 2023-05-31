@@ -27,8 +27,11 @@ class General(commands.Cog, name="general"):
     )
     @checks.not_blacklisted()
     async def help(self, context: Context) -> None:
+        admin = list(os.environ.get("owners").split(","))
         embed = discord.Embed(
-            title="Help", description="List of available commands:", color=0xF4900D
+            title="Help", 
+            description=f"Ask <@&{int(admin[0])}> for help. \nList of available commands:", 
+            olor=0xF4900D
         )
         for i in self.bot.cogs:
             cog = self.bot.get_cog(i.lower())
@@ -42,8 +45,6 @@ class General(commands.Cog, name="general"):
                 name=i.capitalize(), value=f"```{help_text}```", inline=False
             )
         
-        admin = list(os.environ.get("owners").split(","))
-        embed.set_footer(text=f"message <@{int(admin[0])}> for help")
         await context.send(embed=embed)
 
     
