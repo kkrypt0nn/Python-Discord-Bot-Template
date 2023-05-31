@@ -102,7 +102,7 @@ async def get_ooc_messages(limit: int) -> list:
             
             with con.cursor() as cursor:
                 cursor.execute(
-                    f"SELECT * FROM context_message ORDER BY random() LIMIT {limit}"
+                    f"SELECT message_id FROM context_message ORDER BY random() LIMIT {limit}"
                 )
                 return cursor.fetchall()
             
