@@ -81,7 +81,7 @@ class Names(commands.Cog, name="namen"):
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
     async def meng(self, context: Context):
-        messages = ["meng"]
+        messages = ["meng shut the fuck up"]
         
         embed = discord.Embed(
             title=random.choice(messages),

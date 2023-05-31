@@ -91,18 +91,18 @@ async def remove_user_from_blacklist(user_id: int) -> int:
         return -1
 
 
-async def get_ooc_messages(amount: int) -> list:
+async def get_ooc_messages(limit: int) -> list:
     """
     This function will return a list of random ooc messages.
 
-    :param amount: The amount of randomy selected messages
+    :param limit: The amount of randomy selected messages
     """
     try:
         with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
             
             with con.cursor() as cursor:
                 cursor.execute(
-                    "SELECT (*) FROM context_message"
+                    f"SELECT (*) FROM context_message SAMPLE({limit})"
                 )
                 return cursor.fetchall()
             
@@ -132,7 +132,7 @@ async def is_in_ooc(message_id: int) -> bool:
             return True
         
 
-async def add_message_to_ooc(message_id:int, added_by:int, about:int) -> int:
+async def add_message_to_ooc(message_id:int, added_by:int) -> int:
     """
     This function will add a OOC message based on its ID in the blacklist.
 
@@ -147,8 +147,8 @@ async def add_message_to_ooc(message_id:int, added_by:int, about:int) -> int:
             
             with con.cursor() as cursor:
                 cursor.execute(
-                    "INSERT INTO context_message(message_id, added_by, about) VALUES (%s, %s, %s)",
-                    (str(message_id), str(added_by), str(about),)
+                    "INSERT INTO context_message(message_id, added_by) VALUES (%s, %s)",
+                    (str(message_id), str(added_by),)
                 )
                 con.commit()
                 cursor.execute("SELECT COUNT(*) FROM context_message")

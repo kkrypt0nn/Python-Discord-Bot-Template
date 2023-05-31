@@ -9,6 +9,5 @@ CREATE TABLE IF NOT EXISTS context_message (
   message_id varchar(20) NOT NULL UNIQUE,
   added_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   added_by varchar(20) NOT NULL,
-  about varchar(20) NOT NULL,
   times_played INTEGER DEFAULT 0
 );

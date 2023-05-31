@@ -31,17 +31,9 @@ class Context(commands.Cog, name="context"):
             await context.send(embed=embed)
 
 
-    @context.command(
-        base="context",
-        name="add",
-        description="Voeg een bericht toe aan het out of context spel",
-    )
-    @app_commands.describe(message_id="id van het bericht dat je wilt toevoegen")
-    @app_commands.describe(about="Over wie gaat het bericht")
-    @app_commands.describe(submitted_by="Wie heeft het bericht toegevoegd")
-
+    @app_commands.context_menu(name="add", description="bericht om toe te voegen")
     @checks.not_blacklisted()
-    async def context_add(self, context: Context, message_id: str, about: discord.User, submitted_by: discord.User) -> None:
+    async def context_add_context_menu(interaction: discord.Interaction, message:discord.Message):
         """
         Lets you add a message to the OOC game.
 
@@ -50,18 +42,17 @@ class Context(commands.Cog, name="context"):
         :param about: The user about whom the message is.
         :param submitted_by: The user who submitted the message.
         """
-        about_id = about.id
-        submitted_id = submitted_by.id
+        submitted_id = interaction.user.id
 
-        if await db_manager.is_in_ooc(message_id):
+        if await db_manager.is_in_ooc(message.id):
             embed = discord.Embed(
-                description=f"**{message_id}** is already in the game.",
+                description=f"**{message.id}** is already in the game.",
                 color=0xE02B2B,
             )
-            await context.send(embed=embed)
+            await interaction.response.send_message(embed=embed, delete_after=30)
             return
         
-        total = await db_manager.add_message_to_ooc(message_id, submitted_id, about_id)
+        total = await db_manager.add_message_to_ooc(message.id, submitted_id)
 
         # error
         if total == -1:
@@ -69,19 +60,18 @@ class Context(commands.Cog, name="context"):
                 description=f"Er is iets misgegaan.",
                 color=0xE02B2B,
             )
-            await context.send(embed=embed)
+            await interaction.response.send_message.send(embed=embed, delete_after=30)
             return
         
         # alles oke
         embed = discord.Embed(
-            description=f"**{message_id}** has been successfully added to the game",
+            description=f"**{message.id}** has been successfully added to the game",
             color=0x39AC39,
         )
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
         )
-        await context.send(embed=embed)
-
+        await interaction.response.send_message.send(embed=embed, delete_after=30)
 
 
 
