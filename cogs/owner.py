@@ -44,6 +44,7 @@ class Owner(commands.Cog, name="owner"):
                 return
             
             elif scope == "server" or scope is None:
+
                 context.bot.tree.copy_global_to(guild=context.guild)
                 await context.bot.tree.sync(guild=context.guild)
                 embed = discord.Embed(
@@ -151,7 +152,7 @@ class Owner(commands.Cog, name="owner"):
         await context.send(embed=embed)
 
         # TODO remove
-        await self.sync(context, "global")
+        await self.sync(context, "server")
 
 
     @commands.hybrid_command(
