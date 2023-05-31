@@ -43,7 +43,7 @@ class General(commands.Cog, name="general"):
             )
         
         admin = list(os.environ.get("owners"))
-        embed.set_footer(text=f"message @{admin[0]} for help")
+        embed.set_footer(text=f"message <@{admin[0]}> for help")
         await context.send(embed=embed)
 
     
