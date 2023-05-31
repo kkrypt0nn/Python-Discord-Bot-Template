@@ -154,7 +154,8 @@ async def add_message_to_ooc(message_id:int, added_by:int) -> int:
                 cursor.execute("SELECT COUNT(*) FROM context_message")
                 result = cursor.fetchone()
                 return result[0] if result is not None else 0
-    except:
+    except Exception as err:
+        print(err)
         return -1
 
 
