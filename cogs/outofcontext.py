@@ -270,12 +270,13 @@ class Menu(discord.ui.View):
 
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
     async def quit(self, interaction: discord.Interaction, button: discord.ui.Button):
-        # reset alle gegevens
-        self.messages.clear()
-        self.currentIndex = 0
 
         l = len(self.messages)
         f = 'message' if l == 1 else 'messages'
+
+        # reset alle gegevens
+        self.messages.clear()
+        self.currentIndex = 0
         
         # stuur confirmatie bericht
         embed = discord.Embed(
