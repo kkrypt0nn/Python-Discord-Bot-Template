@@ -111,6 +111,11 @@ class OutOfContext(commands.Cog, name="context"):
 
         :param context: The hybrid command context.
         """
+        embed, sendView = await self.getRandomMessage(context.guild)
+        await context.send(embed=embed, view= self.menu if sendView else None)
+
+
+    async def getRandomMessage(self, guild):
         messages = await db_manager.get_ooc_messages(10)
 
         # Geen berichten
@@ -118,8 +123,8 @@ class OutOfContext(commands.Cog, name="context"):
             embed = discord.Embed(
                 description="There are no messages.", color=0xF4900D
             )
-            await context.send(embed=embed)
-            return
+            
+            return (embed, False)
         
         # error
         elif messages[0] == -1:
@@ -128,21 +133,19 @@ class OutOfContext(commands.Cog, name="context"):
                 description=messages[1],
                 color=0xE02B2B
             )
-            await context.send(embed=embed)
-            return
+            return (embed, False)
 
         # alles is ok
         embed = discord.Embed(title="Out of Context", color=0xF4900D)
-        m = await context.guild.get_channel(
+        m = await guild.get_channel(
             int(os.environ.get("channel"))).fetch_message(int(messages[0][0])
         )
 
         embed.description = m.content
-
         self.menu.currentMessage = m
-        await context.send(embed=embed, view=self.menu)
 
-
+        return (embed, True)
+        
 
 
 class Menu(discord.ui.View):
@@ -155,11 +158,9 @@ class Menu(discord.ui.View):
 
     @discord.ui.button(label="Next", style=discord.ButtonStyle.green)
     async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
-        embed = discord.Embed(
-            title=f"Pressed next",
-            description="Go next",
-        )
-        await interaction.response.edit_message(embed=embed)
+        embed, sendView = await self.getRandomMessage(interaction.guild)
+        await interaction.response.edit_message(embed=embed, view = self if sendView else None)
+
 
     @discord.ui.button(label="Remove", style=discord.ButtonStyle.red)
     async def remove(self, interaction: discord.Interaction, button: discord.ui.Button):
