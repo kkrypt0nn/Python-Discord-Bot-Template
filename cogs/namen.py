@@ -29,7 +29,7 @@ class Names(commands.Cog, name="namen"):
 
     @commands.hybrid_command(
         name="nootje",
-        description="nootje aka lil_kid_lover69",
+        description="nootje aka lil_kid_lover69 aka tough_guy_04",
     )
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
@@ -45,7 +45,7 @@ class Names(commands.Cog, name="namen"):
 
     @commands.hybrid_command(
         name="pingy",
-        description="pingy aka pingy1 aka pongy",
+        description="pingy aka pingy1 aka pongy aka Lol",
     )
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
@@ -93,7 +93,7 @@ class Names(commands.Cog, name="namen"):
 
     @commands.hybrid_command(
         name="broodman",
-        description=":bread::man: aka yachini aka yashja"
+        description="jasman aka yachini aka yashja"
     )
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
