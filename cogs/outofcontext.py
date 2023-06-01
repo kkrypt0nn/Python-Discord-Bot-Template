@@ -111,9 +111,8 @@ class OutOfContext(commands.Cog, name="context"):
 
         :param context: The hybrid command context.
         """
-        message = await self.getRandomMessage(context.guild)
-        print(message)
-        await context.send(embed=await message[0], view= self.menu if message[1] else None)
+        embed, sendView = await self.getRandomMessage(context.guild)
+        await context.send(embed=embed, view= self.menu if sendView else None)
 
 
     async def getRandomMessage(self, guild):
@@ -137,7 +136,7 @@ class OutOfContext(commands.Cog, name="context"):
             return (embed, False)
 
         # alles is ok
-        embed = self.getEmbed(int(messages[0][0]), guild)
+        embed = await self.getEmbed(int(messages[0][0]), guild)
         return (embed, True)
         
 
@@ -169,7 +168,7 @@ class Menu(discord.ui.View):
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
     async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.currentIndex -= 1
-        embed = self.OOC.getEmbed(self.messages[self.currentIndex], interaction.guild)
+        embed = await self.OOC.getEmbed(self.messages[self.currentIndex], interaction.guild)
         await interaction.response.edit_message(embed=embed, view = self)
 
 
@@ -181,7 +180,7 @@ class Menu(discord.ui.View):
             embed, sendView = await self.OOC.getRandomMessage(interaction.guild)
         else:
             sendView = True
-            embed = self.OOC.getEmbed(self.messages[self.currentIndex], interaction.guild)
+            embed = await self.OOC.getEmbed(self.messages[self.currentIndex], interaction.guild)
 
         for c in self.children:
             c.disabled = False
