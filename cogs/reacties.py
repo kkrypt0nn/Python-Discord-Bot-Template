@@ -16,31 +16,31 @@ class Reacties(commands.Cog, name="reacties"):
     @commands.hybrid_command(name="giblereact", description="OMG jonathan is so fine!!")
     @checks.not_blacklisted()
     async def giblereact(self, context: Context):
-        file, embed = await self.get_embed("giblereact.jpg", context.message.author.id)
+        file, embed = await self.get_embed("giblereact.jpg", context.message.author.id, "Sexy giby")
         await context.send(file=file, embed=embed)
 
     @commands.hybrid_command(name="wholesquadlaughing", description="damn bro you got the whole squad laughing")
     @checks.not_blacklisted()
     async def wholesquadlaughing(self, context: Context):
-        file, embed = await self.get_embed("wholesquadlaughing.jpg", context.message.author.id)
+        file, embed = await self.get_embed("wholesquadlaughing.jpg", context.message.author.id, "Squad is laughing")
         await context.send(file=file, embed=embed)
 
     @commands.hybrid_command(name="notfunny", description="bro that wasn't even funny")
     @checks.not_blacklisted()
     async def notfunny(self, context: Context):
-        file, embed = await self.get_embed("notfunny.jpg", context.message.author.id)
+        file, embed = await self.get_embed("notfunny.jpg", context.message.author.id, "Not funny")
         await context.send(file=file, embed=embed)
     
     @commands.hybrid_command(name="uthought", description="sike u thought")
     @checks.not_blacklisted()
     async def uthought(self, context: Context):
-        file, embed = await self.get_embed("uthought.jpg", context.message.author.id)
+        file, embed = await self.get_embed("uthought.jpg", context.message.author.id, "U thought")
         await context.send(file=file, embed=embed)
     
 
-    async def get_embed(self, name, userid):
+    async def get_embed(self, name, userid, title):
         embed = discord.Embed(
-            title=name.split(".")[0].capitalize(), 
+            title=title, 
             description=f"Requested by <@{int(userid)}>", 
             color=0xF4900D
         )

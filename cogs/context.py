@@ -7,7 +7,7 @@ from helpers import checks, db_manager
 
 
 # Here we name the cog and create a new class for the cog.
-class Context(commands.Cog, name="context"):
+class OutOfContext(commands.Cog, name="context"):
     def __init__(self, bot):
         self.bot = bot
         self.ctx_menu_add = app_commands.ContextMenu(
@@ -160,4 +160,4 @@ class Menu(discord.ui.View):
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot):
-    await bot.add_cog(Context(bot))
+    await bot.add_cog(OutOfContext(bot))
