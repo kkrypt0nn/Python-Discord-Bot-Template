@@ -175,13 +175,13 @@ class Owner(commands.Cog, name="owner"):
             color=0xF4900D
         )
         print(self.bot.loaded)
-        loaded_fields = "\n".join(self.bot.loaded)
+        loaded_fields = "\n".join(list(self.bot.loaded))
         embed.add_field(
             name="Loaded", value=f'```{loaded_fields}```', inline=False
         )
         print(self.bot.unloaded)
 
-        unloaded_fields = "\n".join(self.bot.unloaded)
+        unloaded_fields = "\n".join(list(self.bot.unloaded))
         if len(unloaded_fields) > 0:
             embed.add_field(
                 name="Unloaded", value=f"```{unloaded_fields}```", inline=False

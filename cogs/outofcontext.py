@@ -146,8 +146,10 @@ class OutOfContext(commands.Cog, name="context"):
         embed = discord.Embed(
             title="Out of Context", 
             color=0xF4900D,
-            description = m.content,
-            footer = f"message id: {id}"
+            description = m.content
+        )
+        embed.set_footer(
+            text=f"message id: {id}"
         )
 
         # voeg id toe aan messages indien nodig
