@@ -15,7 +15,7 @@ class Counter(commands.Cog, name="counter"):
     @commands.hybrid_command(name="ncount", description="AYO??")
     @app_commands.describe(user="Which users' n-word count")
     @checks.not_blacklisted()
-    async def ncount(self, context: Context, user: discord.User):
+    async def nCount(self, context: Context, user: discord.User):
         # krijg count bericht uit db
         count = await db_manager.get_nword_count(user.id)
 
@@ -50,7 +50,7 @@ class Counter(commands.Cog, name="counter"):
     @app_commands.describe(user="Which users' n-word count")
     @app_commands.describe(amount="Amount to set the count to")
     @checks.is_owner()
-    async def ncount(self, context: Context, user: discord.User, amount: int):
+    async def changeNCount(self, context: Context, user: discord.User, amount: int):
         # krijg count uit db
         succes = await db_manager.set_nword_count(user.id, amount)
 
