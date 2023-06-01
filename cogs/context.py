@@ -22,7 +22,7 @@ class OutOfContext(commands.Cog, name="context"):
         )
         self.bot.tree.add_command(self.ctx_menu_remove)
 
-        self.menu = Menu()
+        self.menu = Menu(self)
 
     @checks.not_blacklisted()
     async def context_add(self, interaction: discord.Interaction, message:discord.Message):
