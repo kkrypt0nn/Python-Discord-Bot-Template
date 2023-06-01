@@ -152,7 +152,7 @@ class OutOfContext(commands.Cog, name="context"):
             self.menu.currentIndex = self.menu.messages.index(m)
         else:
             self.menu.messages.append(m)
-            self.menu.currentIndex = len(self.menu.currentIndex) -1
+            self.menu.currentIndex = len(self.menu.messages) -1
 
         
         return embed
