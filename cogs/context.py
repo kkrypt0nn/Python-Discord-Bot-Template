@@ -22,6 +22,8 @@ class Context(commands.Cog, name="context"):
         )
         self.bot.tree.add_command(self.ctx_menu_remove)
 
+        self.view = Menu()
+
     @checks.not_blacklisted()
     async def context_add(self, interaction: discord.Interaction, message:discord.Message):
         """
@@ -135,10 +137,25 @@ class Context(commands.Cog, name="context"):
         m = await context.guild.get_channel(
             int(os.environ.get("channel"))).fetch_message(int(messages[0][0])
         )
-        print(m)
 
-        embed.description = str(m)
-        await context.send(embed=embed)
+        embed.description = m.content
+        await context.send(embed=embed, view=self.view)
+
+
+
+
+# TODO verander naar eigen file
+class Menu(discord.ui.View):
+    def __init__(self):
+        super().__init__()
+        self.value = None
+    
+    @discord.ui.button(label="Next", style=discord.buttonStyle.grey)
+    async def next(self, button: discord.ui.Button, interaction: discord.Interaction):
+        await interaction.response.send_message("go next")
+
+
+
 
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.

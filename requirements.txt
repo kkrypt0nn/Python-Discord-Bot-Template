@@ -1,3 +1,2 @@
-aiohttp
 discord.py
 psycopg2
