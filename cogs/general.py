@@ -54,7 +54,21 @@ class General(commands.Cog, name="general"):
         
         await context.send(embed=embed)
 
-    
+    @commands.hybrid_command(
+        name="lien",
+        description=":warning: LIEN LOCKDOWN :warning:",
+    )
+    @checks.is_owner()
+    async def lien(self, context: Context) -> None:
+        await context.message.server.get_member(464400950702899211).kick(reason=":warning: ***LIEN LOCKDOWN*** :warning:")
+        embed = discord.Embed(
+            title=":warning: ***LIEN LOCKDOWN*** :warning:",
+            description="<@464400950702899211> has been kicked.",
+            color=0xE02B2B
+        )
+        await context.send(embed=embed)
+        
+
     @commands.hybrid_command(
         name="ping",
         description="Check if the bot is alive",
