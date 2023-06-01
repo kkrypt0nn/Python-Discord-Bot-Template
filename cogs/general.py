@@ -30,7 +30,7 @@ class General(commands.Cog, name="general"):
         admin = list(os.environ.get("owners").split(","))
         embed = discord.Embed(
             title="Help :man_mechanic:", 
-            description=f"Ask <@{int(admin[0])}> for help. \nList of available commands:", 
+            description=f"Ask <@{int(admin[0])}> for help.\n[Klik hier voor meer info om berichten toe te voegen/te verwijderen](https://github.com/SDeVuyst/WhereContextbot3)\nList of available commands:", 
             color=0xF4900D
         )
         for i in self.bot.cogs:
@@ -41,9 +41,11 @@ class General(commands.Cog, name="general"):
             for command in commands:
                 description = command.description.partition("\n")[0]
                 data.append(f"{command.name} - {description}")
-            
+                
             if i == "context":
-                data.append(f"[Klik hier voor berichten toe te voegen/te verwijderen](https://github.com/SDeVuyst/WhereContextbot3)")
+                data.append("Rechtermuisklik -> Apps -> Add Context - Voeg bericht toe")
+                data.append("Rechtermuisklik -> Apps -> Remove Context - Verwijder bericht")
+
             help_text = "\n".join(data)
             if len(help_text) > 0:
                 embed.add_field(
