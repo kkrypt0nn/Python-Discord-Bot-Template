@@ -136,7 +136,7 @@ class OutOfContext(commands.Cog, name="context"):
             return (embed, False)
 
         # alles is ok
-        embed = self.getEmbed(int(messages[0][0]))
+        embed = self.getEmbed(int(messages[0][0]), guild)
         return (embed, True)
         
 
@@ -169,13 +169,26 @@ class Menu(discord.ui.View):
 
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
     async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
-        embed, sendView = await self.OOC.getRandomMessage(interaction.guild)
+        self.currentIndex -= 1
+
+        sendView = True
+        embed = self.OOC.getEmbed(self.messages[self.currentIndex], interaction.guild)
+
         await interaction.response.edit_message(embed=embed, view = self if sendView else None)
 
 
     @discord.ui.button(label="Next", style=discord.ButtonStyle.green)
     async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
-        embed, sendView = await self.OOC.getRandomMessage(interaction.guild)
+        self.currentIndex += 1
+
+        if (self.currentIndex == len(self.messages) -1):
+            embed, sendView = await self.OOC.getRandomMessage(interaction.guild)
+        else:
+            sendView = True
+            embed = self.OOC.getEmbed(self.messages[self.currentIndex], interaction.guild)
+
+        print(self.children)
+
         await interaction.response.edit_message(embed=embed, view = self if sendView else None)
 
 
