@@ -146,14 +146,10 @@ class OutOfContext(commands.Cog, name="context"):
         
         embed.description = m.content
 
-        # zet index juist
-        if m.id in self.menu.messages:
-            self.menu.currentIndex = self.menu.messages.index(m.id)
-        else:
+        # voeg id toe aan messages indien nodig
+        if self.menu.currentIndex == len(self.menu.messages):
             self.menu.messages.append(m.id)
-            self.menu.currentIndex = len(self.menu.messages) -1
 
-        
         return embed
 
 class Menu(discord.ui.View):
@@ -167,14 +163,14 @@ class Menu(discord.ui.View):
 
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
     async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
-        # self.currentIndex -= 1
+        self.currentIndex -= 1
         embed = await self.OOC.getEmbed(self.messages[self.currentIndex], interaction.guild)
         await interaction.response.edit_message(embed=embed, view = self)
 
 
     @discord.ui.button(label="Next", style=discord.ButtonStyle.green)
     async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
-        # self.currentIndex += 1
+        self.currentIndex += 1
 
         if (self.currentIndex == len(self.messages)):
             embed, sendView = await self.OOC.getRandomMessage(interaction.guild)
@@ -203,10 +199,8 @@ class Menu(discord.ui.View):
             description=f"You played {l} {f}.",
             color=0xF4900D
         )
-        await interaction.response.edit_message(embed=embed)
+        await interaction.response.edit_message(embed=embed, view=None)
         self.value=False
-        for c in self.children:
-            c.disabled = True
         self.stop()
 
 

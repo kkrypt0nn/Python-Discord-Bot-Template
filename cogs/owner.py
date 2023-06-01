@@ -181,9 +181,10 @@ class Owner(commands.Cog, name="owner"):
         )
 
         unloaded_fields = "\n".join(self.bot.unloaded)
-        embed.add_field(
-            name="Loaded", value=f"```{unloaded_fields}```", inline=False
-        )
+        if len(unloaded_fields) > 0:
+            embed.add_field(
+                name="Unloaded", value=f"```{unloaded_fields}```", inline=False
+            )
 
         await context.send(embed=embed)
 
