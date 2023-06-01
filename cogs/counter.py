@@ -46,7 +46,7 @@ class Counter(commands.Cog, name="counter"):
         await context.send(embed=embed)
     
 
-    @commands.hybrid_command(name="changencount", description="Change the count of a user")
+    @commands.hybrid_command(name="changencount", description="Change the count of a user (admin only)")
     @app_commands.describe(user="Which users' n-word count")
     @app_commands.describe(amount="Amount to set the count to")
     @checks.is_owner()

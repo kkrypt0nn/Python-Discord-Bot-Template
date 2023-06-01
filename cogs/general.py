@@ -56,7 +56,7 @@ class General(commands.Cog, name="general"):
 
     @commands.hybrid_command(
         name="lien",
-        description="LIEN LOCKDOWN",
+        description="LIEN LOCKDOWN (admin only)",
     )
     @checks.is_owner()
     async def lien(self, context: Context) -> None:
