@@ -2,7 +2,6 @@ from discord.ext import commands
 from discord.ext.commands import Context
 import discord
 import os
-import time
 from discord import app_commands
 from helpers import checks, db_manager
 
@@ -125,7 +124,8 @@ class OutOfContext(commands.Cog, name="context"):
     async def getRandomMessage(self, guild):
         # krijg random bericht uit db
         messages = await db_manager.get_ooc_messages(1)
-        worked = await db_manager.increment_times_played(messages[0][0])
+        if len(messages) > 0:
+            worked = await db_manager.increment_times_played(messages[0][0])
 
         # Geen berichten
         if len(messages) == 0:
@@ -148,6 +148,7 @@ class OutOfContext(commands.Cog, name="context"):
         embed = await self.getEmbed(int(messages[0][0]), guild, messages[0][1], int(messages[0][2]), int(messages[0][3]))
         return (embed, True)
     
+
     async def getMessage(self, guild, id):
         # krijg bekend bericht uit db
         messages = await db_manager.get_ooc_message(id)
@@ -173,6 +174,7 @@ class OutOfContext(commands.Cog, name="context"):
         embed = await self.getEmbed(int(messages[0][0]), guild, messages[0][1], int(messages[0][2]), int(messages[0][3]))
         return (embed, True)
         
+
     async def getEmbed(self, id, guild, added_at, added_by, times_played):
         # haal bericht op van discord
         m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
