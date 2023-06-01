@@ -139,17 +139,46 @@ class OutOfContext(commands.Cog, name="context"):
             return (embed, False)
 
         # alles is ok
-        embed = await self.getEmbed(int(messages[0][0]), guild)
+        embed = await self.getEmbed(int(messages[0][0]), guild, messages[0][1], int(messages[0][2]), int(messages[0][3]))
+        return (embed, True)
+    
+
+    async def getMessage(self, guild, id):
+        messages = await db_manager.get_ooc_message(id)
+
+        # Geen berichten
+        if len(messages) == 0:
+            embed = discord.Embed(
+                description="There are no messages.", color=0xF4900D
+            )
+            
+            return (embed, False)
+        
+        # error
+        elif messages[0] == -1:
+            embed = discord.Embed(
+                title=f"Something went wrong",
+                description=messages[1],
+                color=0xE02B2B
+            )
+            return (embed, False)
+
+        # alles is ok
+        embed = await self.getEmbed(int(messages[0][0]), guild, messages[0][1], int(messages[0][2]), int(messages[0][3]))
         return (embed, True)
         
 
-    async def getEmbed(self, id, guild):
+    async def getEmbed(self, id, guild, added_at, added_by, times_played):
         
         m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
         embed = discord.Embed(
             title="Out of Context", 
             color=0xF4900D,
             description = m.content
+        )
+        embed.add_field(
+            name="Extra info",
+            value=f"Times played: {times_played}\nAdded by: <@{int(added_by)}>\nAdded at: {added_at}"
         )
         embed.set_footer(
             text=f"message id: {id}"
@@ -172,8 +201,11 @@ class Menu(discord.ui.View):
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
     async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.currentIndex -= 1
-        embed = await self.OOC.getEmbed(self.messages[self.currentIndex], interaction.guild)
-        await interaction.response.edit_message(embed=embed, view = self)
+        if self.currentIndex == 0:
+            # TODO disable de previous knop
+            pass
+        embed, showView = await self.OOC.getMessage(interaction.guild, self.messages[self.currentIndex])
+        await interaction.response.edit_message(embed=embed, view = self if showView else None)
 
 
     @discord.ui.button(label="Next", style=discord.ButtonStyle.green)
@@ -183,8 +215,7 @@ class Menu(discord.ui.View):
         if (self.currentIndex == len(self.messages)):
             embed, sendView = await self.OOC.getRandomMessage(interaction.guild)
         else:
-            sendView = True
-            embed = await self.OOC.getEmbed(self.messages[self.currentIndex], interaction.guild)
+            embed, sendView = await self.OOC.getMessage(interaction.guild, self.messages[self.currentIndex])
 
         for c in self.children:
             c.disabled = False
@@ -215,7 +246,6 @@ class Menu(discord.ui.View):
         await interaction.response.edit_message(embed=embed, view=None)
         self.messages.clear()
         self.currentIndex = 0
-        self.stop()
 
 
 

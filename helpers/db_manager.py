@@ -102,14 +102,32 @@ async def get_ooc_messages(limit: int) -> list:
             
             with con.cursor() as cursor:
                 cursor.execute(
-                    f"SELECT message_id FROM context_message ORDER BY random() LIMIT {limit}"
+                    f"SELECT message_id, added_at, added_by, times_played FROM context_message ORDER BY random() LIMIT {limit}"
                 )
                 return cursor.fetchall()
             
     except Exception as err:
         print(err)
         return [-1, err]
+    
+async def get_ooc_message(id) -> list:
+    """
+    This function will return a list of random ooc messages.
 
+    :param limit: The amount of randomy selected messages
+    """
+    try:
+        with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+            
+            with con.cursor() as cursor:
+                cursor.execute(
+                    f"SELECT message_id, added_at, added_by, times_played FROM context_message WHERE message_id={str(id)}"
+                )
+                return cursor.fetchall()
+            
+    except Exception as err:
+        print(err)
+        return [-1, err]
 
 async def is_in_ooc(message_id: int) -> bool:
     """
