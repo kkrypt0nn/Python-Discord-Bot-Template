@@ -113,6 +113,7 @@ class OutOfContext(commands.Cog, name="context"):
         """
         embed, sendView = await self.getRandomMessage(context.guild)
         await context.send(embed=embed, view= self.menu if sendView else None)
+        
 
 
     async def getRandomMessage(self, guild):
@@ -163,7 +164,7 @@ class Menu(discord.ui.View):
         super().__init__()
         self.OOC = OOC
         self.messages = []
-        self.currentIndex = -1
+        self.currentIndex = 0
     
 
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
@@ -208,7 +209,7 @@ class Menu(discord.ui.View):
         )
         await interaction.response.edit_message(embed=embed, view=None)
         self.messages.clear()
-        self.currentIndex = -1
+        self.currentIndex = 0
         self.stop()
 
 
