@@ -197,7 +197,9 @@ class Menu(discord.ui.View):
     @discord.ui.button(label="Remove", style=discord.ButtonStyle.red)
     async def remove(self, interaction: discord.Interaction, button: discord.ui.Button):
         embed = await self.OOC.remove(self.messages[self.currentIndex])
-        await interaction.response.send_message(embed)
+        self.messages = [i for i in self.messages if i != self.messages[self.currentIndex]]
+        self.currentIndex = len(self.messages) -1
+        await interaction.response.send_message(embed=embed)
 
 
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
