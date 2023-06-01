@@ -61,9 +61,12 @@ class General(commands.Cog, name="general"):
     @checks.is_owner()
     async def lien(self, context: Context) -> None:
         # kick grom
-        grom = await context.guild.fetch_member(464400950702899211)
-        await grom.kick(reason=":warning: ***LIEN LOCKDOWN*** :warning:")
-
+        try:
+            grom = await context.guild.fetch_member(464400950702899211)
+            await grom.kick(reason=":warning: ***LIEN LOCKDOWN*** :warning:")
+        # grom kick error
+        except:
+            pass
         # stuur lockdown bericht
         embed = discord.Embed(
             title=":warning: ***LIEN LOCKDOWN*** :warning:",
