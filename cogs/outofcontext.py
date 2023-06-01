@@ -161,7 +161,6 @@ class OutOfContext(commands.Cog, name="context"):
 class Menu(discord.ui.View):
     def __init__(self, OOC):
         super().__init__()
-        self.value = None
         self.OOC = OOC
         self.messages = []
         self.currentIndex = -1
@@ -187,6 +186,8 @@ class Menu(discord.ui.View):
         for c in self.children:
             c.disabled = False
 
+        print(f"index is {self.currentIndex} and messages: {self.messages}")
+
         await interaction.response.edit_message(embed=embed, view = self if sendView else None)
 
 
@@ -206,7 +207,6 @@ class Menu(discord.ui.View):
             color=0xF4900D
         )
         await interaction.response.edit_message(embed=embed, view=None)
-        self.value=False
         self.messages.clear()
         self.currentIndex = -1
         self.stop()
