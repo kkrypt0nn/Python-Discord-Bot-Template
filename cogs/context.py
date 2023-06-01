@@ -69,7 +69,6 @@ class OutOfContext(commands.Cog, name="context"):
         Lets you remove a message to the OOC game.
 
         """
-        submitted_id = interaction.user.id
 
         if not await db_manager.is_in_ooc(message.id):
             embed = discord.Embed(
@@ -141,7 +140,7 @@ class OutOfContext(commands.Cog, name="context"):
         embed.description = m.content
 
         self.menu.currentMessage = m
-        await context.send(embed=embed, view=self.view)
+        await context.send(embed=embed, view=self.menu)
 
 
 
