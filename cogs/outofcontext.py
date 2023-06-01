@@ -167,18 +167,19 @@ class OutOfContext(commands.Cog, name="context"):
         embed = await self.getEmbed(int(messages[0][0]), guild, messages[0][1], int(messages[0][2]), int(messages[0][3]))
         return (embed, True)
         
-
+    # TODO FIX ATTACHMENTS & FIX MESSAGE LINK
     async def getEmbed(self, id, guild, added_at, added_by, times_played):
         
         m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
         embed = discord.Embed(
             title="Out of Context", 
             color=0xF4900D,
-            description = f"```{m.content}```"
+            description = f"```{m.content}```\n[Go to message]({m.jump_url})"
         )
 
         if m.attachments:
-            print(m.attachments)
+            # als er meerdere attachments zijn, tonen we enkel de eerste
+            embed.set_image(url=m.attachments[0].url)
 
         embed.add_field(
             name="Extra info",
@@ -207,8 +208,9 @@ class Menu(discord.ui.View):
     async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.currentIndex -= 1
         if self.currentIndex == 0:
-            # TODO disable de previous knop
-            pass
+            for b in self.children:
+                print(b)
+
         embed, showView = await self.OOC.getMessage(interaction.guild, self.messages[self.currentIndex])
         await interaction.response.edit_message(embed=embed, view = self if showView else None)
 
