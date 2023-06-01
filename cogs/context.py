@@ -1,6 +1,7 @@
 from discord.ext import commands
 from discord.ext.commands import Context
 import discord
+import os
 from discord import app_commands
 from helpers import checks, db_manager
 
@@ -131,11 +132,13 @@ class Context(commands.Cog, name="context"):
 
         # alles is ok
         embed = discord.Embed(title="Out of Context", color=0xF4900D)
-        messages_formatted = []
-        for m in messages:    
-            messages_formatted.append(f"• {m[0]}")
+        messages_formatted = [] 
+        m = await context.guild.get_channel(
+            int(os.environ.get("channel"))).fetch_message(int(messages[0][0])
+        )
+        messages_formatted.append(f"{messages[0][0]}")
 
-        embed.description = "\n".join(messages_formatted)
+        embed.description = m.content
         await context.send(embed=embed)
 
 
