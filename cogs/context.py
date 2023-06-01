@@ -132,13 +132,12 @@ class Context(commands.Cog, name="context"):
 
         # alles is ok
         embed = discord.Embed(title="Out of Context", color=0xF4900D)
-        messages_formatted = [] 
         m = await context.guild.get_channel(
             int(os.environ.get("channel"))).fetch_message(int(messages[0][0])
         )
-        messages_formatted.append(f"{messages[0][0]}")
+        print(m)
 
-        embed.description = m.content
+        embed.description = str(m)
         await context.send(embed=embed)
 
 
