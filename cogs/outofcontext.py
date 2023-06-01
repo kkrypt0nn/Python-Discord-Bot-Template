@@ -111,8 +111,9 @@ class OutOfContext(commands.Cog, name="context"):
 
         :param context: The hybrid command context.
         """
-        embed, sendView = await self.getRandomMessage(context.guild)
-        await context.send(embed=embed, view= self.menu if sendView else None)
+        message = await self.getRandomMessage(context.guild)
+        print(message)
+        await context.send(embed=message[0], view= self.menu if message[1] else None)
 
 
     async def getRandomMessage(self, guild):
@@ -170,11 +171,8 @@ class Menu(discord.ui.View):
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
     async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.currentIndex -= 1
-
-        sendView = True
         embed = self.OOC.getEmbed(self.messages[self.currentIndex], interaction.guild)
-
-        await interaction.response.edit_message(embed=embed, view = self if sendView else None)
+        await interaction.response.edit_message(embed=embed, view = self)
 
 
     @discord.ui.button(label="Next", style=discord.ButtonStyle.green)
@@ -196,6 +194,7 @@ class Menu(discord.ui.View):
     async def remove(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.OOC.context_remove(interaction, self.currentMessage)
 
+
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
     async def quit(self, interaction: discord.Interaction, button: discord.ui.Button):
         l = len(self.messages)
@@ -209,6 +208,8 @@ class Menu(discord.ui.View):
         await interaction.response.edit_message(embed=embed)
         self.value=False
         self.stop()
+
+
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot):
