@@ -129,6 +129,7 @@ async def get_ooc_message(id) -> list:
         print(err)
         return [-1, err]
 
+
 async def is_in_ooc(message_id: int) -> bool:
     """
     This function will check if a user is blacklisted.
@@ -150,6 +151,21 @@ async def is_in_ooc(message_id: int) -> bool:
         except:
             return True
         
+
+async def increment_times_played(message_id):
+    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+        
+        try:
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "UPDATE context_message SET times_played = times_played + 1 WHERE message_id=%s", (str(message_id),)
+                )
+                con.commit()
+                return True
+
+        except:
+            return False
+
 
 async def add_message_to_ooc(message_id:int, added_by:int) -> int:
     """

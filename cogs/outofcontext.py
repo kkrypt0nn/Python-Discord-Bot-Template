@@ -117,9 +117,9 @@ class OutOfContext(commands.Cog, name="context"):
         await context.send(embed=embed, view= self.menu if sendView else None)
         
 
-    # TODO increment times_played
     async def getRandomMessage(self, guild):
-        messages = await db_manager.get_ooc_messages(10)
+        messages = await db_manager.get_ooc_messages(1)
+        worked = await db_manager.increment_times_played(messages[0][0])
 
         # Geen berichten
         if len(messages) == 0:
@@ -130,7 +130,7 @@ class OutOfContext(commands.Cog, name="context"):
             return (embed, False)
         
         # error
-        elif messages[0] == -1:
+        elif messages[0] == -1 or not worked:
             embed = discord.Embed(
                 title=f"Something went wrong",
                 description=messages[1],
@@ -142,7 +142,6 @@ class OutOfContext(commands.Cog, name="context"):
         embed = await self.getEmbed(int(messages[0][0]), guild, messages[0][1], int(messages[0][2]), int(messages[0][3]))
         return (embed, True)
     
-    # TODO increment times_played
     async def getMessage(self, guild, id):
         messages = await db_manager.get_ooc_message(id)
 
@@ -167,14 +166,14 @@ class OutOfContext(commands.Cog, name="context"):
         embed = await self.getEmbed(int(messages[0][0]), guild, messages[0][1], int(messages[0][2]), int(messages[0][3]))
         return (embed, True)
         
-    # TODO FIX ATTACHMENTS & FIX MESSAGE LINK
     async def getEmbed(self, id, guild, added_at, added_by, times_played):
         
         m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
+        desc = f"[Go to message]({m.jump_url})" if len(m.content) == 0 else f"```{m.content}```\n[Go to message]({m.jump_url})"
         embed = discord.Embed(
             title="Out of Context", 
             color=0xF4900D,
-            description = f"```{m.content}```\n[Go to message]({m.jump_url})"
+            description=desc
         )
 
         if m.attachments:
