@@ -261,7 +261,7 @@ class Menu(discord.ui.View):
         self.messages = [i for i in self.messages if i != self.messages[self.currentIndex]]
         self.currentIndex = len(self.messages) -1
 
-        await interaction.response.send_message(embed=embed)
+        await interaction.response.send_message(embed=embed, delete_after=10)
 
 
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
