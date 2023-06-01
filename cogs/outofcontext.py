@@ -69,16 +69,19 @@ class OutOfContext(commands.Cog, name="context"):
         Lets you remove a message to the OOC game.
 
         """
+        embed = await self.remove(message.id)
+        await interaction.response.send_message(embed=embed)
 
-        if not await db_manager.is_in_ooc(message.id):
+
+    async def remove(self, id):
+        if not await db_manager.is_in_ooc(id):
             embed = discord.Embed(
-                description=f"**{message.id}** is not in the game.",
+                description=f"**{id}** is not in the game.",
                 color=0xE02B2B,
             )
-            await interaction.response.send_message(embed=embed)
-            return
+            return embed
         
-        total = await db_manager.remove_message_from_ooc(message.id)
+        total = await db_manager.remove_message_from_ooc(id)
     
         # error
         if total == -1:
@@ -86,18 +89,17 @@ class OutOfContext(commands.Cog, name="context"):
                 description=f"Er is iets misgegaan.",
                 color=0xE02B2B,
             )
-            await interaction.response.send_message(embed=embed)
-            return
+            return embed
         
         # alles oke
         embed = discord.Embed(
-            description=f"**{message.id}** has been successfully removed from the game",
+            description=f"**{id}** has been successfully removed from the game",
             color=0x39AC39,
         )
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
         )
-        await interaction.response.send_message(embed=embed)
+        return embed
 
 
     @commands.hybrid_command(
@@ -194,7 +196,8 @@ class Menu(discord.ui.View):
 
     @discord.ui.button(label="Remove", style=discord.ButtonStyle.red)
     async def remove(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await self.OOC.context_remove(interaction, self.messages[self.currentIndex])
+        embed = await self.OOC.remove(self.messages[self.currentIndex])
+        await interaction.response.send_message(embed)
 
 
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
