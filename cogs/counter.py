@@ -22,7 +22,7 @@ class Counter(commands.Cog, name="counter"):
         # Geen berichten
         if len(count) == 0 or int(count[0][0]) == 0:
             embed = discord.Embed(
-                description=f"NWord Count of <@{user.id}>: ```0```",
+                description=f"**NWord Count of <@{user.id}>:** ```0```",
                 color=0x39AC39
             )
             await context.send(embed=embed)
@@ -39,7 +39,7 @@ class Counter(commands.Cog, name="counter"):
             return
 
         embed = discord.Embed(
-            description=f"NWord Count of <@{user.id}>: ```{count[0][0]}```",
+            description=f"**NWord Count of <@{user.id}>:** ```{count[0][0]}```",
             color=0xF4900D
         )
 

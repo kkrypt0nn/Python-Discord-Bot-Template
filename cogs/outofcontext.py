@@ -184,7 +184,7 @@ class OutOfContext(commands.Cog, name="context"):
         m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
         desc = f"[Go to message]({m.jump_url})" if len(m.content) == 0 else f"```{m.content}```\n[Go to message]({m.jump_url})"
         embed = discord.Embed(
-            title="Out of Context", 
+            title="**Out of Context**", 
             color=0xF4900D,
             description=desc
         )
