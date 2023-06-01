@@ -260,7 +260,7 @@ async def load_cogs() -> None:
 
 
 async def findNWord(message):
-    m = await message.guild.get_channel(int(os.environ.get("channel"))).fetch_message(message.id)
+    m = await message.channel.fetch_message(message.id)
     content = m.content.replace(" ", "").replace("\n", "").lower()
     
     # ik heb dit niet zelf getypt lol 💀
