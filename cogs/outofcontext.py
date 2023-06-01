@@ -141,11 +141,14 @@ class OutOfContext(commands.Cog, name="context"):
         
 
     async def getEmbed(self, id, guild):
-        embed = discord.Embed(title="Out of Context", color=0xF4900D)
-        m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
         
-        embed.description = m.content
-        embed.footer = f"message id: {id}"
+        m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
+        embed = discord.Embed(
+            title="Out of Context", 
+            color=0xF4900D,
+            description = m.content,
+            footer = f"message id: {id}"
+        )
 
         # voeg id toe aan messages indien nodig
         if self.menu.currentIndex == len(self.menu.messages):
