@@ -215,7 +215,7 @@ async def remove_message_from_ooc(message_id: int) -> int:
 async def increment_or_add_nword(user_id: int):
 
     alreadyExists = await is_in_ncounter(user_id)
-    print(f"Adding; {alreadyExists}")
+
     with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
         try:
@@ -279,13 +279,22 @@ async def get_nword_count(user_id) -> list:
 
 
 async def set_nword_count(user_id, amount):
+    alreadyExists = await is_in_ncounter(user_id)
+
     with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
         try:
             with con.cursor() as cursor:
-                cursor.execute(
-                    "UPDATE nword_counter SET count = %s WHERE user_id=%s", ((amount), str(user_id),)
-                )
+                if alreadyExists:
+                    cursor.execute(
+                        "UPDATE nword_counter SET count = %s WHERE user_id=%s", ((amount), str(user_id),)
+                    )
+                else:
+                    cursor.execute(
+                        "INSERT INTO nword_counter(user_id, count) VALUES (%s, %s)",
+                        (str(user_id), amount,)
+                    )
+                    
                 con.commit()
                 return True
 
