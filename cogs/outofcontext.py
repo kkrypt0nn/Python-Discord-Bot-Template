@@ -182,7 +182,7 @@ class OutOfContext(commands.Cog, name="context"):
     async def getEmbed(self, id, guild, added_at, added_by, times_played):
         # haal bericht op van discord
         m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
-        desc = f"[Go to message]({m.jump_url})" if len(m.content) == 0 else f"```{m.content}```\n[Go to message]({m.jump_url})"
+        desc = f"[Go to message]({m.jump_url})" if len(m.content) == 0 else f"**{m.content}**\n[Go to message]({m.jump_url})"
         embed = discord.Embed(
             title="**Out of Context**", 
             color=0xF4900D,
