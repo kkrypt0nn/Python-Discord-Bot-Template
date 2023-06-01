@@ -262,7 +262,9 @@ async def load_cogs() -> None:
 async def findNWord(message):
     m = await message.guild.get_channel(int(os.environ.get("channel"))).fetch_message(message.id)
     content = m.content.replace(" ", "").replace("\n", "").lower()
-    toCheck = ["test", "hallo"]
+    
+    # ik heb dit niet zelf getypt lol 💀
+    toCheck = ["nigger","neger","nigga","nigglet","niglet","nigeroni","niggaroni","niger","nigr","niggr","nika","nikka","lilnigga","niglonian","blackperson","slave","slaaf","cottonpicker","katoenverzamelaar","humanzooinhabiter"]
 
     for c in toCheck:
         if c in content:
