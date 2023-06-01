@@ -187,7 +187,7 @@ class OutOfContext(commands.Cog, name="context"):
             # als er meerdere attachments zijn, tonen we enkel de eerste
             embed.set_image(url=m.attachments[0].url)
 
-        t = time.strptime(added_at)
+        t = added_at.strftime("%d/%m/%Y - %H:%M:%S")
         embed.add_field(
             name="Extra info",
             value=f"Times played: {times_played}\nAdded by: <@{int(added_by)}>\nAdded at: {t}"
