@@ -147,11 +147,11 @@ class OutOfContext(commands.Cog, name="context"):
         embed.description = m.content
 
         # zet index juist
-        # if m in self.menu.messages:
-        #     self.menu.currentIndex = self.menu.messages.index(m)
-        # else:
-        #     self.menu.messages.append(m)
-        #     self.menu.currentIndex = len(self.menu.messages) -1
+        if m in self.menu.messages:
+            self.menu.currentIndex = self.menu.messages.index(m)
+        else:
+            self.menu.messages.append(m)
+            self.menu.currentIndex = len(self.menu.messages) -1
 
         
         return embed
@@ -167,14 +167,14 @@ class Menu(discord.ui.View):
 
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
     async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
-        self.currentIndex -= 1
+        # self.currentIndex -= 1
         embed = await self.OOC.getEmbed(self.messages[self.currentIndex], interaction.guild)
         await interaction.response.edit_message(embed=embed, view = self)
 
 
     @discord.ui.button(label="Next", style=discord.ButtonStyle.green)
     async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
-        self.currentIndex += 1
+        # self.currentIndex += 1
 
         if (self.currentIndex == len(self.messages)):
             embed, sendView = await self.OOC.getRandomMessage(interaction.guild)
@@ -190,7 +190,7 @@ class Menu(discord.ui.View):
 
     @discord.ui.button(label="Remove", style=discord.ButtonStyle.red)
     async def remove(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await self.OOC.context_remove(interaction, self.currentMessage)
+        await self.OOC.context_remove(interaction, self.messages[self.currentIndex])
 
 
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
