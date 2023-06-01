@@ -177,13 +177,14 @@ class Menu(discord.ui.View):
     async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.currentIndex += 1
 
-        if (self.currentIndex == len(self.messages) -1):
+        if (self.currentIndex == len(self.messages)):
             embed, sendView = await self.OOC.getRandomMessage(interaction.guild)
         else:
             sendView = True
             embed = self.OOC.getEmbed(self.messages[self.currentIndex], interaction.guild)
 
-        print(self.children)
+        for c in self.children:
+            c.disabled = False
 
         await interaction.response.edit_message(embed=embed, view = self if sendView else None)
 
