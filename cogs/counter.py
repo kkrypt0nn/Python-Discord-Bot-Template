@@ -22,7 +22,7 @@ class Counter(commands.Cog, name="counter"):
         # Geen berichten
         if len(count) == 0:
             embed = discord.Embed(
-                discription=f"NWord Count of <@{user.id}>: ```0```",
+                description=f"NWord Count of <@{user.id}>: ```0```",
                 color=0x39AC39
             )
             await context.send(embed=embed)
@@ -39,7 +39,7 @@ class Counter(commands.Cog, name="counter"):
             return
 
         embed = discord.Embed(
-            description=f"NWord Count of <@{user.id}>: ```{count[0][0]}``` :skull:",
+            description=f"NWord Count of <@{user.id}>: ```{count[0][0]}```",
             color=0xF4900D
         )
 
@@ -55,9 +55,10 @@ class Counter(commands.Cog, name="counter"):
         succes = await db_manager.set_nword_count(user.id, amount)
 
         # verstuur embed
-        title = f"NWord Count of {user.id} is now {amount}" if succes else "Something went wrong"
+        desc = f"NWord Count of <@{user.id}> is now {amount}" if succes else "Something went wrong"
         embed = discord.Embed(
-            title=title,
+            title="Succes!" if succes else "Oops!",
+            description=desc,
             color=0x39AC39 if succes else 0xF4900D
         )
         await context.send(embed=embed)
