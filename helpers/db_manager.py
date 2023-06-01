@@ -109,6 +109,7 @@ async def get_ooc_messages(limit: int) -> list:
     except Exception as err:
         return [-1, err]
     
+
 async def get_ooc_message(id) -> list:
     """
     This function will return a list of random ooc messages.
@@ -210,3 +211,68 @@ async def remove_message_from_ooc(message_id: int) -> int:
     except:
         return -1
     
+
+async def increment_or_add_nword(user_id: int):
+
+    alreadyExists = await is_in_ncounter(user_id)
+    print(f"Adding; {alreadyExists}")
+    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+        
+        try:
+            with con.cursor() as cursor:
+                if alreadyExists:
+                    cursor.execute(
+                        "UPDATE nword_counter SET count = count + 1 WHERE user_id=%s", (str(user_id),)
+                    )   
+                else:
+                    cursor.execute(
+                        "INSERT INTO nword_counter(user_id, count) VALUES (%s, %s)",
+                        (str(user_id), 1,)
+                    )
+
+                cursor.commit()
+                return True
+                
+        except:
+            return False
+    
+
+async def is_in_ncounter(user_id: int) -> bool:
+    """
+    This function will check if a user exists in counter.
+
+    :param user_id: The ID of the user that should be checked.
+    :return: True if the user exists, False if not.
+    """
+        
+    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+        
+        try:
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "SELECT * FROM nword_counter WHERE user_id=%s", (str(user_id),)
+                )
+                result = cursor.fetchall()
+                return len(result) > 0
+        # Als er iets misgaat, zeggen we dat bericht al in db zit
+        except:
+            return True
+        
+
+async def get_nword_count(user_id) -> list:
+    """
+    This function will return a list of random ooc messages.
+
+    :param limit: The amount of randomy selected messages
+    """
+    try:
+        with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+            
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "SELECT count FROM nword_counter WHERE user_id=%s", (str(user_id),)
+                )
+                return cursor.fetchall()
+            
+    except Exception as err:
+        return [-1, err]

@@ -4,7 +4,7 @@ import os
 from discord import app_commands
 from discord.ext.commands import Context
 import discord
-from helpers import checks
+from helpers import checks, db_manager
 
 
 # Here we name the cog and create a new class for the cog.
@@ -13,10 +13,34 @@ class Counter(commands.Cog, name="counter"):
         self.bot = bot
 
     @commands.hybrid_command(name="ncount", description="AYO??")
+    @app_commands.describe(user="Which users' n-word count")
     @checks.not_blacklisted()
-    async def ncount(self, context: Context):
+    async def ncount(self, context: Context, user: discord.User):
+        # krijg count bericht uit db
+        count = await db_manager.get_ooc_message(user.id)
+
+        # Geen berichten
+        if len(count) == 0:
+            embed = discord.Embed(
+                title=f"NWord Count of {user.id}: {0}",
+                color=0x39AC39
+            )
+            
+            await context.send(embed=embed)
+            return
+        
+        # error
+        elif count[0] == -1:
+            embed = discord.Embed(
+                title=f"Something went wrong",
+                description=count[1],
+                color=0xE02B2B
+            )
+            await context.send(embed=embed)
+            return
+
         embed = discord.Embed(
-            description=f"TODO",
+            title=f"NWord Count of {user.id}: {count[0][0]}",
             color=0xF4900D
         )
 

@@ -18,7 +18,7 @@ import psycopg2
 import discord
 from discord.ext import commands, tasks
 from discord.ext.commands import Bot, Context
-
+from helpers import db_manager
 import exceptions
 
 # TODO stats
@@ -260,11 +260,18 @@ async def load_cogs() -> None:
                 bot.logger.error(f"Failed to load extension {extension}\n{exception}")
                 bot.unloaded.add(extension)
 
+
 async def findNWord(message):
     m = await message.guild.get_channel(int(os.environ.get("channel"))).fetch_message(message.id)
-    print(m.content)
-    content = m.content.replace(" ", "").lower()
-    print(content)
+    content = m.content.replace(" ", "").replace("\n", "").lower()
+    toCheck = ["test", "hallo"]
+
+    for c in toCheck:
+        if c in content:
+            await db_manager.increment_or_add_nword(m.author.id)
+            break
+            
+    
 
 init_db()
 asyncio.run(load_cogs())
