@@ -147,10 +147,10 @@ class OutOfContext(commands.Cog, name="context"):
         embed.description = m.content
 
         # zet index juist
-        if m in self.menu.messages:
-            self.menu.currentIndex = self.menu.messages.index(m)
+        if m.id in self.menu.messages:
+            self.menu.currentIndex = self.menu.messages.index(m.id)
         else:
-            self.menu.messages.append(m)
+            self.menu.messages.append(m.id)
             self.menu.currentIndex = len(self.menu.messages) -1
 
         
@@ -205,6 +205,8 @@ class Menu(discord.ui.View):
         )
         await interaction.response.edit_message(embed=embed)
         self.value=False
+        for c in self.children:
+            c.disabled = True
         self.stop()
 
 
