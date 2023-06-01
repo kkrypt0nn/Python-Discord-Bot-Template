@@ -71,11 +71,11 @@ class OutOfContext(commands.Cog, name="context"):
         Lets you remove a message to the OOC game.
 
         """
-        embed = await self.remove(message.id)
+        embed = await self.remove(message.id, interaction.guild)
         await interaction.response.send_message(embed=embed)
 
 
-    async def remove(self, id):
+    async def remove(self, id, guild):
         # check als bericht bestaat
         if not await db_manager.is_in_ooc(id):
             embed = discord.Embed(
@@ -95,9 +95,11 @@ class OutOfContext(commands.Cog, name="context"):
             )
             return embed
         
+        m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
+        
         # alles oke
         embed = discord.Embed(
-            description=f"**{id}** has been successfully removed from the game",
+            description=f"[Message]({m.jump_url}) has been removed from the game",
             color=0x39AC39,
         )
         embed.set_footer(
