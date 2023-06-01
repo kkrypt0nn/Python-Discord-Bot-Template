@@ -227,8 +227,8 @@ class Menu(discord.ui.View):
         # disable previous knop als we op eerste bericht zitten
         if self.currentIndex == 0:
             for b in self.children:
-                if b.label == "Previous":
-                    b.disabled = True
+                b.disabled = b.label == "Previous"
+                
 
         # Toon het vorige bericht
         embed, showView = await self.OOC.getMessage(interaction.guild, self.messages[self.currentIndex])
@@ -257,6 +257,10 @@ class Menu(discord.ui.View):
         # verwijder bericht
         embed = await self.OOC.remove(self.messages[self.currentIndex], interaction.guild)
 
+        # disable de verwijder knop
+        for b in self.children:
+            b.disabled = b.label == "Remove"
+
         # zet index juist en verwijder bericht ook uit ingeladen berichten
         self.messages = [i for i in self.messages if i != self.messages[self.currentIndex]]
         self.currentIndex = len(self.messages) -1
@@ -266,6 +270,9 @@ class Menu(discord.ui.View):
 
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
     async def quit(self, interaction: discord.Interaction, button: discord.ui.Button):
+        # reset alle gegevens
+        self.messages.clear()
+        self.currentIndex = 0
 
         l = len(self.messages)
         f = 'message' if l == 1 else 'messages'
@@ -278,9 +285,7 @@ class Menu(discord.ui.View):
         )
         await interaction.response.edit_message(embed=embed, view=None)
 
-        # reset alle gegevens
-        self.messages.clear()
-        self.currentIndex = 0
+        
 
 
 
