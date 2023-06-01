@@ -22,8 +22,6 @@ from helpers import db_manager
 import exceptions
 
 # TODO stats
-# TODO nword counter
-# 
 
 intents = discord.Intents.default()
 

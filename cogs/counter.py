@@ -20,7 +20,7 @@ class Counter(commands.Cog, name="counter"):
         count = await db_manager.get_nword_count(user.id)
 
         # Geen berichten
-        if len(count) == 0:
+        if len(count) == 0 or int(count[0][0]) == 0:
             embed = discord.Embed(
                 description=f"NWord Count of <@{user.id}>: ```0```",
                 color=0x39AC39
