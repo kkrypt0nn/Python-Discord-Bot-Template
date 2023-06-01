@@ -22,7 +22,7 @@ class OutOfContext(commands.Cog, name="context"):
         )
         self.bot.tree.add_command(self.ctx_menu_remove)
 
-        self.view = Menu()
+        self.menu = Menu()
 
     @checks.not_blacklisted()
     async def context_add(self, interaction: discord.Interaction, message:discord.Message):
@@ -139,6 +139,8 @@ class OutOfContext(commands.Cog, name="context"):
         )
 
         embed.description = m.content
+
+        self.menu.currentMessage = m
         await context.send(embed=embed, view=self.view)
 
 
@@ -146,17 +148,20 @@ class OutOfContext(commands.Cog, name="context"):
 
 # TODO verander naar eigen file
 class Menu(discord.ui.View):
-    def __init__(self):
+    def __init__(self, OOC):
         super().__init__()
         self.value = None
+        self.OOC = OOC
+        self.currentMessage = None
     
-    @discord.ui.button(label="Next", style=discord.ButtonStyle.gray)
+    @discord.ui.button(label="Next", style=discord.ButtonStyle.green)
     async def next(self, button: discord.ui.Button, interaction: discord.Interaction):
-        await interaction.response.send_message("go next")
+        await interaction.response.edit_message(content="go next")
 
 
-
-
+    @discord.ui.button(label="Remove", style=discord.ButtonStyle.red)
+    async def remove(self, button: discord.ui.Button, interaction: discord.Interaction):
+        await self.OOC.context_remove(interaction, self.currentMessage)
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot):
