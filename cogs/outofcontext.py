@@ -113,7 +113,7 @@ class OutOfContext(commands.Cog, name="context"):
         """
         message = await self.getRandomMessage(context.guild)
         print(message)
-        await context.send(embed=message[0], view= self.menu if message[1] else None)
+        await context.send(embed=await message[0], view= self.menu if message[1] else None)
 
 
     async def getRandomMessage(self, guild):
