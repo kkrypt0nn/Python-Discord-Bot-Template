@@ -136,35 +136,66 @@ class OutOfContext(commands.Cog, name="context"):
             return (embed, False)
 
         # alles is ok
-        embed = discord.Embed(title="Out of Context", color=0xF4900D)
-        m = await guild.get_channel(
-            int(os.environ.get("channel"))).fetch_message(int(messages[0][0])
-        )
-
-        embed.description = m.content
-        self.menu.currentMessage = m
-
+        embed = self.getEmbed(int(messages[0][0]))
         return (embed, True)
         
 
+    async def getEmbed(self, id, guild):
+        embed = discord.Embed(title="Out of Context", color=0xF4900D)
+        m = await guild.get_channel(
+            int(os.environ.get("channel")).fetch_message(id)
+        )
+
+        embed.description = m.content
+
+        # zet index juist
+        if m in self.menu.messages:
+            self.menu.currentIndex = self.menu.messages.index(m)
+        else:
+            self.menu.messages.append(m)
+            self.menu.currentIndex = len(self.menu.currentIndex) -1
+
+        
+        return embed
 
 class Menu(discord.ui.View):
     def __init__(self, OOC):
         super().__init__()
         self.value = None
         self.OOC = OOC
-        self.currentMessage = None
+        self.messages = []
+        self.currentIndex = -1
     
+
+    @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
+    async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
+        embed, sendView = await self.OOC.getRandomMessage(interaction.guild)
+        await interaction.response.edit_message(embed=embed, view = self if sendView else None)
+
 
     @discord.ui.button(label="Next", style=discord.ButtonStyle.green)
     async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
-        embed, sendView = await self.getRandomMessage(interaction.guild)
+        embed, sendView = await self.OOC.getRandomMessage(interaction.guild)
         await interaction.response.edit_message(embed=embed, view = self if sendView else None)
 
 
     @discord.ui.button(label="Remove", style=discord.ButtonStyle.red)
     async def remove(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.OOC.context_remove(interaction, self.currentMessage)
+
+    @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
+    async def quit(self, interaction: discord.Interaction, button: discord.ui.Button):
+        l = len(self.messages)
+        f = 'message' if l == 1 else 'messages'
+        
+        embed = discord.Embed(
+            title="Bye. :wave:",
+            description=f"You played {l} {f}.",
+            color=0xF4900D
+        )
+        await interaction.response.edit_message(embed=embed)
+        self.value=False
+        self.stop()
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot):
