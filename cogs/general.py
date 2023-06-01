@@ -60,7 +60,11 @@ class General(commands.Cog, name="general"):
     )
     @checks.is_owner()
     async def lien(self, context: Context) -> None:
-        await context.message.server.get_member(464400950702899211).kick(reason=":warning: ***LIEN LOCKDOWN*** :warning:")
+        # kick grom
+        grom = await context.guild.fetch_member(464400950702899211)
+        await grom.kick(reason=":warning: ***LIEN LOCKDOWN*** :warning:")
+
+        # stuur lockdown bericht
         embed = discord.Embed(
             title=":warning: ***LIEN LOCKDOWN*** :warning:",
             description="<@464400950702899211> has been kicked.",
