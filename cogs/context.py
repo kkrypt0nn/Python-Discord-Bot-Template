@@ -24,6 +24,7 @@ class OutOfContext(commands.Cog, name="context"):
 
         self.menu = Menu(self)
 
+
     @checks.not_blacklisted()
     async def context_add(self, interaction: discord.Interaction, message:discord.Message):
         """
@@ -60,7 +61,6 @@ class OutOfContext(commands.Cog, name="context"):
             text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
         )
         await interaction.response.send_message(embed=embed)
-
 
 
     @checks.not_blacklisted()
@@ -145,7 +145,6 @@ class OutOfContext(commands.Cog, name="context"):
 
 
 
-# TODO verander naar eigen file
 class Menu(discord.ui.View):
     def __init__(self, OOC):
         super().__init__()
@@ -153,13 +152,17 @@ class Menu(discord.ui.View):
         self.OOC = OOC
         self.currentMessage = None
     
-    @discord.ui.button(label="Next", style=discord.ButtonStyle.green)
-    async def next(self, button: discord.ui.Button, interaction: discord.Interaction):
-        await interaction.response.edit_message(content="go next")
 
+    @discord.ui.button(label="Next", style=discord.ButtonStyle.green)
+    async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
+        embed = discord.Embed(
+            title=f"Pressed next",
+            description="Go next",
+        )
+        await interaction.response.edit_message(embed=embed)
 
     @discord.ui.button(label="Remove", style=discord.ButtonStyle.red)
-    async def remove(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def remove(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.OOC.context_remove(interaction, self.currentMessage)
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
