@@ -36,9 +36,10 @@ class OutOfContext(commands.Cog, name="context"):
         # check als bericht al in db staat
         if await db_manager.is_in_ooc(message.id):
             embed = discord.Embed(
-                description=f"**{message.id}** is already in the game.",
+                description=f"Message is already in the game.",
                 color=0xE02B2B,
             )
+            embed.set_footer(text=f"{message.id}")
             await interaction.response.send_message(embed=embed)
             return
         
@@ -51,12 +52,13 @@ class OutOfContext(commands.Cog, name="context"):
                 description=f"Er is iets misgegaan.",
                 color=0xE02B2B,
             )
+            embed.set_footer(text=f"{message.id}")
             await interaction.response.send_message(embed=embed)
             return
         
         # alles oke
         embed = discord.Embed(
-            description=f"**{message.id}** has been successfully added to the game",
+            description=f"[Message]({message.jump_url}) has been added to the game",
             color=0x39AC39,
         )
         embed.set_footer(
@@ -206,6 +208,8 @@ class OutOfContext(commands.Cog, name="context"):
             self.menu.messages.append(m.id)
 
         return embed
+
+
 
 # behandelt alle knoppen
 class Menu(discord.ui.View):

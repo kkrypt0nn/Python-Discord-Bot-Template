@@ -29,17 +29,21 @@ class General(commands.Cog, name="general"):
     async def help(self, context: Context) -> None:
         admin = list(os.environ.get("owners").split(","))
         embed = discord.Embed(
-            title="Help", 
+            title="Help :man_mechanic:", 
             description=f"Ask <@{int(admin[0])}> for help. \nList of available commands:", 
             color=0xF4900D
         )
         for i in self.bot.cogs:
             cog = self.bot.get_cog(i.lower())
             commands = cog.get_commands()
+
             data = []
             for command in commands:
                 description = command.description.partition("\n")[0]
                 data.append(f"{command.name} - {description}")
+            
+            if i == "context":
+                data.append(f"[Klik hier voor berichten toe te voegen/te verwijderen](https://github.com/SDeVuyst/WhereContextbot3)")
             help_text = "\n".join(data)
             if len(help_text) > 0:
                 embed.add_field(
