@@ -113,7 +113,7 @@ class OutOfContext(commands.Cog, name="context"):
         """
         message = await self.getRandomMessage(context.guild)
         print(message)
-        await context.send(embed=await message[0], view= self.menu if message[1] else None)
+        await context.send(embed=message[0], view= self.menu if message[1] else None)
 
 
     async def getRandomMessage(self, guild):
@@ -143,10 +143,8 @@ class OutOfContext(commands.Cog, name="context"):
 
     async def getEmbed(self, id, guild):
         embed = discord.Embed(title="Out of Context", color=0xF4900D)
-        m = await guild.get_channel(
-            int(os.environ.get("channel")).fetch_message(id)
-        )
-
+        m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
+        
         embed.description = m.content
 
         # zet index juist
