@@ -261,7 +261,7 @@ async def load_cogs() -> None:
                 bot.unloaded.add(extension)
 
 async def findNWord(message):
-    m = await message.guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
+    m = await message.guild.get_channel(int(os.environ.get("channel"))).fetch_message(message.id)
     print(m.content)
     content = m.content.replace(" ", "").lower()
     print(content)
