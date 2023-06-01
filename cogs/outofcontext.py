@@ -172,8 +172,9 @@ class OutOfContext(commands.Cog, name="context"):
         
         m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
         embed = discord.Embed(
-            title=f"```{m.content}```", 
-            color=0xF4900D
+            title="Out of Context", 
+            color=0xF4900D,
+            description = f"```{m.content}```"
         )
 
         if m.attachments:
