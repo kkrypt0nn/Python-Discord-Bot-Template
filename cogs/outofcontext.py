@@ -64,7 +64,7 @@ class OutOfContext(commands.Cog, name="context"):
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
         )
-        await interaction.response.send_message(embed=embed)
+        await interaction.response.send_message(embed=embed, delete_after=10)
 
 
     @checks.not_blacklisted()
@@ -74,7 +74,7 @@ class OutOfContext(commands.Cog, name="context"):
 
         """
         embed = await self.remove(message.id, interaction.guild)
-        await interaction.response.send_message(embed=embed)
+        await interaction.response.send_message(embed=embed, delete_after=10)
 
 
     async def remove(self, id, guild):

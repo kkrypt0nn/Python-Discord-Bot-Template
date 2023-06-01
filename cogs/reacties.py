@@ -11,7 +11,6 @@ from helpers import checks
 class Reacties(commands.Cog, name="reacties"):
     def __init__(self, bot):
         self.bot = bot
-        self.choices = []
 
     @commands.hybrid_command(name="giblereact", description="OMG jonathan is so fine!!")
     @checks.not_blacklisted()

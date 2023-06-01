@@ -41,10 +41,10 @@ class General(commands.Cog, name="general"):
             for command in commands:
                 description = command.description.partition("\n")[0]
                 data.append(f"{command.name} - {description}")
-                
+
             if i == "context":
-                data.append("Rechtermuisklik -> Apps -> Add Context - Voeg bericht toe")
-                data.append("Rechtermuisklik -> Apps -> Remove Context - Verwijder bericht")
+                data.append("Rechtermuisklik -> Apps -> Add Context - Add message")
+                data.append("Rechtermuisklik -> Apps -> Remove Context - Remove message")
 
             help_text = "\n".join(data)
             if len(help_text) > 0:
@@ -69,8 +69,7 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title="🏓 Pong!",
             description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
-            # TODO pas kleur aan afhangent aan latency
-            color=0x39AC39,
+            color=0x39AC39 if (self.bot.latency * 1000) < 150 else 0xF4900D
         )
         await context.send(embed=embed)
 
@@ -104,7 +103,7 @@ class General(commands.Cog, name="general"):
         :param context: The hybrid command context.
         :param message: The message that should be repeated by the bot.
         """
-        embed = discord.Embed(description=message, color=0xF4900D)
+        embed = discord.Embed(title=message, color=0xF4900D)
         await context.send(embed=embed)
 
 

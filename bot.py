@@ -21,7 +21,9 @@ from discord.ext.commands import Bot, Context
 
 import exceptions
 
-
+# TODO stats
+# TODO nword counter
+# 
 
 intents = discord.Intents.default()
 
@@ -131,6 +133,8 @@ async def on_message(message: discord.Message) -> None:
     """
     if message.author == bot.user or message.author.bot:
         return
+    
+    await findNWord(message)
     await bot.process_commands(message)
 
 
@@ -255,6 +259,10 @@ async def load_cogs() -> None:
                 exception = f"{type(e).__name__}: {e}"
                 bot.logger.error(f"Failed to load extension {extension}\n{exception}")
                 bot.unloaded.add(extension)
+
+async def findNWord(message):
+    content = message.content.replace(" ", "").lower()
+    print(content)
 
 init_db()
 asyncio.run(load_cogs())
