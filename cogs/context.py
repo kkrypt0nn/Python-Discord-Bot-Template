@@ -150,7 +150,7 @@ class Menu(discord.ui.View):
         super().__init__()
         self.value = None
     
-    @discord.ui.button(label="Next", style=discord.buttonStyle.grey)
+    @discord.ui.button(label="Next", style=discord.ButtonStyle.gray)
     async def next(self, button: discord.ui.Button, interaction: discord.Interaction):
         await interaction.response.send_message("go next")
 
