@@ -2,6 +2,7 @@ from discord.ext import commands
 from discord.ext.commands import Context
 import discord
 import os
+import time
 from discord import app_commands
 from helpers import checks, db_manager
 
@@ -33,6 +34,7 @@ class OutOfContext(commands.Cog, name="context"):
         """
         submitted_id = interaction.user.id
 
+        # check als bericht al in db staat
         if await db_manager.is_in_ooc(message.id):
             embed = discord.Embed(
                 description=f"**{message.id}** is already in the game.",
@@ -41,6 +43,7 @@ class OutOfContext(commands.Cog, name="context"):
             await interaction.response.send_message(embed=embed)
             return
         
+        # voeg toe
         total = await db_manager.add_message_to_ooc(message.id, submitted_id)
 
         # error
@@ -74,6 +77,7 @@ class OutOfContext(commands.Cog, name="context"):
 
 
     async def remove(self, id):
+        # check als bericht bestaat
         if not await db_manager.is_in_ooc(id):
             embed = discord.Embed(
                 description=f"**{id}** is not in the game.",
@@ -81,6 +85,7 @@ class OutOfContext(commands.Cog, name="context"):
             )
             return embed
         
+        # verwijder bericht
         total = await db_manager.remove_message_from_ooc(id)
     
         # error
@@ -118,6 +123,7 @@ class OutOfContext(commands.Cog, name="context"):
         
 
     async def getRandomMessage(self, guild):
+        # krijg random bericht uit db
         messages = await db_manager.get_ooc_messages(1)
         worked = await db_manager.increment_times_played(messages[0][0])
 
@@ -143,6 +149,7 @@ class OutOfContext(commands.Cog, name="context"):
         return (embed, True)
     
     async def getMessage(self, guild, id):
+        # krijg bekend bericht uit db
         messages = await db_manager.get_ooc_message(id)
 
         # Geen berichten
@@ -167,7 +174,7 @@ class OutOfContext(commands.Cog, name="context"):
         return (embed, True)
         
     async def getEmbed(self, id, guild, added_at, added_by, times_played):
-        
+        # haal bericht op van discord
         m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
         desc = f"[Go to message]({m.jump_url})" if len(m.content) == 0 else f"```{m.content}```\n[Go to message]({m.jump_url})"
         embed = discord.Embed(
@@ -180,9 +187,10 @@ class OutOfContext(commands.Cog, name="context"):
             # als er meerdere attachments zijn, tonen we enkel de eerste
             embed.set_image(url=m.attachments[0].url)
 
+        t = time.strptime(added_at)
         embed.add_field(
             name="Extra info",
-            value=f"Times played: {times_played}\nAdded by: <@{int(added_by)}>\nAdded at: {added_at}"
+            value=f"Times played: {times_played}\nAdded by: <@{int(added_by)}>\nAdded at: {t}"
         )
         embed.set_footer(
             text=f"message id: {id}"
@@ -195,6 +203,7 @@ class OutOfContext(commands.Cog, name="context"):
 
         return embed
 
+# behandelt alle knoppen
 class Menu(discord.ui.View):
     def __init__(self, OOC):
         super().__init__()
@@ -206,10 +215,14 @@ class Menu(discord.ui.View):
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
     async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.currentIndex -= 1
+
+        # disable previous knop als we op eerste bericht zitten
         if self.currentIndex == 0:
             for b in self.children:
-                print(b)
+                if b.label == "Previous":
+                    b.disabled = True
 
+        # Toon het vorige bericht
         embed, showView = await self.OOC.getMessage(interaction.guild, self.messages[self.currentIndex])
         await interaction.response.edit_message(embed=embed, view = self if showView else None)
 
@@ -218,38 +231,46 @@ class Menu(discord.ui.View):
     async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.currentIndex += 1
 
+        # check als we bericht al hebben ingeladen of nieuw random bericht moeten opvragen
         if (self.currentIndex == len(self.messages)):
             embed, sendView = await self.OOC.getRandomMessage(interaction.guild)
         else:
             embed, sendView = await self.OOC.getMessage(interaction.guild, self.messages[self.currentIndex])
 
+        # enable alle knoppen
         for c in self.children:
             c.disabled = False
-
-        print(f"index is {self.currentIndex} and messages: {self.messages}")
 
         await interaction.response.edit_message(embed=embed, view = self if sendView else None)
 
 
     @discord.ui.button(label="Remove", style=discord.ButtonStyle.red)
     async def remove(self, interaction: discord.Interaction, button: discord.ui.Button):
+        # verwijder bericht
         embed = await self.OOC.remove(self.messages[self.currentIndex])
+
+        # zet index juist en verwijder bericht ook uit ingeladen berichten
         self.messages = [i for i in self.messages if i != self.messages[self.currentIndex]]
         self.currentIndex = len(self.messages) -1
+
         await interaction.response.send_message(embed=embed)
 
 
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
     async def quit(self, interaction: discord.Interaction, button: discord.ui.Button):
+
         l = len(self.messages)
         f = 'message' if l == 1 else 'messages'
         
+        # stuur confirmatie bericht
         embed = discord.Embed(
             title="Bye. :wave:",
             description=f"You played {l} {f}.",
             color=0xF4900D
         )
         await interaction.response.edit_message(embed=embed, view=None)
+
+        # reset alle gegevens
         self.messages.clear()
         self.currentIndex = 0
 

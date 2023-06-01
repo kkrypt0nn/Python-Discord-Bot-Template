@@ -107,7 +107,6 @@ async def get_ooc_messages(limit: int) -> list:
                 return cursor.fetchall()
             
     except Exception as err:
-        print(err)
         return [-1, err]
     
 async def get_ooc_message(id) -> list:
@@ -126,7 +125,6 @@ async def get_ooc_message(id) -> list:
                 return cursor.fetchall()
             
     except Exception as err:
-        print(err)
         return [-1, err]
 
 
@@ -190,7 +188,6 @@ async def add_message_to_ooc(message_id:int, added_by:int) -> int:
                 result = cursor.fetchone()
                 return result[0] if result is not None else 0
     except Exception as err:
-        print(err)
         return -1
 
 
