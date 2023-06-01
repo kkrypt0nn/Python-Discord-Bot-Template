@@ -17,7 +17,7 @@ class Counter(commands.Cog, name="counter"):
     @checks.not_blacklisted()
     async def ncount(self, context: Context, user: discord.User):
         # krijg count bericht uit db
-        count = await db_manager.get_ooc_message(user.id)
+        count = await db_manager.get_nword_count(user.id)
 
         # Geen berichten
         if len(count) == 0:
@@ -47,7 +47,21 @@ class Counter(commands.Cog, name="counter"):
         await context.send(embed=embed)
     
 
+    @commands.hybrid_command(name="changencount", description="Change the count of a user")
+    @app_commands.describe(user="Which users' n-word count")
+    @app_commands.describe(amount="Amount to set the count to")
+    @checks.is_owner()
+    async def ncount(self, context: Context, user: discord.User, amount: int):
+        # krijg count uit db
+        succes = await db_manager.set_nword_count(user.id, amount)
 
+        # verstuur embed
+        title = f"NWord Count of {user.id} is now {amount}" if succes else "Something went wrong"
+        embed = discord.Embed(
+            title=title,
+            color=0x39AC39 if succes else 0xF4900D
+        )
+        await context.send(embed=embed)
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot):

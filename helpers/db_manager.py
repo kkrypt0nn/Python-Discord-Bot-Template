@@ -276,3 +276,18 @@ async def get_nword_count(user_id) -> list:
             
     except Exception as err:
         return [-1, err]
+
+
+async def set_nword_count(user_id, amount):
+    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+        
+        try:
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "UPDATE nword_counter SET count = %s WHERE user_id=%s", ((amount), str(user_id),)
+                )
+                con.commit()
+                return True
+
+        except:
+            return False
