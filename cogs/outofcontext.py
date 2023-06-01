@@ -251,7 +251,7 @@ class Menu(discord.ui.View):
     @discord.ui.button(label="Remove", style=discord.ButtonStyle.red)
     async def remove(self, interaction: discord.Interaction, button: discord.ui.Button):
         # verwijder bericht
-        embed = await self.OOC.remove(self.messages[self.currentIndex])
+        embed = await self.OOC.remove(self.messages[self.currentIndex], interaction.guild)
 
         # zet index juist en verwijder bericht ook uit ingeladen berichten
         self.messages = [i for i in self.messages if i != self.messages[self.currentIndex]]
