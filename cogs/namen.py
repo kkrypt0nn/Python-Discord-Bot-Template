@@ -74,6 +74,7 @@ class Names(commands.Cog, name="namen"):
         )
         await context.send(embed=embed)
 
+
     @commands.hybrid_command(
         name="meng",
         description="meng aka mongwong aka da GOAT"
@@ -82,6 +83,22 @@ class Names(commands.Cog, name="namen"):
     @checks.not_blacklisted()
     async def meng(self, context: Context):
         messages = ["meng shut the fuck up"]
+        
+        embed = discord.Embed(
+            title=random.choice(messages),
+            color=0xF4900D,
+        )
+        await context.send(embed=embed)
+
+
+    @commands.hybrid_command(
+        name="broodman",
+        description=":bread::man: aka yachini aka yashja"
+    )
+    # This will only allow non-blacklisted members to execute the command
+    @checks.not_blacklisted()
+    async def broodman(self, context: Context):
+        messages = [f"retarded ass mening nr. {random.randint(194892084, 294892084)}"]
         
         embed = discord.Embed(
             title=random.choice(messages),
