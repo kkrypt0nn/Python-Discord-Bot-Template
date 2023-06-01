@@ -102,7 +102,7 @@ async def get_ooc_messages(limit: int) -> list:
             
             with con.cursor() as cursor:
                 cursor.execute(
-                    f"SELECT message_id, added_at, added_by, times_played FROM context_message ORDER BY random() LIMIT {limit}"
+                    "SELECT message_id, added_at, added_by, times_played FROM context_message ORDER BY random() LIMIT ?", (limit,)
                 )
                 return cursor.fetchall()
             
@@ -121,7 +121,7 @@ async def get_ooc_message(id) -> list:
             
             with con.cursor() as cursor:
                 cursor.execute(
-                    f"SELECT message_id, added_at, added_by, times_played FROM context_message WHERE message_id={str(id)}"
+                    "SELECT message_id, added_at, added_by, times_played FROM context_message WHERE message_id=%s", (str(id),)
                 )
                 return cursor.fetchall()
             

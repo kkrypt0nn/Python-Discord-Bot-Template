@@ -117,7 +117,7 @@ class OutOfContext(commands.Cog, name="context"):
         await context.send(embed=embed, view= self.menu if sendView else None)
         
 
-
+    # TODO increment times_played
     async def getRandomMessage(self, guild):
         messages = await db_manager.get_ooc_messages(10)
 
@@ -142,7 +142,7 @@ class OutOfContext(commands.Cog, name="context"):
         embed = await self.getEmbed(int(messages[0][0]), guild, messages[0][1], int(messages[0][2]), int(messages[0][3]))
         return (embed, True)
     
-
+    # TODO increment times_played
     async def getMessage(self, guild, id):
         messages = await db_manager.get_ooc_message(id)
 
@@ -176,6 +176,10 @@ class OutOfContext(commands.Cog, name="context"):
             color=0xF4900D,
             description = m.content
         )
+
+        if m.attachments:
+            print(m.attachments)
+
         embed.add_field(
             name="Extra info",
             value=f"Times played: {times_played}\nAdded by: <@{int(added_by)}>\nAdded at: {added_at}"
@@ -183,6 +187,7 @@ class OutOfContext(commands.Cog, name="context"):
         embed.set_footer(
             text=f"message id: {id}"
         )
+
 
         # voeg id toe aan messages indien nodig
         if self.menu.currentIndex == len(self.menu.messages):
