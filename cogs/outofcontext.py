@@ -79,7 +79,7 @@ class OutOfContext(commands.Cog, name="context"):
             return
         
         total = await db_manager.remove_message_from_ooc(message.id)
-
+    
         # error
         if total == -1:
             embed = discord.Embed(
@@ -145,6 +145,7 @@ class OutOfContext(commands.Cog, name="context"):
         m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
         
         embed.description = m.content
+        embed.footer = f"message id: {id}"
 
         # voeg id toe aan messages indien nodig
         if self.menu.currentIndex == len(self.menu.messages):
@@ -201,6 +202,8 @@ class Menu(discord.ui.View):
         )
         await interaction.response.edit_message(embed=embed, view=None)
         self.value=False
+        self.messages.clear()
+        self.currentIndex = -1
         self.stop()
 
 
