@@ -219,6 +219,7 @@ class Menu(discord.ui.View):
         self.OOC = OOC
         self.messages = []
         self.currentIndex = 0
+        self.messagesPlayed = 0
 
     async def reset(self):
         for b in self.children:
@@ -243,10 +244,11 @@ class Menu(discord.ui.View):
     @discord.ui.button(label="Next", style=discord.ButtonStyle.green)
     async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.currentIndex += 1
-
         # check als we bericht al hebben ingeladen of nieuw random bericht moeten opvragen
         if (self.currentIndex == len(self.messages)):
             embed, sendView = await self.OOC.getRandomMessage(interaction.guild)
+            self.messagesPlayed += 1
+
         else:
             embed, sendView = await self.OOC.getMessage(interaction.guild, self.messages[self.currentIndex])
 
@@ -276,9 +278,6 @@ class Menu(discord.ui.View):
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
     async def quit(self, interaction: discord.Interaction, button: discord.ui.Button):
 
-        l = len(self.messages)
-        f = 'message' if l == 1 else 'messages'
-
         # reset alle gegevens
         self.messages.clear()
         self.currentIndex = 0
@@ -286,10 +285,12 @@ class Menu(discord.ui.View):
         # stuur confirmatie bericht
         embed = discord.Embed(
             title="Bye. :wave:",
-            description=f"You played {l} {f}.",
+            description=f"You played {self.messagesPlayed} {'message' if self.messagesPlayed == 1 else 'messages'}.",
             color=0xF4900D
         )
         await interaction.response.edit_message(embed=embed, view=None)
+
+        self.messagesPlayed = 0
 
         
 
