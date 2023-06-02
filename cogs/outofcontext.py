@@ -122,6 +122,7 @@ class OutOfContext(commands.Cog, name="context"):
         :param context: The hybrid command context.
         """
         embed, sendView = await self.getRandomMessage(context.guild)
+        await self.menu.reset()
         await context.send(embed=embed, view= self.menu if sendView else None)
         
 
@@ -218,6 +219,10 @@ class Menu(discord.ui.View):
         self.OOC = OOC
         self.messages = []
         self.currentIndex = 0
+
+    async def reset(self):
+        for b in self.children:
+            b.disabled = False
     
 
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
