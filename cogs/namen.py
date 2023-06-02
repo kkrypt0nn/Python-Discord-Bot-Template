@@ -66,7 +66,7 @@ class Names(commands.Cog, name="namen"):
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
     async def ba(self, context: Context):
-        messages = ["ba"]
+        messages = ["ba", "zo schattig :smiling_face_with_3_hearts:"]
         
         embed = discord.Embed(
             title=random.choice(messages),

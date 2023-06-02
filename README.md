@@ -36,7 +36,7 @@ ELKE TITEL IS EEN COG DIE TELKENS HUN COMMANDS BESSCHRIJFT
 
   ![1685635456686](image/README/1685635456686.png)
 
-  Rechtermuisklik **OP HET BERICHT** DAT JE WILT TOEVOEGEN/3puntjes op mobile -> apps -> Add Context
+  Rechtermuisklik/lang drukken voor mobile **OP HET BERICHT** dat je wilt toevoegen -> apps -> Add Context
 * Hoe verwijderen?	idem aan toevoegen/verwijderen terwijl je het spel aan het spelen bent
 
 ## Reacties
