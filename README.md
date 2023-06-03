@@ -26,7 +26,7 @@ ELKE TITEL IS EEN COG DIE TELKENS HUN COMMANDS BESSCHRIJFT
 
 ## Out of Context
 
-* /play	Speel het out of context spel
+* /play	[True/False] Speel het out of context spel, true als andere mensen het spel ook mogen zien, anders false
 
   * previous		ga terug naar het vorige bericht
   * next			ga naar het volgende bericht
