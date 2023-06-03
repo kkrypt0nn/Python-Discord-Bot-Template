@@ -40,7 +40,7 @@ class OutOfContext(commands.Cog, name="context"):
                 color=0xE02B2B,
             )
             embed.set_footer(text=f"{message.id}")
-            await interaction.response.send_message(embed=embed)
+            await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
             return
         
         # voeg toe
@@ -64,7 +64,7 @@ class OutOfContext(commands.Cog, name="context"):
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
         )
-        await interaction.response.send_message(embed=embed, delete_after=10)
+        await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
 
 
     @checks.not_blacklisted()
@@ -74,7 +74,7 @@ class OutOfContext(commands.Cog, name="context"):
 
         """
         embed = await self.remove(message.id, interaction.guild)
-        await interaction.response.send_message(embed=embed, delete_after=10)
+        await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
 
 
     async def remove(self, id, guild):
@@ -114,8 +114,9 @@ class OutOfContext(commands.Cog, name="context"):
         name="play",
         description="Play the out of context game",
     )
+    @app_commands.describe(groep="Toon het spel ook aan andere personen")
     @checks.not_blacklisted()
-    async def play(self, context: Context) -> None:
+    async def play(self, context: Context, groep: bool) -> None:
         """
         Play the out of context game
 
@@ -123,7 +124,7 @@ class OutOfContext(commands.Cog, name="context"):
         """
         embed, sendView = await self.getRandomMessage(context.guild)
         await self.menu.reset()
-        await context.send(embed=embed, view= self.menu if sendView else None)
+        await context.send(embed=embed, view= self.menu if sendView else None, ephemeral=not groep)
         
 
     async def getRandomMessage(self, guild):
