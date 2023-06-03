@@ -222,15 +222,17 @@ class Menu(discord.ui.View):
         self.messagesPlayed = 0
 
     async def on_timeout(self):
+        self.messages.clear()
+        self.currentIndex = 0
+        self.messagesPlayed = 0
+        
         return await self.reset()
 
     async def reset(self):
         for b in self.children:
             b.disabled = False
 
-        self.messages.clear()
-        self.currentIndex = 0
-        self.messagesPlayed = 0
+
     
 
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
