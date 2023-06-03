@@ -300,7 +300,7 @@ class Menu(discord.ui.View):
         await interaction.response.edit_message(embed=embed, view=None)
 
         self.messagesPlayed = 0
-        self.reset()
+        await self.reset()
 
         
 
