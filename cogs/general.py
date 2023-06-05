@@ -10,6 +10,8 @@ import os
 import platform
 import random
 
+from datetime import datetime
+
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -125,6 +127,34 @@ class General(commands.Cog, name="general"):
         :param message: The message that should be repeated by the bot.
         """
         embed = discord.Embed(title=message, color=0xF4900D)
+        await context.send(embed=embed)
+
+
+    @commands.hybrid_command(
+        name="Countdown",
+        description="Countdown till spiderverse 3",
+    )
+    @checks.not_blacklisted()
+    async def countdown(self, context: Context) -> None:
+
+        deadline = datetime.strptime(os.environ.get("countdown"), "%d/%m/%y %H:%M:%S")
+        diff = deadline - datetime.now()
+        
+        if diff.total_seconds < 0:
+            desc = "SPIDERVERSE 3 IS NU UIT!"
+            kleur = 0x39AC39
+        else:
+            hours, remainder = divmod(diff.seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            desc = f"Nog {diff.days} dagen, {hours} uur, {minutes} minuten en {seconds} seconden te gaan!"    
+            kleur = 0xF4900D
+            
+
+        embed = discord.Embed(
+            title="Time till spiderverse 3",
+            description=desc,
+            color=kleur
+        )
         await context.send(embed=embed)
 
 
