@@ -140,7 +140,7 @@ class General(commands.Cog, name="general"):
         deadline = datetime.strptime(os.environ.get("countdown"), "%d/%m/%y %H:%M:%S")
         diff = deadline - datetime.now()
 
-        if diff.total_seconds < 0:
+        if int(diff.total_seconds()) < 0:
             desc = "SPIDERVERSE 3 IS NU UIT!"
             kleur = 0x39AC39
         else:
