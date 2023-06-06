@@ -297,8 +297,9 @@ class Menu(discord.ui.View):
         # disable de verwijder knop
         for b in self.children:
             b.disabled = b.label == "Remove"
+            # disable de previous knop als we op begin van lijst zitten
             if self.currentIndex == -1:
-                b.disabled = b.label == "Previous"
+                b.disabled = b.label == "Previous" or b.label == "Remove"
 
         await interaction.response.edit_message(embed=embed, view=self)
 
