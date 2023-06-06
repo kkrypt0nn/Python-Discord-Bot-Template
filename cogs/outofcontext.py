@@ -253,6 +253,7 @@ class Menu(discord.ui.View):
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
     async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.currentIndex -= 1
+        self.currentIndex = self.currentIndex if self.currentIndex > 0 else 0
 
         # disable previous knop als we op eerste bericht zitten
         if self.currentIndex == 0:
