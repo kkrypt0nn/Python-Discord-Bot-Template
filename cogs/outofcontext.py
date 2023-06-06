@@ -292,8 +292,8 @@ class Menu(discord.ui.View):
         messageToDelete = self.messages[self.currentIndex]
         self.messages = [i for i in self.messages if i != messageToDelete]
         self.currentIndex = len(self.messages) -1
-        self.currentIndex = self.currentIndex if self.currentIndex >= 0 else 0
-        
+        self.currentIndex = self.currentIndex if self.currentIndex >= 0 else -1
+
         # disable de verwijder knop
         for b in self.children:
             b.disabled = b.label == "Remove"
