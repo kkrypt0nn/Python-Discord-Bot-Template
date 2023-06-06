@@ -291,13 +291,12 @@ class Menu(discord.ui.View):
         # zet index juist en verwijder bericht ook uit ingeladen berichten
         messageToDelete = self.messages[self.currentIndex]
         self.messages = [i for i in self.messages if i != messageToDelete]
-        self.currentIndex = len(self.messages) -1
-        self.currentIndex = self.currentIndex if self.currentIndex >= 0 else -1
+        self.currentIndex = len(self.messages)-1 # if len(self.messages) > 0 else -1
 
         # disable de verwijder knop
         for b in self.children:
             b.disabled = b.label == "Remove"
-            if self.currentIndex == 0:
+            if self.currentIndex == -1:
                 b.disabled = b.label == "Previous"
 
         await interaction.response.edit_message(embed=embed, view=self)
