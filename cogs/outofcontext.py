@@ -36,7 +36,7 @@ class OutOfContext(commands.Cog, name="context"):
         submitted_id = interaction.user.id
 
         # check als message uit OOC komt
-        if message.channel.id != os.environ.get('channel'):
+        if message.channel.id != int(os.environ.get('channel')):
             embed = discord.Embed(
                 description="Bericht moet in #out-of-context staan!",
                 color=0xE02B2B,
