@@ -299,7 +299,7 @@ class Menu(discord.ui.View):
         self.currentIndex = len(self.messages) -1
 
         await interaction.response.send_message(embed=embed, delete_after=10)
-        await self.next(interaction, button)
+        await interaction.response.edit_message(embed=embed, view=self)
 
 
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
