@@ -133,7 +133,7 @@ async def on_message(message: discord.Message) -> None:
         return
     
     await findNWord(message)
-    await bot.process_commands(message)
+    # await bot.process_commands(message)
 
 
 @bot.event
