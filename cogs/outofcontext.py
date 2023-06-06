@@ -24,6 +24,8 @@ class OutOfContext(commands.Cog, name="context"):
 
         self.menu = Menu(self)
 
+        self.currently_playing = False
+
 
     @checks.not_blacklisted()
     async def context_add(self, interaction: discord.Interaction, message:discord.Message):
@@ -122,10 +124,19 @@ class OutOfContext(commands.Cog, name="context"):
 
         :param context: The hybrid command context.
         """
+        if self.currently_playing:
+            embed = discord.Embed(
+                description=f"Er is al iemand het spel aan het spelen.",
+                color=0xE02B2B,
+            )
+            context.send(embed=embed, delete_after=10)
+            return
+        
         embed, sendView = await self.getRandomMessage(context.guild)
         await self.menu.reset()
         await context.send(embed=embed, view= self.menu if sendView else None, ephemeral=not groep)
-        
+        self.currently_playing = True
+
 
     async def getRandomMessage(self, guild):
         # krijg random bericht uit db
@@ -222,13 +233,6 @@ class Menu(discord.ui.View):
         self.currentIndex = 0
         self.messagesPlayed = 0
 
-    async def on_timeout(self):
-        self.messages.clear()
-        self.currentIndex = 0
-        self.messagesPlayed = 0
-        
-        return await self.reset()
-
     async def reset(self):
         for b in self.children:
             b.disabled = False
@@ -302,6 +306,8 @@ class Menu(discord.ui.View):
         self.messagesPlayed = 0
 
         await self.reset()
+
+        self.OOC.currently_playing = False
 
         
 
