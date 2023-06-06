@@ -297,7 +297,6 @@ class Menu(discord.ui.View):
         self.currentIndex = len(self.messages) -1
 
         await interaction.response.edit_message(embed=embed, view=self)
-        await interaction.followup.send(embed=embed)
 
 
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
@@ -306,7 +305,7 @@ class Menu(discord.ui.View):
         # stuur confirmatie bericht
         embed = discord.Embed(
             title="Bye. :wave:",
-            description=f"You played {self.messagesPlayed} {'message' if self.messagesPlayed == 1 else 'messages'}.",
+            description=f"You played {self.messagesPlayed +1} {'message' if self.messagesPlayed == 0 else 'messages'}.",
             color=0xF4900D
         )
         await interaction.response.edit_message(embed=embed, view=None)
