@@ -293,7 +293,8 @@ class Menu(discord.ui.View):
             b.disabled = b.label == "Remove"
 
         # zet index juist en verwijder bericht ook uit ingeladen berichten
-        self.messages = [i for i in self.messages if i != self.messages[self.currentIndex]]
+        messageToDelete = self.messages[self.currentIndex]
+        self.messages = [i for i in self.messages if i != messageToDelete]
         self.currentIndex = len(self.messages) -1
 
         await interaction.response.edit_message(embed=embed, view=self)
