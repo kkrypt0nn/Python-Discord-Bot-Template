@@ -129,7 +129,7 @@ class OutOfContext(commands.Cog, name="context"):
                 description=f"Er is al iemand het spel aan het spelen.",
                 color=0xE02B2B,
             )
-            context.send(embed=embed, delete_after=10)
+            await context.send(embed=embed, delete_after=10)
             return
         
         embed, sendView = await self.getRandomMessage(context.guild)
