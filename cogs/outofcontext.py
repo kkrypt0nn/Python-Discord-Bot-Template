@@ -291,12 +291,15 @@ class Menu(discord.ui.View):
         # disable de verwijder knop
         for b in self.children:
             b.disabled = b.label == "Remove"
+            print(b.label)
+            print(b.label == "Remove")
 
         # zet index juist en verwijder bericht ook uit ingeladen berichten
         self.messages = [i for i in self.messages if i != self.messages[self.currentIndex]]
         self.currentIndex = len(self.messages) -1
 
         await interaction.response.send_message(embed=embed, delete_after=10)
+        await self.next(interaction, button)
 
 
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
