@@ -35,6 +35,16 @@ class OutOfContext(commands.Cog, name="context"):
         """
         submitted_id = interaction.user.id
 
+        # check als message uit OOC komt
+        if message.channel.id != os.environ.get('channel'):
+            embed = discord.Embed(
+                description="Bericht moet in #out-of-context staan!",
+                color=0xE02B2B,
+            )
+            embed.set_footer(text=f"{message.id}")
+            await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
+            return
+
         # check als bericht al in db staat
         if await db_manager.is_in_ooc(message.id):
             embed = discord.Embed(
