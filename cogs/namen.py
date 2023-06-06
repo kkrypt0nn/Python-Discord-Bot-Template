@@ -18,10 +18,10 @@ class Names(commands.Cog, name="namen"):
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
     async def gible(self, context: Context):
-        messages = ["daar gaat je base gible", "wapz tnt over gible z'n base", "KAAANKEERRRBEK GIBLE"]
+        messages = ["daar gaat je base gible", "wapz tnt over gible z'n base", "KAAANKEERRRBEK GIBLE", "https://cdn.discordapp.com/attachments/1114464141508345906/1115720385070121000/ezgif.com-video-to-gif.gif"]
         
         embed = discord.Embed(
-            title=random.choice(messages),
+            description=random.choice(messages),
             color=0xF4900D,
         )
         await context.send(embed=embed)
