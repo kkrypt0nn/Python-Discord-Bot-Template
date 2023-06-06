@@ -288,15 +288,19 @@ class Menu(discord.ui.View):
         # verwijder bericht
         embed = await self.OOC.remove(self.messages[self.currentIndex], interaction.guild)
 
-        # disable de verwijder knop
-        for b in self.children:
-            b.disabled = b.label == "Remove"
+        
 
         # zet index juist en verwijder bericht ook uit ingeladen berichten
         messageToDelete = self.messages[self.currentIndex]
         self.messages = [i for i in self.messages if i != messageToDelete]
         self.currentIndex = len(self.messages) -1
 
+        # disable de verwijder knop
+        for b in self.children:
+            b.disabled = b.label == "Remove"
+            if self.currentIndex == 0:
+                b.disabled = b.label == "Previous"
+                
         await interaction.response.edit_message(embed=embed, view=self)
 
 
