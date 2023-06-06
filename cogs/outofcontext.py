@@ -216,7 +216,7 @@ class OutOfContext(commands.Cog, name="context"):
 # behandelt alle knoppen
 class Menu(discord.ui.View):
     def __init__(self, OOC):
-        super().__init__()
+        super().__init__(timeout=None)
         self.OOC = OOC
         self.messages = []
         self.currentIndex = 0
@@ -287,10 +287,6 @@ class Menu(discord.ui.View):
 
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
     async def quit(self, interaction: discord.Interaction, button: discord.ui.Button):
-
-        # reset alle gegevens
-        self.messages.clear()
-        self.currentIndex = 0
         
         # stuur confirmatie bericht
         embed = discord.Embed(
@@ -300,7 +296,11 @@ class Menu(discord.ui.View):
         )
         await interaction.response.edit_message(embed=embed, view=None)
 
+        # reset alle gegevens
+        self.messages.clear()
+        self.currentIndex = 0
         self.messagesPlayed = 0
+
         await self.reset()
 
         
