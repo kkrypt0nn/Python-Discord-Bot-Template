@@ -23,7 +23,7 @@ class Muur(commands.Cog, name="muur"):
         name="muur",
         description="De OG quotes muur",
     )
-    @checks.is_owner()
+    @checks.not_blacklisted()
     async def muur(self, context: Context) -> None:
         if context.invoked_subcommand is None:
             embed = discord.Embed(
@@ -38,7 +38,7 @@ class Muur(commands.Cog, name="muur"):
         name="golden_rule",
         description="Keleos golden rule",
     )
-    @checks.is_owner()
+    @checks.not_blacklisted()
     async def muur_1(self, context: Context) -> None:
         await context.send(embed=self.getEmbed(
             "Keleos golden rule", 
@@ -52,7 +52,7 @@ class Muur(commands.Cog, name="muur"):
         name="laten_doen",
         description="laten doen",
     )
-    @checks.is_owner()
+    @checks.not_blacklisted()
     async def muur_2(self, context: Context) -> None:
         await context.send(embed=self.getEmbed(
             "Free gible", 
@@ -66,7 +66,7 @@ class Muur(commands.Cog, name="muur"):
         name="limieten",
         description=":skull:",
     )
-    @checks.is_owner()
+    @checks.not_blacklisted()
     async def muur_3(self, context: Context) -> None:
         await context.send(embed=self.getEmbed(
             "#stop cyberpesten", 
@@ -80,7 +80,7 @@ class Muur(commands.Cog, name="muur"):
         name="danny",
         description="the danny special",
     )
-    @checks.is_owner()
+    @checks.not_blacklisted()
     async def muur_4(self, context: Context) -> None:
         await context.send(embed=self.getEmbed(
             "the danny special", 
@@ -94,7 +94,7 @@ class Muur(commands.Cog, name="muur"):
         name="bozo",
         description="L bozo",
     )
-    @checks.is_owner()
+    @checks.not_blacklisted()
     async def muur_5(self, context: Context) -> None:
         await context.send(embed=self.getEmbed(
             "Quote 5", 
