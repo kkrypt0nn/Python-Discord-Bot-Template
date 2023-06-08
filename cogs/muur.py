@@ -35,7 +35,7 @@ class Muur(commands.Cog, name="muur"):
 
     @muur.command(
         base="muur",
-        name="1",
+        name="golden_rule",
         description="Keleos golden rule",
     )
     @checks.is_owner()
@@ -49,7 +49,7 @@ class Muur(commands.Cog, name="muur"):
 
     @muur.command(
         base="muur",
-        name="2",
+        name="laten_doen",
         description="laten doen",
     )
     @checks.is_owner()
@@ -63,7 +63,7 @@ class Muur(commands.Cog, name="muur"):
 
     @muur.command(
         base="muur",
-        name="3",
+        name="limieten",
         description=":skull:",
     )
     @checks.is_owner()
@@ -77,7 +77,7 @@ class Muur(commands.Cog, name="muur"):
 
     @muur.command(
         base="muur",
-        name="4",
+        name="danny",
         description="the danny special",
     )
     @checks.is_owner()
@@ -91,7 +91,7 @@ class Muur(commands.Cog, name="muur"):
 
     @muur.command(
         base="muur",
-        name="5",
+        name="bozo",
         description="L bozo",
     )
     @checks.is_owner()
