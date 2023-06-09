@@ -2,6 +2,7 @@
 import random
 from discord.ext import commands
 from discord.ext.commands import Context
+from discord import app_commands
 import discord
 from helpers import checks
 
@@ -15,20 +16,27 @@ class Names(commands.Cog, name="namen"):
         name="gible",
         description="gibby aka. smikkel aka capybara_Lover123",
     )
+    @app_commands.choices(choices=[
+        app_commands.Choice(name="random", value=-1),
+        app_commands.Choice(name="rip_base", value=0),
+        app_commands.Choice(name="tnt", value=1),
+        app_commands.Choice(name="kkrbek", value=2),
+        app_commands.Choice(name="dans", value=3),
+    ])
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
-    async def gible(self, context: Context):
-        messages = ["daar gaat je base gible", "wapz tnt over gible z'n base", "KAAANKEERRRBEK GIBLE", "gif"]
-        rand = random.choice(messages)
+    async def gible(self, context: Context, choices: app_commands.Choice[int]):
+        messages = ["daar gaat je base gible", "wapz tnt over gible z'n base", "KAAANKEERRRBEK GIBLE", "dans"]
+        m = random.choice(messages) if choices.value == -1 else messages[choices.value]
 
-        if rand == "gif":
+        if m == "dans":
             embed = discord.Embed(
                 color=0xF4900D
             )
             embed.set_image(url="https://cdn.discordapp.com/attachments/1114464141508345906/1115720385070121000/ezgif.com-video-to-gif.gif")
         else:
             embed = discord.Embed(
-                title=rand,
+                title=m,
                 color=0xF4900D,
             )
         await context.send(embed=embed)
@@ -38,13 +46,19 @@ class Names(commands.Cog, name="namen"):
         name="nootje",
         description="nootje aka lil_kid_lover69 aka tough_guy_04",
     )
+    @app_commands.choices(choices=[
+        app_commands.Choice(name="random", value=-1),
+        app_commands.Choice(name="intelligent", value=0),
+        app_commands.Choice(name="reels", value=1),
+    ])
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
-    async def nootje(self, context: Context):
+    async def nootje(self, context: Context, choices: app_commands.Choice[int]):
         messages = ["meest intelligente nootje opmerking:", "stop met je fk reels"]
-        
+        m = random.choice(messages) if choices.value == -1 else messages[choices.value]
+
         embed = discord.Embed(
-            title=random.choice(messages),
+            title=m,
             color=0xF4900D,
         )
         await context.send(embed=embed)
@@ -54,13 +68,20 @@ class Names(commands.Cog, name="namen"):
         name="pingy",
         description="pingy aka pingy1 aka pongy aka Lol",
     )
+    @app_commands.choices(choices=[
+        app_commands.Choice(name="random", value=-1),
+        app_commands.Choice(name="Lol", value=0),
+        app_commands.Choice(name="njom", value=1),
+        app_commands.Choice(name="dolfein", value=2),
+    ])
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
-    async def pingy(self, context: Context):
+    async def pingy(self, context: Context, choices: app_commands.Choice[int]):
         messages = ["Lol", "Njom", "dolfein"]
-        
+        m = random.choice(messages) if choices.value == -1 else messages[choices.value]
+
         embed = discord.Embed(
-            title=random.choice(messages),
+            title=m,
             color=0xF4900D,
         )
         await context.send(embed=embed)
@@ -70,13 +91,19 @@ class Names(commands.Cog, name="namen"):
         name="ba",
         description="ba duy aka ba aka duy aka badwie",
     )
+    @app_commands.choices(choices=[
+        app_commands.Choice(name="random", value=-1),
+        app_commands.Choice(name="ba", value=0),
+        app_commands.Choice(name="schattig", value=1),
+    ])
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
-    async def ba(self, context: Context):
+    async def ba(self, context: Context, choices: app_commands.Choice[int]):
         messages = ["ba", "zo schattig :smiling_face_with_3_hearts:"]
-        
+        m = random.choice(messages) if choices.value == -1 else messages[choices.value]
+
         embed = discord.Embed(
-            title=random.choice(messages),
+            title=m,
             color=0xF4900D,
         )
         await context.send(embed=embed)
@@ -86,13 +113,18 @@ class Names(commands.Cog, name="namen"):
         name="meng",
         description="meng aka mongwong aka da GOAT"
     )
+    @app_commands.choices(choices=[
+        app_commands.Choice(name="random", value=-1),
+        app_commands.Choice(name="shatap", value=0),
+    ])
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
-    async def meng(self, context: Context):
+    async def meng(self, context: Context, choices: app_commands.Choice[int]):
         messages = ["meng shut the fuck up"]
-        
+        m = random.choice(messages) if choices.value == -1 else messages[choices.value]
+       
         embed = discord.Embed(
-            title=random.choice(messages),
+            title=m,
             color=0xF4900D,
         )
         await context.send(embed=embed)
@@ -102,13 +134,18 @@ class Names(commands.Cog, name="namen"):
         name="broodman",
         description="jasman aka yachini aka yashja"
     )
+    @app_commands.choices(choices=[
+        app_commands.Choice(name="random", value=-1),
+        app_commands.Choice(name="mening", value=0),
+    ])
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
-    async def broodman(self, context: Context):
+    async def broodman(self, context: Context, choices: app_commands.Choice[int]):
         messages = [f"retarded ass mening nr. {random.randint(194892084, 294892084)}"]
-        
+        m = random.choice(messages) if choices.value == -1 else messages[choices.value]
+       
         embed = discord.Embed(
-            title=random.choice(messages),
+            title=m,
             color=0xF4900D,
         )
         await context.send(embed=embed)
