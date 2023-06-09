@@ -9,10 +9,9 @@ class Muur(commands.Cog, name="muur"):
     def __init__(self, bot):
         self.bot = bot
 
-    def getEmbed(self, title, description, footer):
+    def getEmbed(self, title, footer):
         embed = discord.Embed(
             title=title,
-            description=description,
             color=0xF4900D
         )
         embed.set_footer(text=footer)
@@ -41,7 +40,6 @@ class Muur(commands.Cog, name="muur"):
     @checks.not_blacklisted()
     async def muur_1(self, context: Context) -> None:
         await context.send(embed=self.getEmbed(
-            "Keleos golden rule", 
             "You only need 3 things in life, happiness and good weather", 
             "-Keleo (golden rule)"
         ))
@@ -55,7 +53,6 @@ class Muur(commands.Cog, name="muur"):
     @checks.not_blacklisted()
     async def muur_2(self, context: Context) -> None:
         await context.send(embed=self.getEmbed(
-            "Free gible", 
             "Jij laat je toch ook altijd doen hé", 
             "-jeroentje pompoentje"
         ))
@@ -69,7 +66,6 @@ class Muur(commands.Cog, name="muur"):
     @checks.not_blacklisted()
     async def muur_3(self, context: Context) -> None:
         await context.send(embed=self.getEmbed(
-            "#stop cyberpesten", 
             "ik ken mijn limieten", 
             "-Yours truly"
         ))
@@ -83,7 +79,6 @@ class Muur(commands.Cog, name="muur"):
     @checks.not_blacklisted()
     async def muur_4(self, context: Context) -> None:
         await context.send(embed=self.getEmbed(
-            "the danny special", 
             "ik vertrouw je voor geen haar!!", 
             "-danny vande fucking veire"
         ))
@@ -97,7 +92,6 @@ class Muur(commands.Cog, name="muur"):
     @checks.not_blacklisted()
     async def muur_5(self, context: Context) -> None:
         await context.send(embed=self.getEmbed(
-            "Quote 5", 
             "L bozo", 
             "-bozarius III"
         ))
