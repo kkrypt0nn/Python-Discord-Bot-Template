@@ -151,6 +151,32 @@ class Names(commands.Cog, name="namen"):
         await context.send(embed=embed)
 
 
+    @commands.hybrid_command(
+        name="keleo",
+        description="the one and only",
+    )
+    @app_commands.choices(choices=[
+        app_commands.Choice(name="random", value=-1),
+        app_commands.Choice(name="rooftop_madness", value=0),
+    ])
+    @checks.not_blacklisted()
+    async def keleo(self, context: Context, choices: app_commands.Choice[int]):
+        messages = ["rooftop"]
+        m = random.choice(messages) if choices.value == -1 else messages[choices.value]
+
+        if m == "rooftop":
+            embed = discord.Embed(
+                color=0xF4900D
+            )
+            embed.set_image(url="https://cdn.discordapp.com/attachments/727476894106386504/1117027462015107164/keleo_gif.gif")
+        else:
+            embed = discord.Embed(
+                title=m,
+                color=0xF4900D,
+            )
+        await context.send(embed=embed)
+
+
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot):
     await bot.add_cog(Names(bot))
