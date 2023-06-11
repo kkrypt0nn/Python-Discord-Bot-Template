@@ -221,7 +221,7 @@ class OutOfContext(commands.Cog, name="context"):
                 try:
                     if 'video' in attch.content_type:
                         embed.description += "\n***Contains video!***"
-                        break
+
                 # attachement type is onbekend
                 except TypeError:
                     embed.description += "\n***Contains unknown attachment!***"
