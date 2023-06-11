@@ -2,6 +2,10 @@
 
 ELKE TITEL IS EEN COG DIE TELKENS HUN COMMANDS BESSCHRIJFT
 
+## Muur
+
+* /muur [naam]   toont een bepaalde quote
+
 ## Counter
 
 * /ncount @user				toon het aantal nwords van een gegeven user
@@ -14,15 +18,18 @@ ELKE TITEL IS EEN COG DIE TELKENS HUN COMMANDS BESSCHRIJFT
 * /ping	check de latency van de bot
 * /say		laat de bot eender wat zeggen
 * /embed	laat de bot eender wat zeggen, maar in een embed
+* /countdown  countdown tot een gegeven moment
 
 ## Namen
+Telkens met een parameter dat random kan zijn, of een specifiek bericht. 
 
-* /gible		Stuurt een random bericht over gible
-* /nootje		Stuurt een random bericht over nootje
-* /pingy		Stuurt een random bericht over pingy
-* /ba			Stuurt een random bericht over ba
-* /meng		Stuurt een random bericht over meng
-* /broodman	Stuurt een random bericht over broodman
+* /gible		Stuurt een bericht over gible
+* /nootje		Stuurt een bericht over nootje
+* /pingy		Stuurt een bericht over pingy
+* /ba			Stuurt een bericht over ba
+* /meng		Stuurt een bericht over meng
+* /broodman	Stuurt een bericht over broodman
+* /keleo Stuur een bericht over keleo
 
 ## Out of Context
 
