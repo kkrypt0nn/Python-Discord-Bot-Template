@@ -218,8 +218,7 @@ class OutOfContext(commands.Cog, name="context"):
 
         # check als er video in message zit
         for attch in m.attachments:
-            attch_type, attch_format = attch.content_type.split('/') # Attachment.content_type returns a {type}/{file_format} string
-            if attch_type == 'video':
+            if 'video' in attch.content_type:
                 embed.description += "\n***Contains video!***"
                 break
 
