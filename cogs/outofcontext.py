@@ -218,9 +218,13 @@ class OutOfContext(commands.Cog, name="context"):
 
             # check als er video in message zit
             for attch in m.attachments:
-                if 'video' in attch.content_type:
-                    embed.description += "\n***Contains video!***"
-                    break
+                try:
+                    if 'video' in attch.content_type:
+                        embed.description += "\n***Contains video!***"
+                        break
+                # attachement type is onbekend
+                except TypeError:
+                    embed.description += "\n***Contains unknown attachment!***"
 
         t = added_at.strftime("%d/%m/%Y - %H:%M:%S")
         embed.add_field(
