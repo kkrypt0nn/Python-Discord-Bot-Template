@@ -116,11 +116,12 @@ class Names(commands.Cog, name="namen"):
     @app_commands.choices(choices=[
         app_commands.Choice(name="random", value=-1),
         app_commands.Choice(name="shatap", value=0),
+        app_commands.Choice(name="pun", value=1),
     ])
     # This will only allow non-blacklisted members to execute the command
     @checks.not_blacklisted()
     async def meng(self, context: Context, choices: app_commands.Choice[int]):
-        messages = ["meng shut the fuck up"]
+        messages = ["meng shut the fuck up", "nog 1 pun en ik SNAP"]
         m = random.choice(messages) if choices.value == -1 else messages[choices.value]
        
         embed = discord.Embed(
