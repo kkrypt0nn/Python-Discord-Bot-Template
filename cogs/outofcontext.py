@@ -216,11 +216,11 @@ class OutOfContext(commands.Cog, name="context"):
             # als er meerdere attachments zijn, tonen we enkel de eerste
             embed.set_image(url=m.attachments[0].url)
 
-        # check als er video in message zit
-        for attch in m.attachments:
-            if 'video' in attch.content_type:
-                embed.description += "\n***Contains video!***"
-                break
+            # check als er video in message zit
+            for attch in m.attachments:
+                if 'video' in attch.content_type:
+                    embed.description += "\n***Contains video!***"
+                    break
 
         t = added_at.strftime("%d/%m/%Y - %H:%M:%S")
         embed.add_field(
