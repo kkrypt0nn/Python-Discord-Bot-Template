@@ -226,13 +226,33 @@ class OutOfContext(commands.Cog, name="context"):
                 except TypeError:
                     embed.description += "\n***Contains unknown attachment!***"
 
-        t = added_at.strftime("%d/%m/%Y - %H:%M:%S")
+        
         embed.add_field(
-            name="Extra info",
-            value=f"Times played: {times_played}\nAdded by: <@{int(added_by)}>\nAdded at: {t}"
+            name="Times played",
+            value=f"```{times_played}```",
+            inline=True
+        )
+        embed.add_field(
+            name="Added by",
+            value=f"```<@{int(added_by)}>```",
+            inline=True
+        )
+        embed.add_field(
+            name="Added at",
+            value=f"```{added_at.strftime('%d/%m/%Y - %H:%M:%S')}```",
+            inline=True
         )
         embed.set_footer(
             text=f"message id: {id}"
+        )
+
+        user = await guild.bot.fetch_user(int(added_by))
+        embed.set_thumbnail(
+            url=str(user.avatar_url)
+        )
+        embed.set_author(
+            name=user.name, 
+            icon_url=str(user.avatar_url)
         )
 
 
