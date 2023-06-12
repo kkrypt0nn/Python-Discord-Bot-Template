@@ -205,7 +205,7 @@ class OutOfContext(commands.Cog, name="context"):
     async def getEmbed(self, id, guild, added_at, added_by, times_played):
         # haal bericht op van discord
         m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
-        desc = f"[Go to message]({m.jump_url})" if len(m.content) == 0 else f"**{m.content}**\n[Go to message]({m.jump_url})"
+        desc = f"[Go to message]({m.jump_url})" if len(m.content) == 0 else f"```{m.content}```\n[Go to message]({m.jump_url})"
         embed = discord.Embed(
             title="**Out of Context**", 
             color=0xF4900D,
@@ -226,40 +226,49 @@ class OutOfContext(commands.Cog, name="context"):
                 except TypeError:
                     embed.description += "\n***Contains unknown attachment!***"
 
-        
-        embed.add_field(
-            name="Times played",
-            value=f"```{times_played}```",
-            inline=True
-        )
-        embed.add_field(
-            name="Added by",
-            value=f"<@{int(added_by)}>",
-            inline=True
-        )
-        embed.add_field(
-            name="Added at",
-            value=f"```{added_at.strftime('%d/%m/%Y - %H:%M:%S')}```",
-            inline=True
-        )
-        embed.set_footer(
-            text=f"message id: {id}"
-        )
         try:
             user = await guild.fetch_member(int(added_by))
             embed.set_thumbnail(
-                url=str(user.avatar_url)
+                url=str(user.avatar.url)
             )
+
             embed.set_author(
                 name=user.name, 
-                icon_url=str(user.avatar_url)
+                icon_url=str(user.avatar.url)
             )
+
+            embed.add_field(
+                name="Times played",
+                value=f"```{times_played}```",
+                inline=True
+            )
+
+            embed.add_field(
+                name="Added by",
+                # value=f"<@{int(added_by)}>",
+                value =user.name,
+                inline=True
+            )
+
+            embed.add_field(
+                name="Added at",
+                value=f"```{added_at.strftime('%d/%m/%Y - %H:%M:%S')}```",
+                inline=True
+            )
+
+            embed.set_footer(
+                text=f"message id: {id}"
+            )
+
         except Exception as e:
             embed.add_field(
-                name="User not found",
+                name="User error",
                 value=e,
                 inline=False
             )
+        
+        
+        
 
 
         # voeg id toe aan messages indien nodig
