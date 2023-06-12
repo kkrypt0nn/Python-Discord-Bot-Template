@@ -246,7 +246,7 @@ class OutOfContext(commands.Cog, name="context"):
             embed.add_field(
                 name="Added by",
                 # value=f"<@{int(added_by)}>",
-                value =user.name,
+                value = f"```{user.name}```",
                 inline=True
             )
 
