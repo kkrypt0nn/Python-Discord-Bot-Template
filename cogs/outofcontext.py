@@ -234,7 +234,7 @@ class OutOfContext(commands.Cog, name="context"):
         )
         embed.add_field(
             name="Added by",
-            value=f"```<@{int(added_by)}>```",
+            value=f"<@{int(added_by)}>",
             inline=True
         )
         embed.add_field(
@@ -254,10 +254,10 @@ class OutOfContext(commands.Cog, name="context"):
                 name=user.name, 
                 icon_url=str(user.avatar_url)
             )
-        except:
+        except Exception as e:
             embed.add_field(
                 name="User not found",
-                value=added_by,
+                value=e,
                 inline=False
             )
 
