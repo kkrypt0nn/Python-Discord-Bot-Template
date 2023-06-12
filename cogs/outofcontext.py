@@ -205,7 +205,7 @@ class OutOfContext(commands.Cog, name="context"):
     async def getEmbed(self, id, guild, added_at, added_by, times_played):
         # haal bericht op van discord
         m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
-        desc = f"[Go to message]({m.jump_url})" if len(m.content) == 0 else f"```{m.content}```\n[Go to message]({m.jump_url})"
+        desc = f"[Go to message]({m.jump_url})" if len(m.content) == 0 else f"**{m.content}**\n[Go to message]({m.jump_url})"
         embed = discord.Embed(
             title="**Out of Context**", 
             color=0xF4900D,
@@ -220,11 +220,11 @@ class OutOfContext(commands.Cog, name="context"):
             for attch in m.attachments:
                 try:
                     if 'video' in attch.content_type:
-                        embed.description += "\n***Contains video!***"
+                        embed.description += "\n**Contains video!**"
 
                 # attachement type is onbekend
                 except TypeError:
-                    embed.description += "\n***Contains unknown attachment!***"
+                    embed.description += "\n**Contains unknown attachment!**"
 
         try:
             user = await guild.fetch_member(int(added_by))
