@@ -245,15 +245,21 @@ class OutOfContext(commands.Cog, name="context"):
         embed.set_footer(
             text=f"message id: {id}"
         )
-
-        user = await guild.bot.fetch_user(int(added_by))
-        embed.set_thumbnail(
-            url=str(user.avatar_url)
-        )
-        embed.set_author(
-            name=user.name, 
-            icon_url=str(user.avatar_url)
-        )
+        try:
+            user = await guild.fetch_member(int(added_by))
+            embed.set_thumbnail(
+                url=str(user.avatar_url)
+            )
+            embed.set_author(
+                name=user.name, 
+                icon_url=str(user.avatar_url)
+            )
+        except:
+            embed.add_field(
+                name="User not found",
+                value=added_by,
+                inline=False
+            )
 
 
         # voeg id toe aan messages indien nodig
