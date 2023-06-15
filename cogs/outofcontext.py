@@ -281,12 +281,13 @@ class OutOfContext(commands.Cog, name="context"):
 
 # behandelt alle knoppen
 class Menu(discord.ui.View):
-    def __init__(self, OOC):
+    def __init__(self, author, OOC):
         super().__init__(timeout=None)
         self.OOC = OOC
         self.messages = []
         self.currentIndex = 0
         self.messagesPlayed = 0
+        self.author = author
 
     async def reset(self):
         for b in self.children:
@@ -368,6 +369,10 @@ class Menu(discord.ui.View):
         await self.reset()
 
         self.OOC.currently_playing = False
+
+
+    async def interaction_check(self, interaction: discord.Interaction):
+        return interaction.user.id == self.author.id or interaction.user.id in list(os.environ.get("owners").split(","))
 
         
 
