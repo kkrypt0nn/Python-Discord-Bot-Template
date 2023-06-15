@@ -375,7 +375,12 @@ class Menu(discord.ui.View):
 
     async def interaction_check(self, interaction: discord.Interaction):
         try:
-            return interaction.user.id == self.author.id or str(interaction.user.id) in list(os.environ.get("owners").split(","))
+            is_possible = interaction.user.id == self.author.id or str(interaction.user.id) in list(os.environ.get("owners").split(","))
+            # stuur dm naar user als niet author is
+            if not is_possible:
+                await interaction.user.send('nt')
+            return is_possible
+        
         except:
             return False
         
