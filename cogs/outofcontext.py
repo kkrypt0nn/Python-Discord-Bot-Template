@@ -367,7 +367,7 @@ class Menu(discord.ui.View):
         self.currentIndex = 0
         self.messagesPlayed = 0
         self.author = None
-        
+
         await self.reset()
 
         self.OOC.currently_playing = False
@@ -375,7 +375,7 @@ class Menu(discord.ui.View):
 
     async def interaction_check(self, interaction: discord.Interaction):
         try:
-            return interaction.user.id == self.author.id or interaction.user.id in list(os.environ.get("owners").split(","))
+            return interaction.user.id == self.author.id or str(interaction.user.id) in list(os.environ.get("owners").split(","))
         except:
             return False
         
