@@ -294,10 +294,6 @@ class Menu(discord.ui.View):
         for b in self.children:
             b.disabled = False
 
-        self.messages.clear()
-        self.currentIndex = 0
-        self.messagesPlayed = 0
-        self.author = None
 
 
 
@@ -367,6 +363,11 @@ class Menu(discord.ui.View):
         await interaction.response.edit_message(embed=embed, view=None)
 
         # reset alle gegevens
+        self.messages.clear()
+        self.currentIndex = 0
+        self.messagesPlayed = 0
+        self.author = None
+        
         await self.reset()
 
         self.OOC.currently_playing = False
