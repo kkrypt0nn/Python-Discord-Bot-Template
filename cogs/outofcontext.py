@@ -144,6 +144,7 @@ class OutOfContext(commands.Cog, name="context"):
         
         embed, sendView = await self.getRandomMessage(context.guild)
         await self.menu.reset()
+        self.menu.author = context.author
         await context.send(embed=embed, view= self.menu if sendView else None, ephemeral=not groep)
         self.currently_playing = True
 
@@ -281,20 +282,24 @@ class OutOfContext(commands.Cog, name="context"):
 
 # behandelt alle knoppen
 class Menu(discord.ui.View):
-    def __init__(self, author, OOC):
+    def __init__(self, OOC):
         super().__init__(timeout=None)
         self.OOC = OOC
         self.messages = []
         self.currentIndex = 0
         self.messagesPlayed = 0
-        self.author = author
+        self.author = None
 
     async def reset(self):
         for b in self.children:
             b.disabled = False
 
+        self.messages.clear()
+        self.currentIndex = 0
+        self.messagesPlayed = 0
+        self.author = None
 
-    
+
 
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.green, disabled=True)
     async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -362,18 +367,16 @@ class Menu(discord.ui.View):
         await interaction.response.edit_message(embed=embed, view=None)
 
         # reset alle gegevens
-        self.messages.clear()
-        self.currentIndex = 0
-        self.messagesPlayed = 0
-
         await self.reset()
 
         self.OOC.currently_playing = False
 
 
     async def interaction_check(self, interaction: discord.Interaction):
-        return interaction.user.id == self.author.id or interaction.user.id in list(os.environ.get("owners").split(","))
-
+        try:
+            return interaction.user.id == self.author.id or interaction.user.id in list(os.environ.get("owners").split(","))
+        except:
+            return False
         
 
 
