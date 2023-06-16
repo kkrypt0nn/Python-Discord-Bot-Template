@@ -158,7 +158,7 @@ class Stats(commands.Cog, name="stats"):
     async def leaderboard(self, context: Context, command: discord.app_commands.Choice[str]):
         
         # krijg count bericht uit db
-        leaderb = await db_manager.get_leaderboard(command)
+        leaderb = await db_manager.get_leaderboard(command.value)
         print(leaderb)
 
         # Geen berichten
