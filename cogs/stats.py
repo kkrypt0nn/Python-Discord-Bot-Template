@@ -31,7 +31,7 @@ class Stats(commands.Cog, name="stats"):
     )
     @app_commands.describe(user="Welke persoon")
     @app_commands.choices(command=[
-        discord.app_commands.Choice(name="nCount", value="nCount"),
+        discord.app_commands.Choice(name="ncount", value="ncount"),
         discord.app_commands.Choice(name="play", value="play"),
         discord.app_commands.Choice(name="messages_played", value="messages_played"),
         discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
@@ -43,7 +43,7 @@ class Stats(commands.Cog, name="stats"):
         if len(count) == 0 or int(count[0][0]) == 0:
             embed = discord.Embed(
                 description=f"**<@{user.id}> didn't use {command.value} yet.**",
-                color=0x39AC39
+                color=0xF4900D
             )
             await context.send(embed=embed)
             return
@@ -57,9 +57,16 @@ class Stats(commands.Cog, name="stats"):
             )
             await context.send(embed=embed)
             return
+        
+        if command.value == "messages_played":
+            desc = f"**<@{user.id}> played```{count[0][0]}``` messages.**"
+        elif command.value == "messages_deleted":
+            desc = f"**<@{user.id}> deleted```{count[0][0]}``` messages.**"
+        else:
+            desc = f"**<@{user.id}> used {command.value} ```{count[0][0]}``` times.**"
 
         embed = discord.Embed(
-            description=f"**<@{user.id}> used {command.value} ```{count[0][0]}``` times.**",
+            description=desc,
             color=0xF4900D
         )
 
@@ -69,7 +76,7 @@ class Stats(commands.Cog, name="stats"):
     @commands.hybrid_command(name="changecommandcount", description="Change the command count of a user (admin only)")
     @app_commands.describe(user="Which users count")
     @app_commands.choices(command=[
-        discord.app_commands.Choice(name="nCount", value="nCount"),
+        discord.app_commands.Choice(name="ncount", value="ncount"),
         discord.app_commands.Choice(name="play", value="play"),
         discord.app_commands.Choice(name="messages_played", value="messages_played"),
         discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),

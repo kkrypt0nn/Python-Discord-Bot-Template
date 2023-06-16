@@ -358,13 +358,6 @@ class Menu(discord.ui.View):
     @discord.ui.button(label="Quit", style=discord.ButtonStyle.blurple)
     async def quit(self, interaction: discord.Interaction, button: discord.ui.Button):
         
-        # stuur confirmatie bericht
-        embed = discord.Embed(
-            title="Bye. :wave:",
-            description=f"You played {self.messagesPlayed +1} {'message' if self.messagesPlayed == 0 else 'messages'}.",
-            color=0xF4900D
-        )
-        await interaction.response.edit_message(embed=embed, view=None)
 
         # stats
         await db_manager.increment_or_add_command_count(self.author.id, "messages_played", self.messagesPlayed)
@@ -376,6 +369,14 @@ class Menu(discord.ui.View):
         self.messagesPlayed = 0
         self.messagesDeleted = 0
         self.author = None
+        
+        # stuur confirmatie bericht
+        embed = discord.Embed(
+            title="Bye. :wave:",
+            description=f"You played {self.messagesPlayed +1} {'message' if self.messagesPlayed == 0 else 'messages'}.",
+            color=0xF4900D
+        )
+        await interaction.response.edit_message(embed=embed, view=None)
 
         await self.reset()
 

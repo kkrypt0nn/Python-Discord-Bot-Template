@@ -341,7 +341,7 @@ async def increment_or_add_command_count(user_id: int, command_name: str, amount
                 else:
                     cursor.execute(
                         "INSERT INTO command_stats(command, user_id, count) VALUES (%s, %s, %s)",
-                        (command_name, str(user_id), 1,)
+                        (command_name, str(user_id), amount,)
                     )
 
                 cursor.commit()
