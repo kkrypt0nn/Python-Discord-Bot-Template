@@ -159,9 +159,10 @@ class Stats(commands.Cog, name="stats"):
         
         # krijg count bericht uit db
         leaderb = await db_manager.get_leaderboard(command)
+        print(leaderb)
 
         # Geen berichten
-        if len(leaderb) == 0 or int(leaderb[0][0]) == 0:
+        if len(leaderb) == 0:
             embed = discord.Embed(
                 description=f"**This command has not been used yet.**",
                 color=0x39AC39
