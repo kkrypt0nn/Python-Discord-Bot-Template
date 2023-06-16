@@ -182,7 +182,7 @@ class Stats(commands.Cog, name="stats"):
         desc = ""
         for i, stat in enumerate(leaderb):
             user_id, count = tuple(stat)
-            desc += f"{i+1}: **<@{int(user_id)}>  ⇒ {count}**"
+            desc += f"{i+1}: **<@{int(user_id)}>  ⇒ {count}**\n"
 
         embed = discord.Embed(
             title=f"Leaderboard for {command.value}",
