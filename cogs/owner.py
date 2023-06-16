@@ -266,7 +266,7 @@ class Owner(commands.Cog, name="owner"):
             user = self.bot.get_user(int(bluser[0])) or await self.bot.fetch_user(
                 int(bluser[0])
             )
-            users.append(f"• {user.mention} ({user}) - Blacklisted <t:{bluser[1].strftime('%d/%m/%Y - %H:%M:%S')}>")
+            users.append(f"• {user.mention} ({user}) - Blacklisted at {bluser[1].strftime('%d/%m/%Y - %H:%M:%S')}")
         embed.description = "\n".join(users)
         await context.send(embed=embed)
 

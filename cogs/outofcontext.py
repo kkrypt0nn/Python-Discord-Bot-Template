@@ -252,7 +252,7 @@ class OutOfContext(commands.Cog, name="context"):
 
             embed.add_field(
                 name="Added at",
-                value=f"```{m.strftime('%d/%m/%Y - %H:%M:%S')}```",
+                value=f"```{m.created_at.strftime('%d/%m/%Y - %H:%M:%S')}```",
                 inline=True
             )
 
