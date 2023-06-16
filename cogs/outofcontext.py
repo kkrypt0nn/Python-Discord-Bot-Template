@@ -173,7 +173,7 @@ class OutOfContext(commands.Cog, name="context"):
             return (embed, False)
 
         # alles is ok
-        embed = await self.getEmbed(int(messages[0][0]), guild, messages[0][1], int(messages[0][2]), int(messages[0][3]))
+        embed = await self.getEmbed(int(messages[0][0]), guild, int(messages[0][2]), int(messages[0][3]))
         return (embed, True)
     
 
@@ -199,11 +199,11 @@ class OutOfContext(commands.Cog, name="context"):
             return (embed, False)
 
         # alles is ok
-        embed = await self.getEmbed(int(messages[0][0]), guild, messages[0][1], int(messages[0][2]), int(messages[0][3]))
+        embed = await self.getEmbed(int(messages[0][0]), guild, int(messages[0][2]), int(messages[0][3]))
         return (embed, True)
         
 
-    async def getEmbed(self, id, guild, added_at, added_by, times_played):
+    async def getEmbed(self, id, guild, added_by, times_played):
         # haal bericht op van discord
         m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
         desc = f"[Go to message]({m.jump_url})" if len(m.content) == 0 else f"**{m.content}**\n[Go to message]({m.jump_url})"
@@ -220,8 +220,7 @@ class OutOfContext(commands.Cog, name="context"):
             # check als er video in message zit
             for attch in m.attachments:
                 try:
-                    if 'video' in attch.content_type:
-                        embed.description += "\n**Contains video!**"
+                    embed.description += f"\n**Contains {attch.content_type}!**"
 
                 # attachement type is onbekend
                 except TypeError:
@@ -253,7 +252,7 @@ class OutOfContext(commands.Cog, name="context"):
 
             embed.add_field(
                 name="Added at",
-                value=f"```{added_at.strftime('%d/%m/%Y - %H:%M:%S')}```",
+                value=f"```{m.strftime('%d/%m/%Y - %H:%M:%S')}```",
                 inline=True
             )
 
