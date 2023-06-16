@@ -4,7 +4,7 @@ from discord.ext import commands
 from discord.ext.commands import Context
 from discord import app_commands
 import discord
-from helpers import checks
+from helpers import checks, db_manager
 
 
 # Here we name the cog and create a new class for the cog.
@@ -40,6 +40,8 @@ class Names(commands.Cog, name="namen"):
                 color=0xF4900D,
             )
         await context.send(embed=embed)
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "gible", 1)
 
 
     @commands.hybrid_command(
@@ -62,6 +64,8 @@ class Names(commands.Cog, name="namen"):
             color=0xF4900D,
         )
         await context.send(embed=embed)
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "nootje", 1)
 
 
     @commands.hybrid_command(
@@ -85,6 +89,8 @@ class Names(commands.Cog, name="namen"):
             color=0xF4900D,
         )
         await context.send(embed=embed)
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "pingy", 1)
 
 
     @commands.hybrid_command(
@@ -107,6 +113,8 @@ class Names(commands.Cog, name="namen"):
             color=0xF4900D,
         )
         await context.send(embed=embed)
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "ba", 1)
 
 
     @commands.hybrid_command(
@@ -129,6 +137,8 @@ class Names(commands.Cog, name="namen"):
             color=0xF4900D,
         )
         await context.send(embed=embed)
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "meng", 1)
 
 
     @commands.hybrid_command(
@@ -150,6 +160,8 @@ class Names(commands.Cog, name="namen"):
             color=0xF4900D,
         )
         await context.send(embed=embed)
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "broodman", 1)
 
 
     @commands.hybrid_command(
@@ -176,6 +188,8 @@ class Names(commands.Cog, name="namen"):
                 color=0xF4900D,
             )
         await context.send(embed=embed)
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "keleo", 1)
 
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.

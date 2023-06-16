@@ -2,7 +2,7 @@
 from discord.ext import commands
 from discord.ext.commands import Context
 import discord
-from helpers import checks
+from helpers import checks, db_manager
 
 
 class Muur(commands.Cog, name="muur"):
@@ -43,6 +43,9 @@ class Muur(commands.Cog, name="muur"):
             "You only need 3 things in life, happiness and good weather", 
             "-Keleo (golden rule)"
         ))
+        
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "muur", 1)
 
 
     @muur.command(
@@ -56,6 +59,8 @@ class Muur(commands.Cog, name="muur"):
             "Jij laat je toch ook altijd doen hé", 
             "-jeroentje pompoentje"
         ))
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "muur", 1)
 
 
     @muur.command(
@@ -69,6 +74,8 @@ class Muur(commands.Cog, name="muur"):
             "ik ken mijn limieten", 
             "-Yours truly"
         ))
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "muur", 1)
 
 
     @muur.command(
@@ -82,6 +89,8 @@ class Muur(commands.Cog, name="muur"):
             "ik vertrouw je voor geen haar!!", 
             "-danny vande fucking veire"
         ))
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "muur", 1)
 
 
     @muur.command(
@@ -95,6 +104,8 @@ class Muur(commands.Cog, name="muur"):
             "L bozo", 
             "-bozarius III"
         ))
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "muur", 1)
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot):

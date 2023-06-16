@@ -44,7 +44,7 @@ class Counter(commands.Cog, name="counter"):
         )
 
         # stats
-        await db_manager.increment_or_add_command_count(context.author.id, "ncount", 1)
+        await db_manager.increment_or_add_command_count(context.author.id, "nCount", 1)
 
         await context.send(embed=embed)
     

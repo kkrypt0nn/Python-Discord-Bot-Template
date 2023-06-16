@@ -4,7 +4,7 @@ import os
 from discord import app_commands
 from discord.ext.commands import Context
 import discord
-from helpers import checks
+from helpers import checks, db_manager
 
 
 # Here we name the cog and create a new class for the cog.
@@ -17,24 +17,32 @@ class Reacties(commands.Cog, name="reacties"):
     async def giblereact(self, context: Context):
         file, embed = await self.get_embed("giblereact.jpg", context.message.author.id, "Sexy giby")
         await context.send(file=file, embed=embed)
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "giblereact", 1)
 
     @commands.hybrid_command(name="wholesquadlaughing", description="damn bro you got the whole squad laughing")
     @checks.not_blacklisted()
     async def wholesquadlaughing(self, context: Context):
         file, embed = await self.get_embed("wholesquadlaughing.jpg", context.message.author.id, "Squad is laughing")
         await context.send(file=file, embed=embed)
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "wholesquadlaughing", 1)
 
     @commands.hybrid_command(name="notfunny", description="bro that wasn't even funny")
     @checks.not_blacklisted()
     async def notfunny(self, context: Context):
         file, embed = await self.get_embed("notfunny.jpg", context.message.author.id, "Not funny")
         await context.send(file=file, embed=embed)
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "notfunny", 1)
     
     @commands.hybrid_command(name="uthought", description="sike u thought")
     @checks.not_blacklisted()
     async def uthought(self, context: Context):
         file, embed = await self.get_embed("uthought.jpg", context.message.author.id, "U thought")
         await context.send(file=file, embed=embed)
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "uthought", 1)
     
 
     async def get_embed(self, name, userid, title):

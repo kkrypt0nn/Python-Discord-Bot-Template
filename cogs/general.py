@@ -17,7 +17,7 @@ from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
 
-from helpers import checks
+from helpers import checks, db_manager
 
 
 class General(commands.Cog, name="general"):
@@ -53,6 +53,9 @@ class General(commands.Cog, name="general"):
                 embed.add_field(
                     name=i.capitalize(), value=f"```{help_text}```", inline=False
                 )
+
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "help", 1)
         
         await context.send(embed=embed)
 
@@ -94,6 +97,9 @@ class General(commands.Cog, name="general"):
             description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
             color=0x39AC39 if (self.bot.latency * 1000) < 150 else 0xF4900D
         )
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "ping", 1)
+
         await context.send(embed=embed)
 
 
@@ -110,6 +116,9 @@ class General(commands.Cog, name="general"):
         :param context: The hybrid command context.
         :param message: The message that should be repeated by the bot.
         """
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "say", 1)
+
         await context.send(message)
 
 
@@ -126,6 +135,9 @@ class General(commands.Cog, name="general"):
         :param context: The hybrid command context.
         :param message: The message that should be repeated by the bot.
         """
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "embed", 1)
+
         embed = discord.Embed(title=message, color=0xF4900D)
         await context.send(embed=embed)
 
@@ -155,6 +167,10 @@ class General(commands.Cog, name="general"):
             description=desc,
             color=kleur
         )
+
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "countdown", 1)
+        
         await context.send(embed=embed)
 
 
