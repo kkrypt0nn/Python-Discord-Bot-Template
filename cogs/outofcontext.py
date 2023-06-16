@@ -289,7 +289,7 @@ class Menu(discord.ui.View):
         self.OOC = OOC
         self.messages = []
         self.currentIndex = 0
-        self.messagesPlayed = 1
+        self.messagesPlayed = 0
         self.messagesDeleted = 0
         self.author = None
 
@@ -360,13 +360,13 @@ class Menu(discord.ui.View):
         
 
         # stats
-        await db_manager.increment_or_add_command_count(self.author.id, "messages_played", self.messagesPlayed)
+        await db_manager.increment_or_add_command_count(self.author.id, "messages_played", self.messagesPlayed+1)
         await db_manager.increment_or_add_command_count(self.author.id, "messages_deleted", self.messagesDeleted)
 
         # reset alle gegevens
         self.messages.clear()
         self.currentIndex = 0
-        self.messagesPlayed = 1
+        self.messagesPlayed = 0
         self.messagesDeleted = 0
         self.author = None
 
