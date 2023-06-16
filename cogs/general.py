@@ -32,7 +32,7 @@ class General(commands.Cog, name="general"):
         admin = list(os.environ.get("owners").split(","))
         embed = discord.Embed(
             title="**Help** :man_mechanic:", 
-            description=f"Ask <@{int(admin[0])}> for help.\n[Klik hier voor meer info om berichten toe te voegen/te verwijderen](https://github.com/SDeVuyst/WhereContextbot3)\nList of available commands:", 
+            description=f"Ask <@{int(admin[0])}> for help.\n[Klik hier voor meer info](https://github.com/SDeVuyst/WhereContextbot3)\nList of available commands:", 
             color=0xF4900D
         )
         for i in self.bot.cogs:
