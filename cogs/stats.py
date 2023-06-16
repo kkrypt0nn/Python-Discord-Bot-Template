@@ -42,7 +42,7 @@ class Stats(commands.Cog, name="stats"):
         # Geen berichten
         if len(count) == 0 or int(count[0][0]) == 0:
             embed = discord.Embed(
-                description=f"**<@{user.id}> didn't use {command.value} yet.",
+                description=f"**<@{user.id}> didn't use {command.value} yet.**",
                 color=0x39AC39
             )
             await context.send(embed=embed)
@@ -59,7 +59,7 @@ class Stats(commands.Cog, name="stats"):
             return
 
         embed = discord.Embed(
-            description=f"**<@{user.id}> used {command.value} ```{count[0][0]}``` times.",
+            description=f"**<@{user.id}> used {command.value} ```{count[0][0]}``` times.**",
             color=0xF4900D
         )
 

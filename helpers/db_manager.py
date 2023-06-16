@@ -327,7 +327,7 @@ async def is_in_command_count(user_id: int, command_name: str) -> bool:
 
 async def increment_or_add_command_count(user_id: int, command_name: str, amount: int):
 
-    alreadyExists = await is_in_command_count(user_id)
+    alreadyExists = await is_in_command_count(user_id, command_name)
 
     with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
         
