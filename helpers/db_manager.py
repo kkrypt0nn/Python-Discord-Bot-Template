@@ -389,3 +389,25 @@ async def get_command_count(user_id, command_name) -> list:
             
     except Exception as err:
         return [-1, err]
+    
+
+
+async def get_leaderboard(command: str) -> list:
+    """
+    This function will return a list of random ooc messages.
+
+    :param limit: The amount of randomy selected messages
+    """
+    try:
+        with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+            
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "SELECT user_id, count FROM command_stats WHERE command=%s ORDER BY count DESC LIMIT 10", 
+                    (command,)
+                )
+                return cursor.fetchall()
+            
+    except Exception as err:
+        return [-1, err]
+    
