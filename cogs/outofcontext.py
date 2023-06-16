@@ -145,6 +145,9 @@ class OutOfContext(commands.Cog, name="context"):
         embed, sendView = await self.getRandomMessage(context.guild)
         await self.menu.reset()
         self.menu.author = context.author
+
+        # voeg stats toe
+        await db_manager.increment_or_add_command_count(context.author.id, "play", 1)
         await context.send(embed=embed, view= self.menu if sendView else None, ephemeral=not groep)
         self.currently_playing = True
 
@@ -287,6 +290,7 @@ class Menu(discord.ui.View):
         self.messages = []
         self.currentIndex = 0
         self.messagesPlayed = 0
+        self.messagesDeleted = 0
         self.author = None
 
     async def reset(self):
@@ -339,6 +343,7 @@ class Menu(discord.ui.View):
         messageToDelete = self.messages[self.currentIndex]
         self.messages = [i for i in self.messages if i != messageToDelete]
         self.currentIndex = len(self.messages)-1 # if len(self.messages) > 0 else -1
+        self.messagesDeleted += 1
 
         # disable de verwijder knop
         for b in self.children:
@@ -361,10 +366,15 @@ class Menu(discord.ui.View):
         )
         await interaction.response.edit_message(embed=embed, view=None)
 
+        # stats
+        await db_manager.increment_or_add_command_count(self.author.id, "messages_played", self.messagesPlayed)
+        await db_manager.increment_or_add_command_count(self.author.id, "messages_deleted", self.messagesDeleted)
+
         # reset alle gegevens
         self.messages.clear()
         self.currentIndex = 0
         self.messagesPlayed = 0
+        self.messagesDeleted = 0
         self.author = None
 
         await self.reset()

@@ -17,3 +17,10 @@ CREATE TABLE IF NOT EXISTS nword_counter (
   user_id varchar(20) NOT NULL UNIQUE,
   count INTEGER DEFAULT 0
 );
+
+CREATE TABLE IF NOT EXISTS command_stats (
+  id SERIAL PRIMARY KEY,
+  command varchar(20) NOT NULL,
+  user_id varchar(20) NOT NULL,
+  count INTEGER DEFAULT 0
+);

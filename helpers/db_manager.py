@@ -300,3 +300,92 @@ async def set_nword_count(user_id, amount):
 
         except:
             return False
+        
+
+
+async def is_in_command_count(user_id: int, command_name: str) -> bool:
+    """
+    This function will check if a user already played a command.
+
+    :param user_id: The ID of the user that should be checked.
+    :return: True if the user exists, False if not.
+    """
+        
+    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+        
+        try:
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "SELECT * FROM command_stats WHERE user_id=%s AND command=%s", (str(user_id), command_name,)
+                )
+                result = cursor.fetchall()
+                return len(result) > 0
+        # Als er iets misgaat, zeggen we dat command al bestaat
+        except:
+            return True
+        
+
+async def increment_or_add_command_count(user_id: int, command_name: str, amount: int):
+
+    alreadyExists = await is_in_command_count(user_id)
+
+    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+        
+        try:
+            with con.cursor() as cursor:
+                if alreadyExists:
+                    cursor.execute(
+                        "UPDATE command_stats SET count = count + %s WHERE user_id=%s AND command=%s",
+                        (amount, str(user_id), command_name)
+                    )   
+                else:
+                    cursor.execute(
+                        "INSERT INTO command_stats(command, user_id, count) VALUES (%s, %s, %s)",
+                        (command_name, str(user_id), 1,)
+                    )
+
+                cursor.commit()
+                return True
+                
+        except:
+            return False
+        
+
+async def set_command_count(command_name, user_id, amount):
+    alreadyExists = await is_in_command_count(user_id, command_name)
+
+    with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+        
+        try:
+            with con.cursor() as cursor:
+                if alreadyExists:
+                    cursor.execute(
+                        "UPDATE command_stats SET count = %s WHERE user_id=%s  AND command=%s", 
+                        ((amount), str(user_id), command_name,)
+                    )
+                else:
+                    cursor.execute(
+                        "INSERT INTO command_stats(command, user_id, count) VALUES (%s, %s, %s)",
+                        (command_name, str(user_id), amount,)
+                    )
+                    
+                con.commit()
+                return True
+
+        except:
+            return False
+        
+
+async def get_command_count(user_id, command_name) -> list:
+    try:
+        with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+            
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "SELECT count FROM command_stats WHERE user_id=%s AND command=%s", 
+                    (str(user_id), command_name,)
+                )
+                return cursor.fetchall()
+            
+    except Exception as err:
+        return [-1, err]
