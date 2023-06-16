@@ -403,7 +403,7 @@ async def get_leaderboard(command: str) -> list:
             
             with con.cursor() as cursor:
                 cursor.execute(
-                    "SELECT  (user_id, count) FROM command_stats WHERE command=%s ORDER BY count DESC LIMIT 10", 
+                    "SELECT  user_id, count FROM command_stats WHERE command=%s ORDER BY count DESC LIMIT 10", 
                     (command,)
                 )
                 return cursor.fetchall()

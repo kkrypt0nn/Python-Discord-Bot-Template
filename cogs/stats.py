@@ -179,9 +179,17 @@ class Stats(commands.Cog, name="stats"):
             )
             await context.send(embed=embed)
             return
+        
+        desc = ""
+        for i, stat in enumerate(leaderb):
+            user_id, count = tuple(stat)
+            print(tuple(stat))
+            print(user_id, count)
+            desc += f"{i+1}: **<@{int(user_id)}>  ⇒ {count}**"
 
         embed = discord.Embed(
-            description=f"{leaderb}",
+            title=f"Leaderboard for {command.value}",
+            description=desc,
             color=0xF4900D
         )
 
