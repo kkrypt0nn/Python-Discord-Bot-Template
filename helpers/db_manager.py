@@ -260,11 +260,6 @@ async def is_in_ncounter(user_id: int) -> bool:
         
 
 async def get_nword_count(user_id) -> list:
-    """
-    This function will return a list of random ooc messages.
-
-    :param limit: The amount of randomy selected messages
-    """
     try:
         with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
             
@@ -277,6 +272,20 @@ async def get_nword_count(user_id) -> list:
     except Exception as err:
         return [-1, err]
 
+
+async def get_nword_leaderboard() -> list:
+    try:
+        with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+            
+            with con.cursor() as cursor:
+                cursor.execute(
+                    "SELECT user_id, count FROM nword_counter ORDER BY count DESC LIMIT 10"
+                )
+                return cursor.fetchall()
+            
+    except Exception as err:
+        return [-1, err]
+    
 
 async def set_nword_count(user_id, amount):
     alreadyExists = await is_in_ncounter(user_id)
@@ -307,8 +316,6 @@ async def is_in_command_count(user_id: int, command_name: str) -> bool:
     """
     This function will check if a user already played a command.
 
-    :param user_id: The ID of the user that should be checked.
-    :return: True if the user exists, False if not.
     """
         
     with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
@@ -393,11 +400,6 @@ async def get_command_count(user_id, command_name) -> list:
 
 
 async def get_leaderboard(command: str) -> list:
-    """
-    This function will return a list of random ooc messages.
-
-    :param limit: The amount of randomy selected messages
-    """
     try:
         with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
             

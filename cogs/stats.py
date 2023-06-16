@@ -149,7 +149,8 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="embed", value="embed"),
         discord.app_commands.Choice(name="countdown", value="countdown"),
         discord.app_commands.Choice(name="muur", value="muur"),
-        discord.app_commands.Choice(name="ncount", value="nCount"),
+        discord.app_commands.Choice(name="ncountCommand", value="nCount"),
+        discord.app_commands.Choice(name="ncount", value="ncountCHECK"),
         discord.app_commands.Choice(name="play", value="play"),
         discord.app_commands.Choice(name="messages_played", value="messages_played"),
         discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
@@ -157,8 +158,11 @@ class Stats(commands.Cog, name="stats"):
     @checks.not_blacklisted()
     async def leaderboard(self, context: Context, command: discord.app_commands.Choice[str]):
         
-        # krijg count bericht uit db
-        leaderb = await db_manager.get_leaderboard(command.value)
+        if command.value == "ncountCHECK":
+            leaderb = await db_manager.get_nword_leaderboard()
+        else:
+            # krijg count bericht uit db
+            leaderb = await db_manager.get_leaderboard(command.value)
 
         # Geen berichten
         if len(leaderb) == 0:
@@ -185,7 +189,7 @@ class Stats(commands.Cog, name="stats"):
             desc += f"{i+1}: **<@{int(user_id)}>  ⇒ {count}**\n"
 
         embed = discord.Embed(
-            title=f"Leaderboard for {command.value}",
+            title=f"Leaderboard for {command.name}",
             description=desc,
             color=0xF4900D
         )
