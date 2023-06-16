@@ -289,7 +289,7 @@ class Menu(discord.ui.View):
         self.OOC = OOC
         self.messages = []
         self.currentIndex = 0
-        self.messagesPlayed = 0
+        self.messagesPlayed = 1
         self.messagesDeleted = 0
         self.author = None
 
@@ -366,10 +366,10 @@ class Menu(discord.ui.View):
         # reset alle gegevens
         self.messages.clear()
         self.currentIndex = 0
-        self.messagesPlayed = 0
+        self.messagesPlayed = 1
         self.messagesDeleted = 0
         self.author = None
-        
+
         # stuur confirmatie bericht
         embed = discord.Embed(
             title="Bye. :wave:",

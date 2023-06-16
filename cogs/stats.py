@@ -31,7 +31,7 @@ class Stats(commands.Cog, name="stats"):
     )
     @app_commands.describe(user="Welke persoon")
     @app_commands.choices(command=[
-        discord.app_commands.Choice(name="ncount", value="ncount"),
+        discord.app_commands.Choice(name="nCount", value="ncount"),
         discord.app_commands.Choice(name="play", value="play"),
         discord.app_commands.Choice(name="messages_played", value="messages_played"),
         discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
@@ -76,7 +76,7 @@ class Stats(commands.Cog, name="stats"):
     @commands.hybrid_command(name="changecommandcount", description="Change the command count of a user (admin only)")
     @app_commands.describe(user="Which users count")
     @app_commands.choices(command=[
-        discord.app_commands.Choice(name="ncount", value="ncount"),
+        discord.app_commands.Choice(name="ncount", value="nCount"),
         discord.app_commands.Choice(name="play", value="play"),
         discord.app_commands.Choice(name="messages_played", value="messages_played"),
         discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
