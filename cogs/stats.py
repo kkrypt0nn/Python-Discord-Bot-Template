@@ -159,7 +159,6 @@ class Stats(commands.Cog, name="stats"):
         
         # krijg count bericht uit db
         leaderb = await db_manager.get_leaderboard(command.value)
-        print(leaderb)
 
         # Geen berichten
         if len(leaderb) == 0:
@@ -183,8 +182,6 @@ class Stats(commands.Cog, name="stats"):
         desc = ""
         for i, stat in enumerate(leaderb):
             user_id, count = tuple(stat)
-            print(tuple(stat))
-            print(user_id, count)
             desc += f"{i+1}: **<@{int(user_id)}>  ⇒ {count}**"
 
         embed = discord.Embed(
