@@ -363,12 +363,6 @@ class Menu(discord.ui.View):
         await db_manager.increment_or_add_command_count(self.author.id, "messages_played", self.messagesPlayed+1)
         await db_manager.increment_or_add_command_count(self.author.id, "messages_deleted", self.messagesDeleted)
 
-        # reset alle gegevens
-        self.messages.clear()
-        self.currentIndex = 0
-        self.messagesPlayed = 0
-        self.messagesDeleted = 0
-        self.author = None
 
         # stuur confirmatie bericht
         embed = discord.Embed(
@@ -378,6 +372,13 @@ class Menu(discord.ui.View):
         )
         await interaction.response.edit_message(embed=embed, view=None)
 
+        
+        # reset alle gegevens
+        self.messages.clear()
+        self.currentIndex = 0
+        self.messagesPlayed = 0
+        self.messagesDeleted = 0
+        self.author = None
         await self.reset()
 
         self.OOC.currently_playing = False
