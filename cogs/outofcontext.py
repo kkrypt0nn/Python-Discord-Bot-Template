@@ -84,7 +84,7 @@ class OutOfContext(commands.Cog, name="context"):
         description="debug stats for /play (admin only)",
     )
     @checks.is_owner()
-    async def context_debug(self, interaction: discord.Interaction):
+    async def context_debug(self, context: Context):
 
         embed = discord.Embed(
             title="Debug",
@@ -97,7 +97,7 @@ class OutOfContext(commands.Cog, name="context"):
                 Currently playing: {self.currently_playing}"""
         )
 
-        await interaction.response.send_message(embed=embed)
+        await context.send(embed=embed)
 
 
     async def remove(self, id, guild):
