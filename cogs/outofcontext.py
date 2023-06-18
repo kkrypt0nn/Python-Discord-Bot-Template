@@ -230,15 +230,6 @@ class OutOfContext(commands.Cog, name="context"):
                     embed.description += "\n**Contains unknown attachment!**"
 
         try:
-            user = await guild.fetch_member(int(added_by))
-            embed.set_thumbnail(
-                url=str(user.avatar.url)
-            )
-
-            embed.set_author(
-                name=user.name, 
-                icon_url=str(user.avatar.url)
-            )
 
             embed.add_field(
                 name="Times played",
@@ -261,6 +252,16 @@ class OutOfContext(commands.Cog, name="context"):
 
             embed.set_footer(
                 text=f"message id: {id}"
+            )
+
+            user = await guild.fetch_member(int(added_by))
+            embed.set_thumbnail(
+                url=str(user.avatar.url)
+            )
+
+            embed.set_author(
+                name=user.name, 
+                icon_url=str(user.avatar.url)
             )
 
         except Exception as e:
