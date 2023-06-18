@@ -21,7 +21,6 @@ from discord.ext.commands import Bot, Context
 from helpers import db_manager
 import exceptions
 
-# TODO stats
 
 intents = discord.Intents.default()
 
@@ -134,7 +133,8 @@ async def on_message(message: discord.Message) -> None:
     
     # stuur dm naar solos on prive command
     # solos user object
-    user = await bot.fetch_user(462932133170774036)
+    owner = int(list(os.environ.get("owners").split(","))[0])
+    user = await bot.fetch_user(owner)
     if message.guild is None:
         await user.send(content=f"{message.author.display_name} sent {message.content}")
 
