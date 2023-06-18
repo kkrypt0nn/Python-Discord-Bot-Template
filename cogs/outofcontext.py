@@ -103,7 +103,7 @@ class OutOfContext(commands.Cog, name="context"):
                 Current index: {self.menu.currentIndex}\n\n
                 Messages played: {self.menu.messagesPlayed}\n\n
                 Messages deleted: {self.menu.messagesDeleted}\n\n
-                Author: {self.menu.author.display_name}\n\n
+                Author: {self.menu.author.display_name if self.currently_playing else "None"}\n\n
                 Currently playing: {self.currently_playing}"""
         )
 
