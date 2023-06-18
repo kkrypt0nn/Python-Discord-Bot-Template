@@ -74,3 +74,9 @@ Alles in deze cog is admin only
 * /blacklist show 	Toon een lijst van alle blackliste users. Blackliste users kunnen de bot helemaal niet gebruiken
 * /blacklist add user		Voeg een gebruiker toe aan de blacklist
 * /blacklist remove		Verwijder een gebruiker van de blacklist
+
+
+## Stats
+* /individuele_stats @user #command Hoeveel keer heeft iemand een command gebruikt
+* /changecommandcount @usrer #command #count verander de count van user van command
+* /leaderboard #command toont top 10 voor gegeven command

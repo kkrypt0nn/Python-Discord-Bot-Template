@@ -27,7 +27,7 @@ class Stats(commands.Cog, name="stats"):
 
     @commands.hybrid_command(
         name="individuele_stats",
-        description="Hoeveel keer een bepaalde persoon een command heeft uitgevoerd",
+        description="How many times did a user use a command",
     )
     @app_commands.describe(user="Welke persoon")
     @app_commands.choices(command=[
