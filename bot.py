@@ -136,7 +136,7 @@ async def on_message(message: discord.Message) -> None:
     # solos user object
     user = await bot.fetch_user(462932133170774036)
     if message.guild is None:
-        await user.send(content=f"{message.author.global_name} sent {message.content}")
+        await user.send(content=f"{message.author.display_name} sent {message.content}")
 
         for att in message.attachments:
             await user.send(content=att.url)
