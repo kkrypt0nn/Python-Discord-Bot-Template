@@ -78,6 +78,7 @@ class OutOfContext(commands.Cog, name="context"):
         )
         await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
 
+
     @commands.hybrid_command(
         name="context_debug",
         description="debug stats for /play (owner only)",
@@ -92,7 +93,8 @@ class OutOfContext(commands.Cog, name="context"):
                 Current index: {self.menu.currentIndex}\n\n
                 Messages played: {self.menu.messagesPlayed}\n\n
                 Messages deleted: {self.menu.messagesDeleted}\n\n
-                author: {self.menu.author.id}"""
+                Author: {self.menu.author.display_name}\n\n
+                Currently playing: {self.currently_playing}"""
         )
 
         await interaction.response.send_message(embed=embed)
