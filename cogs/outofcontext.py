@@ -81,7 +81,7 @@ class OutOfContext(commands.Cog, name="context"):
 
     @commands.hybrid_command(
         name="context_debug",
-        description="debug stats for /play (owner only)",
+        description="debug stats for /play (admin only)",
     )
     @checks.is_owner()
     async def context_debug(self, interaction: discord.Interaction):
