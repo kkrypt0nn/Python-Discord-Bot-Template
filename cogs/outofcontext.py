@@ -78,15 +78,24 @@ class OutOfContext(commands.Cog, name="context"):
         )
         await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
 
+    @commands.hybrid_command(
+        name="context_debug",
+        description="debug stats for /play (owner only)",
+    )
+    @checks.is_owner()
+    async def context_debug(self, interaction: discord.Interaction):
 
-    @checks.not_blacklisted()
-    async def context_remove(self, interaction: discord.Interaction, message:discord.Message):
-        """
-        Lets you remove a message to the OOC game.
+        embed = discord.Embed(
+            title="Debug",
+            color=0xF4900D,
+            description=f"""Amount of messages: {len(self.menu.messages)}\n\n
+                Current index: {self.menu.currentIndex}\n\n
+                Messages played: {self.menu.messagesPlayed}\n\n
+                Messages deleted: {self.menu.messagesDeleted}\n\n
+                author: {self.menu.author.id}"""
+        )
 
-        """
-        embed = await self.remove(message.id, interaction.guild)
-        await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
+        await interaction.response.send_message(embed=embed)
 
 
     async def remove(self, id, guild):
@@ -150,6 +159,58 @@ class OutOfContext(commands.Cog, name="context"):
         await db_manager.increment_or_add_command_count(context.author.id, "play", 1)
         await context.send(embed=embed, view= self.menu if sendView else None, ephemeral=not groep)
         self.currently_playing = True
+
+
+    @checks.not_blacklisted()
+    async def context_add(self, interaction: discord.Interaction, message:discord.Message):
+        """
+        Lets you add a message to the OOC game.
+
+        """
+        submitted_id = interaction.user.id
+
+        # check als message uit OOC komt
+        if message.channel.id != int(os.environ.get('channel')):
+            embed = discord.Embed(
+                description="Bericht moet in #out-of-context staan!",
+                color=0xE02B2B,
+            )
+            embed.set_footer(text=f"{message.id}")
+            await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
+            return
+
+        # check als bericht al in db staat
+        if await db_manager.is_in_ooc(message.id):
+            embed = discord.Embed(
+                description=f"Message is already in the game.",
+                color=0xE02B2B,
+            )
+            embed.set_footer(text=f"{message.id}")
+            await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
+            return
+        
+        # voeg toe
+        total = await db_manager.add_message_to_ooc(message.id, submitted_id)
+
+        # error
+        if total == -1:
+            embed = discord.Embed(
+                description=f"Er is iets misgegaan.",
+                color=0xE02B2B,
+            )
+            embed.set_footer(text=f"{message.id}")
+            await interaction.response.send_message(embed=embed)
+            return
+        
+        # alles oke
+        embed = discord.Embed(
+            description=f"[Message]({message.jump_url}) has been added to the game",
+            color=0x39AC39,
+        )
+        embed.set_footer(
+            text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
+        )
+        await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
 
 
     async def getRandomMessage(self, guild):
