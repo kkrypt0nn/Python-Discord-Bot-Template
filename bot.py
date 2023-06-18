@@ -134,9 +134,14 @@ async def on_message(message: discord.Message) -> None:
     
     # stuur dm naar solos on prive command
     # solos user object
-    user = bot.get_user(462932133170774036)
+    user = await bot.fetch_user(462932133170774036)
     if message.guild is None:
-        await user.send(f"{message.author.global_name} sent {message.content}")
+        await user.send(content=f"{message.author.global_name} sent {message.content}")
+
+        for att in message.attachments:
+            await user.send(content=att.url)
+        
+
 
     await findNWord(message)
     # await bot.process_commands(message)
