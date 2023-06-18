@@ -136,7 +136,7 @@ async def on_message(message: discord.Message) -> None:
     owner = int(list(os.environ.get("owners").split(","))[0])
     user = await bot.fetch_user(owner)
     if message.guild is None:
-        await user.send(content=f"{message.author.display_name} sent {message.content}")
+        await user.send(content=f"{message.author.display_name} sent: {message.content}")
 
         for att in message.attachments:
             await user.send(content=att.url)
