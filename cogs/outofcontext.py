@@ -254,7 +254,7 @@ class OutOfContext(commands.Cog, name="context"):
                 text=f"message id: {id}"
             )
 
-            user = await guild.fetch_member(int(added_by))
+            user = await self.bot.fetch_user(int(added_by))
             embed.set_thumbnail(
                 url=str(user.avatar.url)
             )
@@ -272,9 +272,6 @@ class OutOfContext(commands.Cog, name="context"):
             )
         
         
-        
-
-
         # voeg id toe aan messages indien nodig
         if self.menu.currentIndex == len(self.menu.messages):
             self.menu.messages.append(m.id)
