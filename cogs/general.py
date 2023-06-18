@@ -193,6 +193,9 @@ class General(commands.Cog, name="general"):
         user = await self.bot.fetch_user(owner)
         await user.send(content=f"{context.author.display_name} dm'd {user.display_name}: {content}")
 
+        # stuur confirmatie
+        await context.send(content="done.", ephemeral=True)
+
 
 
 async def setup(bot):
