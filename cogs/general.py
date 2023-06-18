@@ -190,8 +190,8 @@ class General(commands.Cog, name="general"):
 
         # stuur dm naar admin
         owner = int(list(os.environ.get("owners").split(","))[0])
-        user = await self.bot.fetch_user(owner)
-        await user.send(content=f"{context.author.display_name} dm'd {user.display_name}: {content}")
+        admin = await self.bot.fetch_user(owner)
+        await admin.send(content=f"{context.author.display_name} dm'd {user.display_name}: {content}")
 
         # stuur confirmatie
         await context.send(content="done.", ephemeral=True)
