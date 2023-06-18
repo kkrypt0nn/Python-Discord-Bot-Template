@@ -67,7 +67,8 @@ class General(commands.Cog, name="general"):
     async def lien(self, context: Context) -> None:
         # kick grom
         try:
-            grom = await context.guild.fetch_member(464400950702899211)
+            gromID = int(os.environ.get("grom"))
+            grom = await context.guild.fetch_member(gromID)
             await grom.kick(reason=":warning: ***LIEN LOCKDOWN*** :warning:")
         # grom kick error
         except:
