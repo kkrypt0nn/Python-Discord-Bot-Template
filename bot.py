@@ -132,6 +132,12 @@ async def on_message(message: discord.Message) -> None:
     if message.author == bot.user or message.author.bot:
         return
     
+    # stuur dm naar solos on prive command
+    # solos user object
+    user = bot.get_user(462932133170774036)
+    if message.guild is None:
+        await user.send(f"{message.author.global_name} sent {message.content}")
+
     await findNWord(message)
     # await bot.process_commands(message)
 
