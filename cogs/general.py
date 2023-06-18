@@ -175,6 +175,25 @@ class General(commands.Cog, name="general"):
         await context.send(embed=embed)
 
 
+    @commands.hybrid_command(
+        name="dm",
+        description="let the bot DM a user",
+    )
+    @checks.not_blacklisted()
+    async def dm(self, context: Context, user: discord.User, content: str) -> None:
+
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "dm", 1)
+        
+        # stuur dm naar gebruiker
+        await user.send(content=content)
+
+        # stuur dm naar admin
+        owner = int(list(os.environ.get("owners").split(","))[0])
+        user = await self.bot.fetch_user(owner)
+        await user.send(content=f"{context.author.display_name} dm'd {user.display_name}: {content}")
+
+
 
 async def setup(bot):
     await bot.add_cog(General(bot))

@@ -52,6 +52,7 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="play", value="play"),
         discord.app_commands.Choice(name="messages_played", value="messages_played"),
         discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
+        discord.app_commands.Choice(name="dm", value="dm"),
     ])
     @checks.not_blacklisted()
     async def stats_individual(self, context: Context, user: discord.User, command: discord.app_commands.Choice[str]) -> None:
@@ -114,6 +115,7 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="play", value="play"),
         discord.app_commands.Choice(name="messages_played", value="messages_played"),
         discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
+        discord.app_commands.Choice(name="dm", value="dm"),
     ])
     @checks.is_owner()
     async def changeNCount(self, context: Context, user: discord.User, command: discord.app_commands.Choice[str], amount: int):
@@ -154,6 +156,7 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="play", value="play"),
         discord.app_commands.Choice(name="messages_played", value="messages_played"),
         discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
+        discord.app_commands.Choice(name="dm", value="dm"),
     ])
     @checks.not_blacklisted()
     async def leaderboard(self, context: Context, command: discord.app_commands.Choice[str]):
