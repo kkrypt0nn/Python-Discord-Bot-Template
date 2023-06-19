@@ -218,6 +218,17 @@ async def remove_message_from_ooc(message_id: int) -> int:
         return -1
     
 
+async def messages_in_ooc():
+    try:
+        with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
+            with con.cursor() as cursor:
+                cursor.execute("SELECT COUNT(*) FROM context_message")
+                result = cursor.fetchone()
+                return result[0] if result is not None else 0
+    except:
+        return -1
+    
+
 async def increment_or_add_nword(user_id: int):
 
     alreadyExists = await is_in_ncounter(user_id)
