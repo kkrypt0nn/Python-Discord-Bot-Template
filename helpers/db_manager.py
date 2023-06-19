@@ -108,7 +108,7 @@ async def get_ooc_messages(limit: int) -> list:
 
                 # eerst berichten die minst gespeeld hebben
                 cursor.execute(
-                    "SELECT message_id, added_at, added_by, times_played FROM context_message ORDER BY times_played ASC LIMIT %s", (limit,)
+                    "SELECT message_id, added_at, added_by, times_played FROM context_message ORDER BY times_played ASC, random() LIMIT %s", (limit,)
                 )
                 return cursor.fetchall()
             
