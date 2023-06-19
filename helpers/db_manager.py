@@ -101,8 +101,14 @@ async def get_ooc_messages(limit: int) -> list:
         with psycopg2.connect(os.environ.get("DATABASE_URL"), sslmode='require') as con:
             
             with con.cursor() as cursor:
+                # random volgorde
+                # cursor.execute(
+                #     "SELECT message_id, added_at, added_by, times_played FROM context_message ORDER BY random() LIMIT %s", (limit,)
+                # )
+
+                # eerst berichten die minst gespeeld hebben
                 cursor.execute(
-                    "SELECT message_id, added_at, added_by, times_played FROM context_message ORDER BY random() LIMIT %s", (limit,)
+                    "SELECT message_id, added_at, added_by, times_played FROM context_message ORDER BY times_played ASC LIMIT %s", (limit,)
                 )
                 return cursor.fetchall()
             
