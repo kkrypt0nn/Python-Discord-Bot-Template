@@ -26,7 +26,7 @@ class OutOfContext(commands.Cog, name="context"):
 
         self.currently_playing = False
 
-
+ # COMMANDS
     @checks.not_blacklisted()
     async def context_add(self, interaction: discord.Interaction, message:discord.Message):
         """
@@ -78,6 +78,7 @@ class OutOfContext(commands.Cog, name="context"):
         )
         await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
 
+
     @checks.not_blacklisted()
     async def context_remove(self, interaction: discord.Interaction, message:discord.Message):
         """
@@ -86,7 +87,8 @@ class OutOfContext(commands.Cog, name="context"):
         """
         embed = await self.remove(message.id, interaction.guild)
         await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
-
+        # stats
+        await db_manager.increment_or_add_command_count(interaction.user.id, "messages_deleted", 1)
 
 
     @commands.hybrid_command(
@@ -108,39 +110,6 @@ class OutOfContext(commands.Cog, name="context"):
         )
 
         await context.send(embed=embed)
-
-
-    async def remove(self, id, guild):
-        # check als bericht bestaat
-        if not await db_manager.is_in_ooc(id):
-            embed = discord.Embed(
-                description=f"**{id}** is not in the game.",
-                color=0xE02B2B,
-            )
-            return embed
-        
-        # verwijder bericht
-        total = await db_manager.remove_message_from_ooc(id)
-    
-        # error
-        if total == -1:
-            embed = discord.Embed(
-                description=f"Er is iets misgegaan.",
-                color=0xE02B2B,
-            )
-            return embed
-        
-        m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
-        
-        # alles oke
-        embed = discord.Embed(
-            description=f"[Message]({m.jump_url}) has been removed from the game",
-            color=0x39AC39,
-        )
-        embed.set_footer(
-            text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
-        )
-        return embed
 
 
     @commands.hybrid_command(
@@ -172,6 +141,10 @@ class OutOfContext(commands.Cog, name="context"):
         await context.send(embed=embed, view= self.menu if sendView else None, ephemeral=not groep)
         self.currently_playing = True
 
+
+
+
+# HELPER FUNCTIONS
 
     async def getRandomMessage(self, guild):
         # krijg random bericht uit db
@@ -297,6 +270,39 @@ class OutOfContext(commands.Cog, name="context"):
         if self.menu.currentIndex == len(self.menu.messages):
             self.menu.messages.append(m.id)
 
+        return embed
+
+
+    async def remove(self, id, guild):
+        # check als bericht bestaat
+        if not await db_manager.is_in_ooc(id):
+            embed = discord.Embed(
+                description=f"**{id}** is not in the game.",
+                color=0xE02B2B,
+            )
+            return embed
+        
+        # verwijder bericht
+        total = await db_manager.remove_message_from_ooc(id)
+    
+        # error
+        if total == -1:
+            embed = discord.Embed(
+                description=f"Er is iets misgegaan.",
+                color=0xE02B2B,
+            )
+            return embed
+        
+        m = await guild.get_channel(int(os.environ.get("channel"))).fetch_message(id)
+        
+        # alles oke
+        embed = discord.Embed(
+            description=f"[Message]({m.jump_url}) has been removed from the game",
+            color=0x39AC39,
+        )
+        embed.set_footer(
+            text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
+        )
         return embed
 
 
