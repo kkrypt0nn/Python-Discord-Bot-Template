@@ -55,7 +55,7 @@ class Stats(commands.Cog, name="stats"):
         # discord.app_commands.Choice(name="dm", value="dm"),
     ])
     @checks.not_blacklisted()
-    @commands.cooldown(rate=1, per=3)
+    @commands.cooldown(rate=1, per=10)
     async def stats_individual(self, context: Context, user: discord.User, command: discord.app_commands.Choice[str]) -> None:
         count = await db_manager.get_command_count(user.id, command.value)
         # Geen berichten
@@ -160,7 +160,7 @@ class Stats(commands.Cog, name="stats"):
         # discord.app_commands.Choice(name="dm", value="dm"),
     ])
     @checks.not_blacklisted()
-    @commands.cooldown(rate=1, per=3)
+    @commands.cooldown(rate=1, per=10)
     async def leaderboard(self, context: Context, command: discord.app_commands.Choice[str]):
         
         if command.value == "ncountCHECK":

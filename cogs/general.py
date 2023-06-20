@@ -180,7 +180,7 @@ class General(commands.Cog, name="general"):
         description="let the bot DM a user",
     )
     @checks.not_blacklisted()
-    @commands.cooldown(rate=1, per=10)
+    @commands.cooldown(rate=1, per=20)
     async def dm(self, context: Context, user: discord.User, content: str) -> None:
 
         # stats
