@@ -193,7 +193,7 @@ async def on_command_error(context: Context, error) -> None:
         embed = discord.Embed(
             description="You are blacklisted from using the bot!", color=0xE02B2B
         )
-        await context.send(embed=embed)
+        await context.send(embed=embed, ephemeral=True)
         if context.guild:
             bot.logger.warning(
                 f"{context.author} (ID: {context.author.id}) tried to execute a command in the guild {context.guild.name} (ID: {context.guild.id}), but the user is blacklisted from using the bot."
@@ -209,7 +209,7 @@ async def on_command_error(context: Context, error) -> None:
         embed = discord.Embed(
             description="You are not the owner of the bot!", color=0xE02B2B
         )
-        await context.send(embed=embed)
+        await context.send(embed=embed, ephemeral=True)
         if context.guild:
             bot.logger.warning(
                 f"{context.author} (ID: {context.author.id}) tried to execute an owner only command in the guild {context.guild.name} (ID: {context.guild.id}), but the user is not an owner of the bot."
@@ -225,7 +225,7 @@ async def on_command_error(context: Context, error) -> None:
             + "` to execute this command!",
             color=0xE02B2B,
         )
-        await context.send(embed=embed)
+        await context.send(embed=embed, ephemeral=True)
     elif isinstance(error, commands.BotMissingPermissions):
         embed = discord.Embed(
             description="I am missing the permission(s) `"
@@ -233,7 +233,7 @@ async def on_command_error(context: Context, error) -> None:
             + "` to fully perform this command!",
             color=0xE02B2B,
         )
-        await context.send(embed=embed)
+        await context.send(embed=embed, ephemeral=True)
     elif isinstance(error, commands.MissingRequiredArgument):
         embed = discord.Embed(
             title="Error!",
