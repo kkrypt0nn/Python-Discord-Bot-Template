@@ -217,7 +217,7 @@ class OutOfContext(commands.Cog, name="context"):
             # check als er video in message zit
             for attch in m.attachments:
                 try:
-                    embed.description += f"\n**Contains {attch.content_type}!**"
+                    embed.description += f"\n**Contains {attch.content_type if attch.content_type else 'unknown attachment'}!**"
 
                 # attachement type is onbekend
                 except TypeError:
