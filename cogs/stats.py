@@ -18,34 +18,6 @@ from discord.ext.commands import Context
 
 from helpers import checks, db_manager
 
-commands = [
-    discord.app_commands.Choice(name="gible", value="gible"),
-    discord.app_commands.Choice(name="nootje", value="nootje"),
-    discord.app_commands.Choice(name="pingy", value="pingy"),
-    discord.app_commands.Choice(name="ba", value="ba"),
-    discord.app_commands.Choice(name="meng", value="meng"),
-    discord.app_commands.Choice(name="broodman", value="broodman"),
-    discord.app_commands.Choice(name="keleo", value="keleo"),
-    discord.app_commands.Choice(name="help", value="help"),
-    discord.app_commands.Choice(name="ping", value="ping"),
-    discord.app_commands.Choice(name="say", value="say"),
-    discord.app_commands.Choice(name="giblereact", value="giblereact"),
-    discord.app_commands.Choice(name="wholesquadlaughing", value="wholesquadlaughing"),
-    discord.app_commands.Choice(name="notfunny", value="notfunny"),
-    discord.app_commands.Choice(name="uthought", value="uthought"),
-    discord.app_commands.Choice(name="embed", value="embed"),
-    discord.app_commands.Choice(name="countdown", value="countdown"),
-    discord.app_commands.Choice(name="muur", value="muur"),
-    discord.app_commands.Choice(name="ncountCommand", value="nCount"),
-    discord.app_commands.Choice(name="ncount", value="ncountCHECK"),
-    discord.app_commands.Choice(name="play", value="play"),
-    discord.app_commands.Choice(name="messages_played", value="messages_played"),
-    discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
-    # discord.app_commands.Choice(name="dm", value="dm"),
-]
-
-
-
 class Stats(commands.Cog, name="stats"):
     def __init__(self, bot):
         self.bot = bot
@@ -56,7 +28,31 @@ class Stats(commands.Cog, name="stats"):
         description="How many times did a user use a command",
     )
     @app_commands.describe(user="Welke persoon")
-    @app_commands.choices(command=commands)
+    @app_commands.choices(command=[
+        discord.app_commands.Choice(name="gible", value="gible"),
+        discord.app_commands.Choice(name="nootje", value="nootje"),
+        discord.app_commands.Choice(name="pingy", value="pingy"),
+        discord.app_commands.Choice(name="ba", value="ba"),
+        discord.app_commands.Choice(name="meng", value="meng"),
+        discord.app_commands.Choice(name="broodman", value="broodman"),
+        discord.app_commands.Choice(name="keleo", value="keleo"),
+        discord.app_commands.Choice(name="help", value="help"),
+        discord.app_commands.Choice(name="ping", value="ping"),
+        discord.app_commands.Choice(name="say", value="say"),
+        discord.app_commands.Choice(name="giblereact", value="giblereact"),
+        discord.app_commands.Choice(name="wholesquadlaughing", value="wholesquadlaughing"),
+        discord.app_commands.Choice(name="notfunny", value="notfunny"),
+        discord.app_commands.Choice(name="uthought", value="uthought"),
+        discord.app_commands.Choice(name="embed", value="embed"),
+        discord.app_commands.Choice(name="countdown", value="countdown"),
+        discord.app_commands.Choice(name="muur", value="muur"),
+        discord.app_commands.Choice(name="ncountCommand", value="nCount"),
+        discord.app_commands.Choice(name="ncount", value="ncountCHECK"),
+        discord.app_commands.Choice(name="play", value="play"),
+        discord.app_commands.Choice(name="messages_played", value="messages_played"),
+        discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
+        # discord.app_commands.Choice(name="dm", value="dm"),
+    ])
     @checks.not_blacklisted()
     @commands.cooldown(rate=1, per=10)
     async def stats_individual(self, context: Context, user: discord.User, command: discord.app_commands.Choice[str]) -> None:
@@ -97,7 +93,31 @@ class Stats(commands.Cog, name="stats"):
 
     @commands.hybrid_command(name="changecommandcount", description="Change the command count of a user (admin only)")
     @app_commands.describe(user="Which users count")
-    @app_commands.choices(command=commands)
+    @app_commands.choices(command=[
+        discord.app_commands.Choice(name="gible", value="gible"),
+        discord.app_commands.Choice(name="nootje", value="nootje"),
+        discord.app_commands.Choice(name="pingy", value="pingy"),
+        discord.app_commands.Choice(name="ba", value="ba"),
+        discord.app_commands.Choice(name="meng", value="meng"),
+        discord.app_commands.Choice(name="broodman", value="broodman"),
+        discord.app_commands.Choice(name="keleo", value="keleo"),
+        discord.app_commands.Choice(name="help", value="help"),
+        discord.app_commands.Choice(name="ping", value="ping"),
+        discord.app_commands.Choice(name="say", value="say"),
+        discord.app_commands.Choice(name="giblereact", value="giblereact"),
+        discord.app_commands.Choice(name="wholesquadlaughing", value="wholesquadlaughing"),
+        discord.app_commands.Choice(name="notfunny", value="notfunny"),
+        discord.app_commands.Choice(name="uthought", value="uthought"),
+        discord.app_commands.Choice(name="embed", value="embed"),
+        discord.app_commands.Choice(name="countdown", value="countdown"),
+        discord.app_commands.Choice(name="muur", value="muur"),
+        discord.app_commands.Choice(name="ncountCommand", value="nCount"),
+        discord.app_commands.Choice(name="ncount", value="ncountCHECK"),
+        discord.app_commands.Choice(name="play", value="play"),
+        discord.app_commands.Choice(name="messages_played", value="messages_played"),
+        discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
+        discord.app_commands.Choice(name="dm", value="dm"),
+    ])
     @checks.is_owner()
     async def changeNCount(self, context: Context, user: discord.User, command: discord.app_commands.Choice[str], amount: int):
         # krijg count uit db
@@ -114,7 +134,31 @@ class Stats(commands.Cog, name="stats"):
         await context.send(embed=embed)
 
     @commands.hybrid_command(name="leaderboard", description="Leaderboard of a command")
-    @app_commands.choices(command=commands)
+    @app_commands.choices(command=[
+        discord.app_commands.Choice(name="gible", value="gible"),
+        discord.app_commands.Choice(name="nootje", value="nootje"),
+        discord.app_commands.Choice(name="pingy", value="pingy"),
+        discord.app_commands.Choice(name="ba", value="ba"),
+        discord.app_commands.Choice(name="meng", value="meng"),
+        discord.app_commands.Choice(name="broodman", value="broodman"),
+        discord.app_commands.Choice(name="keleo", value="keleo"),
+        discord.app_commands.Choice(name="help", value="help"),
+        discord.app_commands.Choice(name="ping", value="ping"),
+        discord.app_commands.Choice(name="say", value="say"),
+        discord.app_commands.Choice(name="giblereact", value="giblereact"),
+        discord.app_commands.Choice(name="wholesquadlaughing", value="wholesquadlaughing"),
+        discord.app_commands.Choice(name="notfunny", value="notfunny"),
+        discord.app_commands.Choice(name="uthought", value="uthought"),
+        discord.app_commands.Choice(name="embed", value="embed"),
+        discord.app_commands.Choice(name="countdown", value="countdown"),
+        discord.app_commands.Choice(name="muur", value="muur"),
+        discord.app_commands.Choice(name="ncountCommand", value="nCount"),
+        discord.app_commands.Choice(name="ncount", value="ncountCHECK"),
+        discord.app_commands.Choice(name="play", value="play"),
+        discord.app_commands.Choice(name="messages_played", value="messages_played"),
+        discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
+        # discord.app_commands.Choice(name="dm", value="dm"),
+    ])
     @checks.not_blacklisted()
     @commands.cooldown(rate=1, per=10)
     async def leaderboard(self, context: Context, command: discord.app_commands.Choice[str]):
