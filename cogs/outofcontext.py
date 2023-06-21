@@ -210,11 +210,6 @@ class OutOfContext(commands.Cog, name="context"):
             description=desc
         )
 
-        # gif als image
-        if m.content.startswith("https://tenor.com/view"):
-            embed.set_image(url=m.content)
-            embed.description = "**Contains gif!**"
-
         if m.attachments:
             # als er meerdere attachments zijn, tonen we enkel de eerste
             embed.set_image(url=m.attachments[0].url)
