@@ -61,9 +61,9 @@ class Audio(commands.Cog, name="audio"):
         
         
 
-    @commands.hybrid_command(name="play", description="Plays something from youtube url")
+    @commands.hybrid_command(name="play_youtube", description="Plays something from youtube url")
     @checks.not_blacklisted()
-    async def play(self, context: Context, url: str):
+    async def play_youtube(self, context: Context, url: str):
     
         try :
             server = context.message.guild
