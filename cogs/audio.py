@@ -1,11 +1,13 @@
 
+import subprocess
 from discord.ext import commands
 import os
 from discord import app_commands
 from discord.ext.commands import Context
 import discord
 import asyncio
-from helpers import checks, db_manager
+import tempfile
+from helpers import checks, db_manager, http
 
 
 # Here we name the cog and create a new class for the cog.
@@ -45,9 +47,9 @@ class Audio(commands.Cog, name="audio"):
     @checks.not_blacklisted()
     async def leave(self, context: Context):
 
-        voice_client = context.message.guild.voice_client
-        if voice_client.is_connected():
-            await voice_client.disconnect()
+        vc = context.message.guild.vc
+        if vc.is_connected():
+            await vc.disconnect()
             embed = discord.Embed(
                 title=f"left channel!",
                 color=0x39AC39
@@ -86,7 +88,7 @@ class Audio(commands.Cog, name="audio"):
                 await context.invoke(self.bot.get_command('join'))
 
             server = context.message.guild
-            vc = server.voice_client
+            vc = server.vc
             vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/{effect.value}"))
             embed = discord.Embed(
                 title=f"played {effect.name}!",
@@ -104,6 +106,40 @@ class Audio(commands.Cog, name="audio"):
                 color=0xE02B2B
             )
             await context.send(embed=embed, ephemeral=True)
+
+
+    @commands.hybrid_command(name="text-to-speech", description="Text to Speech")
+    async def speak_vc(self, context: Context, speech: str):
+        server = context.message.guild
+        vc = server.voice_client
+
+        if vc:
+            await context.response.defer(ephemeral=True, with_message=True)
+            audio_data = await http.query_uberduck(speech)
+            with tempfile.NamedTemporaryFile(
+                suffix=".wav"
+            ) as wav_f, tempfile.NamedTemporaryFile(suffix=".opus") as opus_f:
+                wav_f.write(audio_data.getvalue())
+                wav_f.flush()
+                subprocess.check_call(["ffmpeg", "-y", "-i", wav_f.name, opus_f.name])
+                
+                source = discord.FFmpegOpusAudio(opus_f.name)
+                vc.play(source, after=None)
+
+                while vc.is_playing():
+                    await asyncio.sleep(0.5)
+
+                embed = discord.Embed(
+                    title=f"played tts!",
+                    color=0x39AC39
+                )
+                await context.send(embed=embed, ephemeral=True)
+        else:
+            embed = discord.Embed(
+                title=f"You are not in a voice channel",
+                color=0xE02B2B
+            )
+            await context.send(embed=embed)
 
 
 

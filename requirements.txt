@@ -3,3 +3,5 @@ psycopg2
 youtube_dl
 PyNaCl==1.4.0
 ffmpeg
+aiohttp>=3.7.4
+requests
