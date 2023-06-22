@@ -106,9 +106,19 @@ class Audio(commands.Cog, name="audio"):
 
 
     @commands.hybrid_command(name="tts", description="Text to Speech")
+    @app_commands.choices(voice=[
+        discord.app_commands.Choice(name="Alexa", value="alexa"),
+        discord.app_commands.Choice(name="Peter Griffin", value="peter-griffin"),
+        discord.app_commands.Choice(name="Glenn Quagmire", value="quagmire"),
+        discord.app_commands.Choice(name="Walter White", value="walter-white"),
+        discord.app_commands.Choice(name="Saul Goodman", value="saul-goodman"),
+        discord.app_commands.Choice(name="Barack Obama", value="barack-obama"),
+        discord.app_commands.Choice(name="DIO (jp)", value="dio-jp"),
+        discord.app_commands.Choice(name="PewDiePie", value="pewdiepie"),
+    ])
     @checks.not_blacklisted()
     @commands.cooldown(rate=1, per=120)
-    async def tts(self, context: Context, speech: str):
+    async def tts(self, context: Context, speech: str, voice: discord.app_commands.Choice[str]):
 
         vc = context.message.guild.voice_client
         if not vc.is_connected():
@@ -117,7 +127,7 @@ class Audio(commands.Cog, name="audio"):
         await context.defer()
 
         try:
-            audio_data = await http.query_uberduck(speech)
+            audio_data = await http.query_uberduck(speech, voice.value)
             with tempfile.NamedTemporaryFile(
                 suffix=".wav"
             ) as wav_f, tempfile.NamedTemporaryFile(suffix=".opus") as opus_f:
