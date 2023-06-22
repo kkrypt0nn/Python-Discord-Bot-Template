@@ -73,7 +73,7 @@ class Audio(commands.Cog, name="audio"):
     
         try:
             if not self.isConnected:
-                await self.join(context=context)
+                await context.invoke(self.bot.get_command('join'))
 
             server = context.message.guild
             vc = server.voice_client
