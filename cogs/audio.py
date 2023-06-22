@@ -109,7 +109,7 @@ class Audio(commands.Cog, name="audio"):
 
 
     @commands.hybrid_command(name="text-to-speech", description="Text to Speech")
-    @checks.not_blacklisted()
+    @checks.is_owner()
     async def tts(self, context: Context, speech: str):
         server = context.message.guild
         vc = server.voice_client
