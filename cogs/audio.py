@@ -66,6 +66,7 @@ class Audio(commands.Cog, name="audio"):
 
     @commands.hybrid_command(name="soundboard", description="Play snippet from soundboard")
     @app_commands.choices(effect=[
+        discord.app_commands.Choice(name="hentai Xander", value="hentai.mp3"),
         discord.app_commands.Choice(name="sample", value="sample-3s.mp3"),
     ])
     @checks.not_blacklisted()
