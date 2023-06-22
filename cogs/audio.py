@@ -70,8 +70,8 @@ class Audio(commands.Cog, name="audio"):
     async def soundboard(self, context: Context, naam: discord.app_commands.Choice[str]):
     
         try:
-            vc = context.message.guild.server.voice_client
-
+            server = context.message.guild
+            vc = server.voice_client
             vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/{naam.value}"))
             embed = discord.Embed(
                 title=f"played {naam.value}!",
