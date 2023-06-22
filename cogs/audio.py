@@ -88,7 +88,7 @@ class Audio(commands.Cog, name="audio"):
                 await context.invoke(self.bot.get_command('join'))
 
             server = context.message.guild
-            vc = server.vc
+            vc = server.voice_client
             vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/{effect.value}"))
             embed = discord.Embed(
                 title=f"played {effect.name}!",
