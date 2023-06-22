@@ -4,6 +4,7 @@ import os
 from discord import app_commands
 from discord.ext.commands import Context
 import discord
+import asyncio
 from helpers import checks, audio_controller
 
 
@@ -47,7 +48,7 @@ class Audio(commands.Cog, name="audio"):
         if voice_client.is_connected():
             await voice_client.disconnect()
             embed = discord.Embed(
-                title=f"Joined channel!",
+                title=f"left channel!",
                 color=0x39AC39
             )
             await context.send(embed=embed)
@@ -61,18 +62,16 @@ class Audio(commands.Cog, name="audio"):
         
         
 
-    @commands.hybrid_command(name="play_youtube", description="Plays something from youtube url")
+    @commands.hybrid_command(name="play", description="Plays something from youtube url")
     @checks.not_blacklisted()
     async def play_youtube(self, context: Context, url: str):
     
         try :
             server = context.message.guild
-            voice_channel = server.voice_client
+            vc = server.voice_client
 
-            async with context.typing():
-                filename = await audio_controller.YTDLSource.from_url(url, loop=self.bot.loop)
-                voice_channel.play(discord.FFmpegPCMAudio(executable="ffmpeg.exe", source=filename))
-            await context.send('**Now playing:** {}'.format(filename))
+            vc.play(discord.FFmpegPCMAudio('audio_snippers/sample-3s.mp3'), after=lambda e: print(f'finished playing'))
+
         except:
             await context.send("The bot is not connected to a voice channel.")
 
