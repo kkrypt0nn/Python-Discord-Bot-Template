@@ -12,6 +12,7 @@ from helpers import checks, db_manager
 class Audio(commands.Cog, name="audio"):
     def __init__(self, bot):
         self.bot = bot
+        self.isConnected = False
 
     @commands.hybrid_command(name="join", description="bot joins voice channel")
     @checks.not_blacklisted()
@@ -36,7 +37,7 @@ class Audio(commands.Cog, name="audio"):
             )
             
         await context.send(embed=embed)
-
+        self.isConnected = True
     
         
 
@@ -60,6 +61,7 @@ class Audio(commands.Cog, name="audio"):
             )
             await context.send(embed=embed)
         
+        self.isConnected = False
         
 
     @commands.hybrid_command(name="soundboard", description="Play snippet from soundboard")
@@ -70,6 +72,9 @@ class Audio(commands.Cog, name="audio"):
     async def soundboard(self, context: Context, naam: discord.app_commands.Choice[str]):
     
         try:
+            if not self.isConnected:
+                await self.join(context=context)
+
             server = context.message.guild
             vc = server.voice_client
             vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/{naam.value}"))
