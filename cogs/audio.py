@@ -109,37 +109,34 @@ class Audio(commands.Cog, name="audio"):
 
 
     @commands.hybrid_command(name="text-to-speech", description="Text to Speech")
+    @checks.not_blacklisted()
     async def speak_vc(self, context: Context, speech: str):
         server = context.message.guild
         vc = server.voice_client
 
-        if vc:
-            await context.response.defer(ephemeral=True, with_message=True)
-            audio_data = await http.query_uberduck(speech)
-            with tempfile.NamedTemporaryFile(
-                suffix=".wav"
-            ) as wav_f, tempfile.NamedTemporaryFile(suffix=".opus") as opus_f:
-                wav_f.write(audio_data.getvalue())
-                wav_f.flush()
-                subprocess.check_call(["ffmpeg", "-y", "-i", wav_f.name, opus_f.name])
-                
-                source = discord.FFmpegOpusAudio(opus_f.name)
-                vc.play(source, after=None)
+        if not self.isConnected:
+            await context.invoke(self.bot.get_command('join'))
 
-                while vc.is_playing():
-                    await asyncio.sleep(0.5)
+        await context.response.defer(ephemeral=True, with_message=True)
+        audio_data = await http.query_uberduck(speech)
+        with tempfile.NamedTemporaryFile(
+            suffix=".wav"
+        ) as wav_f, tempfile.NamedTemporaryFile(suffix=".opus") as opus_f:
+            wav_f.write(audio_data.getvalue())
+            wav_f.flush()
+            subprocess.check_call(["ffmpeg", "-y", "-i", wav_f.name, opus_f.name])
 
-                embed = discord.Embed(
-                    title=f"played tts!",
-                    color=0x39AC39
-                )
-                await context.send(embed=embed, ephemeral=True)
-        else:
+            source = discord.FFmpegOpusAudio(opus_f.name)
+            vc.play(source, after=None)
+
+            while vc.is_playing():
+                await asyncio.sleep(0.5)
+
             embed = discord.Embed(
-                title=f"You are not in a voice channel",
-                color=0xE02B2B
+                title=f"played tts!",
+                color=0x39AC39
             )
-            await context.send(embed=embed)
+            await context.send(embed=embed, ephemeral=True)
 
 
 
