@@ -47,7 +47,7 @@ class Audio(commands.Cog, name="audio"):
     @checks.not_blacklisted()
     async def leave(self, context: Context):
 
-        vc = context.message.guild.vc
+        vc = context.message.guild.voice_client
         if vc.is_connected():
             await vc.disconnect()
             embed = discord.Embed(
