@@ -66,14 +66,14 @@ class Audio(commands.Cog, name="audio"):
     @checks.not_blacklisted()
     async def soundboard(self, context: Context, url: str):
     
-        try :
-            server = context.message.guild
-            vc = server.voice_client
+        # try :
+        server = context.message.guild
+        vc = server.voice_client
 
-            vc.play(discord.FFmpegPCMAudio('audio_snippers/sample-3s.mp3'), after=lambda e: print(f'finished playing'))
+        vc.play(discord.FFmpegPCMAudio('audio_snippets/sample-3s.mp3'), after=lambda e: print(f'finished playing'))
 
-        except:
-            await context.send("The bot is not connected to a voice channel.")
+        # except:
+        #     await context.send("The bot is not connected to a voice channel.")
 
 
 
