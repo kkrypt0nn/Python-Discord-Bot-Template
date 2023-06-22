@@ -65,11 +65,11 @@ class Audio(commands.Cog, name="audio"):
         
 
     @commands.hybrid_command(name="soundboard", description="Play snippet from soundboard")
-    @app_commands.choices(naam=[
+    @app_commands.choices(effect=[
         discord.app_commands.Choice(name="sample", value="sample-3s.mp3"),
     ])
     @checks.not_blacklisted()
-    async def soundboard(self, context: Context, naam: discord.app_commands.Choice[str]):
+    async def soundboard(self, context: Context, effect: discord.app_commands.Choice[str]):
     
         try:
             if not self.isConnected:
@@ -77,9 +77,9 @@ class Audio(commands.Cog, name="audio"):
 
             server = context.message.guild
             vc = server.voice_client
-            vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/{naam.value}"))
+            vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/{effect.value}"))
             embed = discord.Embed(
-                title=f"played {naam.name}!",
+                title=f"played {effect.name}!",
                 color=0x39AC39
             )
             await context.send(embed=embed, ephemeral=True)
