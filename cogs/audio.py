@@ -121,6 +121,7 @@ class Audio(commands.Cog, name="audio"):
         discord.app_commands.Choice(name="Barack Obama", value="barack-obama"),
         discord.app_commands.Choice(name="DIO (jp)", value="dio-jp"),
         discord.app_commands.Choice(name="PewDiePie", value="pewdiepie"),
+        discord.app_commands.Choice(name="Hitler", value="hitler-rant"),
     ])
     @checks.not_blacklisted()
     @commands.cooldown(rate=1, per=120)
@@ -163,7 +164,7 @@ class Audio(commands.Cog, name="audio"):
                     await asyncio.sleep(0.5)
             
             embed = discord.Embed(
-                title=f"played tts!",
+                title=f"Said ```{speech}``` in a {voice.name} voice!",
                 color=0x39AC39
             )
             await context.interaction.followup.send(embed=embed)
