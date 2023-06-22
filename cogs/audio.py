@@ -5,7 +5,7 @@ from discord import app_commands
 from discord.ext.commands import Context
 import discord
 import asyncio
-from helpers import checks, audio_controller
+from helpers import checks
 
 
 # Here we name the cog and create a new class for the cog.
@@ -62,9 +62,9 @@ class Audio(commands.Cog, name="audio"):
         
         
 
-    @commands.hybrid_command(name="play", description="Plays something from youtube url")
+    @commands.hybrid_command(name="soundboard", description="Play snippet from soundboard")
     @checks.not_blacklisted()
-    async def play_youtube(self, context: Context, url: str):
+    async def soundboard(self, context: Context, url: str):
     
         try :
             server = context.message.guild
