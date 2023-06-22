@@ -63,17 +63,28 @@ class Audio(commands.Cog, name="audio"):
         
 
     @commands.hybrid_command(name="soundboard", description="Play snippet from soundboard")
+    @app_commands.choices(naam=[
+        discord.app_commands.Choice(name="sample", value="sample-3s.mp3"),
+    ])
     @checks.not_blacklisted()
-    async def soundboard(self, context: Context):
+    async def soundboard(self, context: Context, naam: discord.app_commands.Choice[str]):
     
-        # try :
-        server = context.message.guild
-        vc = server.voice_client
+        try:
+            vc = context.message.guild.server.voice_client
 
-        vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/sample-3s.mp3"), after=lambda e: print(f'finished playing'))
+            vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/{naam.value}"))
+            embed = discord.Embed(
+                title=f"played {naam.value}!",
+                color=0x39AC39
+            )
+            await context.send(embed=embed, ephemeral=True)
 
-        # except:
-        #     await context.send("The bot is not connected to a voice channel.")
+        except:
+            embed = discord.Embed(
+                title=f"Something went wrong",
+                color=0xE02B2B
+            )
+            await context.send(embed=embed, ephemeral=True)
 
 
 
