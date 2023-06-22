@@ -60,9 +60,7 @@ class Audio(commands.Cog, name="audio"):
                 color=0xE02B2B
             )
             await context.send(embed=embed)
-        
-        self.isConnected = False
-        
+                
 
     @commands.hybrid_command(name="soundboard", description="Play effect from soundboard")
     @app_commands.choices(effect=[
