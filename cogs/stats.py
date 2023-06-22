@@ -51,6 +51,7 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="play", value="play"),
         discord.app_commands.Choice(name="messages_played", value="messages_played"),
         discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
+        discord.app_commands.Choice(name="soundboard", value="soundboard"),
         # discord.app_commands.Choice(name="dm", value="dm"),
     ])
     @checks.not_blacklisted()
@@ -116,6 +117,7 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="play", value="play"),
         discord.app_commands.Choice(name="messages_played", value="messages_played"),
         discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
+        discord.app_commands.Choice(name="soundboard", value="soundboard"),
         discord.app_commands.Choice(name="dm", value="dm"),
     ])
     @checks.is_owner()
@@ -157,6 +159,7 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="play", value="play"),
         discord.app_commands.Choice(name="messages_played", value="messages_played"),
         discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
+        discord.app_commands.Choice(name="soundboard", value="soundboard"),
         # discord.app_commands.Choice(name="dm", value="dm"),
     ])
     @checks.not_blacklisted()

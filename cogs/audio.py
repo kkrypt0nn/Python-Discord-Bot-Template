@@ -5,7 +5,7 @@ from discord import app_commands
 from discord.ext.commands import Context
 import discord
 import asyncio
-from helpers import checks
+from helpers import checks, db_manager
 
 
 # Here we name the cog and create a new class for the cog.
@@ -74,10 +74,13 @@ class Audio(commands.Cog, name="audio"):
             vc = server.voice_client
             vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/{naam.value}"))
             embed = discord.Embed(
-                title=f"played {naam.value}!",
+                title=f"played {naam.name}!",
                 color=0x39AC39
             )
             await context.send(embed=embed, ephemeral=True)
+
+            # stats
+            await db_manager.increment_or_add_command_count(context.author.id, "soundboard", 1)
 
         except Exception as e:
             embed = discord.Embed(
