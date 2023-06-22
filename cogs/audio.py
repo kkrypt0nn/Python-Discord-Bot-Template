@@ -14,7 +14,6 @@ from helpers import checks, db_manager, http
 class Audio(commands.Cog, name="audio"):
     def __init__(self, bot):
         self.bot = bot
-        self.isConnected = False
 
     @commands.hybrid_command(name="join", description="bot joins voice channel")
     @checks.not_blacklisted()
@@ -39,7 +38,6 @@ class Audio(commands.Cog, name="audio"):
             )
             
         await context.send(embed=embed)
-        self.isConnected = True
     
         
 
@@ -84,11 +82,10 @@ class Audio(commands.Cog, name="audio"):
     async def soundboard(self, context: Context, effect: discord.app_commands.Choice[str]):
     
         try:
-            if not self.isConnected:
+            vc = context.message.guild.voice_client
+            if not vc.is_connected():
                 await context.invoke(self.bot.get_command('join'))
 
-            server = context.message.guild
-            vc = server.voice_client
             vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/{effect.value}"))
             embed = discord.Embed(
                 title=f"played {effect.name}!",
@@ -111,15 +108,14 @@ class Audio(commands.Cog, name="audio"):
     @commands.hybrid_command(name="tts", description="Text to Speech")
     @checks.is_owner()
     async def tts(self, context: Context, speech: str):
-        server = context.message.guild
-        vc = server.voice_client
 
-        if not self.isConnected:
+        vc = context.message.guild.voice_client
+        if not vc.is_connected():
             await context.invoke(self.bot.get_command('join'))
 
         embed = discord.Embed(
-                title=f"playing in a second!",
-                color=0x39AC39
+            title=f"playing in a second!",
+            color=0x39AC39
         )
         await context.send(embed=embed, ephemeral=True)
 
