@@ -133,6 +133,7 @@ class Audio(commands.Cog, name="audio"):
                 color=0xE02B2B
             ) 
             await context.send(embed=embed)
+            context.command.reset_cooldown(context)
             return
         
         vc = context.message.guild.voice_client
@@ -143,6 +144,7 @@ class Audio(commands.Cog, name="audio"):
                 color=0xE02B2B
             ) 
             await context.send(embed=embed)
+            context.command.reset_cooldown(context)
             return      
             
 
@@ -168,6 +170,10 @@ class Audio(commands.Cog, name="audio"):
                 color=0x39AC39
             )
             await context.interaction.followup.send(embed=embed)
+
+            # stats
+            await db_manager.increment_or_add_command_count(context.author.id, "tts", 1)
+
 
         except Exception as e:
             embed = discord.Embed(
