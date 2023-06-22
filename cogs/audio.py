@@ -106,7 +106,8 @@ class Audio(commands.Cog, name="audio"):
 
 
     @commands.hybrid_command(name="tts", description="Text to Speech")
-    @checks.is_owner()
+    @checks.not_blacklisted()
+    @commands.cooldown(rate=1, per=120)
     async def tts(self, context: Context, speech: str):
 
         vc = context.message.guild.voice_client
