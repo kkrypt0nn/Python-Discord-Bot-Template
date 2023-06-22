@@ -64,10 +64,9 @@ class Audio(commands.Cog, name="audio"):
         self.isConnected = False
         
 
-    @commands.hybrid_command(name="soundboard", description="Play snippet from soundboard")
+    @commands.hybrid_command(name="soundboard", description="Play effect from soundboard")
     @app_commands.choices(effect=[
         discord.app_commands.Choice(name="hentai Xander", value="hentai.mp3"),
-        discord.app_commands.Choice(name="sample", value="sample-3s.mp3"),
     ])
     @checks.not_blacklisted()
     async def soundboard(self, context: Context, effect: discord.app_commands.Choice[str]):
