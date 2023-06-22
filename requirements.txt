@@ -2,3 +2,4 @@ discord.py
 psycopg2
 youtube_dl
 PyNaCl==1.4.0
+ffmpeg
