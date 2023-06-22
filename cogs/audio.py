@@ -4,7 +4,7 @@ import os
 from discord import app_commands
 from discord.ext.commands import Context
 import discord
-from helpers import checks, db_manager
+from helpers import checks, audio_controller
 
 
 # Here we name the cog and create a new class for the cog.
@@ -14,44 +14,68 @@ class Audio(commands.Cog, name="audio"):
 
     @commands.hybrid_command(name="join", description="bot joins voice channel")
     @checks.not_blacklisted()
-    async def join(self, ctx):
-        if not ctx.message.author.voice:
+    async def join(self, context: Context):
+        try:
+            if not context.message.author.voice:
+                embed = discord.Embed(
+                    title=f"You are not in a voice channel",
+                    color=0xE02B2B
+            ) 
+            else:
+                channel = context.author.voice.channel
+                await channel.connect()
+                embed = discord.Embed(
+                    title=f"Joined channel {channel.name}!",
+                    color=0x39AC39
+                )
+        except discord.ClientException:
             embed = discord.Embed(
-                title=f"You are not in a voice channel",
+                title=f"Already in voice channel",
                 color=0xE02B2B
             )
-            ctx.send(embed=embed)
-            return 
+            
+        await context.send(embed=embed)
+
+    
         
-        channel = ctx.author.voice.channel
-        await channel.connect()
-        embed = discord.Embed(
-            title=f"Joined channel!",
-            color=0x39AC39
-        )
-        ctx.send(embed=embed)
 
     @commands.hybrid_command(name="leave", description="bot leaves voice channel")
     @checks.not_blacklisted()
-    async def leave(self, ctx):
+    async def leave(self, context: Context):
 
-        voice_client = ctx.message.guild.voice_client
+        voice_client = context.message.guild.voice_client
         if voice_client.is_connected():
             await voice_client.disconnect()
             embed = discord.Embed(
                 title=f"Joined channel!",
                 color=0x39AC39
             )
-            ctx.send(embed=embed)
+            await context.send(embed=embed)
 
         else:
             embed = discord.Embed(
                 title=f"You are not in a voice channel",
                 color=0xE02B2B
             )
-            ctx.send(embed=embed)
+            await context.send(embed=embed)
         
         
+
+    @commands.hybrid_command(name="play", description="Plays something from youtube url")
+    @checks.not_blacklisted()
+    async def play(self, context: Context, url: str):
+    
+        try :
+            server = context.message.guild
+            voice_channel = server.voice_client
+
+            async with context.typing():
+                filename = await audio_controller.YTDLSource.from_url(url, loop=self.bot.loop)
+                voice_channel.play(discord.FFmpegPCMAudio(executable="ffmpeg.exe", source=filename))
+            await context.send('**Now playing:** {}'.format(filename))
+        except:
+            await context.send("The bot is not connected to a voice channel.")
+
 
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
