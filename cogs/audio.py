@@ -108,7 +108,7 @@ class Audio(commands.Cog, name="audio"):
             await context.send(embed=embed, ephemeral=True)
 
 
-    @commands.hybrid_command(name="text-to-speech", description="Text to Speech")
+    @commands.hybrid_command(name="tts", description="Text to Speech")
     @checks.is_owner()
     async def tts(self, context: Context, speech: str):
         server = context.message.guild
@@ -118,6 +118,7 @@ class Audio(commands.Cog, name="audio"):
             await context.invoke(self.bot.get_command('join'))
 
         await context.response.defer(ephemeral=True, with_message=True)
+
         audio_data = await http.query_uberduck(speech)
         with tempfile.NamedTemporaryFile(
             suffix=".wav"
