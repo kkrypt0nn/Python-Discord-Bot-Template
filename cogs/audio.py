@@ -134,12 +134,16 @@ class Audio(commands.Cog, name="audio"):
             await context.send(embed=embed)
             return
         
-        try:
-            vc = context.message.guild.voice_client
-            if not vc.is_connected():
-                await context.invoke(self.bot.get_command('join'))
-        except:
-            await context.invoke(self.bot.get_command('join'))
+        vc = context.message.guild.voice_client
+        if vc is None:
+            embed = discord.Embed(
+                title=f"Bot is not in vc",
+                description="use /join to add bot to vc"
+                color=0xE02B2B
+            ) 
+            await context.send(embed=embed)
+            return      
+            
 
         await context.defer()
 
