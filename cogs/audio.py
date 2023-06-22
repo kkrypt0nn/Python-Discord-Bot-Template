@@ -138,7 +138,7 @@ class Audio(commands.Cog, name="audio"):
         if vc is None:
             embed = discord.Embed(
                 title=f"Bot is not in vc",
-                description="use /join to add bot to vc"
+                description="use /join to add bot to vc",
                 color=0xE02B2B
             ) 
             await context.send(embed=embed)
