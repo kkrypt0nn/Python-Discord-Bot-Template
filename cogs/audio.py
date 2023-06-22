@@ -68,6 +68,7 @@ class Audio(commands.Cog, name="audio"):
     @app_commands.choices(effect=[
         discord.app_commands.Choice(name="hentai Xander", value="hentai.mp3"),
         discord.app_commands.Choice(name="alexa... shut the fuck up", value="alexa.mp3"),
+        discord.app_commands.Choice(name="the rock boom sound", value="the-rock.mp3"),
     ])
     @checks.not_blacklisted()
     async def soundboard(self, context: Context, effect: discord.app_commands.Choice[str]):
