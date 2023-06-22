@@ -68,6 +68,12 @@ class Audio(commands.Cog, name="audio"):
     @app_commands.choices(effect=[
         discord.app_commands.Choice(name="hentai Xander", value="hentai.mp3"),
         discord.app_commands.Choice(name="alexa... shut the fuck up", value="alexa.mp3"),
+        discord.app_commands.Choice(name="yeah boy", value="yeah-boy.mp3"),
+        discord.app_commands.Choice(name="sinister laugh", value="sinister-laugh.mp3"),
+        discord.app_commands.Choice(name="help me n-", value="help-me.mp3"),
+        discord.app_commands.Choice(name="illuminati", value="illuminati.mp3"),
+        discord.app_commands.Choice(name="gta v wasted", value="gta-wasted.mp3"),
+        discord.app_commands.Choice(name="surprise motherfucker", value="surprise.mp3"),
         discord.app_commands.Choice(name="the rock boom sound", value="the-rock.mp3"),
     ])
     @checks.not_blacklisted()
