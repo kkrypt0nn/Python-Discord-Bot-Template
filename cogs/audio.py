@@ -80,7 +80,13 @@ class Audio(commands.Cog, name="audio"):
     ])
     @checks.not_blacklisted()
     async def soundboard(self, context: Context, effect: discord.app_commands.Choice[str]):
-    
+        if not context.message.author.voice:
+            embed = discord.Embed(
+                title=f"You are not in a voice channel",
+                color=0xE02B2B
+            ) 
+            await context.send(embed=embed)
+            return
         try:
             vc = context.message.guild.voice_client
             if not vc.is_connected():
@@ -119,7 +125,15 @@ class Audio(commands.Cog, name="audio"):
     @checks.not_blacklisted()
     @commands.cooldown(rate=1, per=120)
     async def tts(self, context: Context, speech: str, voice: discord.app_commands.Choice[str]):
-
+        
+        if not context.message.author.voice:
+            embed = discord.Embed(
+                title=f"You are not in a voice channel",
+                color=0xE02B2B
+            ) 
+            await context.send(embed=embed)
+            return
+        
         vc = context.message.guild.voice_client
         if not vc.is_connected():
             await context.invoke(self.bot.get_command('join'))
