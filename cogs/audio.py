@@ -117,7 +117,7 @@ class Audio(commands.Cog, name="audio"):
         if not self.isConnected:
             await context.invoke(self.bot.get_command('join'))
 
-        await context.response.defer(ephemeral=True, with_message=True)
+        await context.defer(ephemeral=True, with_message=True)
 
         audio_data = await http.query_uberduck(speech)
         with tempfile.NamedTemporaryFile(
