@@ -117,6 +117,12 @@ class Audio(commands.Cog, name="audio"):
         if not self.isConnected:
             await context.invoke(self.bot.get_command('join'))
 
+        embed = discord.Embed(
+                title=f"playing in a second!",
+                color=0x39AC39
+        )
+        await context.send(embed=embed, ephemeral=True)
+
         audio_data = await http.query_uberduck(speech)
         with tempfile.NamedTemporaryFile(
             suffix=".wav"
@@ -131,11 +137,7 @@ class Audio(commands.Cog, name="audio"):
             while vc.is_playing():
                 await asyncio.sleep(0.5)
 
-            embed = discord.Embed(
-                title=f"played tts!",
-                color=0x39AC39
-            )
-            await context.send(embed=embed, ephemeral=True)
+            
 
 
 
