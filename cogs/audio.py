@@ -79,9 +79,10 @@ class Audio(commands.Cog, name="audio"):
             )
             await context.send(embed=embed, ephemeral=True)
 
-        except:
+        except Exception as e:
             embed = discord.Embed(
                 title=f"Something went wrong",
+                description=e,
                 color=0xE02B2B
             )
             await context.send(embed=embed, ephemeral=True)
