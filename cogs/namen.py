@@ -18,7 +18,7 @@ class Names(commands.Cog, name="namen"):
     )
     @app_commands.choices(choices=[
         app_commands.Choice(name="random", value=-1),
-        app_commands.Choice(name="rip_base", value=0),
+        app_commands.Choice(name="rip base", value=0),
         app_commands.Choice(name="tnt", value=1),
         app_commands.Choice(name="kkrbek", value=2),
         app_commands.Choice(name="dans", value=3),
@@ -170,7 +170,7 @@ class Names(commands.Cog, name="namen"):
     )
     @app_commands.choices(choices=[
         app_commands.Choice(name="random", value=-1),
-        app_commands.Choice(name="rooftop_madness", value=0),
+        app_commands.Choice(name="rooftop madness", value=0),
     ])
     @checks.not_blacklisted()
     async def keleo(self, context: Context, choices: app_commands.Choice[int]):

@@ -49,8 +49,8 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="ncountCommand", value="nCount"),
         discord.app_commands.Choice(name="ncount", value="ncountCHECK"),
         discord.app_commands.Choice(name="play", value="play"),
-        discord.app_commands.Choice(name="messages_played", value="messages_played"),
-        discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
+        discord.app_commands.Choice(name="messages played", value="messages_played"),
+        discord.app_commands.Choice(name="messages deleted", value="messages_deleted"),
         discord.app_commands.Choice(name="soundboard", value="soundboard"),
         # discord.app_commands.Choice(name="dm", value="dm"),
     ])
@@ -115,8 +115,8 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="ncountCommand", value="nCount"),
         discord.app_commands.Choice(name="ncount", value="ncountCHECK"),
         discord.app_commands.Choice(name="play", value="play"),
-        discord.app_commands.Choice(name="messages_played", value="messages_played"),
-        discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
+        discord.app_commands.Choice(name="messages played", value="messages_played"),
+        discord.app_commands.Choice(name="messages deleted", value="messages_deleted"),
         discord.app_commands.Choice(name="soundboard", value="soundboard"),
         discord.app_commands.Choice(name="dm", value="dm"),
     ])
@@ -157,8 +157,8 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="ncountCommand", value="nCount"),
         discord.app_commands.Choice(name="ncount", value="ncountCHECK"),
         discord.app_commands.Choice(name="play", value="play"),
-        discord.app_commands.Choice(name="messages_played", value="messages_played"),
-        discord.app_commands.Choice(name="messages_deleted", value="messages_deleted"),
+        discord.app_commands.Choice(name="messages played", value="messages_played"),
+        discord.app_commands.Choice(name="messages deleted", value="messages_deleted"),
         discord.app_commands.Choice(name="soundboard", value="soundboard"),
         # discord.app_commands.Choice(name="dm", value="dm"),
     ])
