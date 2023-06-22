@@ -1,4 +1,4 @@
 discord.py
 psycopg2
-youtube_dl==2021.2.10
+youtube_dl
 PyNaCl==1.4.0
