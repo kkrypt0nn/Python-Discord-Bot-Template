@@ -134,8 +134,11 @@ class Audio(commands.Cog, name="audio"):
             await context.send(embed=embed)
             return
         
-        vc = context.message.guild.voice_client
-        if not vc.is_connected():
+        try:
+            vc = context.message.guild.voice_client
+            if not vc.is_connected():
+                await context.invoke(self.bot.get_command('join'))
+        except:
             await context.invoke(self.bot.get_command('join'))
 
         await context.defer()
