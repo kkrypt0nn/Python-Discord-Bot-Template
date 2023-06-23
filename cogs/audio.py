@@ -250,6 +250,10 @@ class Audio(commands.Cog, name="audio"):
 
     async def play_next(self, context: Context):
         vc = context.message.guild.voice_client
+
+        while vc.is_playing():
+            await asyncio.sleep(3)
+
         url = self.queue.get()
         if url is None: return
 
