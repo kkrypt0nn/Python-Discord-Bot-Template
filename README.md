@@ -21,7 +21,8 @@ ELKE TITEL IS EEN COG DIE TELKENS HUN COMMANDS BESSCHRIJFT
 * /countdown  countdown tot een gegeven moment
 
 ## Namen
-Telkens met een parameter dat random kan zijn, of een specifiek bericht. 
+
+Telkens met een parameter dat random kan zijn, of een specifiek bericht.
 
 * /gible		Stuurt een bericht over gible
 * /nootje		Stuurt een bericht over nootje
@@ -33,7 +34,7 @@ Telkens met een parameter dat random kan zijn, of een specifiek bericht.
 
 ## Out of Context
 
-* /play	[True/False] Speel het out of context spel, true als andere mensen het spel ook mogen zien, anders false
+* /play-game	[True/False] Speel het out of context spel, true als andere mensen het spel ook mogen zien, anders false
 
   * previous		ga terug naar het vorige bericht
   * next			ga naar het volgende bericht
@@ -75,8 +76,21 @@ Alles in deze cog is admin only
 * /blacklist add user		Voeg een gebruiker toe aan de blacklist
 * /blacklist remove		Verwijder een gebruiker van de blacklist
 
-
 ## Stats
+
 * /individuele_stats @user #command Hoeveel keer heeft iemand een command gebruikt
 * /changecommandcount @usrer #command #count verander de count van user van command
 * /leaderboard #command toont top 10 voor gegeven command
+
+## Audio
+
+* /join		bot joined de voice channel waar je inzit
+* /leave	bot leaved de voice channel
+* /soundboard		bot speelt een sound effect af
+* /tts	bot speelt een text to speech bericht af
+* /play bot speelt de audio van een youtube video af
+* /play-playlist		bot speelt de audios af van een youtube playlist
+* /skip	bot skipt een lied
+* /pause	pauzeer de audio die aan het afspelen is
+* /resume	speel de audio verder af
+* /stop	stop met afspelen, en maakt de queue leeg

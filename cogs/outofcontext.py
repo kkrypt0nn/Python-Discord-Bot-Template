@@ -93,7 +93,7 @@ class OutOfContext(commands.Cog, name="context"):
 
     @commands.hybrid_command(
         name="context_debug",
-        description="debug stats for /play (admin only)",
+        description="debug stats for /play-game (admin only)",
     )
     @checks.is_owner()
     async def context_debug(self, context: Context):
@@ -113,7 +113,7 @@ class OutOfContext(commands.Cog, name="context"):
 
 
     @commands.hybrid_command(
-        name="play",
+        name="play-game",
         description="Play the out of context game",
     )
     @app_commands.describe(groep="Toon het spel ook aan andere personen")

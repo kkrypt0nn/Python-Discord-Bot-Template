@@ -7,7 +7,7 @@ youtube_dl.utils.bug_reports_message = lambda: ''
 
 
 class YTDLSource(discord.PCMVolumeTransformer):
-    def __init__(self, source, *, data, volume=0.5):
+    def __init__(self, source, *, data, volume=0.4):
         super().__init__(source, volume)
         self.data = data
         self.title = data.get('title')
