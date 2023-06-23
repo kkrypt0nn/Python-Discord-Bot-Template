@@ -368,7 +368,7 @@ class Audio(commands.Cog, name="audio"):
 
 
 
-    @commands.hybrid_command(name="stop", description="Stop the currently playing song")
+    @commands.hybrid_command(name="stop", description="Stop the listening session (this clears the queue!)")
     @checks.not_blacklisted()
     async def stop(self, context: Context):
         voice_client = context.message.guild.voice_client
