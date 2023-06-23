@@ -226,8 +226,12 @@ class Audio(commands.Cog, name="audio"):
         # stats
         await db_manager.increment_or_add_command_count(context.author.id, "music_yt", 1)
 
-
-        await context.interaction.followup.send('**Now playing:** {}'.format(filename))
+        embed = discord.Embed(
+            title=f"Playin music!",
+            description=filename,
+            color=0x39AC39
+        )
+        await context.interaction.followup.send(embed=embed)
 
 
 
@@ -235,11 +239,30 @@ class Audio(commands.Cog, name="audio"):
     @checks.not_blacklisted()
     async def pause(self, context: Context):
         voice_client = context.message.guild.voice_client
+        if voice_client is None:
+            embed = discord.Embed(
+                title=f"Bot is not in vc",
+                description="use /join to add bot to vc",
+                color=0xE02B2B
+            ) 
+            await context.send(embed=embed)
+            return  
+        
         if voice_client.is_playing():
             voice_client.pause()
-            await context.send("Paused.")
+            embed = discord.Embed(
+                title=f"Paused!",
+                color=0x39AC39
+            )
+            await context.send(embed=embed)
         else:
-            await context.send("The bot is not playing anything at the moment.")
+            embed = discord.Embed(
+                title=f"The bot is not playing anything at the moment.",
+                description="Use /music-yt to play a song",
+                color=0xF4900D
+            )
+            await context.send(embed=embed)
+            
         
 
 
@@ -247,11 +270,29 @@ class Audio(commands.Cog, name="audio"):
     @checks.not_blacklisted()
     async def resume(self, context: Context):
         voice_client = context.message.guild.voice_client
+        if voice_client is None:
+            embed = discord.Embed(
+                title=f"Bot is not in vc",
+                description="use /join to add bot to vc",
+                color=0xE02B2B
+            ) 
+            await context.send(embed=embed)
+            return  
+        
         if voice_client.is_paused():
             voice_client.resume()
-            await context.send("Resumed.")
+            embed = discord.Embed(
+                title=f"Resumed!",
+                color=0x39AC39
+            )
+            await context.send(embed=embed)
         else:
-            await context.send("The bot was not playing anything before this. Use music-yt command")
+            embed = discord.Embed(
+                title=f"The bot is not playing anything at the moment.",
+                description="Use /music-yt to play a song",
+                color=0xF4900D
+            )
+            await context.send(embed=embed)
 
 
 
@@ -259,11 +300,30 @@ class Audio(commands.Cog, name="audio"):
     @checks.not_blacklisted()
     async def stop(self, context: Context):
         voice_client = context.message.guild.voice_client
+        if voice_client is None:
+            embed = discord.Embed(
+                title=f"Bot is not in vc",
+                description="use /join to add bot to vc",
+                color=0xE02B2B
+            ) 
+            await context.send(embed=embed)
+            return  
+        
         if voice_client.is_playing():
             voice_client.stop()
-            await context.send("Stopped.")
+            embed = discord.Embed(
+                title=f"Stopped!",
+                color=0x39AC39
+            )
+            await context.send(embed=embed)
         else:
-            await context.send("The bot is not playing anything at the moment.")
+            embed = discord.Embed(
+                title=f"The bot is not playing anything at the moment.",
+                description="Use /music-yt to play a song",
+                color=0xF4900D
+            )
+            await context.send(embed=embed)
+
 
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
