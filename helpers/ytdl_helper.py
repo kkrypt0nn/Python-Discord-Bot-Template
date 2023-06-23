@@ -1,6 +1,5 @@
 import asyncio
 import discord
-from discord.ext import commands,tasks
 import youtube_dl
 
 
@@ -15,7 +14,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
         self.url = ""
 
     @classmethod
-    async def from_url(cls, url, *, loop=None, stream=False):
+    async def from_url(cls, url, *, loop=None, stream=False, ytdl):
         loop = loop or asyncio.get_event_loop()
         data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
         if 'entries' in data:

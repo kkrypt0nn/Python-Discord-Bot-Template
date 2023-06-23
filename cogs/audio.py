@@ -7,7 +7,7 @@ from discord.ext.commands import Context
 import discord
 import asyncio
 import tempfile
-from helpers import checks, db_manager, http, ytdl
+from helpers import checks, db_manager, http, ytdl_helper
 from discord.utils import get
 from discord import FFmpegPCMAudio
 import youtube_dl
@@ -221,7 +221,7 @@ class Audio(commands.Cog, name="audio"):
         
         await context.defer()
         
-        filename = await ytdl.YTDLSource.from_url(url, loop=self.bot.loop)
+        filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl)
         vc.play(discord.FFmpegPCMAudio(source=filename))
 
         await context.interaction.followup.send('**Now playing:** {}'.format(filename))
