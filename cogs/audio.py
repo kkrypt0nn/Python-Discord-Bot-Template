@@ -281,6 +281,7 @@ class Audio(commands.Cog, name="audio"):
             await self.play_next(context)
         else:
             vc.play(discord.FFmpegPCMAudio(source=filename), after = lambda e: asyncio.run_coroutine_threadsafe(self.play_next(context), self.bot.loop))
+            self.track_playing = filename
 
 
 
@@ -314,7 +315,7 @@ class Audio(commands.Cog, name="audio"):
 
     
 
-    @commands.hybrid_command(name="skip", description="Skip the currently playing song")
+    @commands.hybrid_command(name="skip", description="Skip the currently playing track")
     @checks.not_blacklisted()
     async def skip(self, context: Context):
         voice_client = context.message.guild.voice_client
@@ -336,9 +337,9 @@ class Audio(commands.Cog, name="audio"):
 
 
 
-    @commands.hybrid_command(name="queue", description="See the Queue")
+    @commands.hybrid_command(name="list", description="See the Queue")
     @checks.not_blacklisted()
-    async def queue(self, context: Context):
+    async def list(self, context: Context):
         
         if len(self.queue) == 0:
             embed = discord.Embed(
@@ -361,7 +362,7 @@ class Audio(commands.Cog, name="audio"):
 
 
 
-    @commands.hybrid_command(name="pause", description="Pause currently playing song")
+    @commands.hybrid_command(name="pause", description="Pause currently playing track")
     @checks.not_blacklisted()
     async def pause(self, context: Context):
         voice_client = context.message.guild.voice_client
@@ -378,10 +379,23 @@ class Audio(commands.Cog, name="audio"):
             await context.send(embed=embed)
         else:
             await context.send(embed=self.not_playing_embed)
+
+
+
+    @commands.hybrid_command(name="nowplaying", description="See the currently playing track")
+    @checks.not_blacklisted()
+    async def nowplaying(self, context: Context):
+
+        embed = discord.Embed(
+            title="Now playing" if self.track_playing is not None else "Nothing is playing",
+            description=self.track_playing,
+            color=self.bot.defaultColor
+        )
+        await context.send(embed=embed)
             
         
 
-    @commands.hybrid_command(name="resume", description="Resume currently playing song")
+    @commands.hybrid_command(name="resume", description="Resume currently playing track")
     @checks.not_blacklisted()
     async def resume(self, context: Context):
         voice_client = context.message.guild.voice_client
@@ -420,6 +434,8 @@ class Audio(commands.Cog, name="audio"):
 
         else:
             await context.send(embed=self.not_playing_embed)
+
+        self.track_playing = None
 
 
 
