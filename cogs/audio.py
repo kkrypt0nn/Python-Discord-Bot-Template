@@ -113,7 +113,14 @@ class Audio(commands.Cog, name="audio"):
             if not vc.is_connected():
                 await context.invoke(self.bot.get_command('join'))
 
+            if vc.is_playing():
+                vc.pause()
+
             vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/{effect.value}"))
+            
+            if vc.is_paused():
+                vc.resume()
+            
             embed = discord.Embed(
                 title=f"played {effect.name}!",
                 color=0x39AC39
@@ -183,10 +190,8 @@ class Audio(commands.Cog, name="audio"):
                 source = discord.FFmpegOpusAudio(opus_f.name)
                 if vc.is_playing():
                     vc.pause()
-                vc.play(source, after=None)
 
-                while vc.is_playing():
-                    await asyncio.sleep(0.5)
+                vc.play(source, after=None)
 
                 if vc.is_paused():
                     vc.resume()
