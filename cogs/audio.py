@@ -260,7 +260,7 @@ class Audio(commands.Cog, name="audio"):
 
         embed = discord.Embed(
             title=f"Playing music!",
-            description=filename,
+            description=f"[See song]({url})",
             color=self.bot.succesColor
         )
         await context.interaction.followup.send(embed=embed)
@@ -275,7 +275,7 @@ class Audio(commands.Cog, name="audio"):
 
         if self.queue.empty(): return
 
-        url = self.queue.get()
+        url = self.queue.pop(0)
 
         filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl, bot=self.bot)
         if filename is None:
@@ -310,6 +310,31 @@ class Audio(commands.Cog, name="audio"):
 
         else:
             await context.send(embed=self.not_playing_embed)
+
+
+
+    @commands.hybrid_command(name="queue", description="See the Queue")
+    @checks.not_blacklisted()
+    async def queue(self, context: Context):
+        
+        if self.queue.empty():
+            embed = discord.Embed(
+                title=f"Queue is empty!",
+                color=self.bot.defaultColor
+            )
+        else:
+            desc = ""
+            for i, url in enumerate(iter(self.queue.get, None)):
+                if i<10:
+                    desc += f"{i+1}: [See song]({url})\n\n"
+
+            embed = discord.Embed(
+                title=f"Queue",
+                description=desc,
+                color=self.bot.defaultColor
+            )
+
+        await context.send(embed=embed)
 
 
 
