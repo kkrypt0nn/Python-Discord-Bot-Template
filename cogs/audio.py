@@ -217,14 +217,12 @@ class Audio(commands.Cog, name="audio"):
                 color=0xE02B2B
             ) 
             await context.send(embed=embed)
-            context.command.reset_cooldown(context)
             return  
         
         await context.defer()
         
-        async with context.typing():
-            filename = await ytdl.YTDLSource.from_url(url, loop=self.bot.loop)
-            vc.play(discord.FFmpegPCMAudio(source=filename))
+        filename = await ytdl.YTDLSource.from_url(url, loop=self.bot.loop)
+        vc.play(discord.FFmpegPCMAudio(source=filename))
 
         await context.interaction.followup.send('**Now playing:** {}'.format(filename))
 
