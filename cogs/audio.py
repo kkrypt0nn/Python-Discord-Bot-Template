@@ -278,7 +278,7 @@ class Audio(commands.Cog, name="audio"):
         
         if voice_client.is_playing():
             voice_client.stop()
-            await self.play_next(context=context)
+            
             embed = discord.Embed(
                 title=f"Skipped!",
                 color=0x39AC39
@@ -377,7 +377,7 @@ class Audio(commands.Cog, name="audio"):
                 color=0xF4900D
             )
             await context.send(embed=embed)
-            
+
         else:
             embed = discord.Embed(
                 title=f"The bot is not playing anything at the moment.",
