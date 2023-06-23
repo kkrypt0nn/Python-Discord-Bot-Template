@@ -220,7 +220,7 @@ class Audio(commands.Cog, name="audio"):
     @commands.hybrid_command(name="music-yt", description="play a youtube video (use this command again to add to queue)")
     @checks.not_blacklisted()
     async def music_yt(self, context: Context, url: str):
-        
+
         if not context.message.author.voice:
             await context.send(embed=self.not_in_vc_embed)
             return
@@ -245,7 +245,16 @@ class Audio(commands.Cog, name="audio"):
             await context.interaction.followup.send(embed=embed)
             return
 
-        filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl)
+        filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl, bot=self.bot)
+        if filename is None:
+            embed = discord.Embed(
+                title=f"Er is iets misgegaan",
+                description=f"ben je zeker dat dit een geldige url is?",
+                color=0xE02B2B
+            )
+            await context.interaction.followup.send(embed=embed)
+            return
+        
         vc.play(discord.FFmpegPCMAudio(source=filename), after=lambda e: asyncio.run_coroutine_threadsafe(self.play_next(context), self.bot.loop))
 
 
@@ -268,7 +277,7 @@ class Audio(commands.Cog, name="audio"):
 
         url = self.queue.get()
 
-        filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl)
+        filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl, bot=self.bot)
         vc.play(discord.FFmpegPCMAudio(source=filename), after = lambda e: asyncio.run_coroutine_threadsafe(self.play_next(context), self.bot.loop))
 
 
