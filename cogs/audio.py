@@ -17,6 +17,24 @@ from queue import Queue
 class Audio(commands.Cog, name="audio"):
     def __init__(self, bot):
         self.bot = bot
+
+        self.bot_not_in_vc_embed = discord.Embed(
+            title=f"Bot is not in vc",
+            description="use /join to add bot to vc",
+            color=0xE02B2B
+        ) 
+
+        self.not_playing_embed = discord.Embed(
+            title=f"The bot is not playing anything at the moment.",
+            description="Use /music-yt to play a song",
+            color=0xF4900D
+        )
+
+        self.not_in_vc_embed = discord.Embed(
+            title=f"You are not in a voice channel",
+            color=0xE02B2B
+        ) 
+
         ytdl_format_options = {
             'format': 'bestaudio/best',
             'restrictfilenames': True,
@@ -43,10 +61,7 @@ class Audio(commands.Cog, name="audio"):
     async def join(self, context: Context):
         try:
             if not context.message.author.voice:
-                embed = discord.Embed(
-                    title=f"You are not in a voice channel",
-                    color=0xE02B2B
-            ) 
+                embed = self.not_in_vc_embed
             else:
                 channel = context.author.voice.channel
                 await channel.connect()
@@ -78,11 +93,7 @@ class Audio(commands.Cog, name="audio"):
             await context.send(embed=embed)
 
         else:
-            embed = discord.Embed(
-                title=f"You are not in a voice channel",
-                color=0xE02B2B
-            )
-            await context.send(embed=embed)
+            await context.send(embed=self.not_in_vc_embed)
                 
 
     @commands.hybrid_command(name="soundboard", description="Play effect from soundboard")
@@ -102,11 +113,7 @@ class Audio(commands.Cog, name="audio"):
     @checks.not_blacklisted()
     async def soundboard(self, context: Context, effect: discord.app_commands.Choice[str]):
         if not context.message.author.voice:
-            embed = discord.Embed(
-                title=f"You are not in a voice channel",
-                color=0xE02B2B
-            ) 
-            await context.send(embed=embed)
+            await context.send(embed=self.not_in_vc_embed)
             return
         try:
             vc = context.message.guild.voice_client
@@ -158,22 +165,13 @@ class Audio(commands.Cog, name="audio"):
     async def tts(self, context: Context, speech: str, voice: discord.app_commands.Choice[str]):
         
         if not context.message.author.voice:
-            embed = discord.Embed(
-                title=f"You are not in a voice channel",
-                color=0xE02B2B
-            ) 
-            await context.send(embed=embed)
+            await context.send(embed=self.not_in_vc_embed)
             context.command.reset_cooldown(context)
             return
         
         vc = context.message.guild.voice_client
         if vc is None:
-            embed = discord.Embed(
-                title=f"Bot is not in vc",
-                description="use /join to add bot to vc",
-                color=0xE02B2B
-            ) 
-            await context.send(embed=embed)
+            await context.send(embed=self.bot_not_in_vc_embed)
             context.command.reset_cooldown(context)
             return      
             
@@ -225,11 +223,7 @@ class Audio(commands.Cog, name="audio"):
 
         vc = context.message.guild.voice_client
         if vc is None:
-            embed = discord.Embed(
-                title=f"Bot is not in vc",
-                description="use /join to add bot to vc",
-                color=0xE02B2B
-            ) 
+            
             await context.send(embed=embed)
             return  
         
@@ -280,12 +274,7 @@ class Audio(commands.Cog, name="audio"):
     async def skip(self, context: Context):
         voice_client = context.message.guild.voice_client
         if voice_client is None:
-            embed = discord.Embed(
-                title=f"Bot is not in vc",
-                description="use /join to add bot to vc",
-                color=0xE02B2B
-            ) 
-            await context.send(embed=embed)
+            await context.send(embed=self.bot_not_in_vc_embed)
             return  
         
         if voice_client.is_playing():
@@ -298,12 +287,7 @@ class Audio(commands.Cog, name="audio"):
             await context.send(embed=embed)
 
         else:
-            embed = discord.Embed(
-                title=f"The bot is not playing anything at the moment.",
-                description="Use /music-yt to play a song",
-                color=0xF4900D
-            )
-            await context.send(embed=embed)
+            await context.send(embed=self.not_playing_embed)
 
 
 
@@ -312,12 +296,7 @@ class Audio(commands.Cog, name="audio"):
     async def pause(self, context: Context):
         voice_client = context.message.guild.voice_client
         if voice_client is None:
-            embed = discord.Embed(
-                title=f"Bot is not in vc",
-                description="use /join to add bot to vc",
-                color=0xE02B2B
-            ) 
-            await context.send(embed=embed)
+            await context.send(embed=self.bot_not_in_vc_embed)
             return  
         
         if voice_client.is_playing():
@@ -328,12 +307,7 @@ class Audio(commands.Cog, name="audio"):
             )
             await context.send(embed=embed)
         else:
-            embed = discord.Embed(
-                title=f"The bot is not playing anything at the moment.",
-                description="Use /music-yt to play a song",
-                color=0xF4900D
-            )
-            await context.send(embed=embed)
+            await context.send(embed=self.not_playing_embed)
             
         
 
@@ -343,12 +317,7 @@ class Audio(commands.Cog, name="audio"):
     async def resume(self, context: Context):
         voice_client = context.message.guild.voice_client
         if voice_client is None:
-            embed = discord.Embed(
-                title=f"Bot is not in vc",
-                description="use /join to add bot to vc",
-                color=0xE02B2B
-            ) 
-            await context.send(embed=embed)
+            await context.send(embed=self.bot_not_in_vc_embed)
             return  
         
         if voice_client.is_paused():
@@ -359,12 +328,7 @@ class Audio(commands.Cog, name="audio"):
             )
             await context.send(embed=embed)
         else:
-            embed = discord.Embed(
-                title=f"The bot is not playing anything at the moment.",
-                description="Use /music-yt to play a song",
-                color=0xF4900D
-            )
-            await context.send(embed=embed)
+            await context.send(embed=self.not_playing_embed)
 
 
 
@@ -373,12 +337,7 @@ class Audio(commands.Cog, name="audio"):
     async def stop(self, context: Context):
         voice_client = context.message.guild.voice_client
         if voice_client is None:
-            embed = discord.Embed(
-                title=f"Bot is not in vc",
-                description="use /join to add bot to vc",
-                color=0xE02B2B
-            ) 
-            await context.send(embed=embed)
+            await context.send(embed=self.bot_not_in_vc_embed)
             return  
         
         if voice_client.is_playing():
@@ -391,12 +350,7 @@ class Audio(commands.Cog, name="audio"):
             await context.send(embed=embed)
 
         else:
-            embed = discord.Embed(
-                title=f"The bot is not playing anything at the moment.",
-                description="Use /music-yt to play a song",
-                color=0xF4900D
-            )
-            await context.send(embed=embed)
+            await context.send(embed=self.not_playing_embed)
 
 
 
