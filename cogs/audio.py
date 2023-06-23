@@ -230,6 +230,7 @@ class Audio(commands.Cog, name="audio"):
             self.queue.put(url)
             embed = discord.Embed(
                 title=f"Added to Queue",
+                description=f"[See song]({url})",
                 color=0xF4900D
             )
             await context.interaction.followup.send(embed=embed)
