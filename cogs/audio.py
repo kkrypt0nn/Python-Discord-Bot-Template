@@ -116,7 +116,9 @@ class Audio(commands.Cog, name="audio"):
             if vc.is_playing():
                 vc.pause()
 
-            vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/{effect.value}"))
+            vc.play(discord.FFmpegPCMAudio(f"{os.path.realpath(os.path.dirname(__file__))}/../audio_snippets/{effect.value}"), 
+                after=lambda e: asyncio.run_coroutine_threadsafe(self.play_next(context), self.bot.loop)
+            )
             
             if vc.is_paused():
                 vc.resume()
@@ -191,7 +193,7 @@ class Audio(commands.Cog, name="audio"):
                 if vc.is_playing():
                     vc.pause()
 
-                vc.play(source, after=None)
+                vc.play(source, after=lambda e: asyncio.run_coroutine_threadsafe(self.play_next(context), self.bot.loop))
 
                 if vc.is_paused():
                     vc.resume()
