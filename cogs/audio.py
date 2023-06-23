@@ -10,6 +10,7 @@ import tempfile
 from helpers import checks, db_manager, http, ytdl_helper
 from discord import FFmpegPCMAudio
 import yt_dlp as youtube_dl
+from queue import Queue
 
 
 # Here we name the cog and create a new class for the cog.
@@ -34,6 +35,8 @@ class Audio(commands.Cog, name="audio"):
         }
 
         self.ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+
+        self.queue = Queue()
 
     @commands.hybrid_command(name="join", description="bot joins voice channel")
     @checks.not_blacklisted()
@@ -219,12 +222,22 @@ class Audio(commands.Cog, name="audio"):
             return  
         
         await context.defer()
-        
-        filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl)
-        vc.play(discord.FFmpegPCMAudio(source=filename))
 
         # stats
         await db_manager.increment_or_add_command_count(context.author.id, "music_yt", 1)
+        
+        if vc.is_playing():
+            self.queue.put(url)
+            embed = discord.Embed(
+                title=f"Added to Queue",
+                color=0xF4900D
+            )
+            await context.interaction.followup.send(embed=embed)
+            return
+
+        filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl)
+        vc.play(discord.FFmpegPCMAudio(source=filename), after = lambda e: await self.play_next(context))
+
 
         embed = discord.Embed(
             title=f"Playin music!",
@@ -232,6 +245,16 @@ class Audio(commands.Cog, name="audio"):
             color=0x39AC39
         )
         await context.interaction.followup.send(embed=embed)
+
+
+
+    async def play_next(self, context: Context):
+        vc = context.message.guild.voice_client
+        url = self.queue.get()
+        if url is None: return
+
+        filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl)
+        vc.play(discord.FFmpegPCMAudio(source=filename), after = lambda e: await self.play_next(context))
 
 
 
@@ -313,7 +336,7 @@ class Audio(commands.Cog, name="audio"):
             voice_client.stop()
             embed = discord.Embed(
                 title=f"Stopped!",
-                color=0x39AC39
+                color=0xF4900D
             )
             await context.send(embed=embed)
         else:
