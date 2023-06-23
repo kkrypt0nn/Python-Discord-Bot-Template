@@ -52,6 +52,7 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="messages played", value="messages_played"),
         discord.app_commands.Choice(name="messages deleted", value="messages_deleted"),
         discord.app_commands.Choice(name="soundboard", value="soundboard"),
+        discord.app_commands.Choice(name="music_yt", value="music_yt"),
         # discord.app_commands.Choice(name="dm", value="dm"),
     ])
     @checks.not_blacklisted()
@@ -119,6 +120,7 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="messages deleted", value="messages_deleted"),
         discord.app_commands.Choice(name="soundboard", value="soundboard"),
         discord.app_commands.Choice(name="dm", value="dm"),
+        discord.app_commands.Choice(name="music_yt", value="music_yt"),
     ])
     @checks.is_owner()
     async def changeNCount(self, context: Context, user: discord.User, command: discord.app_commands.Choice[str], amount: int):
@@ -160,6 +162,7 @@ class Stats(commands.Cog, name="stats"):
         discord.app_commands.Choice(name="messages played", value="messages_played"),
         discord.app_commands.Choice(name="messages deleted", value="messages_deleted"),
         discord.app_commands.Choice(name="soundboard", value="soundboard"),
+        discord.app_commands.Choice(name="music_yt", value="music_yt"),
         # discord.app_commands.Choice(name="dm", value="dm"),
     ])
     @checks.not_blacklisted()

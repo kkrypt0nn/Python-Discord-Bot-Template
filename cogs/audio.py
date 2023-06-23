@@ -223,6 +223,10 @@ class Audio(commands.Cog, name="audio"):
         filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl)
         vc.play(discord.FFmpegPCMAudio(source=filename))
 
+        # stats
+        await db_manager.increment_or_add_command_count(context.author.id, "music_yt", 1)
+
+
         await context.interaction.followup.send('**Now playing:** {}'.format(filename))
 
 
