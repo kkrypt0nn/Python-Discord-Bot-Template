@@ -285,8 +285,9 @@ class Audio(commands.Cog, name="audio"):
                 color=0xE02B2B
             )
             await context.interaction.followup.send(embed=embed)
-            return
-        vc.play(discord.FFmpegPCMAudio(source=filename), after = lambda e: asyncio.run_coroutine_threadsafe(self.play_next(context), self.bot.loop))
+            await self.play_next(context)
+        else:
+            vc.play(discord.FFmpegPCMAudio(source=filename), after = lambda e: asyncio.run_coroutine_threadsafe(self.play_next(context), self.bot.loop))
 
 
     @commands.hybrid_command(name="skip", description="Skip the currently playing song")
