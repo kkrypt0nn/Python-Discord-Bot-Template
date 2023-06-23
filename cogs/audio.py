@@ -232,7 +232,7 @@ class Audio(commands.Cog, name="audio"):
     async def pause(self, context: Context):
         voice_client = context.message.guild.voice_client
         if voice_client.is_playing():
-            await voice_client.pause()
+            voice_client.pause()
             await context.send("Paused.")
         else:
             await context.send("The bot is not playing anything at the moment.")
@@ -244,7 +244,7 @@ class Audio(commands.Cog, name="audio"):
     async def resume(self, context: Context):
         voice_client = context.message.guild.voice_client
         if voice_client.is_paused():
-            await voice_client.resume()
+            voice_client.resume()
             await context.send("Resumed.")
         else:
             await context.send("The bot was not playing anything before this. Use music-yt command")
@@ -256,7 +256,7 @@ class Audio(commands.Cog, name="audio"):
     async def stop(self, context: Context):
         voice_client = context.message.guild.voice_client
         if voice_client.is_playing():
-            await voice_client.stop()
+            voice_client.stop()
             await context.send("Stopped.")
         else:
             await context.send("The bot is not playing anything at the moment.")

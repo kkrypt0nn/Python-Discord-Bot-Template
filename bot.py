@@ -118,7 +118,7 @@ async def status_task() -> None:
     Setup the game status task of the bot.
     """
     amount = await db_manager.messages_in_ooc()
-    statuses = [f"{amount} berichten in outofcontext", "met ba zijn gevoelens", "with Astolfo", "Minecraft", "with gible z'n ma", "with grom z'n ma", "🚨 Scanning for n-words 🚨"]
+    statuses = ["Ora et Labora", f"{amount} berichten in outofcontext", "met ba zijn gevoelens", "with Astolfo", "Minecraft", "with gible z'n ma", "with grom z'n ma", "🚨 Scanning for n-words 🚨"]
     await bot.change_presence(activity=discord.Game(random.choice(statuses)))
 
 
