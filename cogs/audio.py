@@ -259,7 +259,7 @@ class Audio(commands.Cog, name="audio"):
 
 
         embed = discord.Embed(
-            title=f"Playin music!",
+            title=f"Playing music!",
             description=filename,
             color=self.bot.succesColor
         )
