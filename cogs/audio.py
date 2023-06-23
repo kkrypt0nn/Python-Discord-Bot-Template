@@ -284,7 +284,7 @@ class Audio(commands.Cog, name="audio"):
                 color=0x39AC39
             )
             await context.send(embed=embed)
-            
+
         else:
             embed = discord.Embed(
                 title=f"The bot is not playing anything at the moment.",
@@ -370,12 +370,14 @@ class Audio(commands.Cog, name="audio"):
             return  
         
         if voice_client.is_playing():
+            self.queue.queue.clear()
             voice_client.stop()
             embed = discord.Embed(
                 title=f"Stopped!",
                 color=0xF4900D
             )
             await context.send(embed=embed)
+            
         else:
             embed = discord.Embed(
                 title=f"The bot is not playing anything at the moment.",
