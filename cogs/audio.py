@@ -219,7 +219,7 @@ class Audio(commands.Cog, name="audio"):
 
 
 
-    @commands.hybrid_command(name="music-yt", description="play a single youtube video")
+    @commands.hybrid_command(name="music-yt", description="play a youtube video (use this command again to add to queue)")
     @checks.not_blacklisted()
     async def music_yt(self, context: Context, url: str):
 
