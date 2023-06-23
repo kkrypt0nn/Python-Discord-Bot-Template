@@ -278,6 +278,14 @@ class Audio(commands.Cog, name="audio"):
         url = self.queue.get()
 
         filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl, bot=self.bot)
+        if filename is None:
+            embed = discord.Embed(
+                title=f"Er is iets misgegaan",
+                description=f"ben je zeker dat dit een geldige url is?",
+                color=0xE02B2B
+            )
+            await context.interaction.followup.send(embed=embed)
+            return
         vc.play(discord.FFmpegPCMAudio(source=filename), after = lambda e: asyncio.run_coroutine_threadsafe(self.play_next(context), self.bot.loop))
 
 
