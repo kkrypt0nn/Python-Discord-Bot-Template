@@ -249,7 +249,7 @@ class Audio(commands.Cog, name="audio"):
         if filename is None:
             embed = discord.Embed(
                 title=f"Er is iets misgegaan",
-                description=f"ben je zeker dat dit een geldige url is?",
+                description=f"ben je zeker dat dit een geldige url is?\n{url}",
                 color=0xE02B2B
             )
             await context.interaction.followup.send(embed=embed)
@@ -281,9 +281,10 @@ class Audio(commands.Cog, name="audio"):
         if filename is None:
             embed = discord.Embed(
                 title=f"Er is iets misgegaan",
-                description=f"ben je zeker dat dit een geldige url is?",
+                description=f"ben je zeker dat dit een geldige url is?\n{url}",
                 color=0xE02B2B
             )
+
             await context.interaction.followup.send(embed=embed)
             await self.play_next(context)
         else:
