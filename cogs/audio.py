@@ -8,6 +8,9 @@ import discord
 import asyncio
 import tempfile
 from helpers import checks, db_manager, http
+from discord.utils import get
+from discord import FFmpegPCMAudio
+from youtube_dl import YoutubeDL
 
 
 # Here we name the cog and create a new class for the cog.
@@ -180,7 +183,37 @@ class Audio(commands.Cog, name="audio"):
                 color=0xE02B2B
             )
             await context.interaction.followup.send(embed=embed)
-            
+
+
+
+
+    @commands.hybrid_command(name="music-yt", description="play a single youtube video")
+    @checks.is_owner()
+    async def music_yt(self, context: Context, url: str):
+        YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
+        FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+        
+        vc = context.message.guild.voice_client
+        if vc is None:
+            embed = discord.Embed(
+                title=f"Bot is not in vc",
+                description="use /join to add bot to vc",
+                color=0xE02B2B
+            ) 
+            await context.send(embed=embed)
+            return    
+
+        if not vc.is_playing():
+            with YoutubeDL(YDL_OPTIONS) as ydl:
+                info = ydl.extract_info(url, download=False)
+            URL = info['formats'][0]['url']
+            vc.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
+            vc.is_playing()
+
+        else:
+            await context.send("Already playing song")
+            return
+                
 
 
 
