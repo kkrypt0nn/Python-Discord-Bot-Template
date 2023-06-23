@@ -8,9 +8,9 @@ import discord
 import asyncio
 import tempfile
 from helpers import checks, db_manager, http, ytdl_helper
-from discord import FFmpegPCMAudio
 import yt_dlp as youtube_dl
 from queue import Queue
+from pytube import Playlist
 
 
 # Here we name the cog and create a new class for the cog.
@@ -235,8 +235,10 @@ class Audio(commands.Cog, name="audio"):
         # stats
         await db_manager.increment_or_add_command_count(context.author.id, "music_yt", 1)
         
+        self.queue.put(url)
+
         if vc.is_playing():
-            self.queue.put(url)
+            
             embed = discord.Embed(
                 title=f"Added to Queue",
                 description=f"[See song]({url})",
@@ -245,18 +247,7 @@ class Audio(commands.Cog, name="audio"):
             await context.interaction.followup.send(embed=embed)
             return
 
-        filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl, bot=self.bot)
-        if filename is None:
-            embed = discord.Embed(
-                title=f"Er is iets misgegaan",
-                description=f"ben je zeker dat dit een geldige url is?\n{url}",
-                color=self.bot.errorColor
-            )
-            await context.interaction.followup.send(embed=embed)
-            return
-        
-        vc.play(discord.FFmpegPCMAudio(source=filename), after=lambda e: asyncio.run_coroutine_threadsafe(self.play_next(context), self.bot.loop))
-
+        await self.play_next(context)
 
         embed = discord.Embed(
             title=f"Playing music!",
@@ -271,7 +262,7 @@ class Audio(commands.Cog, name="audio"):
         vc = context.message.guild.voice_client
 
         while vc.is_playing():
-            await asyncio.sleep(3)
+            await asyncio.sleep(2)
 
         if self.queue.empty(): return
 
@@ -284,12 +275,42 @@ class Audio(commands.Cog, name="audio"):
                 description=f"ben je zeker dat dit een geldige url is?\n{url}",
                 color=self.bot.errorColor
             )
-
             await context.interaction.followup.send(embed=embed)
             await self.play_next(context)
         else:
             vc.play(discord.FFmpegPCMAudio(source=filename), after = lambda e: asyncio.run_coroutine_threadsafe(self.play_next(context), self.bot.loop))
 
+
+
+    @commands.hybrid_command(name="music-playlist", description="Play a youtue playlist")
+    @checks.not_blacklisted()
+    async def queue_playlist(self, context: Context, url: str):
+        if not context.message.author.voice:
+            await context.send(embed=self.not_in_vc_embed)
+            return
+        
+        vc = context.message.guild.voice_client
+        if vc is None:
+            await context.send(embed=self.bot_not_in_vc_embed)
+            return  
+        
+        desc = ""
+        playlist_urls = Playlist(url)
+        for i, vid_url in enumerate(playlist_urls):
+            self.queue.put(vid_url)
+            if i<10:
+                desc += f"{i+1}: [See song]({vid_url})\n\n"
+
+        embed = discord.Embed(
+            title=f"Added to Queue",
+            description=desc,
+            color=self.bot.defaultColor
+        )
+        await context.send(embed=embed)
+        
+        await self.play_next(context)
+
+    
 
     @commands.hybrid_command(name="skip", description="Skip the currently playing song")
     @checks.not_blacklisted()
