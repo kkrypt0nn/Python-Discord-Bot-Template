@@ -9,7 +9,6 @@ import asyncio
 import tempfile
 from helpers import checks, db_manager, http, ytdl_helper
 import yt_dlp as youtube_dl
-from queue import Queue
 from pytube import Playlist
 
 
@@ -54,7 +53,7 @@ class Audio(commands.Cog, name="audio"):
 
         self.ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
-        self.queue = Queue()
+        self.queue = []
 
     @commands.hybrid_command(name="join", description="bot joins voice channel")
     @checks.not_blacklisted()
@@ -235,7 +234,7 @@ class Audio(commands.Cog, name="audio"):
         # stats
         await db_manager.increment_or_add_command_count(context.author.id, "music_yt", 1)
         
-        self.queue.put(url)
+        self.queue.append(url)
 
         if vc.is_playing():
             
@@ -264,7 +263,7 @@ class Audio(commands.Cog, name="audio"):
         while vc.is_playing():
             await asyncio.sleep(2)
 
-        if self.queue.empty(): return
+        if len(self.queue) == 0: return
 
         url = self.queue.pop(0)
 
@@ -297,7 +296,7 @@ class Audio(commands.Cog, name="audio"):
         desc = ""
         playlist_urls = Playlist(url)
         for i, vid_url in enumerate(playlist_urls):
-            self.queue.put(vid_url)
+            self.queue.append(vid_url)
             if i<10:
                 desc += f"{i+1}: [See song]({vid_url})\n\n"
 
@@ -338,14 +337,14 @@ class Audio(commands.Cog, name="audio"):
     @checks.not_blacklisted()
     async def queue(self, context: Context):
         
-        if self.queue.empty():
+        if len(self.queue) == 0:
             embed = discord.Embed(
                 title=f"Queue is empty!",
                 color=self.bot.defaultColor
             )
         else:
             desc = ""
-            for i, url in enumerate(iter(self.queue.get, None)):
+            for i, url in enumerate(self.queue):
                 if i<10:
                     desc += f"{i+1}: [See song]({url})\n\n"
 
@@ -409,7 +408,7 @@ class Audio(commands.Cog, name="audio"):
             return  
         
         if voice_client.is_playing():
-            self.queue.queue.clear()
+            self.queue = []
             voice_client.stop()
             embed = discord.Embed(
                 title=f"Stopped!",
