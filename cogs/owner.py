@@ -42,7 +42,7 @@ class Owner(commands.Cog, name="owner"):
                 await context.bot.tree.sync()
                 embed = discord.Embed(
                     description="Slash commands have been globally synchronized.",
-                    color=0x39AC39,
+                    color=self.bot.succesColor,
                 )
                 await context.send(embed=embed)
                 return
@@ -53,19 +53,19 @@ class Owner(commands.Cog, name="owner"):
                 await context.bot.tree.sync(guild=context.guild)
                 embed = discord.Embed(
                     description="Slash commands have been synchronized in this server.",
-                    color=0x39AC39,
+                    color=self.bot.succesColor,
                 )
                 await context.send(embed=embed)
                 return
             embed = discord.Embed(
-                description="The scope must be `global` or `server`.", color=0xE02B2B
+                description="The scope must be `global` or `server`.", color=self.bot.errorColor
             )
             await context.send(embed=embed)
 
         except discord.HTTPException:
             embed = discord.Embed(
                 description="HTTPException, most likely daily application command limits.",
-                color=0xE02B2B,
+                color=self.bot.errorColor,
             )
             await context.send(embed=embed)
             
@@ -89,12 +89,12 @@ class Owner(commands.Cog, name="owner"):
             self.bot.unloaded.discard(cog)
         except Exception:
             embed = discord.Embed(
-                description=f"Could not load the `{cog}` cog.", color=0xE02B2B
+                description=f"Could not load the `{cog}` cog.", color=self.bot.errorColor
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            description=f"Successfully loaded the `{cog}` cog.", color=0x39AC39
+            description=f"Successfully loaded the `{cog}` cog.", color=self.bot.succesColor
         )
 
         await context.send(embed=embed)
@@ -118,12 +118,12 @@ class Owner(commands.Cog, name="owner"):
             self.bot.unloaded.add(cog)
         except Exception:
             embed = discord.Embed(
-                description=f"Could not unload the `{cog}` cog.", color=0xE02B2B
+                description=f"Could not unload the `{cog}` cog.", color=self.bot.errorColor
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            description=f"Successfully unloaded the `{cog}` cog.", color=0x39AC39
+            description=f"Successfully unloaded the `{cog}` cog.", color=self.bot.succesColor
         )
 
         await context.send(embed=embed)
@@ -146,13 +146,13 @@ class Owner(commands.Cog, name="owner"):
         
         except Exception:
             embed = discord.Embed(
-                description=f"Could not reload the `{cog}` cog.", color=0xE02B2B
+                description=f"Could not reload the `{cog}` cog.", color=self.bot.errorColor
             )
             await context.send(embed=embed)
             return
         
         embed = discord.Embed(
-            description=f"Successfully reloaded the `{cog}` cog.", color=0x39AC39
+            description=f"Successfully reloaded the `{cog}` cog.", color=self.bot.succesColor
         )
 
         await context.send(embed=embed)
@@ -172,7 +172,7 @@ class Owner(commands.Cog, name="owner"):
         
         embed = discord.Embed(
             title="Cog info",
-            color=0xF4900D
+            color=self.bot.defaultColor
         )
         loaded_fields = "\n".join(list(self.bot.loaded))
         embed.add_field(
@@ -199,7 +199,7 @@ class Owner(commands.Cog, name="owner"):
 
         :param context: The hybrid command context.
         """
-        embed = discord.Embed(description="Restarting. brb :wave:", color=0xF4900D)
+        embed = discord.Embed(description="Restarting. brb :wave:", color=self.bot.defaultColor)
         await context.send(embed=embed)
 
         # We shut down the bot, but heroku will automatically restart it.
@@ -221,7 +221,7 @@ class Owner(commands.Cog, name="owner"):
         if context.invoked_subcommand is None:
             embed = discord.Embed(
                 description="You need to specify a subcommand.\n\n**Subcommands:**\n`add` - Add a user to the blacklist.\n`remove` - Remove a user from the blacklist.",
-                color=0xE02B2B,
+                color=self.bot.errorColor,
             )
             await context.send(embed=embed)
 
@@ -244,7 +244,7 @@ class Owner(commands.Cog, name="owner"):
         # Geen blacklisted users
         if len(blacklisted_users) == 0:
             embed = discord.Embed(
-                description="There are currently no blacklisted users.", color=0xF4900D
+                description="There are currently no blacklisted users.", color=self.bot.defaultColor
             )
             await context.send(embed=embed)
             return
@@ -254,13 +254,13 @@ class Owner(commands.Cog, name="owner"):
             embed = discord.Embed(
                 title=f"Something went wrong",
                 description=blacklisted_users[1],
-                color=0xE02B2B
+                color=self.bot.errorColor
             )
             await context.send(embed=embed)
             return
 
         # alles is ok
-        embed = discord.Embed(title="Blacklisted Users", color=0xF4900D)
+        embed = discord.Embed(title="Blacklisted Users", color=self.bot.defaultColor)
         users = []
         for bluser in blacklisted_users:
             user = self.bot.get_user(int(bluser[0])) or await self.bot.fetch_user(
@@ -290,7 +290,7 @@ class Owner(commands.Cog, name="owner"):
         if await db_manager.is_blacklisted(user_id):
             embed = discord.Embed(
                 description=f"**{user.name}** is already in the blacklist.",
-                color=0xE02B2B,
+                color=self.bot.errorColor,
             )
             await context.send(embed=embed)
             return
@@ -300,7 +300,7 @@ class Owner(commands.Cog, name="owner"):
         if total == -1:
             embed = discord.Embed(
                 description=f"Er is iets misgegaan.",
-                color=0xE02B2B,
+                color=self.bot.errorColor,
             )
             await context.send(embed=embed)
             return
@@ -308,7 +308,7 @@ class Owner(commands.Cog, name="owner"):
         # alles oke
         embed = discord.Embed(
             description=f"**{user.name}** has been successfully added to the blacklist",
-            color=0x39AC39,
+            color=self.bot.succesColor,
         )
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'user' if total == 1 else 'users'} in the blacklist"
@@ -332,7 +332,7 @@ class Owner(commands.Cog, name="owner"):
         user_id = user.id
         if not await db_manager.is_blacklisted(user_id):
             embed = discord.Embed(
-                description=f"**{user.name}** is not in the blacklist.", color=0xE02B2B
+                description=f"**{user.name}** is not in the blacklist.", color=self.bot.errorColor
             )
             await context.send(embed=embed)
             return
@@ -341,7 +341,7 @@ class Owner(commands.Cog, name="owner"):
         #error
         if total == -1:
             embed = discord.Embed(
-                description=f"Er is iets misgegaan.", color=0xE02B2B
+                description=f"Er is iets misgegaan.", color=self.bot.errorColor
             )
             await context.send(embed=embed)
             return
@@ -349,7 +349,7 @@ class Owner(commands.Cog, name="owner"):
         # alles ok
         embed = discord.Embed(
             description=f"**{user.name}** has been successfully removed from the blacklist",
-            color=0x39AC39,
+            color=self.bot.succesColor,
         )
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'user' if total == 1 else 'users'} in the blacklist"

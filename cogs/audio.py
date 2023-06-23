@@ -21,18 +21,18 @@ class Audio(commands.Cog, name="audio"):
         self.bot_not_in_vc_embed = discord.Embed(
             title=f"Bot is not in vc",
             description="use /join to add bot to vc",
-            color=0xE02B2B
+            color=self.bot.errorColor
         ) 
 
         self.not_playing_embed = discord.Embed(
             title=f"The bot is not playing anything at the moment.",
             description="Use /music-yt to play a song",
-            color=0xF4900D
+            color=self.bot.defaultColor
         )
 
         self.not_in_vc_embed = discord.Embed(
             title=f"You are not in a voice channel",
-            color=0xE02B2B
+            color=self.bot.errorColor
         ) 
 
         ytdl_format_options = {
@@ -67,12 +67,12 @@ class Audio(commands.Cog, name="audio"):
                 await channel.connect()
                 embed = discord.Embed(
                     title=f"Joined channel {channel.name}!",
-                    color=0x39AC39
+                    color=self.bot.succesColor
                 )
         except discord.ClientException:
             embed = discord.Embed(
                 title=f"Already in voice channel",
-                color=0xE02B2B
+                color=self.bot.errorColor
             )
             
         await context.send(embed=embed)
@@ -88,7 +88,7 @@ class Audio(commands.Cog, name="audio"):
             await vc.disconnect()
             embed = discord.Embed(
                 title=f"left channel!",
-                color=0x39AC39
+                color=self.bot.succesColor
             )
             await context.send(embed=embed)
 
@@ -132,7 +132,7 @@ class Audio(commands.Cog, name="audio"):
             
             embed = discord.Embed(
                 title=f"played {effect.name}!",
-                color=0x39AC39
+                color=self.bot.succesColor
             )
             await context.send(embed=embed, ephemeral=True)
 
@@ -143,7 +143,7 @@ class Audio(commands.Cog, name="audio"):
             embed = discord.Embed(
                 title=f"Something went wrong",
                 description=e,
-                color=0xE02B2B
+                color=self.bot.errorColor
             )
             await context.send(embed=embed, ephemeral=True)
 
@@ -198,7 +198,7 @@ class Audio(commands.Cog, name="audio"):
             
             embed = discord.Embed(
                 title=f"Said ```{speech}``` in a {voice.name} voice!",
-                color=0x39AC39
+                color=self.bot.succesColor
             )
             await context.interaction.followup.send(embed=embed)
 
@@ -210,7 +210,7 @@ class Audio(commands.Cog, name="audio"):
             embed = discord.Embed(
                 title=f"Error",
                 description=e,
-                color=0xE02B2B
+                color=self.bot.errorColor
             )
             await context.interaction.followup.send(embed=embed)
 
@@ -240,7 +240,7 @@ class Audio(commands.Cog, name="audio"):
             embed = discord.Embed(
                 title=f"Added to Queue",
                 description=f"[See song]({url})",
-                color=0xF4900D
+                color=self.bot.defaultColor
             )
             await context.interaction.followup.send(embed=embed)
             return
@@ -250,7 +250,7 @@ class Audio(commands.Cog, name="audio"):
             embed = discord.Embed(
                 title=f"Er is iets misgegaan",
                 description=f"ben je zeker dat dit een geldige url is?\n{url}",
-                color=0xE02B2B
+                color=self.bot.errorColor
             )
             await context.interaction.followup.send(embed=embed)
             return
@@ -261,7 +261,7 @@ class Audio(commands.Cog, name="audio"):
         embed = discord.Embed(
             title=f"Playin music!",
             description=filename,
-            color=0x39AC39
+            color=self.bot.succesColor
         )
         await context.interaction.followup.send(embed=embed)
 
@@ -282,7 +282,7 @@ class Audio(commands.Cog, name="audio"):
             embed = discord.Embed(
                 title=f"Er is iets misgegaan",
                 description=f"ben je zeker dat dit een geldige url is?\n{url}",
-                color=0xE02B2B
+                color=self.bot.errorColor
             )
 
             await context.interaction.followup.send(embed=embed)
@@ -304,7 +304,7 @@ class Audio(commands.Cog, name="audio"):
             
             embed = discord.Embed(
                 title=f"Skipped!",
-                color=0x39AC39
+                color=self.bot.succesColor
             )
             await context.send(embed=embed)
 
@@ -325,7 +325,7 @@ class Audio(commands.Cog, name="audio"):
             voice_client.pause()
             embed = discord.Embed(
                 title=f"Paused!",
-                color=0x39AC39
+                color=self.bot.succesColor
             )
             await context.send(embed=embed)
         else:
@@ -346,7 +346,7 @@ class Audio(commands.Cog, name="audio"):
             voice_client.resume()
             embed = discord.Embed(
                 title=f"Resumed!",
-                color=0x39AC39
+                color=self.bot.succesColor
             )
             await context.send(embed=embed)
         else:
@@ -367,7 +367,7 @@ class Audio(commands.Cog, name="audio"):
             voice_client.stop()
             embed = discord.Embed(
                 title=f"Stopped!",
-                color=0xF4900D
+                color=self.bot.defaultColor
             )
             await context.send(embed=embed)
 

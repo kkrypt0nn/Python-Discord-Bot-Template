@@ -30,6 +30,10 @@ bot = Bot(
     help_command=None,
 )
 
+bot.defaultColor = 0xF4900D
+bot.errorColor = 0xE02B2B
+bot.succesColor = 0x39AC39
+
 bot.loaded = set()
 bot.unloaded = set()
 # Setup both of the loggers
@@ -182,7 +186,7 @@ async def on_command_error(context: Context, error) -> None:
         hours = hours % 24
         embed = discord.Embed(
             description=f"**Please slow down** - You can use this command again in {f'{round(hours)} hours' if round(hours) > 0 else ''} {f'{round(minutes)} minutes' if round(minutes) > 0 else ''} {f'{round(seconds)} seconds' if round(seconds) > 0 else ''}.",
-            color=0xE02B2B,
+            color=bot.errorColor,
         )
         await context.send(embed=embed, ephemeral=True)
     elif isinstance(error, exceptions.UserBlacklisted):
@@ -191,7 +195,7 @@ async def on_command_error(context: Context, error) -> None:
         the @checks.not_blacklisted() check in your command, or you can raise the error by yourself.
         """
         embed = discord.Embed(
-            description="You are blacklisted from using the bot!", color=0xE02B2B
+            description="You are blacklisted from using the bot!", color=bot.errorColor
         )
         await context.send(embed=embed, ephemeral=True)
         if context.guild:
@@ -207,7 +211,7 @@ async def on_command_error(context: Context, error) -> None:
         Same as above, just for the @checks.is_owner() check.
         """
         embed = discord.Embed(
-            description="You are not the owner of the bot!", color=0xE02B2B
+            description="You are not the owner of the bot!", color=bot.errorColor
         )
         await context.send(embed=embed, ephemeral=True)
         if context.guild:
@@ -223,7 +227,7 @@ async def on_command_error(context: Context, error) -> None:
             description="You are missing the permission(s) `"
             + ", ".join(error.missing_permissions)
             + "` to execute this command!",
-            color=0xE02B2B,
+            color=bot.errorColor,
         )
         await context.send(embed=embed, ephemeral=True)
     elif isinstance(error, commands.BotMissingPermissions):
@@ -231,7 +235,7 @@ async def on_command_error(context: Context, error) -> None:
             description="I am missing the permission(s) `"
             + ", ".join(error.missing_permissions)
             + "` to fully perform this command!",
-            color=0xE02B2B,
+            color=bot.errorColor,
         )
         await context.send(embed=embed, ephemeral=True)
     elif isinstance(error, commands.MissingRequiredArgument):
@@ -239,7 +243,7 @@ async def on_command_error(context: Context, error) -> None:
             title="Error!",
             # We need to capitalize because the command arguments have no capital letter in the code.
             description=str(error).capitalize(),
-            color=0xE02B2B,
+            color=bot.errorColor,
         )
         await context.send(embed=embed)
     else:
@@ -247,7 +251,7 @@ async def on_command_error(context: Context, error) -> None:
         #     title="Error!",
         #     # We need to capitalize because the command arguments have no capital letter in the code.
         #     description=str(error).capitalize(),
-        #     color=0xE02B2B,
+        #     color=bot.errorColor,
         # )
         # await context.send(embed=embed)
         raise error

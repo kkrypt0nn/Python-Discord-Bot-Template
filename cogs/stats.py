@@ -64,7 +64,7 @@ class Stats(commands.Cog, name="stats"):
         if len(count) == 0 or int(count[0][0]) == 0:
             embed = discord.Embed(
                 description=f"**<@{user.id}> didn't use {command.value} yet.**",
-                color=0xF4900D
+                color=self.bot.defaultColor
             )
             await context.send(embed=embed)
             return
@@ -74,7 +74,7 @@ class Stats(commands.Cog, name="stats"):
             embed = discord.Embed(
                 title=f"Something went wrong",
                 description=count[1],
-                color=0xE02B2B
+                color=self.bot.errorColor
             )
             await context.send(embed=embed)
             return
@@ -88,7 +88,7 @@ class Stats(commands.Cog, name="stats"):
 
         embed = discord.Embed(
             description=desc,
-            color=0xF4900D
+            color=self.bot.defaultColor
         )
 
         await context.send(embed=embed)
@@ -135,7 +135,7 @@ class Stats(commands.Cog, name="stats"):
         embed = discord.Embed(
             title="Succes!" if succes else "Oops!",
             description=desc,
-            color=0x39AC39 if succes else 0xF4900D
+            color=self.bot.succesColor if succes else self.bot.defaultColor
         )
         await context.send(embed=embed)
 
@@ -183,7 +183,7 @@ class Stats(commands.Cog, name="stats"):
         if len(leaderb) == 0:
             embed = discord.Embed(
                 description=f"**This command has not been used yet.**",
-                color=0x39AC39
+                color=self.bot.succesColor
             )
             await context.send(embed=embed)
             return
@@ -193,7 +193,7 @@ class Stats(commands.Cog, name="stats"):
             embed = discord.Embed(
                 title=f"Something went wrong",
                 description=leaderb[1],
-                color=0xE02B2B
+                color=self.bot.errorColor
             )
             await context.send(embed=embed)
             return
@@ -206,7 +206,7 @@ class Stats(commands.Cog, name="stats"):
         embed = discord.Embed(
             title=f"Leaderboard for {command.name}",
             description=desc,
-            color=0xF4900D
+            color=self.bot.defaultColor
         )
 
         await context.send(embed=embed)

@@ -49,7 +49,7 @@ class Reacties(commands.Cog, name="reacties"):
         embed = discord.Embed(
             title=title, 
             description=f"Requested by <@{int(userid)}>", 
-            color=0xF4900D
+            color=self.bot.defaultColor
         )
         file = discord.File(f"{os.path.realpath(os.path.dirname(__file__))}/../reactions/{name}", filename="image.png")
         embed.set_image(url="attachment://image.png")

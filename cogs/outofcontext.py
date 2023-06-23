@@ -39,7 +39,7 @@ class OutOfContext(commands.Cog, name="context"):
         if message.channel.id != int(os.environ.get('channel')):
             embed = discord.Embed(
                 description="Bericht moet in #out-of-context staan!",
-                color=0xE02B2B,
+                color=self.bot.errorColor,
             )
             embed.set_footer(text=f"{message.id}")
             await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
@@ -49,7 +49,7 @@ class OutOfContext(commands.Cog, name="context"):
         if await db_manager.is_in_ooc(message.id):
             embed = discord.Embed(
                 description=f"Message is already in the game.",
-                color=0xE02B2B,
+                color=self.bot.errorColor,
             )
             embed.set_footer(text=f"{message.id}")
             await interaction.response.send_message(embed=embed, delete_after=10, ephemeral=True)
@@ -62,7 +62,7 @@ class OutOfContext(commands.Cog, name="context"):
         if total == -1:
             embed = discord.Embed(
                 description=f"Er is iets misgegaan.",
-                color=0xE02B2B,
+                color=self.bot.errorColor,
             )
             embed.set_footer(text=f"{message.id}")
             await interaction.response.send_message(embed=embed)
@@ -71,7 +71,7 @@ class OutOfContext(commands.Cog, name="context"):
         # alles oke
         embed = discord.Embed(
             description=f"[Message]({message.jump_url}) has been added to the game",
-            color=0x39AC39,
+            color=self.bot.succesColor,
         )
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
@@ -100,7 +100,7 @@ class OutOfContext(commands.Cog, name="context"):
 
         embed = discord.Embed(
             title="Debug",
-            color=0xF4900D,
+            color=self.bot.defaultColor,
             description=f"""Amount of messages: {len(self.menu.messages)}\n\n
                 Current index: {self.menu.currentIndex}\n\n
                 Messages played: {self.menu.messagesPlayed}\n\n
@@ -127,7 +127,7 @@ class OutOfContext(commands.Cog, name="context"):
         if self.currently_playing:
             embed = discord.Embed(
                 description=f"Er is al iemand het spel aan het spelen.",
-                color=0xE02B2B,
+                color=self.bot.errorColor,
             )
             await context.send(embed=embed, delete_after=10)
             return
@@ -155,7 +155,7 @@ class OutOfContext(commands.Cog, name="context"):
         # Geen berichten
         if len(messages) == 0:
             embed = discord.Embed(
-                description="There are no messages.", color=0xF4900D
+                description="There are no messages.", color=self.bot.defaultColor
             )
             
             return (embed, False)
@@ -165,7 +165,7 @@ class OutOfContext(commands.Cog, name="context"):
             embed = discord.Embed(
                 title=f"Something went wrong",
                 description=messages[1],
-                color=0xE02B2B
+                color=self.bot.errorColor
             )
             return (embed, False)
 
@@ -181,7 +181,7 @@ class OutOfContext(commands.Cog, name="context"):
         # Geen berichten
         if len(messages) == 0:
             embed = discord.Embed(
-                description="There are no messages.", color=0xF4900D
+                description="There are no messages.", color=self.bot.defaultColor
             )
             
             return (embed, False)
@@ -191,7 +191,7 @@ class OutOfContext(commands.Cog, name="context"):
             embed = discord.Embed(
                 title=f"Something went wrong",
                 description=messages[1],
-                color=0xE02B2B
+                color=self.bot.errorColor
             )
             return (embed, False)
 
@@ -206,7 +206,7 @@ class OutOfContext(commands.Cog, name="context"):
         desc = f"[Go to message]({m.jump_url})" if len(m.content) == 0 else f"**{m.content}**\n[Go to message]({m.jump_url})"
         embed = discord.Embed(
             title="**Out of Context**", 
-            color=0xF4900D,
+            color=self.bot.defaultColor,
             description=desc
         )
 
@@ -278,7 +278,7 @@ class OutOfContext(commands.Cog, name="context"):
         if not await db_manager.is_in_ooc(id):
             embed = discord.Embed(
                 description=f"**{id}** is not in the game.",
-                color=0xE02B2B,
+                color=self.bot.errorColor,
             )
             return embed
         
@@ -289,7 +289,7 @@ class OutOfContext(commands.Cog, name="context"):
         if total == -1:
             embed = discord.Embed(
                 description=f"Er is iets misgegaan.",
-                color=0xE02B2B,
+                color=self.bot.errorColor,
             )
             return embed
         
@@ -298,7 +298,7 @@ class OutOfContext(commands.Cog, name="context"):
         # alles oke
         embed = discord.Embed(
             description=f"[Message]({m.jump_url}) has been removed from the game",
-            color=0x39AC39,
+            color=self.bot.succesColor,
         )
         embed.set_footer(
             text=f"There {'is' if total == 1 else 'are'} now {total} {'message' if total == 1 else 'messages'} in the game"
@@ -392,7 +392,7 @@ class Menu(discord.ui.View):
         embed = discord.Embed(
             title="Bye. :wave:",
             description=f"You played {self.messagesPlayed +1} {'message' if self.messagesPlayed == 0 else 'messages'}.",
-            color=0xF4900D
+            color=self.bot.defaultColor
         )
         await interaction.response.edit_message(embed=embed, view=None)
 

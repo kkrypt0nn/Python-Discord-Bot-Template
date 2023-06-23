@@ -31,13 +31,13 @@ class Names(commands.Cog, name="namen"):
 
         if m == "dans":
             embed = discord.Embed(
-                color=0xF4900D
+                color=self.bot.defaultColor
             )
             embed.set_image(url="https://cdn.discordapp.com/attachments/1114464141508345906/1115720385070121000/ezgif.com-video-to-gif.gif")
         else:
             embed = discord.Embed(
                 title=m,
-                color=0xF4900D,
+                color=self.bot.defaultColor,
             )
         await context.send(embed=embed)
         # stats
@@ -61,7 +61,7 @@ class Names(commands.Cog, name="namen"):
 
         embed = discord.Embed(
             title=m,
-            color=0xF4900D,
+            color=self.bot.defaultColor,
         )
         await context.send(embed=embed)
         # stats
@@ -86,7 +86,7 @@ class Names(commands.Cog, name="namen"):
 
         embed = discord.Embed(
             title=m,
-            color=0xF4900D,
+            color=self.bot.defaultColor,
         )
         await context.send(embed=embed)
         # stats
@@ -110,7 +110,7 @@ class Names(commands.Cog, name="namen"):
 
         embed = discord.Embed(
             title=m,
-            color=0xF4900D,
+            color=self.bot.defaultColor,
         )
         await context.send(embed=embed)
         # stats
@@ -134,7 +134,7 @@ class Names(commands.Cog, name="namen"):
        
         embed = discord.Embed(
             title=m,
-            color=0xF4900D,
+            color=self.bot.defaultColor,
         )
         await context.send(embed=embed)
         # stats
@@ -157,7 +157,7 @@ class Names(commands.Cog, name="namen"):
        
         embed = discord.Embed(
             title=m,
-            color=0xF4900D,
+            color=self.bot.defaultColor,
         )
         await context.send(embed=embed)
         # stats
@@ -179,13 +179,13 @@ class Names(commands.Cog, name="namen"):
 
         if m == "rooftop":
             embed = discord.Embed(
-                color=0xF4900D
+                color=self.bot.defaultColor
             )
             embed.set_image(url="https://cdn.discordapp.com/attachments/727476894106386504/1117027462015107164/keleo_gif.gif")
         else:
             embed = discord.Embed(
                 title=m,
-                color=0xF4900D,
+                color=self.bot.defaultColor,
             )
         await context.send(embed=embed)
         # stats

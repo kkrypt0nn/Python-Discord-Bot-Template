@@ -24,7 +24,7 @@ class Counter(commands.Cog, name="counter"):
         if len(count) == 0 or int(count[0][0]) == 0:
             embed = discord.Embed(
                 description=f"**NWord Count of <@{user.id}>:** ```0```",
-                color=0x39AC39
+                color=self.bot.succesColor
             )
             await context.send(embed=embed)
             return
@@ -34,14 +34,14 @@ class Counter(commands.Cog, name="counter"):
             embed = discord.Embed(
                 title=f"Something went wrong",
                 description=count[1],
-                color=0xE02B2B
+                color=self.bot.errorColor
             )
             await context.send(embed=embed)
             return
 
         embed = discord.Embed(
             description=f"**NWord Count of <@{user.id}>:** ```{count[0][0]}```",
-            color=0xF4900D
+            color=self.bot.defaultColor
         )
 
         # stats
@@ -63,7 +63,7 @@ class Counter(commands.Cog, name="counter"):
         embed = discord.Embed(
             title="Succes!" if succes else "Oops!",
             description=desc,
-            color=0x39AC39 if succes else 0xF4900D
+            color=self.bot.succesColor if succes else self.bot.defaultColor
         )
         await context.send(embed=embed)
 

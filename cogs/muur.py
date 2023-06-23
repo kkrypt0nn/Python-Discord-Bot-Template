@@ -12,7 +12,7 @@ class Muur(commands.Cog, name="muur"):
     def getEmbed(self, title, footer):
         embed = discord.Embed(
             title=title,
-            color=0xF4900D
+            color=self.bot.defaultColor
         )
         embed.set_footer(text=footer)
         return embed
@@ -27,7 +27,7 @@ class Muur(commands.Cog, name="muur"):
         if context.invoked_subcommand is None:
             embed = discord.Embed(
                 description="You need to specify a subcommand.",
-                color=0xE02B2B,
+                color=self.bot.errorColor,
             )
             await context.send(embed=embed)
 

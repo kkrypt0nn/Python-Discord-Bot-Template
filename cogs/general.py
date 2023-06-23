@@ -33,7 +33,7 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title="**Help** :man_mechanic:", 
             description=f"Ask <@{int(admin[0])}> for help.\n[Klik hier voor meer info](https://github.com/SDeVuyst/WhereContextbot3)\nList of available commands:", 
-            color=0xF4900D
+            color=self.bot.defaultColor
         )
         for i in self.bot.cogs:
             cog = self.bot.get_cog(i.lower())
@@ -77,7 +77,7 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title=":warning: ***LIEN LOCKDOWN*** :warning:",
             description="<@464400950702899211> has been kicked.",
-            color=0xE02B2B
+            color=self.bot.errorColor
         )
         await context.send(embed=embed)
         
@@ -96,7 +96,7 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title="🏓 Pong!",
             description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
-            color=0x39AC39 if (self.bot.latency * 1000) < 150 else 0xF4900D
+            color=self.bot.succesColor if (self.bot.latency * 1000) < 150 else self.bot.defaultColor
         )
         # stats
         await db_manager.increment_or_add_command_count(context.author.id, "ping", 1)
@@ -139,7 +139,7 @@ class General(commands.Cog, name="general"):
         # stats
         await db_manager.increment_or_add_command_count(context.author.id, "embed", 1)
 
-        embed = discord.Embed(title=message, color=0xF4900D)
+        embed = discord.Embed(title=message, color=self.bot.defaultColor)
         await context.send(embed=embed)
 
 
@@ -155,12 +155,12 @@ class General(commands.Cog, name="general"):
 
         if int(diff.total_seconds()) < 0:
             desc = "SPIDERVERSE 3 IS NU UIT!"
-            kleur = 0x39AC39
+            kleur = self.bot.succesColor
         else:
             hours, remainder = divmod(diff.seconds, 3600)
             minutes, seconds = divmod(remainder, 60)
             desc = f"Nog {diff.days} dagen, {hours} uur, {minutes} minuten en {seconds} seconden te gaan!"    
-            kleur = 0xF4900D
+            kleur = self.bot.defaultColor
             
 
         embed = discord.Embed(
