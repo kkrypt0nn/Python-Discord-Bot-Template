@@ -220,11 +220,14 @@ class Audio(commands.Cog, name="audio"):
     @commands.hybrid_command(name="music-yt", description="play a youtube video (use this command again to add to queue)")
     @checks.not_blacklisted()
     async def music_yt(self, context: Context, url: str):
-
+        
+        if not context.message.author.voice:
+            await context.send(embed=self.not_in_vc_embed)
+            return
+        
         vc = context.message.guild.voice_client
         if vc is None:
-            
-            await context.send(embed=embed)
+            await context.send(embed=self.bot_not_in_vc_embed)
             return  
         
         await context.defer()
