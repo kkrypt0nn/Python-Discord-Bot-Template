@@ -1,6 +1,6 @@
 import asyncio
 import discord
-import youtube_dl
+import yt_dlp as youtube_dl
 
 
 youtube_dl.utils.bug_reports_message = lambda: ''

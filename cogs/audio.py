@@ -8,9 +8,8 @@ import discord
 import asyncio
 import tempfile
 from helpers import checks, db_manager, http, ytdl_helper
-from discord.utils import get
 from discord import FFmpegPCMAudio
-import youtube_dl
+import yt_dlp as youtube_dl
 
 
 # Here we name the cog and create a new class for the cog.

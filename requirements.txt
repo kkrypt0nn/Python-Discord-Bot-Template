@@ -1,6 +1,6 @@
 discord.py
 psycopg2
-youtube_dl
+yt_dlp
 PyNaCl==1.4.0
 ffmpeg
 aiohttp>=3.7.4
