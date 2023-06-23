@@ -263,6 +263,37 @@ class Audio(commands.Cog, name="audio"):
         vc.play(discord.FFmpegPCMAudio(source=filename), after = lambda e: asyncio.run_coroutine_threadsafe(self.play_next(context), self.bot.loop))
 
 
+    @commands.hybrid_command(name="skip", description="Skip the currently playing song")
+    @checks.not_blacklisted()
+    async def skip(self, context: Context):
+        voice_client = context.message.guild.voice_client
+        if voice_client is None:
+            embed = discord.Embed(
+                title=f"Bot is not in vc",
+                description="use /join to add bot to vc",
+                color=0xE02B2B
+            ) 
+            await context.send(embed=embed)
+            return  
+        
+        if voice_client.is_playing():
+            voice_client.stop()
+            await self.play_next(context=context)
+            embed = discord.Embed(
+                title=f"Skipped!",
+                color=0x39AC39
+            )
+            await context.send(embed=embed)
+            
+        else:
+            embed = discord.Embed(
+                title=f"The bot is not playing anything at the moment.",
+                description="Use /music-yt to play a song",
+                color=0xF4900D
+            )
+            await context.send(embed=embed)
+
+
 
     @commands.hybrid_command(name="pause", description="Pause currently playing song")
     @checks.not_blacklisted()
