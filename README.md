@@ -94,3 +94,4 @@ Alles in deze cog is admin only
 * /pause	pauzeer de audio die aan het afspelen is
 * /resume	speel de audio verder af
 * /stop	stop met afspelen, en maakt de queue leeg
+* /nowplaying	toont de track dat nu aan het afspelen is
