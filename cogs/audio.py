@@ -236,7 +236,7 @@ class Audio(commands.Cog, name="audio"):
             return
 
         filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl)
-        vc.play(discord.FFmpegPCMAudio(source=filename), after = lambda e: await self.play_next(context))
+        vc.play(discord.FFmpegPCMAudio(source=filename), after = await self.play_next(context))
 
 
         embed = discord.Embed(
@@ -254,7 +254,7 @@ class Audio(commands.Cog, name="audio"):
         if url is None: return
 
         filename = await ytdl_helper.YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl)
-        vc.play(discord.FFmpegPCMAudio(source=filename), after = lambda e: await self.play_next(context))
+        vc.play(discord.FFmpegPCMAudio(source=filename), after = await self.play_next(context))
 
 
 
