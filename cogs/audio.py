@@ -181,10 +181,15 @@ class Audio(commands.Cog, name="audio"):
                 subprocess.check_call(["ffmpeg", "-y", "-i", wav_f.name, opus_f.name])
 
                 source = discord.FFmpegOpusAudio(opus_f.name)
+                if vc.is_playing():
+                    vc.pause()
                 vc.play(source, after=None)
 
                 while vc.is_playing():
                     await asyncio.sleep(0.5)
+
+                if vc.is_paused():
+                    vc.resume()
             
             embed = discord.Embed(
                 title=f"Said ```{speech}``` in a {voice.name} voice!",
