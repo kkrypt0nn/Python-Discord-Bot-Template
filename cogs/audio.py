@@ -205,7 +205,7 @@ class Audio(commands.Cog, name="audio"):
 
 
     @commands.hybrid_command(name="music-yt", description="play a single youtube video")
-    @checks.is_owner()
+    @checks.not_blacklisted()
     async def music_yt(self, context: Context, url: str):
 
         vc = context.message.guild.voice_client
@@ -225,6 +225,38 @@ class Audio(commands.Cog, name="audio"):
 
         await context.interaction.followup.send('**Now playing:** {}'.format(filename))
 
+
+
+    @commands.hybrid_command(name="pause", description="Pause currently playing song")
+    @checks.not_blacklisted()
+    async def pause(self, context: Context):
+        voice_client = context.message.guild.voice_client
+        if voice_client.is_playing():
+            await voice_client.pause()
+        else:
+            await context.send("The bot is not playing anything at the moment.")
+        
+
+
+    @commands.hybrid_command(name="resume", description="Resume currently playing song")
+    @checks.not_blacklisted()
+    async def resume(self, context: Context):
+        voice_client = context.message.guild.voice_client
+        if voice_client.is_paused():
+            await voice_client.resume()
+        else:
+            await context.send("The bot was not playing anything before this. Use music-yt command")
+
+
+
+    @commands.hybrid_command(name="stop", description="Stop the currently playing song")
+    @checks.not_blacklisted()
+    async def stop(self, context: Context):
+        voice_client = context.message.guild.voice_client
+        if voice_client.is_playing():
+            await voice_client.stop()
+        else:
+            await context.send("The bot is not playing anything at the moment.")
 
 
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
