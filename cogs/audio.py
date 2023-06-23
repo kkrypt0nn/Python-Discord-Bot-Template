@@ -7,16 +7,34 @@ from discord.ext.commands import Context
 import discord
 import asyncio
 import tempfile
-from helpers import checks, db_manager, http
+from helpers import checks, db_manager, http, ytdl
 from discord.utils import get
 from discord import FFmpegPCMAudio
-from youtube_dl import YoutubeDL
+import youtube_dl
 
 
 # Here we name the cog and create a new class for the cog.
 class Audio(commands.Cog, name="audio"):
     def __init__(self, bot):
         self.bot = bot
+        ytdl_format_options = {
+            'format': 'bestaudio/best',
+            'restrictfilenames': True,
+            'noplaylist': True,
+            'nocheckcertificate': True,
+            'ignoreerrors': False,
+            'logtostderr': False,
+            'quiet': True,
+            'no_warnings': True,
+            'default_search': 'auto',
+            'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
+        }
+
+        ffmpeg_options = {
+            'options': '-vn'
+        }
+
+        self.ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
     @commands.hybrid_command(name="join", description="bot joins voice channel")
     @checks.not_blacklisted()
@@ -190,9 +208,7 @@ class Audio(commands.Cog, name="audio"):
     @commands.hybrid_command(name="music-yt", description="play a single youtube video")
     @checks.is_owner()
     async def music_yt(self, context: Context, url: str):
-        YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
-        FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
-        
+
         vc = context.message.guild.voice_client
         if vc is None:
             embed = discord.Embed(
@@ -201,19 +217,16 @@ class Audio(commands.Cog, name="audio"):
                 color=0xE02B2B
             ) 
             await context.send(embed=embed)
-            return    
+            context.command.reset_cooldown(context)
+            return  
+        
+        await context.defer()
+        
+        async with context.typing():
+            filename = await ytdl.YTDLSource.from_url(url, loop=self.bot.loop)
+            vc.play(discord.FFmpegPCMAudio(source=filename))
 
-        if not vc.is_playing():
-            with YoutubeDL(YDL_OPTIONS) as ydl:
-                info = ydl.extract_info(url, download=False)
-            URL = info['formats'][0]['url']
-            vc.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
-            vc.is_playing()
-
-        else:
-            await context.send("Already playing song")
-            return
-                
+        await context.interaction.followup.send('**Now playing:** {}'.format(filename))
 
 
 
