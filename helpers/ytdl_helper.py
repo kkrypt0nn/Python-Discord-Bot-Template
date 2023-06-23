@@ -25,5 +25,5 @@ class YTDLSource(discord.PCMVolumeTransformer):
             return filename
         
         except Exception as e:
-            bot.logger.error(f"Error")
+            bot.logger.warning(f"{url} is not a valid url!")
             return None
