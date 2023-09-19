@@ -14,15 +14,15 @@ This repository is a template that everyone can use for the start of their disco
 
 When I first started creating my discord bot it took me a while to get everything setup and working with cogs and more.
 I would've been happy if there were any template existing. However, there wasn't any existing template. That's why I
-decided to create my own template to let <b>you</b> guys create your discord bot easily.
+decided to create my own template to let **you** guys create your discord bot easily.
 
 Please note that this template is not supposed to be the best template, but a good template to start learning how
 discord.py works and to make your own bot easily.
 
 If you plan to use this template to make your own template or bot, you **have to**:
 
-- Keep the credits, and a link to this repository in all the files that contains my code
-- Keep the same license for unchanged code
+-   Keep the credits, and a link to this repository in all the files that contains my code
+-   Keep the same license for unchanged code
 
 See [the license file](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/blob/master/LICENSE.md) for more
 information, I reserve the right to take down any repository that does not meet these requirements.
@@ -30,8 +30,8 @@ information, I reserve the right to take down any repository that does not meet 
 ## Support
 
 Before requesting support, you should know that this template requires you to have at least a **basic knowledge** of
-Python and the library is made for advanced users. Do not use this template if you don't know the
-basics. [Here's](https://pythondiscord.com/pages/resources) a link for resources to learn python.
+Python and the library is made for **advanced users**. Do not use this template if you don't know the
+basics or some advanced topics such as OOP or async. [Here's](https://pythondiscord.com/pages/resources) a link for resources to learn python.
 
 If you need some help for something, do not hesitate to join my discord server [here](https://discord.gg/mTBrXyWxAF).
 
@@ -62,32 +62,38 @@ repository based on this template.
 
 Alternatively you can do the following:
 
-* Clone/Download the repository
-    * To clone it and get the updates you can definitely use the command
-      `git clone`
-* Create a discord bot [here](https://discord.com/developers/applications)
-* Get your bot token
-* Invite your bot on servers using the following invite:
-  https://discord.com/oauth2/authorize?&client_id=YOUR_APPLICATION_ID_HERE&scope=bot+applications.commands&permissions=PERMISSIONS (
-  Replace `YOUR_APPLICATION_ID_HERE` with the application ID and replace `PERMISSIONS` with the required permissions
-  your bot needs that it can be get at the bottom of a this
-  page https://discord.com/developers/applications/YOUR_APPLICATION_ID_HERE/bot)
+-   Clone/Download the repository
+    -   To clone it and get the updates you can definitely use the command
+        `git clone`
+-   Create a discord bot [here](https://discord.com/developers/applications)
+-   Get your bot token
+-   Invite your bot on servers using the following invite:
+    https://discord.com/oauth2/authorize?&client_id=YOUR_APPLICATION_ID_HERE&scope=bot+applications.commands&permissions=PERMISSIONS (
+    Replace `YOUR_APPLICATION_ID_HERE` with the application ID and replace `PERMISSIONS` with the required permissions
+    your bot needs that it can be get at the bottom of a this
+    page https://discord.com/developers/applications/YOUR_APPLICATION_ID_HERE/bot)
 
 ## How to set up
 
-To set up the bot I made it as simple as possible. I now created a [config.json](config.json) file where you can put the
+To set up the bot it was made as simple as possible.
+
+### `config.json` file
+
+There is [`config.json`](config.json) file where you can put the
 needed things to edit.
 
 Here is an explanation of what everything is:
 
-| Variable                  | What it is                                                            |
-| ------------------------- | ----------------------------------------------------------------------|
-| YOUR_BOT_PREFIX_HERE      | The prefix you want to use for normal commands                        |
-| YOUR_BOT_TOKEN_HERE       | The token of your bot                                                 |
-| YOUR_BOT_PERMISSIONS_HERE | The permissions integer your bot needs when it gets invited           |
-| YOUR_APPLICATION_ID_HERE  | The application ID of your bot                                        |
-| OWNERS                    | The user ID of all the bot owners                                     |
+| Variable                  | What it is                                     |
+| ------------------------- | ---------------------------------------------- |
+| YOUR_BOT_PREFIX_HERE      | The prefix you want to use for normal commands |
+| YOUR_BOT_INVITE_LINK_HERE | The link to invite the bot                     |
 
+### `.env` file
+
+To set up the token you will have to either make use of the [`.env.example`](.env.example) file, either copy or rename it to `.env` and replace `YOUR_BOT_TOKEN_HERE` with your bot's token.
+
+Alternatively you can simply create an environment variable named `TOKEN`.
 
 ## How to start
 
@@ -113,8 +119,8 @@ python bot.py
 
 If you have any issues or questions of how to code a specific command, you can:
 
-* Join my discord server [here](https://discord.gg/mTBrXyWxAF)
-* Post them [here](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/issues)
+-   Join my discord server [here](https://discord.gg/mTBrXyWxAF)
+-   Post them [here](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/issues)
 
 Me or other people will take their time to answer and help you.
 
@@ -125,7 +131,7 @@ the [tags on this repository](https://github.com/kkrypt0nn/Python-Discord-Bot-Te
 
 ## Built With
 
-* [Python 3.9.12](https://www.python.org/)
+-   [Python 3.11.5](https://www.python.org/)
 
 ## License
 

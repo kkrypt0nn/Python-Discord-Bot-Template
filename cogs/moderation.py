@@ -3,15 +3,16 @@ Copyright © Krypton 2019-2023 - https://github.com/kkrypt0nn (https://krypton.n
 Description:
 🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
 
-Version: 5.5.0
+Version: 6.0.0
 """
+
+import os
+from datetime import datetime
 
 import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
-
-from helpers import checks, db_manager
 
 
 class Moderation(commands.Cog, name="moderation"):
@@ -24,7 +25,6 @@ class Moderation(commands.Cog, name="moderation"):
     )
     @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
-    @checks.not_blacklisted()
     @app_commands.describe(
         user="The user that should be kicked.",
         reason="The reason why the user should be kicked.",
@@ -51,7 +51,7 @@ class Moderation(commands.Cog, name="moderation"):
             try:
                 embed = discord.Embed(
                     description=f"**{member}** was kicked by **{context.author}**!",
-                    color=0x9C84EF,
+                    color=0xBEBEFE,
                 )
                 embed.add_field(name="Reason:", value=reason)
                 await context.send(embed=embed)
@@ -76,7 +76,6 @@ class Moderation(commands.Cog, name="moderation"):
     )
     @commands.has_permissions(manage_nicknames=True)
     @commands.bot_has_permissions(manage_nicknames=True)
-    @checks.not_blacklisted()
     @app_commands.describe(
         user="The user that should have a new nickname.",
         nickname="The new nickname that should be set.",
@@ -98,7 +97,7 @@ class Moderation(commands.Cog, name="moderation"):
             await member.edit(nick=nickname)
             embed = discord.Embed(
                 description=f"**{member}'s** new nickname is **{nickname}**!",
-                color=0x9C84EF,
+                color=0xBEBEFE,
             )
             await context.send(embed=embed)
         except:
@@ -114,7 +113,6 @@ class Moderation(commands.Cog, name="moderation"):
     )
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    @checks.not_blacklisted()
     @app_commands.describe(
         user="The user that should be banned.",
         reason="The reason why the user should be banned.",
@@ -141,7 +139,7 @@ class Moderation(commands.Cog, name="moderation"):
             else:
                 embed = discord.Embed(
                     description=f"**{member}** was banned by **{context.author}**!",
-                    color=0x9C84EF,
+                    color=0xBEBEFE,
                 )
                 embed.add_field(name="Reason:", value=reason)
                 await context.send(embed=embed)
@@ -166,7 +164,6 @@ class Moderation(commands.Cog, name="moderation"):
         description="Manage warnings of a user on a server.",
     )
     @commands.has_permissions(manage_messages=True)
-    @checks.not_blacklisted()
     async def warning(self, context: Context) -> None:
         """
         Manage warnings of a user on a server.
@@ -184,7 +181,6 @@ class Moderation(commands.Cog, name="moderation"):
         name="add",
         description="Adds a warning to a user in the server.",
     )
-    @checks.not_blacklisted()
     @commands.has_permissions(manage_messages=True)
     @app_commands.describe(
         user="The user that should be warned.",
@@ -203,12 +199,12 @@ class Moderation(commands.Cog, name="moderation"):
         member = context.guild.get_member(user.id) or await context.guild.fetch_member(
             user.id
         )
-        total = await db_manager.add_warn(
+        total = await self.bot.database.add_warn(
             user.id, context.guild.id, context.author.id, reason
         )
         embed = discord.Embed(
             description=f"**{member}** was warned by **{context.author}**!\nTotal warns for this user: {total}",
-            color=0x9C84EF,
+            color=0xBEBEFE,
         )
         embed.add_field(name="Reason:", value=reason)
         await context.send(embed=embed)
@@ -226,7 +222,6 @@ class Moderation(commands.Cog, name="moderation"):
         name="remove",
         description="Removes a warning from a user in the server.",
     )
-    @checks.not_blacklisted()
     @commands.has_permissions(manage_messages=True)
     @app_commands.describe(
         user="The user that should get their warning removed.",
@@ -245,10 +240,10 @@ class Moderation(commands.Cog, name="moderation"):
         member = context.guild.get_member(user.id) or await context.guild.fetch_member(
             user.id
         )
-        total = await db_manager.remove_warn(warn_id, user.id, context.guild.id)
+        total = await self.bot.database.remove_warn(warn_id, user.id, context.guild.id)
         embed = discord.Embed(
             description=f"I've removed the warning **#{warn_id}** from **{member}**!\nTotal warns for this user: {total}",
-            color=0x9C84EF,
+            color=0xBEBEFE,
         )
         await context.send(embed=embed)
 
@@ -257,7 +252,6 @@ class Moderation(commands.Cog, name="moderation"):
         description="Shows the warnings of a user in the server.",
     )
     @commands.has_guild_permissions(manage_messages=True)
-    @checks.not_blacklisted()
     @app_commands.describe(user="The user you want to get the warnings of.")
     async def warning_list(self, context: Context, user: discord.User):
         """
@@ -266,8 +260,8 @@ class Moderation(commands.Cog, name="moderation"):
         :param context: The hybrid command context.
         :param user: The user you want to get the warnings of.
         """
-        warnings_list = await db_manager.get_warnings(user.id, context.guild.id)
-        embed = discord.Embed(title=f"Warnings of {user}", color=0x9C84EF)
+        warnings_list = await self.bot.database.get_warnings(user.id, context.guild.id)
+        embed = discord.Embed(title=f"Warnings of {user}", color=0xBEBEFE)
         description = ""
         if len(warnings_list) == 0:
             description = "This user has no warnings."
@@ -283,7 +277,6 @@ class Moderation(commands.Cog, name="moderation"):
     )
     @commands.has_guild_permissions(manage_messages=True)
     @commands.bot_has_permissions(manage_messages=True)
-    @checks.not_blacklisted()
     @app_commands.describe(amount="The amount of messages that should be deleted.")
     async def purge(self, context: Context, amount: int) -> None:
         """
@@ -298,7 +291,7 @@ class Moderation(commands.Cog, name="moderation"):
         purged_messages = await context.channel.purge(limit=amount + 1)
         embed = discord.Embed(
             description=f"**{context.author}** cleared **{len(purged_messages)-1}** messages!",
-            color=0x9C84EF,
+            color=0xBEBEFE,
         )
         await context.channel.send(embed=embed)
 
@@ -308,7 +301,6 @@ class Moderation(commands.Cog, name="moderation"):
     )
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    @checks.not_blacklisted()
     @app_commands.describe(
         user_id="The user ID that should be banned.",
         reason="The reason why the user should be banned.",
@@ -330,16 +322,53 @@ class Moderation(commands.Cog, name="moderation"):
             )
             embed = discord.Embed(
                 description=f"**{user}** (ID: {user_id}) was banned by **{context.author}**!",
-                color=0x9C84EF,
+                color=0xBEBEFE,
             )
             embed.add_field(name="Reason:", value=reason)
             await context.send(embed=embed)
-        except Exception as e:
+        except Exception:
             embed = discord.Embed(
                 description="An error occurred while trying to ban the user. Make sure ID is an existing ID that belongs to a user.",
                 color=0xE02B2B,
             )
             await context.send(embed=embed)
+
+    @commands.hybrid_command(
+        name="archive",
+        description="Archives in a text file the last messages with a chosen limit of messages.",
+    )
+    @commands.has_permissions(manage_messages=True)
+    @app_commands.describe(
+        limit="The limit of messages that should be archived.",
+    )
+    async def archive(self, context: Context, limit: int = 10) -> None:
+        """
+        Archives in a text file the last messages with a chosen limit of messages.
+
+        :param limit: The limit of messages that should be archived. Default is 10.
+        """
+        log_file = f"{context.channel.id}.log"
+        with open(log_file, "w", encoding="UTF-8") as f:
+            f.write(
+                f'Archived messages from: #{context.channel} ({context.channel.id}) in the guild "{context.guild}" ({context.guild.id}) at {datetime.now().strftime("%d.%m.%Y %H:%M:%S")}\n'
+            )
+            async for message in context.channel.history(
+                limit=limit, before=context.message
+            ):
+                attachments = []
+                for attachment in message.attachments:
+                    attachments.append(attachment.url)
+                attachments_text = (
+                    f"[Attached File{'s' if len(attachments) >= 2 else ''}: {', '.join(attachments)}]"
+                    if len(attachments) >= 1
+                    else ""
+                )
+                f.write(
+                    f"{message.created_at.strftime('%d.%m.%Y %H:%M:%S')} {message.author} {message.id}: {message.clean_content} {attachments_text}\n"
+                )
+        f = discord.File(log_file)
+        await context.send(file=f)
+        os.remove(log_file)
 
 
 async def setup(bot):
