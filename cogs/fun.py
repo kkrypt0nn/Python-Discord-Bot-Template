@@ -3,7 +3,7 @@ Copyright © Krypton 2019-2023 - https://github.com/kkrypt0nn (https://krypton.n
 Description:
 🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
 
-Version: 5.5.0
+Version: 6.0.0
 """
 
 import random
@@ -12,8 +12,6 @@ import aiohttp
 import discord
 from discord.ext import commands
 from discord.ext.commands import Context
-
-from helpers import checks
 
 
 class Choice(discord.ui.View):
@@ -44,7 +42,7 @@ class RockPaperScissors(discord.ui.Select):
                 label="Rock", description="You choose rock.", emoji="🪨"
             ),
             discord.SelectOption(
-                label="paper", description="You choose paper.", emoji="🧻"
+                label="Paper", description="You choose paper.", emoji="🧻"
             ),
         ]
         super().__init__(
@@ -66,28 +64,22 @@ class RockPaperScissors(discord.ui.Select):
         bot_choice = random.choice(list(choices.keys()))
         bot_choice_index = choices[bot_choice]
 
-        result_embed = discord.Embed(color=0x9C84EF)
+        result_embed = discord.Embed(color=0xBEBEFE)
         result_embed.set_author(
-            name=interaction.user.name, icon_url=interaction.user.avatar.url
+            name=interaction.user.name, icon_url=interaction.user.display_avatar.url
         )
 
-        if user_choice_index == bot_choice_index:
+        winner = (3 + user_choice_index - bot_choice_index) % 3
+        if winner == 0:
             result_embed.description = f"**That's a draw!**\nYou've chosen {user_choice} and I've chosen {bot_choice}."
             result_embed.colour = 0xF59E42
-        elif user_choice_index == 0 and bot_choice_index == 2:
+        elif winner == 1:
             result_embed.description = f"**You won!**\nYou've chosen {user_choice} and I've chosen {bot_choice}."
-            result_embed.colour = 0x9C84EF
-        elif user_choice_index == 1 and bot_choice_index == 0:
-            result_embed.description = f"**You won!**\nYou've chosen {user_choice} and I've chosen {bot_choice}."
-            result_embed.colour = 0x9C84EF
-        elif user_choice_index == 2 and bot_choice_index == 1:
-            result_embed.description = f"**You won!**\nYou've chosen {user_choice} and I've chosen {bot_choice}."
-            result_embed.colour = 0x9C84EF
+            result_embed.colour = 0x57F287
         else:
-            result_embed.description = (
-                f"**I won!**\nYou've chosen {user_choice} and I've chosen {bot_choice}."
-            )
+            result_embed.description = f"**You lost!**\nYou've chosen {user_choice} and I've chosen {bot_choice}."
             result_embed.colour = 0xE02B2B
+
         await interaction.response.edit_message(
             embed=result_embed, content=None, view=None
         )
@@ -104,7 +96,6 @@ class Fun(commands.Cog, name="fun"):
         self.bot = bot
 
     @commands.hybrid_command(name="randomfact", description="Get a random fact.")
-    @checks.not_blacklisted()
     async def randomfact(self, context: Context) -> None:
         """
         Get a random fact.
@@ -130,7 +121,6 @@ class Fun(commands.Cog, name="fun"):
     @commands.hybrid_command(
         name="coinflip", description="Make a coin flip, but give your bet before."
     )
-    @checks.not_blacklisted()
     async def coinflip(self, context: Context) -> None:
         """
         Make a coin flip, but give your bet before.
@@ -138,14 +128,14 @@ class Fun(commands.Cog, name="fun"):
         :param context: The hybrid command context.
         """
         buttons = Choice()
-        embed = discord.Embed(description="What is your bet?", color=0x9C84EF)
+        embed = discord.Embed(description="What is your bet?", color=0xBEBEFE)
         message = await context.send(embed=embed, view=buttons)
         await buttons.wait()  # We wait for the user to click a button.
         result = random.choice(["heads", "tails"])
         if buttons.value == result:
             embed = discord.Embed(
                 description=f"Correct! You guessed `{buttons.value}` and I flipped the coin to `{result}`.",
-                color=0x9C84EF,
+                color=0xBEBEFE,
             )
         else:
             embed = discord.Embed(
@@ -157,7 +147,6 @@ class Fun(commands.Cog, name="fun"):
     @commands.hybrid_command(
         name="rps", description="Play the rock paper scissors game against the bot."
     )
-    @checks.not_blacklisted()
     async def rock_paper_scissors(self, context: Context) -> None:
         """
         Play the rock paper scissors game against the bot.

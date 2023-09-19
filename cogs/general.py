@@ -3,7 +3,7 @@ Copyright © Krypton 2019-2023 - https://github.com/kkrypt0nn (https://krypton.n
 Description:
 🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
 
-Version: 5.5.0
+Version: 6.0.0
 """
 
 import platform
@@ -15,8 +15,6 @@ from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
 
-from helpers import checks
-
 
 class General(commands.Cog, name="general"):
     def __init__(self, bot):
@@ -25,13 +23,14 @@ class General(commands.Cog, name="general"):
     @commands.hybrid_command(
         name="help", description="List all commands the bot has loaded."
     )
-    @checks.not_blacklisted()
     async def help(self, context: Context) -> None:
         prefix = self.bot.config["prefix"]
         embed = discord.Embed(
-            title="Help", description="List of available commands:", color=0x9C84EF
+            title="Help", description="List of available commands:", color=0xBEBEFE
         )
         for i in self.bot.cogs:
+            if i == "owner" and not (await self.bot.is_owner(context.author)):
+                continue
             cog = self.bot.get_cog(i.lower())
             commands = cog.get_commands()
             data = []
@@ -48,7 +47,6 @@ class General(commands.Cog, name="general"):
         name="botinfo",
         description="Get some useful (or not) information about the bot.",
     )
-    @checks.not_blacklisted()
     async def botinfo(self, context: Context) -> None:
         """
         Get some useful (or not) information about the bot.
@@ -57,7 +55,7 @@ class General(commands.Cog, name="general"):
         """
         embed = discord.Embed(
             description="Used [Krypton's](https://krypton.ninja) template",
-            color=0x9C84EF,
+            color=0xBEBEFE,
         )
         embed.set_author(name="Bot Information")
         embed.add_field(name="Owner:", value="Krypton#7331", inline=True)
@@ -76,7 +74,6 @@ class General(commands.Cog, name="general"):
         name="serverinfo",
         description="Get some useful (or not) information about the server.",
     )
-    @checks.not_blacklisted()
     async def serverinfo(self, context: Context) -> None:
         """
         Get some useful (or not) information about the server.
@@ -86,11 +83,11 @@ class General(commands.Cog, name="general"):
         roles = [role.name for role in context.guild.roles]
         if len(roles) > 50:
             roles = roles[:50]
-            roles.append(f">>>> Displaying[50/{len(roles)}] Roles")
+            roles.append(f">>>> Displayin [50/{len(roles)}] Roles")
         roles = ", ".join(roles)
 
         embed = discord.Embed(
-            title="**Server Name:**", description=f"{context.guild}", color=0x9C84EF
+            title="**Server Name:**", description=f"{context.guild}", color=0xBEBEFE
         )
         if context.guild.icon is not None:
             embed.set_thumbnail(url=context.guild.icon.url)
@@ -107,7 +104,6 @@ class General(commands.Cog, name="general"):
         name="ping",
         description="Check if the bot is alive.",
     )
-    @checks.not_blacklisted()
     async def ping(self, context: Context) -> None:
         """
         Check if the bot is alive.
@@ -117,7 +113,7 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title="🏓 Pong!",
             description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
-            color=0x9C84EF,
+            color=0xBEBEFE,
         )
         await context.send(embed=embed)
 
@@ -125,7 +121,6 @@ class General(commands.Cog, name="general"):
         name="invite",
         description="Get the invite link of the bot to be able to invite it.",
     )
-    @checks.not_blacklisted()
     async def invite(self, context: Context) -> None:
         """
         Get the invite link of the bot to be able to invite it.
@@ -133,11 +128,10 @@ class General(commands.Cog, name="general"):
         :param context: The hybrid command context.
         """
         embed = discord.Embed(
-            description=f"Invite me by clicking [here](https://discordapp.com/oauth2/authorize?&client_id={self.bot.config['application_id']}&scope=bot+applications.commands&permissions={self.bot.config['permissions']}).",
+            description=f"Invite me by clicking [here]({self.bot.config['invite_link']}).",
             color=0xD75BF4,
         )
         try:
-            # To know what permissions to give to your bot, please see here: https://discordapi.com/permissions.html and remember to not give Administrator permissions.
             await context.author.send(embed=embed)
             await context.send("I sent you a private message!")
         except discord.Forbidden:
@@ -147,7 +141,6 @@ class General(commands.Cog, name="general"):
         name="server",
         description="Get the invite link of the discord server of the bot for some support.",
     )
-    @checks.not_blacklisted()
     async def server(self, context: Context) -> None:
         """
         Get the invite link of the discord server of the bot for some support.
@@ -168,7 +161,6 @@ class General(commands.Cog, name="general"):
         name="8ball",
         description="Ask any question to the bot.",
     )
-    @checks.not_blacklisted()
     @app_commands.describe(question="The question you want to ask.")
     async def eight_ball(self, context: Context, *, question: str) -> None:
         """
@@ -202,7 +194,7 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title="**My Answer:**",
             description=f"{random.choice(answers)}",
-            color=0x9C84EF,
+            color=0xBEBEFE,
         )
         embed.set_footer(text=f"The question was: {question}")
         await context.send(embed=embed)
@@ -211,7 +203,6 @@ class General(commands.Cog, name="general"):
         name="bitcoin",
         description="Get the current price of bitcoin.",
     )
-    @checks.not_blacklisted()
     async def bitcoin(self, context: Context) -> None:
         """
         Get the current price of bitcoin.
@@ -230,7 +221,7 @@ class General(commands.Cog, name="general"):
                     embed = discord.Embed(
                         title="Bitcoin price",
                         description=f"The current price is {data['bpi']['USD']['rate']} :dollar:",
-                        color=0x9C84EF,
+                        color=0xBEBEFE,
                     )
                 else:
                     embed = discord.Embed(
