@@ -53,8 +53,6 @@ the `@app_commands.guilds()` decorator so that it gets registered instantly. Exa
 When using the template you confirm that you have read the [license](LICENSE.md) and comprehend that I can take down
 your repository if you do not meet these requirements.
 
-Please do not open issues or pull requests about things that are written in the [TODO file](TODO.md), they are **already** under work for a future version of the template.
-
 ## How to download it
 
 This repository is now a template, on the top left you can simply click on "**Use this template**" to create a GitHub
