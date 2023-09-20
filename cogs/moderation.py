@@ -343,7 +343,7 @@ class Moderation(commands.Cog, name="moderation"):
     )
     async def archive(self, context: Context, limit: int = 10) -> None:
         """
-        Archives in a text file the last messages with a chosen limit of messages.
+        Archives in a text file the last messages with a chosen limit of messages. This command requires the MESSAGE_CONTENT intent to work properly.
 
         :param limit: The limit of messages that should be archived. Default is 10.
         """

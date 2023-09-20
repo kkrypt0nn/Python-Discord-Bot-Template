@@ -21,8 +21,8 @@ discord.py works and to make your own bot easily.
 
 If you plan to use this template to make your own template or bot, you **have to**:
 
--   Keep the credits, and a link to this repository in all the files that contains my code
--   Keep the same license for unchanged code
+- Keep the credits, and a link to this repository in all the files that contains my code
+- Keep the same license for unchanged code
 
 See [the license file](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/blob/master/LICENSE.md) for more
 information, I reserve the right to take down any repository that does not meet these requirements.
@@ -60,16 +60,16 @@ repository based on this template.
 
 Alternatively you can do the following:
 
--   Clone/Download the repository
-    -   To clone it and get the updates you can definitely use the command
-        `git clone`
--   Create a discord bot [here](https://discord.com/developers/applications)
--   Get your bot token
--   Invite your bot on servers using the following invite:
-    https://discord.com/oauth2/authorize?&client_id=YOUR_APPLICATION_ID_HERE&scope=bot+applications.commands&permissions=PERMISSIONS (
-    Replace `YOUR_APPLICATION_ID_HERE` with the application ID and replace `PERMISSIONS` with the required permissions
-    your bot needs that it can be get at the bottom of a this
-    page https://discord.com/developers/applications/YOUR_APPLICATION_ID_HERE/bot)
+- Clone/Download the repository
+  - To clone it and get the updates you can definitely use the command
+    `git clone`
+- Create a discord bot [here](https://discord.com/developers/applications)
+- Get your bot token
+- Invite your bot on servers using the following invite:
+  https://discord.com/oauth2/authorize?&client_id=YOUR_APPLICATION_ID_HERE&scope=bot+applications.commands&permissions=PERMISSIONS (
+  Replace `YOUR_APPLICATION_ID_HERE` with the application ID and replace `PERMISSIONS` with the required permissions
+  your bot needs that it can be get at the bottom of a this
+  page https://discord.com/developers/applications/YOUR_APPLICATION_ID_HERE/bot)
 
 ## How to set up
 
@@ -117,8 +117,8 @@ python bot.py
 
 If you have any issues or questions of how to code a specific command, you can:
 
--   Join my discord server [here](https://discord.gg/mTBrXyWxAF)
--   Post them [here](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/issues)
+- Join my discord server [here](https://discord.gg/mTBrXyWxAF)
+- Post them [here](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/issues)
 
 Me or other people will take their time to answer and help you.
 
@@ -129,7 +129,7 @@ the [tags on this repository](https://github.com/kkrypt0nn/Python-Discord-Bot-Te
 
 ## Built With
 
--   [Python 3.11.5](https://www.python.org/)
+- [Python 3.11.5](https://www.python.org/)
 
 ## License
 
