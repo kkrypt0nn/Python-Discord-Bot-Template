@@ -3,7 +3,7 @@ Copyright © Krypton 2019-2023 - https://github.com/kkrypt0nn (https://krypton.n
 Description:
 🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
 
-Version: 6.0.0
+Version: 6.1.0
 """
 
 import os
@@ -343,7 +343,7 @@ class Moderation(commands.Cog, name="moderation"):
     )
     async def archive(self, context: Context, limit: int = 10) -> None:
         """
-        Archives in a text file the last messages with a chosen limit of messages.
+        Archives in a text file the last messages with a chosen limit of messages. This command requires the MESSAGE_CONTENT intent to work properly.
 
         :param limit: The limit of messages that should be archived. Default is 10.
         """

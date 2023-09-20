@@ -3,7 +3,7 @@ Copyright © Krypton 2019-2023 - https://github.com/kkrypt0nn (https://krypton.n
 Description:
 🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
 
-Version: 6.0.0
+Version: 6.1.0
 """
 
 import platform
@@ -230,6 +230,44 @@ class General(commands.Cog, name="general"):
                         color=0xE02B2B,
                     )
                 await context.send(embed=embed)
+
+    @app_commands.context_menu(name="Remove spoilers")
+    async def remove_spoilers(
+        self, interaction: discord.Interaction, message: discord.Message
+    ):
+        """
+        Removes the spoilers from the message. This command requires the MESSAGE_CONTENT intent to work properly.
+
+        :param interaction: The application command interaction.
+        :param message: The message that is being interacted with.
+        """
+        spoiler_attachment = None
+        for attachment in message.attachments:
+            if attachment.is_spoiler():
+                spoiler_attachment = attachment
+                break
+        embed = discord.Embed(
+            title="Message without spoilers",
+            description=message.content.replace("||", ""),
+            color=0xBEBEFE,
+        )
+        if spoiler_attachment is not None:
+            embed.set_image(url=attachment.url)
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+
+    @app_commands.context_menu(name="Grab ID")
+    async def grab_id(self, interaction: discord.Interaction, user: discord.User):
+        """
+        Grabs the ID of the user.
+
+        :param interaction: The application command interaction.
+        :param user: The user that is being interacted with.
+        """
+        embed = discord.Embed(
+            description=f"The ID of the user is `{user.id}`.",
+            color=0xBEBEFE,
+        )
+        await interaction.response.send_message(embed=embed, ephemeral=True)
 
 
 async def setup(bot):
