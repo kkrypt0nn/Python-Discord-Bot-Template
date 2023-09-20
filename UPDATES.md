@@ -2,11 +2,11 @@
 
 Here is the list of all the updates that I made on this template.
 
-### Version 6.1.0 (10 September 2022)
+### Version 6.1.0 (20 September 2022)
 
 - Added two context menu commands, one for users and one for messages
 
-### Version 6.0.0 (09 September 2023)
+### Version 6.0.0 (19 September 2023)
 
 - Made a custom class for the bot that subclasses `commands.Bot`
 - Don't connect to the SQLite database all the time, created a `DatabaseManager` class that handles database operations
