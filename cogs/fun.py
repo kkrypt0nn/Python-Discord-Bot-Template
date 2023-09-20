@@ -15,25 +15,27 @@ from discord.ext.commands import Context
 
 
 class Choice(discord.ui.View):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.value = None
 
     @discord.ui.button(label="Heads", style=discord.ButtonStyle.blurple)
     async def confirm(
         self, button: discord.ui.Button, interaction: discord.Interaction
-    ):
+    ) -> None:
         self.value = "heads"
         self.stop()
 
     @discord.ui.button(label="Tails", style=discord.ButtonStyle.blurple)
-    async def cancel(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def cancel(
+        self, button: discord.ui.Button, interaction: discord.Interaction
+    ) -> None:
         self.value = "tails"
         self.stop()
 
 
 class RockPaperScissors(discord.ui.Select):
-    def __init__(self):
+    def __init__(self) -> None:
         options = [
             discord.SelectOption(
                 label="Scissors", description="You choose scissors.", emoji="✂"
@@ -52,7 +54,7 @@ class RockPaperScissors(discord.ui.Select):
             options=options,
         )
 
-    async def callback(self, interaction: discord.Interaction):
+    async def callback(self, interaction: discord.Interaction) -> None:
         choices = {
             "rock": 0,
             "paper": 1,
@@ -86,13 +88,13 @@ class RockPaperScissors(discord.ui.Select):
 
 
 class RockPaperScissorsView(discord.ui.View):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.add_item(RockPaperScissors())
 
 
 class Fun(commands.Cog, name="fun"):
-    def __init__(self, bot):
+    def __init__(self, bot) -> None:
         self.bot = bot
 
     @commands.hybrid_command(name="randomfact", description="Get a random fact.")
@@ -157,5 +159,5 @@ class Fun(commands.Cog, name="fun"):
         await context.send("Please make your choice", view=view)
 
 
-async def setup(bot):
+async def setup(bot) -> None:
     await bot.add_cog(Fun(bot))

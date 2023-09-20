@@ -13,7 +13,7 @@ from discord.ext.commands import Context
 
 
 class Owner(commands.Cog, name="owner"):
-    def __init__(self, bot):
+    def __init__(self, bot) -> None:
         self.bot = bot
 
     @commands.command(
@@ -327,5 +327,5 @@ class Owner(commands.Cog, name="owner"):
         await context.send(embed=embed)
 
 
-async def setup(bot):
+async def setup(bot) -> None:
     await bot.add_cog(Owner(bot))

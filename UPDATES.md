@@ -2,7 +2,12 @@
 
 Here is the list of all the updates that I made on this template.
 
-### Version 6.1.0 (20 September 2022)
+### Version 6.1.0 (20 September 2023)
+
+- Various bug fixes
+- Added `-> None` type hint to remaining functions
+
+### Version 6.0.1 & 6.0.2 (20 September 2023)
 
 - Added two context menu commands, one for users and one for messages
 

@@ -11,7 +11,7 @@ import aiosqlite
 
 
 class DatabaseManager:
-    def __init__(self, *, connection: aiosqlite.Connection):
+    def __init__(self, *, connection: aiosqlite.Connection) -> None:
         self.connection = connection
 
     async def add_warn(

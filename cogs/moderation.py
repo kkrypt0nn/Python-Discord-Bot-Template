@@ -16,7 +16,7 @@ from discord.ext.commands import Context
 
 
 class Moderation(commands.Cog, name="moderation"):
-    def __init__(self, bot):
+    def __init__(self, bot) -> None:
         self.bot = bot
 
     @commands.hybrid_command(
@@ -253,7 +253,7 @@ class Moderation(commands.Cog, name="moderation"):
     )
     @commands.has_guild_permissions(manage_messages=True)
     @app_commands.describe(user="The user you want to get the warnings of.")
-    async def warning_list(self, context: Context, user: discord.User):
+    async def warning_list(self, context: Context, user: discord.User) -> None:
         """
         Shows the warnings of a user in the server.
 
@@ -371,5 +371,5 @@ class Moderation(commands.Cog, name="moderation"):
         os.remove(log_file)
 
 
-async def setup(bot):
+async def setup(bot) -> None:
     await bot.add_cog(Moderation(bot))
