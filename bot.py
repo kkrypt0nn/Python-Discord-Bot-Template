@@ -170,7 +170,7 @@ class DiscordBot(commands.Bot):
     @tasks.loop(minutes=1.0)
     async def status_task(self) -> None:
         """
-        Setup the game status task of the bot.
+        Set up the game status task of the bot.
         """
         statuses = ["with you!", "with Krypton!", "with humans!"]
         await self.change_presence(activity=discord.Game(random.choice(statuses)))
@@ -278,7 +278,8 @@ class DiscordBot(commands.Bot):
         elif isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(
                 title="Error!",
-                # We need to capitalize because the command arguments have no capital letter in the code and they are the first word in the error message.
+                # We need to capitalize because the command arguments have no capital letter in the code, 
+                # and they are the first word in the error message.
                 description=str(error).capitalize(),
                 color=0xE02B2B,
             )
