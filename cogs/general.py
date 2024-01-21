@@ -264,8 +264,8 @@ class General(commands.Cog, name="general"):
             ) as request:
                 if request.status == 200:
                     data = await request.json(
-                        content_type="application/javascript"
-                    )  # For some reason the returned content is of type JavaScript
+                        content_type="application/json"
+                    )
                     embed = discord.Embed(
                         title="Bitcoin price",
                         description=f"The current price is {data['bpi']['USD']['rate']} :dollar:",
