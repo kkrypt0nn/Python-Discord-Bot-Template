@@ -129,9 +129,10 @@ class General(commands.Cog, name="general"):
         :param context: The hybrid command context.
         """
         roles = [role.name for role in context.guild.roles]
-        if len(roles) > 50:
+        num_roles = len(roles)
+        if num_roles > 50:
             roles = roles[:50]
-            roles.append(f">>>> Displayin [50/{len(roles)}] Roles")
+            roles.append(f">>>> Displaying [50/{num_roles}] Roles")
         roles = ", ".join(roles)
 
         embed = discord.Embed(
