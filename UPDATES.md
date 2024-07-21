@@ -2,6 +2,11 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 6.2.0 (21 July 2024)
+
+- Added a new `feedback` command for showcasing the use of modals (popups)
+- Some wording changes in the `README.md` file and the project description
+
 ### Version 6.1.0 (20 September 2023)
 
 - Various bug fixes

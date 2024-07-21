@@ -1,9 +1,9 @@
-""""
-Copyright © Krypton 2019-2023 - https://github.com/kkrypt0nn (https://krypton.ninja)
+"""
+Copyright © Krypton 2019-Present - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
-🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
+🐍 A simple template to start to code your own and personalized Discord bot in Python
 
-Version: 6.1.0
+Version: 6.2.0
 """
 
 import platform
@@ -14,6 +14,21 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
+
+
+class FeedbackForm(discord.ui.Modal, title="Feeedback"):
+    feedback = discord.ui.TextInput(
+        label="What do you think about this bot?",
+        style=discord.TextStyle.long,
+        placeholder="Type your answer here...",
+        required=True,
+        max_length=256,
+    )
+
+    async def on_submit(self, interaction: discord.Interaction):
+        self.interaction = interaction
+        self.answer = str(self.feedback)
+        self.stop()
 
 
 class General(commands.Cog, name="general"):
@@ -264,9 +279,7 @@ class General(commands.Cog, name="general"):
                 "https://api.coindesk.com/v1/bpi/currentprice/BTC.json"
             ) as request:
                 if request.status == 200:
-                    data = await request.json(
-                        content_type="application/javascript"
-                    )  # For some reason the returned content is of type JavaScript
+                    data = await request.json()
                     embed = discord.Embed(
                         title="Bitcoin price",
                         description=f"The current price is {data['bpi']['USD']['rate']} :dollar:",
@@ -279,6 +292,36 @@ class General(commands.Cog, name="general"):
                         color=0xE02B2B,
                     )
                 await context.send(embed=embed)
+
+    @app_commands.command(
+        name="feedback", description="Submit a feedback for the owners of the bot"
+    )
+    async def feedback(self, interaction: discord.Interaction) -> None:
+        """
+        Submit a feedback for the owners of the bot.
+
+        :param context: The hybrid command context.
+        """
+        feedback_form = FeedbackForm()
+        await interaction.response.send_modal(feedback_form)
+
+        await feedback_form.wait()
+        interaction = feedback_form.interaction
+        await interaction.response.send_message(
+            embed=discord.Embed(
+                description="Thank you for your feedback, the owners have been notified about it.",
+                color=0xBEBEFE,
+            )
+        )
+
+        app_owner = (await self.bot.application_info()).owner
+        await app_owner.send(
+            embed=discord.Embed(
+                title="New Feedback",
+                description=f"{interaction.user} (<@{interaction.user.id}>) has submitted a new feedback:\n```\n{feedback_form.answer}\n```",
+                color=0xBEBEFE,
+            )
+        )
 
 
 async def setup(bot) -> None:
