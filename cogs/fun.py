@@ -21,14 +21,14 @@ class Choice(discord.ui.View):
 
     @discord.ui.button(label="Heads", style=discord.ButtonStyle.blurple)
     async def confirm(
-        self, button: discord.ui.Button, interaction: discord.Interaction
+        self, interaction: discord.Interaction, button: discord.ui.Button
     ) -> None:
         self.value = "heads"
         self.stop()
 
     @discord.ui.button(label="Tails", style=discord.ButtonStyle.blurple)
     async def cancel(
-        self, button: discord.ui.Button, interaction: discord.Interaction
+        self, interaction: discord.Interaction, button: discord.ui.Button
     ) -> None:
         self.value = "tails"
         self.stop()
