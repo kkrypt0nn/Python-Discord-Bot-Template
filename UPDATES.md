@@ -2,6 +2,12 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 6.3.0 (05 March 2025)
+
+- Added support for Docker, `docker compose up` will spin up the bot and install the requirements
+- Pinned `discord.py` version in the `requirements.txt` file
+- Removed the `config.json` file and replaced the rest with `.env` just like the token
+
 ### Version 6.2.0 (21 July 2024)
 
 - Added a new `feedback` command for showcasing the use of modals (popups)

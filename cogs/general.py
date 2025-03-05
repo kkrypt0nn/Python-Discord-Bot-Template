@@ -3,7 +3,7 @@ Copyright © Krypton 2019-Present - https://github.com/kkrypt0nn (https://krypto
 Description:
 🐍 A simple template to start to code your own and personalized Discord bot in Python
 
-Version: 6.2.0
+Version: 6.3.0
 """
 
 import platform
@@ -87,7 +87,6 @@ class General(commands.Cog, name="general"):
         name="help", description="List all commands the bot has loaded."
     )
     async def help(self, context: Context) -> None:
-        prefix = self.bot.config["prefix"]
         embed = discord.Embed(
             title="Help", description="List of available commands:", color=0xBEBEFE
         )
@@ -99,7 +98,7 @@ class General(commands.Cog, name="general"):
             data = []
             for command in commands:
                 description = command.description.partition("\n")[0]
-                data.append(f"{prefix}{command.name} - {description}")
+                data.append(f"{command.name} - {description}")
             help_text = "\n".join(data)
             embed.add_field(
                 name=i.capitalize(), value=f"```{help_text}```", inline=False
@@ -127,7 +126,7 @@ class General(commands.Cog, name="general"):
         )
         embed.add_field(
             name="Prefix:",
-            value=f"/ (Slash Commands) or {self.bot.config['prefix']} for normal commands",
+            value=f"/ (Slash Commands) or {self.bot.bot_prefix} for normal commands",
             inline=False,
         )
         embed.set_footer(text=f"Requested by {context.author}")
@@ -192,7 +191,7 @@ class General(commands.Cog, name="general"):
         :param context: The hybrid command context.
         """
         embed = discord.Embed(
-            description=f"Invite me by clicking [here]({self.bot.config['invite_link']}).",
+            description=f"Invite me by clicking [here]({self.bot.invite_link}).",
             color=0xD75BF4,
         )
         try:

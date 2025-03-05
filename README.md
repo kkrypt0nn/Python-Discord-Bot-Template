@@ -73,27 +73,13 @@ Alternatively you can do the following:
 
 ## How to set up
 
-To set up the bot it was made as simple as possible.
+To set up the token you will have to make use of the [`.env.example`](.env.example) file; you should rename it to `.env` and replace the `YOUR_BOT...` content with your actual values that match for your bot.
 
-### `config.json` file
-
-There is [`config.json`](config.json) file where you can put the
-needed things to edit.
-
-Here is an explanation of what everything is:
-
-| Variable                  | What it is                                     |
-| ------------------------- | ---------------------------------------------- |
-| YOUR_BOT_PREFIX_HERE      | The prefix you want to use for normal commands |
-| YOUR_BOT_INVITE_LINK_HERE | The link to invite the bot                     |
-
-### `.env` file
-
-To set up the token you will have to make use of the [`.env.example`](.env.example) file, you should rename it to `.env` and replace `YOUR_BOT_TOKEN_HERE` with your actual bot's token.
-
-Alternatively you can simply create an environment variable named `TOKEN`.
+Alternatively you can simply create a system environment variable with the same names and their respective value.
 
 ## How to start
+
+### The _"usual"_ way
 
 To start the bot you simply need to launch, either your terminal (Linux, Mac & Windows), or your Command Prompt (
 Windows)
@@ -111,7 +97,17 @@ After that you can start it with
 python bot.py
 ```
 
-> **Note** You may need to replace `python` with `py`, `python3`, `python3.11`, etc. depending on what Python versions you have installed on the machine.
+> **Note**: You may need to replace `python` with `py`, `python3`, `python3.11`, etc. depending on what Python versions you have installed on the machine.
+
+### Docker
+
+Support to start the bot in a Docker container has been added. After having [Docker](https://docker.com) installed on your machine, you can simply execute:
+
+```
+docker compose up -d --build
+```
+
+> **Note**: `-d` will make the container run in detached mode, so in the background.
 
 ## Issues or Questions
 
@@ -129,7 +125,7 @@ the [tags on this repository](https://github.com/kkrypt0nn/Python-Discord-Bot-Te
 
 ## Built With
 
-- [Python 3.11.5](https://www.python.org/)
+- [Python 3.12.9](https://www.python.org/)
 
 ## License
 

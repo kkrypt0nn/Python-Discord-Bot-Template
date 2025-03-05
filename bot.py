@@ -3,7 +3,7 @@ Copyright © Krypton 2019-Present - https://github.com/kkrypt0nn (https://krypto
 Description:
 🐍 A simple template to start to code your own and personalized Discord bot in Python
 
-Version: 6.2.0
+Version: 6.3.0
 """
 
 import json
@@ -21,11 +21,7 @@ from dotenv import load_dotenv
 
 from database import DatabaseManager
 
-if not os.path.isfile(f"{os.path.realpath(os.path.dirname(__file__))}/config.json"):
-    sys.exit("'config.json' not found! Please add it and try again.")
-else:
-    with open(f"{os.path.realpath(os.path.dirname(__file__))}/config.json") as file:
-        config = json.load(file)
+load_dotenv()
 
 """	
 Setup bot intents (events restrictions)
@@ -125,21 +121,22 @@ logger.addHandler(file_handler)
 class DiscordBot(commands.Bot):
     def __init__(self) -> None:
         super().__init__(
-            command_prefix=commands.when_mentioned_or(config["prefix"]),
+            command_prefix=commands.when_mentioned_or(os.getenv("PREFIX")),
             intents=intents,
             help_command=None,
         )
         """
         This creates custom bot variables so that we can access these variables in cogs more easily.
 
-        For example, The config is available using the following code:
-        - self.config # In this class
-        - bot.config # In this file
-        - self.bot.config # In cogs
+        For example, The logger is available using the following code:
+        - self.logger # In this class
+        - bot.logger # In this file
+        - self.bot.logger # In cogs
         """
         self.logger = logger
-        self.config = config
         self.database = None
+        self.bot_prefix = os.getenv("PREFIX")
+        self.invite_link = os.getenv("INVITE_LINK")
 
     async def init_db(self) -> None:
         async with aiosqlite.connect(
@@ -286,8 +283,6 @@ class DiscordBot(commands.Bot):
         else:
             raise error
 
-
-load_dotenv()
 
 bot = DiscordBot()
 bot.run(os.getenv("TOKEN"))
