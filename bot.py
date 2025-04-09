@@ -143,7 +143,8 @@ class DiscordBot(commands.Bot):
             f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
         ) as db:
             with open(
-                f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql"
+                f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql",
+                encoding = "utf-8"
             ) as file:
                 await db.executescript(file.read())
             await db.commit()
