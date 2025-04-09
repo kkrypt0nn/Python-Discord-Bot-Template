@@ -1,6 +1,7 @@
 # Python Discord Bot Template
 
 <p align="center">
+  <a href="https://discord.gg/xj6y5ZaTMr"><img src="https://img.shields.io/discord/1358456011316396295?logo=discord"></a>
   <a href="https://github.com/kkrypt0nn/Python-Discord-Bot-Template/releases"><img src="https://img.shields.io/github/v/release/kkrypt0nn/Python-Discord-Bot-Template"></a>
   <a href="https://github.com/kkrypt0nn/Python-Discord-Bot-Template/commits/main"><img src="https://img.shields.io/github/last-commit/kkrypt0nn/Python-Discord-Bot-Template"></a>
   <a href="https://github.com/kkrypt0nn/Python-Discord-Bot-Template/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/kkrypt0nn/Python-Discord-Bot-Template"></a>
@@ -112,6 +113,7 @@ docker compose up -d --build
 
 If you have any issues or questions of how to code a specific command, you can:
 
+- Join my Discord server [here](https://discord.gg/xj6y5ZaTMr)
 - Post them [here](https://github.com/kkrypt0nn/Python-Discord-Bot-Template/issues)
 
 Me or other people will take their time to answer and help you.
