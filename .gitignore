@@ -145,3 +145,6 @@ cython_debug/
 
 # Log file
 discord.log
+
+# Claude settings
+.claude/*

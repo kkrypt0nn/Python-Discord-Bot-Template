@@ -1,0 +1,78 @@
+[tool.poetry]
+name = "discord-bot"
+version = "0.1.0"
+description = "A Discord bot with moderation and fun features"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "cogs"}, {include = "database"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+aiohttp = "*"
+aiosqlite = "*"
+"discord.py" = "2.5.2"
+python-dotenv = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+pytest-mock = "^3.11.1"
+pytest-asyncio = "^0.21.1"
+
+[tool.poetry.scripts]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--strict-markers",
+    "--tb=short",
+    "--cov=cogs",
+    "--cov=database",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-report=term-missing",
+    "--cov-fail-under=80",
+]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow tests",
+    "asyncio: Asynchronous tests",
+]
+
+[tool.coverage.run]
+source = ["cogs", "database"]
+omit = [
+    "*/tests/*",
+    "*/__init__.py",
+    "*/conftest.py",
+    "*/template.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+precision = 2
+show_missing = true
+skip_covered = false
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
