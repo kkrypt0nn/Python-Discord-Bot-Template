@@ -6,3 +6,8 @@ CREATE TABLE IF NOT EXISTS `warns` (
   `reason` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE IF NOT EXISTS `disabled_commands` (
+  `server_id` INT(11) NOT NULL,
+  `disabled_commands` TEXT NOT NULL,
+  PRIMARY KEY (`server_id`)
+);

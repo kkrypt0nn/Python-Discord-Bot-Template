@@ -13,6 +13,8 @@ import platform
 import random
 import sys
 
+import signal
+import asyncio
 import aiosqlite
 import discord
 from discord.ext import commands, tasks
@@ -153,6 +155,7 @@ class DiscordBot(commands.Bot):
         """
         The code in this function is executed whenever the bot will start.
         """
+        # Loading extensions
         for file in os.listdir(f"{os.path.realpath(os.path.dirname(__file__))}/cogs"):
             if file.endswith(".py"):
                 extension = file[:-3]
@@ -164,6 +167,20 @@ class DiscordBot(commands.Bot):
                     self.logger.error(
                         f"Failed to load extension {extension}\n{exception}"
                     )
+        # Loading categorised cogs from inside the folders directly.
+        for folder in os.listdir(f"{os.path.realpath(os.path.dirname(__file__))}/cogs"):
+            if os.path.isdir(f"{os.path.realpath(os.path.dirname(__file__))}/cogs/{folder}"):
+                for file in os.listdir(f"{os.path.realpath(os.path.dirname(__file__))}/cogs/{folder}"):
+                    if file.endswith(".py"):
+                        extension = f"{folder}.{file[:-3]}"
+                        try:
+                            await self.load_extension(f"cogs.{extension}")
+                            self.logger.info(f"Loaded extension '{extension}'")
+                        except Exception as e:
+                            exception = f"{type(e).__name__}: {e}"
+                            self.logger.error(
+                                f"Failed to load extension {extension}\n{exception}"
+                            )
 
     @tasks.loop(minutes=1.0)
     async def status_task(self) -> None:
@@ -284,6 +301,22 @@ class DiscordBot(commands.Bot):
         else:
             raise error
 
+# --- Improved startup, shutdown, and error logging ---
 
 bot = DiscordBot()
-bot.run(os.getenv("TOKEN"))
+
+def shutdown_handler(*_):
+    bot.logger.warning("Received shutdown signal. Logging out...")
+    asyncio.create_task(bot.close())
+
+signal.signal(signal.SIGTERM, shutdown_handler)
+signal.signal(signal.SIGINT, shutdown_handler)
+
+try:
+    bot.logger.info("Starting bot...")
+    bot.run(os.getenv("TOKEN"))
+except Exception as e:
+    logger.critical(f"Bot encountered a critical error: {e}", exc_info=True)
+    raise
+
+
