@@ -2,6 +2,10 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 6.4.0 (12 September 2025)
+
+- Pin `discord.py` version to `2.6.3`
+
 ### Version 6.3.0 (05 March 2025)
 
 - Added support for Docker, `docker compose up` will spin up the bot and install the requirements
