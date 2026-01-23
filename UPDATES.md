@@ -2,6 +2,10 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 6.5.0 (23 January 2026)
+
+- Pin `discord.py` version to `2.6.4`
+
 ### Version 6.4.0 (12 September 2025)
 
 - Pin `discord.py` version to `2.6.3`
