@@ -106,7 +106,7 @@ After that you can start it with
 python bot.py
 ```
 
-> **Note**: You may need to replace `python` with `py`, `python3`, `python3.11`, etc. depending on what Python versions you have installed on the machine.
+> **Note**: You may need to replace `python` with `py`, `python3`, `python3.15`, etc. depending on what Python versions you have installed on the machine.
 
 ### Docker
 
@@ -134,7 +134,7 @@ the [tags on this repository](https://github.com/kkrypt0nn/Python-Discord-Bot-Te
 
 ## Built With
 
-- [Python 3.12.12](https://www.python.org/)
+- [Python 3.15.1](https://www.python.org/)
 
 ## License
 

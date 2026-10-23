@@ -2,6 +2,10 @@
 
 Here is the list of all the updates that I made on this template.
 
+### Version 6.6.0 (23 October 2026)
+
+- Use `python:3.15.1-slim-trixie` as Docker base image
+
 ### Version 6.5.0 (23 January 2026)
 
 - Pin `discord.py` version to `2.6.4`

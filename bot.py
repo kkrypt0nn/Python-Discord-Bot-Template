@@ -3,7 +3,7 @@ Copyright © Krypton 2019-Present - https://github.com/kkrypt0nn (https://krypto
 Description:
 🐍 A simple template to start to code your own and personalized Discord bot in Python
 
-Version: 6.5.0
+Version: 6.6.0
 """
 
 import json
@@ -23,7 +23,7 @@ from database import DatabaseManager
 
 load_dotenv()
 
-"""	
+"""
 Setup bot intents (events restrictions)
 For more information about intents, please go to the following websites:
 https://discordpy.readthedocs.io/en/latest/intents.html
@@ -144,7 +144,7 @@ class DiscordBot(commands.Bot):
         ) as db:
             with open(
                 f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql",
-                encoding = "utf-8"
+                encoding="utf-8",
             ) as file:
                 await db.executescript(file.read())
             await db.commit()

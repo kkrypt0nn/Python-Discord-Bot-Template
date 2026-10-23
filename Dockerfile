@@ -1,4 +1,4 @@
-FROM python:3.12.12-slim-trixie
+FROM python:3.15.1-slim-trixie
 
 WORKDIR /bot
 COPY . /bot

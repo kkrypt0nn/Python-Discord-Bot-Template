@@ -3,7 +3,7 @@ Copyright © Krypton 2019-Present - https://github.com/kkrypt0nn (https://krypto
 Description:
 🐍 A simple template to start to code your own and personalized Discord bot in Python
 
-Version: 6.5.0
+Version: 6.6.0
 """
 
 import os
