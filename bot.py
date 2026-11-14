@@ -30,7 +30,7 @@ load_dotenv()
 """
 CONFIG_PATH = f"{os.path.realpath(os.path.dirname(__file__))}/config.json"
 if not os.path.isfile(CONFIG_PATH):
-    sys.exit("'config.json' not found! Please add it and try again.")
+    sys.exit("'config.json' not found! Copy 'config.example.json' to 'config.json' and edit it.")
 with open(CONFIG_PATH, encoding="utf-8") as file:
     config = json.load(file)
 
