@@ -1,9 +1,9 @@
-""""
-Copyright © Krypton 2019-2023 - https://github.com/kkrypt0nn (https://krypton.ninja)
+"""
+Copyright © Krypton 2019-Present - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
-🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
+🐍 A simple template to start to code your own and personalized Discord bot in Python
 
-Version: 6.1.0
+Version: 6.6.0
 """
 
 import discord
@@ -213,117 +213,6 @@ class Owner(commands.Cog, name="owner"):
         :param message: Botに発現させるメッセージ
         """
         embed = discord.Embed(description=message, color=0xBEBEFE)
-        await context.send(embed=embed)
-
-    @commands.hybrid_group(
-        name="blacklist",
-        description="ブラックリストに関連するコマンド",
-    )
-    @commands.is_owner()
-    async def blacklist(self, context: Context) -> None:
-        """
-        ブラックリストに関連するコマンド
-
-        :param context: ハイブリッドコマンドコンテキスト
-        """
-        if context.invoked_subcommand is None:
-            embed = discord.Embed(
-                description="サブコマンドを指定する必要があります。\n\n**サブコマンド:**\n`add` - ユーザーをブラックリストに追加する.\n`remove` - ブラックリストからユーザーを削除する。",
-                color=0xE02B2B,
-            )
-            await context.send(embed=embed)
-
-    @blacklist.command(
-        base="blacklist",
-        name="show",
-        description="ブラックリストに登録されているユーザーのリストを表示します。",
-    )
-    @commands.is_owner()
-    async def blacklist_show(self, context: Context) -> None:
-        """
-        ブラックリストに登録されているユーザーのリストを表示します。
-
-        :param context: ハイブリッドコマンドコンテキスト
-        """
-        blacklisted_users = await self.bot.database.get_blacklisted_users()
-        if len(blacklisted_users) == 0:
-            embed = discord.Embed(
-                description="現在、ブラックリストに登録されているユーザーはいません。", color=0xE02B2B
-            )
-            await context.send(embed=embed)
-            return
-
-        embed = discord.Embed(title="ブラックリスト ユーザリスト", color=0xBEBEFE)
-        users = []
-        for bluser in blacklisted_users:
-            user = self.bot.get_user(int(bluser[0])) or await self.bot.fetch_user(
-                int(bluser[0])
-            )
-            users.append(f"• {user.mention} ({user}) - ブラックリスト入り <t:{bluser[1]}>")
-        embed.description = "\n".join(users)
-        await context.send(embed=embed)
-
-    @blacklist.command(
-        base="blacklist",
-        name="add",
-        description="ボットを使用できないユーザーを追加します",
-    )
-    @app_commands.describe(user="ブラックリストに追加するユーザー")
-    @commands.is_owner()
-    async def blacklist_add(self, context: Context, user: discord.User) -> None:
-        """
-        ボットを使用できないユーザーを追加する
-
-        :param context: ハイブリッドコマンドコンテキスト
-        :param user: ブラックリストに追加するユーザー
-        """
-        user_id = user.id
-        if await self.bot.database.is_blacklisted(user_id):
-            embed = discord.Embed(
-                description=f"**{user.name}** は既にブラックリストに追加されています",
-                color=0xE02B2B,
-            )
-            await context.send(embed=embed)
-            return
-        total = await self.bot.database.add_user_to_blacklist(user_id)
-        embed = discord.Embed(
-            description=f"**{user.name}** はブラックリストに正常に追加されました",
-            color=0xBEBEFE,
-        )
-        embed.set_footer(
-            text=f"ブラックリストには、合計{total}人が登録されています。"
-        )
-        await context.send(embed=embed)
-
-    @blacklist.command(
-        base="blacklist",
-        name="remove",
-        description="Botを使用できないユーザーから外す",
-    )
-    @app_commands.describe(user="ブラックリストから削除するユーザ")
-    @commands.is_owner()
-    async def blacklist_remove(self, context: Context, user: discord.User) -> None:
-        """
-        Botを使用できないユーザーから外す
-
-        :param context: ハイブリッドコマンドコンテキスト
-        :param user: ブラックリストから削除するユーザ
-        """
-        user_id = user.id
-        if not await self.bot.database.is_blacklisted(user_id):
-            embed = discord.Embed(
-                description=f"**{user.name}** はブラックリストに入っていません", color=0xE02B2B
-            )
-            await context.send(embed=embed)
-            return
-        total = await self.bot.database.remove_user_from_blacklist(user_id)
-        embed = discord.Embed(
-            description=f"**{user.name}** はブラックリストから正常に削除されました。",
-            color=0xBEBEFE,
-        )
-        embed.set_footer(
-            text=f"ブラックリストには、合計{total}人が登録されています。"
-        )
         await context.send(embed=embed)
 
 

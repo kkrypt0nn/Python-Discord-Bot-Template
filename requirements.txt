@@ -1,6 +1,6 @@
 aiohttp
 aiosqlite
-discord.py
+discord.py==2.7.1
 python-dotenv
 factorio-rcon-py
 anyio

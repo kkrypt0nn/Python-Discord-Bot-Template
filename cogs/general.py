@@ -1,9 +1,9 @@
-""""
-Copyright © Krypton 2019-2023 - https://github.com/kkrypt0nn (https://krypton.ninja)
+"""
+Copyright © Krypton 2019-Present - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
-🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
+🐍 A simple template to start to code your own and personalized Discord bot in Python
 
-Version: 6.1.0
+Version: 6.6.0
 """
 
 import platform
@@ -14,6 +14,21 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
+
+
+class FeedbackForm(discord.ui.Modal, title="Feeedback"):
+    feedback = discord.ui.TextInput(
+        label="What do you think about this bot?",
+        style=discord.TextStyle.long,
+        placeholder="Type your answer here...",
+        required=True,
+        max_length=256,
+    )
+
+    async def on_submit(self, interaction: discord.Interaction):
+        self.interaction = interaction
+        self.answer = str(self.feedback)
+        self.stop()
 
 
 class General(commands.Cog, name="general"):
@@ -72,7 +87,6 @@ class General(commands.Cog, name="general"):
         name="help", description="Botで利用可能な全コマンドリストを取得します。"
     )
     async def help(self, context: Context) -> None:
-        prefix = self.bot.config["prefix"]
         embed = discord.Embed(
             title="ヘルプ", description="有効なコマンドは、:", color=0xBEBEFE
         )
@@ -84,7 +98,7 @@ class General(commands.Cog, name="general"):
             data = []
             for command in commands:
                 description = command.description.partition("\n")[0]
-                data.append(f"{prefix}{command.name} - {description}")
+                data.append(f"{command.name} - {description}")
             help_text = "\n".join(data)
             embed.add_field(
                 name=i.capitalize(), value=f"```{help_text}```", inline=False
@@ -112,7 +126,7 @@ class General(commands.Cog, name="general"):
         )
         embed.add_field(
             name="Prefix:",
-            value=f"/ (Slash Commands) or {self.bot.config['prefix']} for normal commands",
+            value=f"/ (Slash Commands) or {self.bot.bot_prefix} for normal commands",
             inline=False,
         )
         embed.set_footer(text=f"Requested by {context.author.id}")
@@ -129,9 +143,10 @@ class General(commands.Cog, name="general"):
         :param context: ハイブリッドコマンドコンテキスト
         """
         roles = [role.name for role in context.guild.roles]
-        if len(roles) > 50:
+        num_roles = len(roles)
+        if num_roles > 50:
             roles = roles[:50]
-            roles.append(f">>>> Displayin [50/{len(roles)}] Roles")
+            roles.append(f">>>> Displaying [50/{num_roles}] Roles")
         roles = ", ".join(roles)
 
         embed = discord.Embed(
@@ -176,7 +191,7 @@ class General(commands.Cog, name="general"):
         :param context: ハイブリッドコマンドコンテキスト
         """
         embed = discord.Embed(
-            description=f"リンクをクリックして招待する（ [here]({self.bot.config['invite_link']}) ）",
+            description=f"リンクをクリックして招待する（ [here]({self.bot.invite_link}) ）",
             color=0xD75BF4,
         )
         try:
@@ -248,6 +263,36 @@ class General(commands.Cog, name="general"):
                         color=0xE02B2B,
                     )
         await context.send(embed=embed)
+
+    @app_commands.command(
+        name="feedback", description="Submit a feedback for the owners of the bot"
+    )
+    async def feedback(self, interaction: discord.Interaction) -> None:
+        """
+        Submit a feedback for the owners of the bot.
+
+        :param context: The hybrid command context.
+        """
+        feedback_form = FeedbackForm()
+        await interaction.response.send_modal(feedback_form)
+
+        await feedback_form.wait()
+        interaction = feedback_form.interaction
+        await interaction.response.send_message(
+            embed=discord.Embed(
+                description="Thank you for your feedback, the owners have been notified about it.",
+                color=0xBEBEFE,
+            )
+        )
+
+        app_owner = (await self.bot.application_info()).owner
+        await app_owner.send(
+            embed=discord.Embed(
+                title="New Feedback",
+                description=f"{interaction.user} (<@{interaction.user.id}>) has submitted a new feedback:\n```\n{feedback_form.answer}\n```",
+                color=0xBEBEFE,
+            )
+        )
 
 
 async def setup(bot) -> None:
