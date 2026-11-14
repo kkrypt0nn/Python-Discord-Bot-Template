@@ -1,0 +1,8 @@
+[Unit]
+Description=Discord Bot auto update (pull from GitHub)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/discord-bot/deploy/auto-update.sh

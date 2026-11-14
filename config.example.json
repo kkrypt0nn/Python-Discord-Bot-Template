@@ -1,0 +1,14 @@
+{
+  "support_link": "YOUR_BOT_SUPPORT_LINK_HERE",
+  "notice_voice_channel": "入退室通知",
+  "log": {
+    "max_size_mb": 10,
+    "max_backup_count": 10
+  },
+  "factorio": {
+    "use": true,
+    "rcon_ip": "192.168.1.18",
+    "rcon_port": 34197,
+    "notice_channel": 1214218463795748906
+  }
+}

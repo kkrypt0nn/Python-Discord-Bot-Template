@@ -149,3 +149,6 @@ discord.log
 
 # VSCode
 .vscode/
+
+# サーバ固有の設定（config.example.json をコピーして作成）
+/config.json

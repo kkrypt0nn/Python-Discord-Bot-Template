@@ -1,9 +1,9 @@
 """
-Copyright © Krypton 2019-2023 - https://github.com/kkrypt0nn (https://krypton.ninja)
+Copyright © Krypton 2019-Present - https://github.com/kkrypt0nn (https://krypton.ninja)
 Description:
-🐍 A simple template to start to code your own and personalized discord bot in Python programming language.
+🐍 A simple template to start to code your own and personalized Discord bot in Python
 
-Version: 6.1.0
+Version: 6.6.0
 """
 
 import json
@@ -22,13 +22,19 @@ from dotenv import load_dotenv
 
 from database import DatabaseManager
 
-if not os.path.isfile(f"{os.path.realpath(os.path.dirname(__file__))}/config.json"):
-    sys.exit("'config.json' not found! Please add it and try again.")
-else:
-    with open(f"{os.path.realpath(os.path.dirname(__file__))}/config.json") as file:
-        config = json.load(file)
+load_dotenv()
 
-"""	
+"""
+シークレットや環境依存の値（TOKEN / PREFIX / INVITE_LINK / FACTORIO_RCON_PASSWORD）は .env、
+本フォーク独自の機能設定（ログ・入退室通知・Factorio）は config.json で管理する。
+"""
+CONFIG_PATH = f"{os.path.realpath(os.path.dirname(__file__))}/config.json"
+if not os.path.isfile(CONFIG_PATH):
+    sys.exit("'config.json' not found! Copy 'config.example.json' to 'config.json' and edit it.")
+with open(CONFIG_PATH, encoding="utf-8") as file:
+    config = json.load(file)
+
+"""
 ボットインテントの設定（イベントの制限）
 インテントの詳細については、以下のウェブサイトを参照してください。:
 https://discordpy.readthedocs.io/en/latest/intents.html
@@ -132,7 +138,7 @@ logger.addHandler(file_handler)
 class DiscordBot(commands.Bot):
     def __init__(self) -> None:
         super().__init__(
-            command_prefix=commands.when_mentioned_or(config["prefix"]),
+            command_prefix=commands.when_mentioned_or(os.getenv("PREFIX")),
             intents=intents,
             help_command=None,
         )
@@ -147,6 +153,8 @@ class DiscordBot(commands.Bot):
         self.logger = logger
         self.config = config
         self.database = None
+        self.bot_prefix = os.getenv("PREFIX")
+        self.invite_link = os.getenv("INVITE_LINK")
 
     async def init_db(self) -> None:
         """
@@ -156,7 +164,8 @@ class DiscordBot(commands.Bot):
             f"{os.path.realpath(os.path.dirname(__file__))}/database/database.db"
         ) as db:
             with open(
-                f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql"
+                f"{os.path.realpath(os.path.dirname(__file__))}/database/schema.sql",
+                encoding="utf-8",
             ) as file:
                 await db.executescript(file.read())
             await db.commit()
@@ -297,8 +306,6 @@ class DiscordBot(commands.Bot):
         else:
             raise error
 
-
-load_dotenv()
 
 bot = DiscordBot()
 bot.run(os.getenv("TOKEN",""))

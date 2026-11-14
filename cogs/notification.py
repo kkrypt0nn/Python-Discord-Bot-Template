@@ -19,7 +19,11 @@ class Notification(commands.Cog, name="notification"):
             case voice_state_update.Action.CHANNEL_JOIN:
                 if voice_state_update.isIntervalTimePassed(member, 10):
                     msg = f'「{member.name}」さんが <#{after.channel.id}> に参加しました。(今回のおみくじ：**{fortune.trans_jp(fortune.Omikuji.draw())}**)'
-                    channel = discord.utils.get(member.guild.channels, name=self.bot.config["notice_voice_channel"])
+                    channel_name = self.bot.config["notice_voice_channel"]
+                    channel = discord.utils.get(member.guild.text_channels, name=channel_name)
+                    if channel is None:
+                        self.bot.logger.warning(f"[notification] 通知先チャンネル「{channel_name}」が {member.guild.name} に見つかりません。")
+                        return
                     await channel.send(msg)
             case voice_state_update.Action.CHANNEL_EXIT:
                 pass

@@ -1,0 +1,32 @@
+name: CI
+
+# GitHub が用意するランナー上で構文・読み込みチェックのみ行う（自宅サーバには接続しない）。
+# デプロイはサーバ側の deploy/auto-update.sh が main を取得して行う。
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Compile
+        run: python -m py_compile bot.py cogs/*.py util/*.py database/__init__.py
+      - name: Import cogs
+        run: |
+          python - <<'EOF'
+          import importlib
+          for m in ["cogs.general", "cogs.owner", "cogs.notification", "cogs.factorio", "database"]:
+              importlib.import_module(m)
+              print("OK", m)
+          EOF

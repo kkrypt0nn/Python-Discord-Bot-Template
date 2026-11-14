@@ -2,11 +2,20 @@ import factorio_rcon
 import os
 import re
 
+RCON_TIMEOUT_SEC: float = 5.0
+
+
 def create_client(bot) -> factorio_rcon.RCONClient:
+    """
+    RCONクライアントを生成する（この時点では接続しない）。
+    接続は呼び出し側で client.connect() を実行すること。
+    """
     IP = bot.config["factorio"]["rcon_ip"]
     PORT = bot.config["factorio"]["rcon_port"]
     PASSWORD = os.getenv("FACTORIO_RCON_PASSWORD","")
-    client = factorio_rcon.RCONClient(IP, PORT, PASSWORD)
+    client = factorio_rcon.RCONClient(
+        IP, PORT, PASSWORD, timeout=RCON_TIMEOUT_SEC, connect_on_init=False
+    )
     return client
 
 def version(client:factorio_rcon.RCONClient) -> str:
