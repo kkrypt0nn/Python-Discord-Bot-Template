@@ -26,7 +26,7 @@ jobs:
         run: |
           python - <<'EOF'
           import importlib
-          for m in ["cogs.general", "cogs.owner", "cogs.notification", "cogs.factorio", "database"]:
+          for m in ["cogs.general", "cogs.owner", "cogs.notification", "cogs.factorio", "cogs.adsb", "util.adsb", "database"]:
               importlib.import_module(m)
               print("OK", m)
           EOF
