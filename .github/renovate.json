@@ -7,6 +7,7 @@
     "group:allNonMajor",
     "docker:disable"
   ],
+  "assignees": ["kkrypt0nn"],
   "dependencyDashboard": {
     "enabled": true,
     "title": "Renovate Dashboard 🤖"
